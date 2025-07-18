@@ -3,7 +3,6 @@ import * as React from 'react'
 import { GalleryVerticalEnd, Settings2 } from 'lucide-react'
 
 import { AppSidebarMenuList } from './app-sidebar-menu-list'
-import { AppSidebarHeader } from './app-sidebar-user-section'
 import {
   Sidebar,
   SidebarContent,
@@ -15,6 +14,7 @@ import InquiryLogIcon from '@public/icons/Inquiry Log.svg'
 import ReportIcon from '@public/icons/Report.svg'
 import SettingIcon from '@public/icons/Setting.svg'
 import CustomerDashboardIcon from '@public/icons/Customer Dashboard.svg'
+import { AppSidebarHeader } from './app-sidebar-header'
 
 // const data = {
 //   user: {
