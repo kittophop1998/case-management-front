@@ -20,7 +20,7 @@ export default async function RootLayout ({
     <html lang={lang}>
       <body
         className={cn(
-          'antialiased bg-black overflow-y-auto',
+          'antialiased overflow-y-auto',
           lang === 'th' ? kanit.className : kanit.className
         )}
       >

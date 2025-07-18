@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import api, { setAccessToken, setRefreshToken } from "@/services/api";
-import { LoginSchemas } from "@/scheams";
+import { LoginSchemas } from "@/schemes";
 import * as z from "zod";
 
 type SignInAPIResponse = {

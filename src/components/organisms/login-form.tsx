@@ -1,5 +1,5 @@
 'use client'
-import { LoginSchemas } from '@/scheams'
+import { LoginSchemas } from '@/schemes'
 import { zodResolver } from '@hookform/resolvers/zod'
 // import { useRouter } from 'next/router'
 import { useState, useTransition } from 'react'
@@ -42,7 +42,7 @@ export const LoginForm = () => {
         if (res.accessToken && res.refreshToken) {
           setAccessToken(res.accessToken)
           setRefreshToken(res.refreshToken)
-          router.push('/dashboard')
+          router.push('/customer-dashboard')
         }
         // Optionally, you can redirect or perform other actions here
       } catch (error: unknown) {

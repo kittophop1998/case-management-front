@@ -24,7 +24,6 @@ async function api<T>(
 ): Promise<T | null> {
   let res
   try {
-    const isServer = typeof window === "undefined";
     res = await fetch(`${BASE_URL}${url}`, {
       ...options,
       headers: {
@@ -32,11 +31,9 @@ async function api<T>(
         ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
         ...(options?.headers ?? {}),
       },
-      credentials: "include", // ส่ง cookie ด้วย in client-side rendering
       // cache: "no-store",
     });
   } catch (error) {
-    // console.log("API Error 1:", { url, errorMessage: error.message });
     throw new Error("Network error or invalid URL");
   }
   const text = await res.text();
