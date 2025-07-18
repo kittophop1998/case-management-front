@@ -30,8 +30,10 @@ Readonly<{
         <AppSidebar />
         <SidebarInset className='bg-[#f4f5fa]'>
           <UserAppBar />
-          {/* TODO: SET COLOR */}
-          <div className='max-w-[1600px] mx-auto w-full  px-2'>{children}</div>
+          <div className='max-w-[1600px] mx-auto w-full  px-2'>
+            <SidebarTrigger />
+            {children}
+          </div>
         </SidebarInset>
       </SidebarProvider>
     </div>
