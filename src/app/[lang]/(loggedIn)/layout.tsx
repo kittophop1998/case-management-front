@@ -1,10 +1,39 @@
+import {
+  SidebarProvider,
+  SidebarTrigger,
+  SidebarInset
+} from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/organisms/app-sidebar'
+import { Separator } from '@/components/ui/separator'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList
+} from '@/components/ui/breadcrumb'
+import { ChevronLeft } from 'lucide-react'
+import { UserAppBar } from '@/components/organisms/user-app-bar'
+
+// export default async function UserLayout ({
 export default async function UserLayout ({
   children,
   params
-}: Readonly<{
+}: // params
+Readonly<{
   children: React.ReactNode
   params: Promise<{ lang: 'en' | 'th' }>
 }>) {
   const { lang } = await params
-  return <div>{children}</div>
+  return (
+    <div>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset className='bg-[#f4f5fa]'>
+          <UserAppBar />
+          {/* TODO: SET COLOR */}
+          <div className='max-w-[1600px] mx-auto w-full  px-2'>{children}</div>
+        </SidebarInset>
+      </SidebarProvider>
+    </div>
+  )
 }

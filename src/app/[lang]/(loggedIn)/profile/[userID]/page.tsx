@@ -1,13 +1,14 @@
 export default async function UserProfile ({
   params
 }: Readonly<{
-  params: Promise<{ lang: 'en' | 'th' }>
+  params: Promise<{ lang: 'en' | 'th'; userID: string }>
 }>) {
-  const { lang } = await params
-
+  const { lang, userID } = await params
   return (
-    <div className='text-white'>
-      <h1>UserProfile - Language: {lang}</h1>
+    <div>
+      <h1>
+        UserProfile - Language: {lang} userID {userID}
+      </h1>
     </div>
   )
 }
