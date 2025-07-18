@@ -3,7 +3,7 @@ import * as React from 'react'
 import { GalleryVerticalEnd, Settings2 } from 'lucide-react'
 
 import { AppSidebarMenuList } from './app-sidebar-menu-list'
-import { AppSidebarUserSection } from './app-sidebar-user-section'
+import { AppSidebarHeader } from './app-sidebar-user-section'
 import {
   Sidebar,
   SidebarContent,
@@ -47,6 +47,11 @@ const navMain = [
     title: 'Settings',
     url: '/settings',
     icon: SettingIcon
+  },
+  {
+    title: 'User Management',
+    url: '/user-management',
+    icon: SettingIcon
   }
 ]
 // }
@@ -59,7 +64,7 @@ export function AppSidebar ({ ...props }: React.ComponentProps<typeof Sidebar>) 
           {/* <div>-------------------s-</div>
           <SettingIcon className='size-20' />
           <div>--------------------</div> */}
-          <AppSidebarUserSection />
+          <AppSidebarHeader />
         </SidebarHeader>
         <SidebarContent className='mt-6'>
           <AppSidebarMenuList items={navMain} />

@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/sidebar'
 import { Typography } from '../atoms/typography'
 
-export function AppSidebarUserSection () {
+export function AppSidebarHeader () {
   const { isMobile } = useSidebar()
   return (
     <SidebarMenu>
