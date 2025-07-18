@@ -1,0 +1,22 @@
+{
+    "homepage": {
+        "title": "title",
+        "title1": "title1",
+        "title2": "title2",
+        "description1": "description1",
+        "description2": "description2",
+        "login": "Login",
+        "register": "Register"
+    },
+    "hello": {
+        "title": "Hello World",
+        "welcome": "Welcome to our internationalized Next.js application!",
+        "description": "This page demonstrates internationalization with English and Thai languages.",
+        "currentLanguage": "Current Language: English",
+        "switchLanguage": "Switch to Thai"
+    },
+    "navigation": {
+        "home": "Home",
+        "about": "About"
+    }
+}
