@@ -8,11 +8,12 @@ import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuButton,
+  // SidebarMenuButton,
   SidebarMenuItem
 } from '@/components/ui/sidebar'
+import { SidebarMenuButton } from '../molecules/sidebar-menu-button'
 
-export function AppSidebarMenu ({
+export function AppSidebarMenuList ({
   items
 }: {
   items: {
@@ -29,7 +30,7 @@ export function AppSidebarMenu ({
   const router = useRouter()
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Menu</SidebarGroupLabel>
+      {/* <SidebarGroupLabel>Menu</SidebarGroupLabel> */}
       <SidebarMenu>
         {items.map(item => (
           <Collapsible
@@ -39,15 +40,12 @@ export function AppSidebarMenu ({
             className='group/collapsible'
           >
             <SidebarMenuItem>
-              {/* <CollapsibleTrigger asChild> */}
               <SidebarMenuButton
                 tooltip={item.title}
                 onClick={() => router.push(item.url)}
-                isActive={usePathname === item.url}
-              >
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
+                isActive={!!usePathname === item.url}
+                item={item}
+              />
             </SidebarMenuItem>
           </Collapsible>
         ))}
