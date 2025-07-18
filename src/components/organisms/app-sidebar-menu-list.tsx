@@ -1,6 +1,5 @@
 'use client'
 
-import { type LucideIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { Collapsible } from '@/components/ui/collapsible'
@@ -8,10 +7,29 @@ import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
-  // SidebarMenuButton,
+  SidebarMenuButton,
   SidebarMenuItem
 } from '@/components/ui/sidebar'
-import { SidebarMenuButton } from '../molecules/sidebar-menu-button'
+import { cn } from '@/lib/utils'
+import { Typography } from '../atoms/typography'
+import { cva } from 'class-variance-authority'
+// import { SidebarMenuButton } from '../molecules/sidebar-menu-button'
+const sidebarMenuButtonVariants = cva('', {
+  variants: {
+    active: {
+      false: '',
+      true: 'bg-[#7461cf] text-white hover:bg-[#7461cf]/90 hover:text-white'
+    }
+  }
+})
+const sidebarMenuIconVariants = cva('', {
+  variants: {
+    active: {
+      false: 'stroke-black hover:stroke-black/90',
+      true: 'stroke-white hover:stroke-white/90'
+    }
+  }
+})
 
 export function AppSidebarMenuList ({
   items
@@ -19,33 +37,43 @@ export function AppSidebarMenuList ({
   items: {
     title: string
     url: string
-    icon?: LucideIcon
-    isActive?: boolean
-    items?: {
-      title: string
-      url: string
-    }[]
+    icon: any
   }[]
 }) {
   const router = useRouter()
+  const pathname = usePathname()
+  // const SettingIcon = items[4].icon
   return (
     <SidebarGroup>
-      {/* <SidebarGroupLabel>Menu</SidebarGroupLabel> */}
       <SidebarMenu>
         {items.map(item => (
           <Collapsible
             key={item.title}
             asChild
-            defaultOpen={item.isActive}
+            // defaultOpen={item.isActive}
             className='group/collapsible'
           >
             <SidebarMenuItem>
               <SidebarMenuButton
+                className={cn(
+                  'h-[3rem] gap-3',
+                  sidebarMenuButtonVariants({
+                    active: pathname.includes(item.url)
+                  })
+                )}
                 tooltip={item.title}
                 onClick={() => router.push(item.url)}
-                isActive={!!usePathname === item.url}
-                item={item}
-              />
+              >
+                <item.icon
+                  className={cn(
+                    'w-20 h-20',
+                    sidebarMenuIconVariants({
+                      active: pathname.includes(item.url)
+                    })
+                  )}
+                />
+                <Typography>{item.title}</Typography>
+              </SidebarMenuButton>
             </SidebarMenuItem>
           </Collapsible>
         ))}
