@@ -62,19 +62,21 @@ const PasswordField = ({
                 {...field}
                 readOnly={readonly}
               />
-              {/* <div className='justify-self-end bg-red-100 absolute flex items-center justify-center h-full w-[2rem]'>
+              <div className='right-0  absolute flex items-center justify-center h-full w-[2rem]'>
                 {showPassword ? (
                   <Eye
+                    size={15}
                     className='cursor-pointer'
                     onClick={() => setShowPassword(false)}
                   />
                 ) : (
                   <EyeOff
+                    size={15}
                     className='cursor-pointer'
                     onClick={() => setShowPassword(true)}
                   />
                 )}
-              </div> */}
+              </div>
             </div>
           </FormControl>
           <FormMessage />

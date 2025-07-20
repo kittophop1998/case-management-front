@@ -10,10 +10,12 @@ import { TextField } from '../molecules/form/text-field'
 import { FormError } from '../molecules/form-error'
 import { Button } from '../ui/button'
 import { PasswordField } from '../molecules/form/password-field'
-// import generateToken from '@/lib/utils/generateToken'
 import { loginUser } from '@/actions/login'
 import { setAccessToken, setRefreshToken } from '@/services/api'
 import { useRouter } from 'next/navigation'
+import Lock from '@public/icons/Lock.svg'
+import Email from '@public/icons/Email.svg'
+import { Typography } from '../atoms/typography'
 export const LoginForm = () => {
   const router = useRouter()
   const [error, setError] = useState<string | undefined>('')
@@ -62,13 +64,14 @@ export const LoginForm = () => {
             name='username'
             label=''
             prependInnerIcon={
-              <span className='icon'>🔑</span> // Replace with actual icon component
+              <Email />
+
             }
             placeholder='Username'
           />
           <PasswordField
             prependInnerIcon={
-              <span className='icon'>🔑</span> // Replace with actual icon component
+              <Lock />
             }
             loading={isPending}
             form={form}
@@ -78,7 +81,16 @@ export const LoginForm = () => {
           />
         </div>
         <div className='h-[3rem]'>
-          <FormError message={error} />
+          {error
+            ? (<FormError message={error} />) : (
+              <Typography
+                variant='caption'
+                className='text-center p-3'
+              >
+                Enter your domain and password to log in”
+              </Typography>
+            )
+          }
         </div>
         {/* TODO: SET COLOR */}
         <Button
