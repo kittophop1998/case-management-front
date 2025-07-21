@@ -1,5 +1,5 @@
 import { SidebarMenuButton as SidebarMenuButtonChadcn } from '@/components/ui/sidebar'
-import { Typography } from '../atoms/typography'
+import { Typography } from '../common/typography'
 import { cn } from '@/lib/utils'
 interface SidebarMenuButtonProps {
   tooltip: string

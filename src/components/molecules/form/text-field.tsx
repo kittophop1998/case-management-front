@@ -1,4 +1,4 @@
-import { Input } from '@/components/atoms/text-input'
+import { Input } from '@/components/common/text-input'
 import {
   FormControl,
   FormField,

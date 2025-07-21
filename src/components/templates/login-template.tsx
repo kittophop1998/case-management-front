@@ -1,4 +1,4 @@
-import { Typography } from '../atoms/typography'
+import { Typography } from '../common/typography'
 import { LoginForm } from '../organisms/login-form'
 import Image from 'next/image'
 import { Card } from '../ui/card'

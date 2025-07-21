@@ -6,7 +6,7 @@ import {
   FormMessage
 } from '@/components/ui/form'
 // import { Input } from '@/components/ui/input'
-import { Input } from '@/components/atoms/text-input'
+import { Input } from '@/components/common/text-input'
 import { cva } from 'class-variance-authority'
 import { Eye, EyeOff } from 'react-feather'
 import { useState } from 'react'

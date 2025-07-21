@@ -1,5 +1,7 @@
-import Card from "../atoms/card";
-import Container from "../atoms/containter";
+// "use server"
+"use client"
+import Card from "../common/card";
+import Container from "../common/containter";
 
 interface CardPageWrapperProps {
     children: React.ReactNode;

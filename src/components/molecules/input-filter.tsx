@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import { Input } from "../atoms/text-input";
+import { Input } from "../common/text-input";
 
 const InputFilter = (
     {

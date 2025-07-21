@@ -1,5 +1,5 @@
 'use client'
-import { LoginSchemas } from '@/schemes'
+import { LoginSchemas } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 // import { useRouter } from 'next/router'
 import { useState, useTransition } from 'react'
@@ -15,7 +15,7 @@ import { setAccessToken, setRefreshToken } from '@/services/api'
 import { useRouter } from 'next/navigation'
 import Lock from '@public/icons/Lock.svg'
 import Email from '@public/icons/Email.svg'
-import { Typography } from '../atoms/typography'
+import { Typography } from '../common/typography'
 export const LoginForm = () => {
   const router = useRouter()
   const [error, setError] = useState<string | undefined>('')

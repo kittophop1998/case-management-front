@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import api, { setAccessToken, setRefreshToken } from "@/services/api";
-import { LoginSchemas } from "@/schemes";
+import { LoginSchemas } from "@/schemas";
 import * as z from "zod";
 
 type SignInAPIResponse = {
@@ -13,7 +13,7 @@ type SignInAPIResponse = {
 export async function loginUser({
   username,
   password,
-}: z.infer<typeof LoginSchemas> & { error?: string })  {
+}: z.infer<typeof LoginSchemas> & { error?: string }) {
   try {
     // const res = await api<SignInAPIResponse>(`/auth/sign-in`, {
     //   method: "POST",
@@ -22,14 +22,14 @@ export async function loginUser({
     // });
     const res = {
       accessToken: "mocked_access_token",
-      refreshToken: "mocked_refresh_token", 
+      refreshToken: "mocked_refresh_token",
     }
     // console.log("loginUser res", res);
 
     if (!res) {
       throw new Error("invalid token");
     }
-    const { accessToken, refreshToken } =  res;
+    const { accessToken, refreshToken } = res;
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
     const cookieStore = await cookies();

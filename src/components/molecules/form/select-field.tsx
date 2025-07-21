@@ -31,41 +31,39 @@ const selectFieldVariants = cva(
         }
     }
 )
-const SelectField = ({ onChange, loading = false, readonly = false, items, valueName = "value", labelName = "label", form, name, label, placeholder }: SelectFieldProps) => {
-    return <FormField
-        disabled={loading}
-        control={form.control}
-        name={name}
-        render={({ field }) => (
-            <FormItem
-            >
-                <FormLabel>{label}</FormLabel>
-                <Select
-                    disabled={loading}
-                    onValueChange={onChange}
-                    value={field.value}
-                >
-                    <FormControl>
-                        <SelectTrigger className={selectFieldVariants({ readonly: loading })}>
-                            <SelectValue
-                                placeholder="Select province" />
-                        </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                        {items.map((item) => (
-                            <SelectItem
-                                key={item[valueName]}
-                                value={String(item[valueName])}
-                            >
-                                {item[labelName]}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-                <FormMessage />
-            </FormItem>
-        )}
-    />
+const SelectField = (
+    { onChange, loading = false, readonly = false,
+        items, valueName = "value", labelName = "label",
+        form, name, label, placeholder
+    }: SelectFieldProps) => {
+
+    return (
+        <FormField
+            control={form.control}
+            name={name}
+            render={({ field }) => (
+                <FormItem>
+                    <FormLabel>{label}</FormLabel>
+                    <Select
+                        onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                            <SelectTrigger className="w-full" >
+                                <SelectValue placeholder={placeholder} />
+                            </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                            {items.map((item: any) => (
+                                <SelectItem key={item[valueName]} value={String(item[valueName])}>
+                                    {item[labelName]}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <FormMessage />
+                </FormItem>
+            )}
+        />
+    )
 };
 
 export { SelectField };

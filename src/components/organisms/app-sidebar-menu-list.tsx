@@ -11,7 +11,7 @@ import {
   SidebarMenuItem
 } from '@/components/ui/sidebar'
 import { cn } from '@/lib/utils'
-import { Typography } from '../atoms/typography'
+import { Typography } from '../common/typography'
 import { cva } from 'class-variance-authority'
 // import { SidebarMenuButton } from '../molecules/sidebar-menu-button'
 const sidebarMenuButtonVariants = cva('', {
@@ -31,7 +31,7 @@ const sidebarMenuIconVariants = cva('', {
   }
 })
 
-export function AppSidebarMenuList ({
+export function AppSidebarMenuList({
   items
 }: {
   items: {
