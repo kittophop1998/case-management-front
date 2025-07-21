@@ -1,7 +1,7 @@
-import { Typography } from '../common/typography'
-import { LoginForm } from '../organisms/login-form'
+import { Typography } from '../../../../../components/common/typography'
+import { LoginForm } from '../../../../../components/organisms/login-form'
 import Image from 'next/image'
-import { Card } from '../ui/card'
+import { Card } from '../../../../../components/ui/card'
 
 export const LoginTemplate = () => {
   return (
