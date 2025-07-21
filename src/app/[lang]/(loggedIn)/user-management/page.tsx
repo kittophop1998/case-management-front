@@ -3,7 +3,9 @@ import BtnFilter from "@/components/molecules/btn-filter";
 import CardPageWrapper from "@/components/molecules/card-page-warpper";
 import InputFilter from "@/components/molecules/input-filter";
 import { TableUserManagement } from "@/components/organisms/table-user-management";
+import { Button } from "@/components/ui/button";
 import { UserType } from "@/types/user";
+import { UserPlus } from "lucide-react";
 
 
 export default async function UserManagementPage() {
@@ -53,24 +55,31 @@ export default async function UserManagementPage() {
   }
 
   return (
-    // 15
-    <CardPageWrapper>
-      <div className="flex gap-3">
-        <Typography variant="h3" as="p">
-          User Management
-        </Typography>
-        <div className="flex-1"></div>
-        <div>
-          <InputFilter />
-        </div>
-        <div>
-          <BtnFilter />
-        </div>
+    <div>
+      <div className="flex justify-end mb-3 mt-3">
+        <Button className="bg-black text-white">
+          <UserPlus />
+          Add User</Button>
       </div>
-      <TableUserManagement
-        columns={columns}
-        data={data}
-      />
-    </CardPageWrapper>
+      <CardPageWrapper>
+        <div className="flex gap-3 mb-3">
+          <Typography variant="h3" as="p">
+            User Management
+          </Typography>
+          <div className="flex-1"></div>
+          <div>
+            <InputFilter />
+          </div>
+          <div>
+            <BtnFilter />
+          </div>
+        </div>
+        <TableUserManagement
+
+          columns={columns}
+          data={data}
+        />
+      </CardPageWrapper>
+    </div>
   )
 }

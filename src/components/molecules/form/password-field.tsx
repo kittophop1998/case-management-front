@@ -49,7 +49,7 @@ const PasswordField = ({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <div className='relative flex bg-gray-100'>
+            <div className='relative flex'>
               <div className='absolute flex items-center justify-center h-full w-[2rem]'>
                 {prependInnerIcon}
               </div>

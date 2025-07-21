@@ -15,14 +15,14 @@ import { ChevronLeft } from 'lucide-react'
 import { UserAppBar } from '@/components/organisms/user-app-bar'
 
 // export default async function UserLayout ({
-export default async function UserLayout ({
+export default async function UserLayout({
   children,
   params
 }: // params
-Readonly<{
-  children: React.ReactNode
-  params: Promise<{ lang: 'en' | 'th' }>
-}>) {
+  Readonly<{
+    children: React.ReactNode
+    params: Promise<{ lang: 'en' | 'th' }>
+  }>) {
   const { lang } = await params
   return (
     <div>
@@ -31,7 +31,7 @@ Readonly<{
         <SidebarInset className='bg-[#f4f5fa]'>
           <UserAppBar />
           <div className='max-w-[1600px] mx-auto w-full  px-2'>
-            <SidebarTrigger />
+            {/* <SidebarTrigger /> */}
             {children}
           </div>
         </SidebarInset>
