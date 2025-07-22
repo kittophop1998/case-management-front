@@ -1,5 +1,5 @@
 import { Typography } from '../../../../../components/common/typography'
-import { LoginForm } from '../../../../../components/organisms/login-form'
+import { LoginForm } from './login-form'
 import Image from 'next/image'
 import { Card } from '../../../../../components/ui/card'
 

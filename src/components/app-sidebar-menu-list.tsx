@@ -11,9 +11,8 @@ import {
   SidebarMenuItem
 } from '@/components/ui/sidebar'
 import { cn } from '@/lib/utils'
-import { Typography } from '../common/typography'
 import { cva } from 'class-variance-authority'
-// import { SidebarMenuButton } from '../molecules/sidebar-menu-button'
+import { Typography } from './common/typography'
 const sidebarMenuButtonVariants = cva('', {
   variants: {
     active: {

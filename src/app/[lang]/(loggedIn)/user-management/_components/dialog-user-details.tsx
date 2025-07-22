@@ -50,10 +50,10 @@ export const DialogDetails = forwardRef<DialogDetailsRef>((props, ref) => {
         <Modal
             isOpen={isModalDeleteOpen}
             onClose={handleCloseModalDelete}
-            title={'Add Individual User'}
+            title={mode === 'create' ? 'Add Individual User' : 'Select Update'}
         >
             <Typography variant="body2" className="mb-4">
-                Add Individual User
+                {mode === 'create' ? 'Agent Information' : user?.name}
             </Typography>
             <FormUserDetails
                 mode={mode}

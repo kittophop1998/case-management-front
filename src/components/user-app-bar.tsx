@@ -1,9 +1,9 @@
 'use client'
 
-import { Separator } from '../ui/separator'
-import { Typography } from '../common/typography'
 import HomeIcon from '@public/icons/Home.svg'
-import Container from '../common/containter'
+import { Typography } from './common/typography'
+import Container from './common/containter'
+import { Separator } from './ui/separator'
 
 export function UserAppBar() {
   return (

@@ -1,8 +1,8 @@
 'use client';
 import { Typography } from "@/components/common/typography";
-import BtnFilter from "@/components/molecules/btn-filter";
-import CardPageWrapper from "@/components/molecules/card-page-warpper";
-import InputFilter from "@/components/molecules/input-filter";
+import BtnFilter from "@/components/common/btn-filter";
+import CardPageWrapper from "@/components/common/card-page-warpper";
+import InputFilter from "@/components/common/input-filter";
 import { Button } from "@/components/ui/button";
 import { UserType } from "@/types/user";
 import { UserPlus } from "lucide-react";
@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { BtnAddUser } from "./_components/btn-add-user";
 import { useRef } from "react";
+import { DialogImportUser } from "./_components/dialog-import-user";
 
 export default function UserManagementPage() {
   const dialogDetailsRef = useRef<DialogDetailsRef>(null);
@@ -60,6 +61,7 @@ export default function UserManagementPage() {
       <DialogDetails
         ref={dialogDetailsRef}
       />
+      <DialogImportUser />
     </div>
   )
 }

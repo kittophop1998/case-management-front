@@ -1,8 +1,8 @@
 'use client'
-import { FormError } from "@/components/molecules/form-error";
-import { RadioField } from "@/components/molecules/form/Radio";
-import { SelectField } from "@/components/molecules/form/select-field";
-import { TextField } from "@/components/molecules/form/text-field";
+import { FormError } from "@/components/common/form-error";
+import { RadioField } from "@/components/common/form/Radio";
+import { SelectField } from "@/components/common/form/select-field";
+import { TextField } from "@/components/common/form/text-field";
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
@@ -159,8 +159,8 @@ export const FormUserDetails = ({ mode, uID, getUserDetails }: FormUserDetailsPr
 
                     <FormError message={error} />
                     <div className="flex justify-end gap-3">
-                        <Button variant="outline">Cancel</Button>
-                        <Button type='submit'>Add</Button>
+                        <Button variant="outline" >Cancel</Button>
+                        <Button type='submit' disabled={isPending}>{mode === 'create' ? 'Add' : 'Save'}</Button>
                     </div>
                 </form>
             </Form>

@@ -3,7 +3,7 @@ import {
   SidebarTrigger,
   SidebarInset
 } from '@/components/ui/sidebar'
-import { AppSidebar } from '@/components/organisms/app-sidebar'
+import { AppSidebar } from '@/components/app-sidebar'
 import { Separator } from '@/components/ui/separator'
 import {
   Breadcrumb,
@@ -12,7 +12,7 @@ import {
   BreadcrumbList
 } from '@/components/ui/breadcrumb'
 import { ChevronLeft } from 'lucide-react'
-import { UserAppBar } from '@/components/organisms/user-app-bar'
+import { UserAppBar } from '@/components/user-app-bar'
 
 // export default async function UserLayout ({
 export default async function UserLayout({

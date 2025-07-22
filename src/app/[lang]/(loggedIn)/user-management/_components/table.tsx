@@ -1,5 +1,5 @@
 'use client'
-import { MainTable, SortableHeader } from "@/components/organisms/table"
+import { MainTable, SortableHeader } from "@/components/common/table"
 import * as React from "react"
 import {
     Column,
