@@ -2,30 +2,37 @@ import Card from "@/components/common/card";
 import { Typography } from "@/components/common/typography";
 import { ButtonCancel } from "@/components/common/btn-cancle";
 import { Button } from "@/components/ui/button";
+import { Modal } from "@/components/common/Modal";
 
-export const DialogImportUser = () => {
+export const DialogImportUser = ({
+    open,
+    onClose
+}) => {
+    // const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(true);
+
+    // const handleCloseModalDelete = () => {
+    //     setIsModalDeleteOpen(false);
+    // };
     return (
-        <div className="max-w-[700px] mt-3">
-            <Card className="p-6">
-                <Typography variant="h5" >
-                    Import Users
+        <Modal
+            isOpen={open}
+            title={'Import User'}
+        >
+            <div className="flex gap-4 items-center">
+                <Typography variant="body1" >
+                    Upload File
                 </Typography>
-                <div className="flex gap-4 items-center">
-                    <Typography variant="body1" >
-                        Upload File
-                    </Typography>
-                    <Button variant='link'  >
-                        Download Template
-                    </Button>
-                </div>
-                <div className="bg-primary/30 aspect-video my-3">
-                    <div>drop</div>
-                </div>
-                <div className="flex justify-end gap-2">
-                    <ButtonCancel />
-                    <Button className="btn-primary">Import</Button>
-                </div>
-            </Card>
-        </div>
+                <Button variant='link'  >
+                    Download Template
+                </Button>
+            </div>
+            <div className="bg-primary/30 aspect-video my-3">
+                <div>drop</div>
+            </div>
+            <div className="flex justify-end gap-2">
+                <ButtonCancel onClick={onClose} />
+                <Button className="btn-primary">Import</Button>
+            </div>
+        </Modal>
     );
 }

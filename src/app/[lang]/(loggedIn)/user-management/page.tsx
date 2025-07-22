@@ -3,20 +3,18 @@ import { Typography } from "@/components/common/typography";
 import BtnFilter from "@/components/common/btn-filter";
 import CardPageWrapper from "@/components/common/card-page-warpper";
 import InputFilter from "@/components/common/input-filter";
-import { Button } from "@/components/ui/button";
 import { UserType } from "@/types/user";
-import { UserPlus } from "lucide-react";
 import { TableUserManagement } from "./_components/table";
 import { DialogDetails, DialogDetailsRef } from "./_components/dialog-user-details";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { BtnAddUser } from "./_components/btn-add-user";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { DialogImportUser } from "./_components/dialog-import-user";
+import { ExcelUploadDialog } from "./_components/upload-excel-test/excel-upload-dialog";
 
 export default function UserManagementPage() {
   const dialogDetailsRef = useRef<DialogDetailsRef>(null);
+  const [modalImportUser, setModalImportUser] = useState(false);
+  const [modalUserDetails, setModalUserDetails] = useState(false);
 
   const data: UserType[] = []
   for (let i = 0; i < 110; i++) {
@@ -29,22 +27,23 @@ export default function UserManagementPage() {
       status: i % 2 === 0 ? "Active" : "Inactive",
     });
   }
-  const openDialogCreateUser = () => {
-    dialogDetailsRef.current?.handleOpenModal(null);
-  }
-  const openDialogEditUser = (user: UserType) => {
-    dialogDetailsRef.current?.handleOpenModal(user);
-  }
-  const openDialogImportUser = () => {
 
+  const openDialogEditUser = (user: UserType) => {
+    dialogDetailsRef.current?.setDefaultUser(user);
+    setModalUserDetails(true)
+  }
+
+  const openDialogCreateUser = () => {
+    dialogDetailsRef.current?.setDefaultUser(null);
+    setModalUserDetails(true)
   }
 
   return (
     <div>
       <div className="flex justify-end mb-3 mt-3">
         <BtnAddUser
-          onOpenDialogCreateUser={openDialogCreateUser}
-          onOpenDialogImportUser={openDialogImportUser}
+          onOpenDialogCreateUser={() => openDialogCreateUser()}
+          onOpenDialogImportUser={() => setModalImportUser(true)}
         />
       </div>
       <CardPageWrapper>
@@ -60,8 +59,15 @@ export default function UserManagementPage() {
       </CardPageWrapper>
       <DialogDetails
         ref={dialogDetailsRef}
+        open={modalUserDetails}
+        onClose={() => setModalUserDetails(false)}
       />
-      <DialogImportUser />
+      <DialogImportUser
+        open={modalImportUser}
+        onClose={() => setModalImportUser(false)}
+      />
+      <ExcelUploadDialog />
+
     </div>
   )
 }

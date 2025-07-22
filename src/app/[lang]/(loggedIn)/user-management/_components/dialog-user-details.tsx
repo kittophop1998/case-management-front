@@ -2,32 +2,56 @@
 import { Typography } from "@/components/common/typography";
 import { FormUserDetails } from "./form-user-details";
 import { Modal } from "@/components/common/Modal";
-import { useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { UserType } from "@/types/user";
 import { UserSchemas } from "@/schemas";
 import z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export type DialogDetailsRef = {
-    handleOpenModal: (user: UserType | null) => void;
+    setDefaultUser: (user: UserType | null) => void;
 };
-export const DialogDetails = forwardRef<DialogDetailsRef>((props, ref) => {
-    const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
-    const [user, setUser] = useState<UserType | null>(null);
+interface DialogDetailsProps {
+    open: boolean;
+    onClose: () => void;
+}
+const emptyUser: z.infer<typeof UserSchemas> = {
+    uID: null,
+    agentID: '',
+    name: '',
+    email: '',
+    role: 'User',
+    team: '',
+    center: '',
+    status: 'Active',
+}
+export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>((
+    {
+        open, onClose
+    }, ref) => {
     const [mode, setMode] = useState<'create' | 'edit'>('create');
-    const handleCloseModalDelete = () => {
-        setIsModalDeleteOpen(false);
-    };
+    const [isLoadingForm, startLoadingForm] = useTransition()
+
+    const form = useForm<z.infer<typeof UserSchemas>>({
+        resolver: zodResolver(UserSchemas),
+        defaultValues: emptyUser
+    })
     useImperativeHandle(ref, () => ({
-        handleOpenModal: (user) => {
+        setDefaultUser: async (user) => {
             if (user) {
                 setMode('edit');
-                setUser(user);
+                form.reset(emptyUser);
+                startLoadingForm(async () => {
+                    const userDetails = await getUserDetails(user.id)
+                    form.reset(userDetails);
+
+                })
             } else {
-                setUser(null);
                 setMode('create');
+                form.reset(emptyUser);
             }
-            setIsModalDeleteOpen(true);
         },
     }));
     const getUserDetails = async (uID: number): Promise<z.infer<typeof UserSchemas>> => {
@@ -48,17 +72,15 @@ export const DialogDetails = forwardRef<DialogDetailsRef>((props, ref) => {
     };
     return (
         <Modal
-            isOpen={isModalDeleteOpen}
-            onClose={handleCloseModalDelete}
+            isOpen={open}
+            onClose={onClose}
             title={mode === 'create' ? 'Add Individual User' : 'Select Update'}
         >
-            <Typography variant="body2" className="mb-4">
-                {mode === 'create' ? 'Agent Information' : user?.name}
-            </Typography>
             <FormUserDetails
+                isLoadingForm={isLoadingForm}
                 mode={mode}
-                uID={user?.id ?? null}
-                getUserDetails={getUserDetails}
+                onClose={onClose}
+                form={form}
             />
         </Modal>
     );

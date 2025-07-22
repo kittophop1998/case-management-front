@@ -5,10 +5,14 @@ import { PopoverTrigger } from "@radix-ui/react-popover";
 import { UserPlus } from "lucide-react";
 import { useState } from "react";
 
+interface BtnAddUserProps {
+    onOpenDialogCreateUser: () => void;
+    onOpenDialogImportUser: () => void;
+}
 export const BtnAddUser = ({
     onOpenDialogCreateUser,
     onOpenDialogImportUser,
-}) => {
+}: BtnAddUserProps) => {
     const [open, setOpen] = useState(false);
     const closePopover = () => {
         setOpen(false);
