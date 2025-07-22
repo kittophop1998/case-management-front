@@ -1,3 +1,4 @@
+'use client';
 import { Typography } from "@/components/common/typography";
 import BtnFilter from "@/components/molecules/btn-filter";
 import CardPageWrapper from "@/components/molecules/card-page-warpper";
@@ -6,12 +7,17 @@ import { Button } from "@/components/ui/button";
 import { UserType } from "@/types/user";
 import { UserPlus } from "lucide-react";
 import { TableUserManagement } from "./_components/table";
-import { DialogDetails } from "./_components/dialog-details";
+import { DialogDetails, DialogDetailsRef } from "./_components/dialog-user-details";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { BtnAddUser } from "./_components/btn-add-user";
+import { useRef } from "react";
 
+export default function UserManagementPage() {
+  const dialogDetailsRef = useRef<DialogDetailsRef>(null);
 
-export default async function UserManagementPage() {
   const data: UserType[] = []
-
   for (let i = 0; i < 110; i++) {
     data.push({
       id: `${i + 1}`,
@@ -22,13 +28,23 @@ export default async function UserManagementPage() {
       status: i % 2 === 0 ? "Active" : "Inactive",
     });
   }
+  const openDialogCreateUser = () => {
+    dialogDetailsRef.current?.handleOpenModal(null);
+  }
+  const openDialogEditUser = (user: UserType) => {
+    dialogDetailsRef.current?.handleOpenModal(user);
+  }
+  const openDialogImportUser = () => {
+
+  }
+
   return (
     <div>
       <div className="flex justify-end mb-3 mt-3">
-        <Button className="bg-black text-white">
-          <UserPlus />
-          Add User
-        </Button>
+        <BtnAddUser
+          onOpenDialogCreateUser={openDialogCreateUser}
+          onOpenDialogImportUser={openDialogImportUser}
+        />
       </div>
       <CardPageWrapper>
         <div className="flex gap-3 mb-3">
@@ -39,9 +55,11 @@ export default async function UserManagementPage() {
           <InputFilter />
           <BtnFilter />
         </div>
-        <TableUserManagement data={data} />
+        <TableUserManagement data={data} openDialogEditUser={openDialogEditUser} />
       </CardPageWrapper>
-      <DialogDetails />
+      <DialogDetails
+        ref={dialogDetailsRef}
+      />
     </div>
   )
 }

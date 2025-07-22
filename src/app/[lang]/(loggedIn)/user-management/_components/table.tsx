@@ -12,7 +12,7 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
+import { MoreHorizontal, SquarePen } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -23,75 +23,65 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { UserType } from "@/types/user"
-const columns: ColumnDef<UserType>[] = [
-    {
-        accessorKey: "id",
-        header: ({ column }) => <SortableHeader column={column} label="Id" />,
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("id")}</div>
-        ),
-    },
-    {
-        accessorKey: "name",
-        header: ({ column }) => <SortableHeader column={column} label="Name" />,
-        cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
-    },
-    {
-        accessorKey: "role",
-        header: ({ column }) => <SortableHeader column={column} label="Role" />,
-        cell: ({ row }) => <div className="lowercase">{row.getValue("role")}</div>,
-    }, {
-        accessorKey: "team",
-        header: ({ column }) => <SortableHeader column={column} label="Team" />,
-        cell: ({ row }) => <div className="lowercase">{row.getValue("team")}</div>,
-    }, {
-        accessorKey: "center",
-        header: ({ column }) => <SortableHeader column={column} label="Center" />,
-        cell: ({ row }) => <div className="lowercase">{row.getValue("center")}</div>,
-    },
-    {
-        accessorKey: "status",
-        header: ({ column }) => <SortableHeader column={column} label="Status" />,
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status")}</div>
-        ),
-    },
-    {
-        id: "actions",
-        enableHiding: false,
-        cell: ({ row }) => {
-            const payment = row.original
 
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.id)}
-                        >
-                            Copy payment ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            )
-        },
-    },
-]
-export function TableUserManagement({ data }: { data?: UserType[] }) {
+interface TableUserManagementProps {
+    data?: UserType[]
+    openDialogEditUser: (user: UserType) => void
+}
+export function TableUserManagement({ data, openDialogEditUser }: TableUserManagementProps) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
-
+    const columns: ColumnDef<UserType>[] = [
+        {
+            accessorKey: "id",
+            header: ({ column }) => <SortableHeader column={column} label="Id" />,
+            cell: ({ row }) => (
+                <div className="capitalize">{row.getValue("id")}</div>
+            ),
+        },
+        {
+            accessorKey: "name",
+            header: ({ column }) => <SortableHeader column={column} label="Name" />,
+            cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
+        },
+        {
+            accessorKey: "role",
+            header: ({ column }) => <SortableHeader column={column} label="Role" />,
+            cell: ({ row }) => <div className="lowercase">{row.getValue("role")}</div>,
+        }, {
+            accessorKey: "team",
+            header: ({ column }) => <SortableHeader column={column} label="Team" />,
+            cell: ({ row }) => <div className="lowercase">{row.getValue("team")}</div>,
+        }, {
+            accessorKey: "center",
+            header: ({ column }) => <SortableHeader column={column} label="Center" />,
+            cell: ({ row }) => <div className="lowercase">{row.getValue("center")}</div>,
+        },
+        {
+            accessorKey: "status",
+            header: ({ column }) => <SortableHeader column={column} label="Status" />,
+            cell: ({ row }) => (
+                <div className="capitalize">{row.getValue("status")}</div>
+            ),
+        },
+        {
+            id: "actions",
+            enableHiding: false,
+            size: 10,
+            cell: ({ row }) => {
+                const user = row.original
+                return (
+                    <div className="w-[1rem]">
+                        <Button variant='ghost' onClick={() => openDialogEditUser(user)}>
+                            <SquarePen />
+                        </Button>
+                    </div>
+                )
+            },
+        },
+    ]
     const table = useReactTable({
         data,
         columns,
@@ -102,10 +92,14 @@ export function TableUserManagement({ data }: { data?: UserType[] }) {
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
         onRowSelectionChange: setRowSelection,
+        // columnResizeMode: "onChange",
         state: {
             sorting,
             columnVisibility,
             rowSelection,
+            // columnSizing: {
+            //     actions: 10,
+            // },
         },
     })
     return <MainTable

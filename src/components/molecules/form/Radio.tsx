@@ -8,9 +8,11 @@ import {
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 
 interface RadioFieldProps<T> {
+    onChange?: (value: string) => void; // Optional onChange handler
     loading?: boolean;
     readonly?: boolean;
     items: T[];
@@ -19,7 +21,8 @@ interface RadioFieldProps<T> {
     form: any; // Replace 'any' with the correct form type, e.g., UseFormReturn<any> if using react-hook-form
     name: string;
     label: string;
-    onChange?: (value: string) => void; // Optional onChange handler
+    className?: string; // Optional className for additional styling
+
 }
 const RadioFieldVariants = cva(
     'w-full',
@@ -33,9 +36,17 @@ const RadioFieldVariants = cva(
     }
 )
 const RadioField = (
-    { onChange, loading = false, readonly = false,
-        items, valueName = "value", labelName = "label",
-        form, name, label
+    {
+        onChange,
+        loading = false,
+        readonly = false,
+        items,
+        valueName = "value",
+        labelName = "label",
+        form,
+        name,
+        label,
+        className = ""
     }: RadioFieldProps) => {
     return (
         <FormField
@@ -47,9 +58,10 @@ const RadioField = (
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
                         <RadioGroup
+                            onChange={onChange ? onChange : field.onChange}
                             onValueChange={field.onChange}
                             defaultValue={field.value}
-                            className="flex flex-col"
+                            className={cn(RadioFieldVariants({ readonly }), className)}
                         >
                             {
                                 items.map((item: any) => (

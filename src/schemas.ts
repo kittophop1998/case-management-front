@@ -32,6 +32,7 @@ export const RegisterSchemas = z
 
 
 export const UserSchemas = z.object({
+  uID: z.number().nullable().optional(),
   agentID: z.string().min(1, "Agent ID is required"),
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),

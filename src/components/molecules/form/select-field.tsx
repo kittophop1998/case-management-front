@@ -39,13 +39,15 @@ const SelectField = (
 
     return (
         <FormField
+            disabled={loading}
             control={form.control}
             name={name}
             render={({ field }) => (
                 <FormItem>
                     <FormLabel>{label}</FormLabel>
                     <Select
-                        onValueChange={field.onChange} defaultValue={field.value}>
+                        {...field}
+                        onValueChange={field.onChange} >
                         <FormControl>
                             <SelectTrigger className="w-full" >
                                 <SelectValue placeholder={placeholder} />

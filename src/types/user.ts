@@ -1,5 +1,5 @@
 export type UserType = {
-    id: string
+    id: number
     status: "Active" | "Inactive"
     name: string;
     role: string;
