@@ -11,7 +11,9 @@ interface ModalProps {
   children: React.ReactNode;
 }
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen,
+  // onClose,
+  title, children }) => {
   if (!isOpen) return null;
 
   return (
@@ -21,9 +23,9 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
           <Typography variant="h3" as="h3" className="text-xl font-semibold">
             {title}
           </Typography>
-          <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-200">
+          {/* <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-200">
             <X className="w-6 h-6" />
-          </button>
+          </button> */}
         </div>
         <div className="mt-4">{children}</div>
       </Card>

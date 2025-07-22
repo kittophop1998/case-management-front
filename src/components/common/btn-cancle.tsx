@@ -1,7 +1,10 @@
-export const ButtonCancel = () => {
+import { Button } from "../ui/button";
+
+interface ButtonCancelProps {
+    onClick: () => void;
+}
+export const ButtonCancel = ({ onClick }: ButtonCancelProps) => {
     return (
-        <button className="btn-cancel">
-            Cancel
-        </button>
+        <Button variant="outline" type="button" onClick={onClick}>Cancel</Button>
     );
 }
