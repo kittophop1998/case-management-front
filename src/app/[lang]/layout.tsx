@@ -1,5 +1,6 @@
 import { Kanit } from 'next/font/google'
 import { cn } from '@/lib/utils'
+import { StoreProvider } from '@/store/provider'
 const kanit = Kanit({
   weight: '400',
   subsets: ['latin']
@@ -24,12 +25,12 @@ export default async function RootLayout ({
           lang === 'th' ? kanit.className : kanit.className
         )}
       >
-        {/* <ReduxProvider> */}
-        {/* <DndProviderCpn> */}
-        {/* <InitializersData user={user} accessToken={accessToken} /> */}
-        {children}
-        {/* </DndProviderCpn> */}
-        {/* </ReduxProvider> */}
+        <StoreProvider>
+          {/* <DndProviderCpn> */}
+          {/* <InitializersData user={user} accessToken={accessToken} /> */}
+          {children}
+          {/* </DndProviderCpn> */}
+        </StoreProvider>
       </body>
     </html>
   )

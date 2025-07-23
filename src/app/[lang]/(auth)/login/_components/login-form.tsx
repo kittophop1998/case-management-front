@@ -1,11 +1,10 @@
 'use client'
 import { LoginSchemas } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
-// import { useRouter } from 'next/router'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
-import { Form, FormField } from '../../../../../components/ui/form'
+import { Form } from '../../../../../components/ui/form'
 import { TextField } from '../../../../../components/common/form/text-field'
 import { Button } from '../../../../../components/ui/button'
 import { PasswordField } from '../../../../../components/common/form/password-field'
@@ -16,6 +15,7 @@ import Lock from '@public/icons/Lock.svg'
 import Email from '@public/icons/Email.svg'
 import { Typography } from '../../../../../components/common/typography'
 import { FormError } from '@/components/common/form-error'
+
 export const LoginForm = () => {
   const router = useRouter()
   const [error, setError] = useState<string | undefined>('')
@@ -63,16 +63,11 @@ export const LoginForm = () => {
             form={form}
             name='username'
             label=''
-            prependInnerIcon={
-              <Email />
-
-            }
+            prependInnerIcon={<Email />}
             placeholder='Username'
           />
           <PasswordField
-            prependInnerIcon={
-              <Lock />
-            }
+            prependInnerIcon={<Lock />}
             loading={isPending}
             form={form}
             name='password'
@@ -81,16 +76,13 @@ export const LoginForm = () => {
           />
         </div>
         <div className='h-[3rem]'>
-          {error
-            ? (<FormError message={error} />) : (
-              <Typography
-                variant='caption'
-                className='text-center p-3'
-              >
-                Enter your domain and password to log in”
-              </Typography>
-            )
-          }
+          {error ? (
+            <FormError message={error} />
+          ) : (
+            <Typography variant='caption' className='text-center p-3'>
+              Enter your domain and password to log in”
+            </Typography>
+          )}
         </div>
         {/* TODO: SET COLOR */}
         <Button

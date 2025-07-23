@@ -1,7 +1,7 @@
 'use client'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IListPayload } from '@/types/event';
-import { generateRequestId } from '@/lib/genterateIdUtils';
+import { generateRequestId } from '@/lib/utils/genterateIdUtils';
 
 const useMock = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 

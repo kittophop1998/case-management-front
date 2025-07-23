@@ -3,7 +3,7 @@ import { Typography } from '@/components/common/typography'
 import BtnFilter from '@/components/common/btn-filter'
 import CardPageWrapper from '@/components/common/card-page-warpper'
 import InputFilter from '@/components/common/input-filter'
-import { UserType } from '@/types/user'
+import { UserType } from '@/types/user.type'
 import { TableUserManagement } from './_components/table'
 import {
   DialogDetails,
@@ -13,23 +13,29 @@ import { BtnAddUser } from './_components/btn-add-user'
 import { useRef, useState } from 'react'
 import { DialogImportUser } from './_components/dialog-import-user'
 import { ExcelUploadDialog } from './_components/upload-excel-test/excel-upload-dialog'
+import { useUsers } from '@/hooks/user/useUsers'
 
 export default function UserManagementPage () {
   const dialogDetailsRef = useRef<DialogDetailsRef>(null)
   const [modalImportUser, setModalImportUser] = useState(false)
   const [modalUserDetails, setModalUserDetails] = useState(false)
+  const { users: data, isLoading, isError, error, isSuccess } = useUsers()
 
-  const data: UserType[] = []
-  for (let i = 0; i < 110; i++) {
-    data.push({
-      id: `${i + 1}`,
-      name: `User ${i + 1}`,
-      role: i % 2 === 0 ? 'Admin' : 'User',
-      team: `Team ${(i % 3) + 1}`,
-      center: `Center ${(i % 2) + 1}`,
-      status: i % 2 === 0 ? 'Active' : 'Inactive'
-    })
+  if (isError) {
+    return <div>error:{String(error)}</div>
   }
+
+  // const data: UserType[] = []
+  // for (let i = 0; i < 110; i++) {
+  //   data.push({
+  //     id: `${i + 1}`,
+  //     name: `User ${i + 1}`,
+  //     role: i % 2 === 0 ? 'Admin' : 'User',
+  //     team: `Team ${(i % 3) + 1}`,
+  //     center: `Center ${(i % 2) + 1}`,
+  //     status: i % 2 === 0 ? 'Active' : 'Inactive'
+  //   })
+  // }
 
   const openDialogEditUser = (user: UserType) => {
     dialogDetailsRef.current?.setDefaultUser(user)
