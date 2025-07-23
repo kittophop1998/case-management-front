@@ -8,9 +8,9 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/components/ui/sidebar'
-import { Typography } from './common/typography'
+import { Typography } from '@/components/common/typography'
 
-export function AppSidebarHeader() {
+export function AppSidebarHeader () {
   const { isMobile } = useSidebar()
   return (
     <SidebarMenu>

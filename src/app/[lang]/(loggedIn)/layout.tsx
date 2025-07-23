@@ -3,16 +3,15 @@ import {
   SidebarTrigger,
   SidebarInset
 } from '@/components/ui/sidebar'
-import { AppSidebar } from '@/components/app-sidebar'
-import { UserAppBar } from '@/components/user-app-bar'
-export default async function UserLayout({
+import { AppSidebar } from './_components/app-sidebar'
+import { UserAppBar } from './_components/app-bar'
+export default async function UserLayout ({
   children,
   params
-}:
-  Readonly<{
-    children: React.ReactNode
-    params: Promise<{ lang: 'en' | 'th' }>
-  }>) {
+}: Readonly<{
+  children: React.ReactNode
+  params: Promise<{ lang: 'en' | 'th' }>
+}>) {
   const { lang } = await params
   return (
     <div>
@@ -20,9 +19,7 @@ export default async function UserLayout({
         <AppSidebar />
         <SidebarInset className='bg-[#f4f5fa]'>
           <UserAppBar />
-          <div className='max-w-[1600px] mx-auto w-full  px-2'>
-            {children}
-          </div>
+          <div className='max-w-[1600px] mx-auto w-full  px-2'>{children}</div>
         </SidebarInset>
       </SidebarProvider>
     </div>

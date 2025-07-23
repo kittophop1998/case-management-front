@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/sidebar'
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
-import { Typography } from './common/typography'
+import { Typography } from '@/components/common/typography'
 const sidebarMenuButtonVariants = cva('', {
   variants: {
     active: {
@@ -30,7 +30,7 @@ const sidebarMenuIconVariants = cva('', {
   }
 })
 
-export function AppSidebarMenuList({
+export function AppSidebarMenuList ({
   items
 }: {
   items: {
