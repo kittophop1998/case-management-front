@@ -70,7 +70,7 @@ export const AppbarUserUI = () => {
           <Typography>{userName}</Typography>
         </div>
       </PopoverTrigger>
-      <PopoverContent className='w-[23rem]'>
+      <PopoverContent className='w-[23rem] mx-2'>
         <PopupUserUI />
       </PopoverContent>
     </Popover>
