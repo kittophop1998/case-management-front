@@ -5,7 +5,7 @@ import { Typography } from '@/components/common/typography'
 import { Separator } from '@/components/ui/separator'
 import HomeIcon from '@public/icons/Home.svg'
 
-export function UserAppBar () {
+export function AppBar () {
   return (
     <header className='bg-white shrink-0 items-center gap-2 transition-[width,height] ease-linear '>
       <Container>

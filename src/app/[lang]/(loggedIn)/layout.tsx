@@ -4,7 +4,7 @@ import {
   SidebarInset
 } from '@/components/ui/sidebar'
 import { AppSidebar } from './_components/app-sidebar'
-import { UserAppBar } from './_components/app-bar'
+import { AppBar } from './_components/app-bar'
 export default async function UserLayout ({
   children,
   params
@@ -18,7 +18,7 @@ export default async function UserLayout ({
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset className='bg-[#f4f5fa]'>
-          <UserAppBar />
+          <AppBar />
           <div className='max-w-[1600px] mx-auto w-full  px-2'>{children}</div>
         </SidebarInset>
       </SidebarProvider>
