@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent } from '@/components/ui/popover'
 import { PopoverTrigger } from '@radix-ui/react-popover'
 import { Type } from 'react-feather'
+import { useRouter } from 'next/navigation'
 
 interface UserAvatarProps {
   userUrl: string
@@ -23,11 +24,16 @@ const UserAvatar = ({ userUrl, userName }: UserAvatarProps) => {
 }
 
 const PopupUserUI = () => {
+  const router = useRouter()
   const userName = 'Phaphum Pattana'
   const userEmail = 'phaphump@aeon.co.th'
   const userUrl = 'https://github.com/shadcn.psng'
   const userRole = 'Supervisor'
   const userCenter = 'BKK'
+  const handleLogout = () => {
+    // Implement logout logic here
+    router.push('/login')
+  }
   return (
     <div>
       <Typography>Profile</Typography>
@@ -46,7 +52,9 @@ const PopupUserUI = () => {
         <Button variant='link' className='px-0'>
           Reset Password
         </Button>
-        <Button variant='outline'>Logout</Button>
+        <Button variant='outline' onClick={handleLogout}>
+          Logout
+        </Button>
       </div>
     </div>
   )
