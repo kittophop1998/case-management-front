@@ -3,12 +3,21 @@ import {
   useGetUsersMutation,
   GetUsersRequest
 } from '@/features/users/usersApiSlice'
+import { useEffect, useState } from 'react'
 
 export const useUsers = () => {
+  const [page, setPage] = useState<number>(1)
+  const [limit, setLimit] = useState<number>(10)
+  const [status, setStatus] = useState<boolean>(true)
+  const [role, setRole] = useState<number | null>(null)
+  const [team, setTeam] = useState<string | null>(null)
+  const [center, setCenter] = useState<number | null>(null)
+  const [sort, setSort] = useState<string | null>(null)
+  const [order, setOrder] = useState<'asc' | 'desc' | null>(null)
+  const [searchText, setSearchText] = useState('')
   const [fetchUsers, { data, isLoading, isError, error, isSuccess }] =
     useGetUsersMutation()
-
-  const getUsers = async (params: GetUsersRequest = {}) => {
+  const getUsers = async (params: GetUsersRequest) => {
     try {
       const result = await fetchUsers(params).unwrap()
       return result
@@ -17,16 +26,20 @@ export const useUsers = () => {
       throw err
     }
   }
-  // let usersTable ={
-  //     data: [],
-  //     page: 1,
-  //     limit: 10,
-  //     total: 0,
-  //     totalPages: 0
-  //   }
-  // if(isError){
-  // }else{
-  // }
+  useEffect(() => {
+    getUsers({
+      page,
+      limit,
+      status,
+      role,
+      team,
+      center,
+      sort,
+      order,
+      searchText
+    })
+  }, [page, limit, status, role, team, center, sort, order, searchText])
+
   const defaultData = {
     data: [],
     page: 1,
@@ -40,10 +53,31 @@ export const useUsers = () => {
     isLoading,
     isSuccess,
     isError,
-    error
+    error,
+    state: {
+      page,
+      limit,
+      status,
+      role,
+      team,
+      center,
+      sort,
+      order,
+      searchText
+    },
+    setSate: {
+      setPage,
+      setLimit,
+      setStatus,
+      setRole,
+      setTeam,
+      setCenter,
+      setSort,
+      setOrder,
+      setSearchText
+    }
   }
 }
-
 // const data: UserType[] = []
 // for (let i = 0; i < 110; i++) {
 //   data.push({

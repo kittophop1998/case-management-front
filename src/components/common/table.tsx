@@ -58,6 +58,7 @@ export const MainTable = ({
 }) => {
   return (
     <>
+      {loading && <div>loading .................</div>}
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (

@@ -1,33 +1,35 @@
-import { Search } from "lucide-react";
-import { Input } from "../common/text-input";
+import { Search } from 'lucide-react'
+import { Input } from '../common/text-input'
 
-const InputFilter = (
-    {
-        field,
-        placeholder = "Search...",
-        readonly = false,
-    }: {
-        field: any;
-        placeholder?: string;
-        readonly?: boolean;
-    }
-) => {
-    return (
-        <div className='relative flex'>
-            <div className='absolute flex items-center justify-center h-full w-[2rem]'>
-                <Search
-                    size={15}
-                    className='cursor-pointer'
-                />
-            </div>
-            <Input
-                prependInnerIcon
-                placeholder={placeholder}
-                {...field}
-                readOnly={readonly}
-            />
-        </div>
-    );
-};
+const InputFilter = ({
+  setValue,
+  value,
+  placeholder = 'Search...',
+  readonly = false
+}: {
+  placeholder?: string
+  readonly?: boolean
+  setValue: (value: string) => void
+  value: string
+}) => {
+  return (
+    <div className='relative flex'>
+      <div className='absolute flex items-center justify-center h-full w-[2rem]'>
+        <Search size={15} className='cursor-pointer' />
+      </div>
+      <Input
+        prependInnerIcon
+        placeholder={placeholder}
+        readOnly={readonly}
+        value={value}
+        onChange={e => {
+          if (setValue) {
+            setValue(e.target.value)
+          }
+        }}
+      />
+    </div>
+  )
+}
 
-export default InputFilter;
+export default InputFilter

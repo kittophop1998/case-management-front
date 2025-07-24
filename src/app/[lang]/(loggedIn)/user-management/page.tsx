@@ -14,26 +14,36 @@ import { useEffect, useRef, useState } from 'react'
 // import { DialogImportUser } from './_components/dialog-import-user'
 import { ExcelUploadDialog } from './_components/upload-excel-test/excel-upload-dialog'
 import { useUsers } from '@/hooks/user/useUsers'
+import { FilterUsersModal } from './_components/filter-modal'
 
 export default function UserManagementPage () {
   const dialogDetailsRef = useRef<DialogDetailsRef>(null)
   const [modalImportUser, setModalImportUser] = useState(false)
   const [modalUserDetails, setModalUserDetails] = useState(false)
-  const { usersTable, isLoading, isError, error, isSuccess, getUsers } =
-    useUsers()
+  const {
+    usersTable,
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+    getUsers,
+    state: { page, limit, status, role, team, center, sort, order, searchText },
+    setSate: {
+      setPage,
+      setLimit,
+      setStatus,
+      setRole,
+      setTeam,
+      setCenter,
+      setSort,
+      setOrder,
+      setSearchText
+    }
+  } = useUsers()
 
-  useEffect(() => {
-    getUsers()
-  }, [])
   if (isError) {
-    return (
-      <div>
-        {/* error:{JSON.stringify(error)} */}
-        {error.data.message}
-      </div>
-    )
+    return <div>{error.data.message}</div>
   }
-  // return <div>usersTable:{JSON.stringify(usersTable)}</div>
 
   const openDialogEditUser = (user: UserType) => {
     dialogDetailsRef.current?.setDefaultUser(user)
@@ -59,11 +69,12 @@ export default function UserManagementPage () {
           <Typography variant='h3' as='p'>
             User Lists
           </Typography>
-          <div className='flex-1'></div>
-          <InputFilter />
+          <div className='flex-1' />
+          <InputFilter setValue={setSearchText} value={searchText} />
           <BtnFilter />
         </div>
         <TableUserManagement
+          isLoading={isLoading}
           usersTable={usersTable}
           openDialogEditUser={openDialogEditUser}
         />
@@ -78,6 +89,16 @@ export default function UserManagementPage () {
         onClose={() => setModalImportUser(false)}
       /> */}
       <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
+      <FilterUsersModal
+        setStatus={setStatus}
+        setRole={setRole}
+        setTeam={setTeam}
+        setCenter={setCenter}
+        status={status}
+        role={role}
+        team={team}
+        center={center}
+      />
     </div>
   )
 }

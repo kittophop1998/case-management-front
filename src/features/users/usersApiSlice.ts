@@ -4,14 +4,15 @@ import { baseQuery } from '@/services/api'
 import { ApiResponse, ApiResponseSuccess } from '@/types/api.type'
 
 export interface GetUsersRequest {
-  page?: number
-  limit?: number
-  status?: number
-  role?: string
-  team?: string | null
-  center?: string | null
-  sort?: string
-  order?: 'asc' | 'desc'
+  page: number
+  limit: number
+  status: boolean | null
+  role: number | null
+  team: string | null
+  center: number | null
+  sort: string | null
+  order: 'asc' | 'desc' | null
+  searchText: string
 }
 
 export const usersApiSlice = createApi({
@@ -20,26 +21,26 @@ export const usersApiSlice = createApi({
   endpoints: builder => ({
     getUsers: builder.mutation<ApiResponse<UsersTable>, GetUsersRequest>({
       query: ({
-        page = 1,
-        limit = 10,
-        status = 1,
-        role = 'admin',
+        page,
+        limit,
+        status = true,
+        role = null,
         team = null,
-        center = null
-        // sort = 'createdAt',
-        // order = 'desc'
+        center = null,
+        sort = null,
+        order = null,
+        searchText = ''
       }) => {
         const searchParams = new URLSearchParams({
           page: String(page),
           limit: String(limit),
           is_active: String(status),
-          role,
-          team: team ?? '',
-          center: center ?? ''
-          // sort,
-          // order
-
-          // ?limit=10&page=1&role=UserTest1&team=4&center=Center%20BB&is_active=true
+          role: String(role || ''),
+          team: String(team),
+          center: String(center || ''),
+          searchText: String(searchText || ''),
+          sort: String(sort || ''),
+          order: String(order || '')
         })
         return {
           url: `/users?${searchParams.toString()}`,

@@ -17,10 +17,12 @@ import { Button } from '@/components/ui/button'
 import { UsersTable, UserType } from '@/types/user.type'
 
 interface TableUserManagementProps {
+  isLoading: boolean
   usersTable: UsersTable
   openDialogEditUser: (user: UserType) => void
 }
 export function TableUserManagement ({
+  isLoading = false,
   usersTable,
   openDialogEditUser
 }: TableUserManagementProps) {
@@ -97,6 +99,7 @@ export function TableUserManagement ({
   })
   return (
     <MainTable
+      loading={isLoading}
       table={table}
       page={usersTable.page}
       limit={usersTable.limit}
