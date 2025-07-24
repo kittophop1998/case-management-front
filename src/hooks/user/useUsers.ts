@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 export const useUsers = () => {
   const [page, setPage] = useState<number>(1)
   const [limit, setLimit] = useState<number>(10)
-  const [status, setStatus] = useState<boolean>(true)
+  const [status, setStatus] = useState<boolean | null>(null)
   const [role, setRole] = useState<number | null>(null)
   const [team, setTeam] = useState<string | null>(null)
   const [center, setCenter] = useState<number | null>(null)

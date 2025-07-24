@@ -90,8 +90,8 @@ export default function UserManagementPage () {
       /> */}
       <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
       <FilterUsersModal
-        setStatus={setStatus}
         setRole={setRole}
+        setStatus={setStatus}
         setTeam={setTeam}
         setCenter={setCenter}
         status={status}
