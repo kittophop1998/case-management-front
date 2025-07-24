@@ -20,13 +20,35 @@ interface TableUserManagementProps {
   isLoading: boolean
   usersTable: UsersTable
   openDialogEditUser: (user: UserType) => void
+  setSort?: (sort: string | null) => void
+  setOrder?: (order: 'asc' | 'desc' | null) => void
+  // sort?: string | null
+  // order?: 'asc' | 'desc' | null
 }
 export function TableUserManagement ({
   isLoading = false,
   usersTable,
-  openDialogEditUser
-}: TableUserManagementProps) {
+  openDialogEditUser,
+  setSort,
+  setOrder
+}: // sort,
+// order
+TableUserManagementProps) {
   const [sorting, setSorting] = React.useState<SortingState>([])
+  React.useEffect(() => {
+    // console.log('sorting', sorting)
+    if (setSort) {
+      // console.log('setSort(:)', sorting?.[0]?.id ?? null)
+      setSort(sorting?.[0]?.id ?? null)
+    }
+    if (setOrder) {
+      // console.log(
+      //   'setOrder(:)',
+      //   sorting.length > 0 ? (sorting[0].desc ? 'desc' : 'asc') : null
+      // )
+      setOrder(sorting.length > 0 ? (sorting[0].desc ? 'desc' : 'asc') : null)
+    }
+  }, [sorting])
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
@@ -98,13 +120,16 @@ export function TableUserManagement ({
     }
   })
   return (
-    <MainTable
-      loading={isLoading}
-      table={table}
-      page={usersTable.page}
-      limit={usersTable.limit}
-      total={usersTable.total}
-      totalPages={usersTable.totalPages}
-    />
+    <>
+      {/* sorting:{JSON.stringify(sorting)} */}
+      <MainTable
+        loading={isLoading}
+        table={table}
+        page={usersTable.page}
+        limit={usersTable.limit}
+        total={usersTable.total}
+        totalPages={usersTable.totalPages}
+      />
+    </>
   )
 }

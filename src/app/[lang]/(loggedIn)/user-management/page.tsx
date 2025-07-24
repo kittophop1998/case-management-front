@@ -74,6 +74,8 @@ export default function UserManagementPage () {
           <BtnFilter />
         </div>
         <TableUserManagement
+          setSort={setSort}
+          setOrder={setOrder}
           isLoading={isLoading}
           usersTable={usersTable}
           openDialogEditUser={openDialogEditUser}

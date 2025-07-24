@@ -31,7 +31,7 @@ export const FilterUsersModal = ({
   center,
   isPending = false
 }: FilterModalProps) => {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
   const onSubmit = (value: z.infer<typeof FilterUsersDialogSchemas>) => {
     console.log('Filter values:', value)
     setStatus(value.status)
