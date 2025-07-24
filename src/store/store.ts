@@ -1,24 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './rootReducer';
+// Slice
 import { authApiSlice } from '@/features/auth/authApiSlice';
-import { mediationApiSlice } from '@/features/mediation/mediationApiSlice';
-import { registrationApiSlice } from '@/features/registration/registrationApiSlice';
-import { eventApiSlice } from '@/features/event/eventApiSlice';
+import { usersApiSlice } from '@/features/users/usersApiSlice';
 
-export const makeStore = () => {
-  return configureStore({
+export const store =  configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware()
         .concat(authApiSlice.middleware)
-        .concat(mediationApiSlice.middleware)
-        .concat(registrationApiSlice.middleware)
-        .concat(eventApiSlice.middleware)
+        .concat(usersApiSlice.middleware)
   });
-};
 
-export const store = makeStore();
 
 export type AppStore = typeof store;
 export type RootState = ReturnType<AppStore['getState']>;
-export type AppDispatch = AppStore['dispatch'];
+export type AppDispatch = AppStore['dispatch']; 
