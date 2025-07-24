@@ -1,9 +1,5 @@
-
-// const BASE_URL =
-//   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
 // let accessToken: string | null = null;
 // let refreshToken: string | null = null;
-
 
 // export function setAccessToken(token: string | null) {
 //   accessToken = token;
@@ -50,41 +46,43 @@
 
 // export default api;
 
-import { generateRequestId } from "@/lib/utils/genterateIdUtils";
-import { ApiResponse } from "@/types/api.type";
-import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import Cookies from 'js-cookie';
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '';
+// import { generateRequestId } from "@/lib/utils/genterateIdUtils";
+import { fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+// import Cookies from 'js-cookie';
+// const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000/api';
 
-export const baseQuery =  fetchBaseQuery({
-    baseUrl: BASE_URL,
-    prepareHeaders: (headers: Headers) => {
-      const requestId = generateRequestId();
-      const token = Cookies.get('mock_auth_token');
-      headers.set('Content-Type', 'application/json');
-      headers.set('X-Request-ID', requestId);
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
-      }
-      return headers;
-    }
-  //   transformResponse: (response) => {
-  //   if ('error' in response && response.error) {
-  //     throw new Error(response.error);
-  //   }
-  //   return response
-  // },
-  });
+// const BASE_URL = 'http://localhost:5000/api';
 
+// export const baseQuery = fetchBaseQuery({
+//   baseUrl: 'http://localhost:8000/api/v1'
+// })
 
-
-//   baseQuery: fetchBaseQuery({
-//   baseUrl: '/api',
-//   prepareHeaders: ...,
-  // transformResponse: (response: ApiResponse<T>) => {
-  //   if ('error' in response && response.error) {
-  //     throw new Error(response.error);
-  //   }
-  //   return response as T;
-  // },
-// });
+// const base = fetchBaseQuery({
+//   baseUrl: 'http://localhost:8000/api/v1'
+//   // prepareHeaders: (headers: Headers) => {
+//   //   console.log('Preparing headers for:', headers);
+//   //   const requestId = generateRequestId();
+//   //   const token = Cookies.get('mock_auth_token');
+//   //   headers.set('Content-Type', 'application/json');
+//   //   headers.set('X-Request-ID', requestId);
+//   //   if (token) {
+//   //     headers.set('Authorization', `Bearer ${token}`);
+//   //   }
+//   //   return headers;
+//   // }
+// })
+export const baseQuery = fetchBaseQuery({
+  baseUrl: 'http://localhost:8000/api/v1'
+})
+// export const baseQuery = async (args: any, api: any, extraOptions: any) => {
+//   let result = await base(args, api, extraOptions)
+//   if (result.error) {
+//     console.log(`ERROR : `, result)
+//     throw new Error(
+//       `API Error: ${result.error.status} - ${
+//         result.error.data.message || 'Unknown error'
+//       }`
+//     )
+//   }
+//   return result
+// }

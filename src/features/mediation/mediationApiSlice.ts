@@ -1,9 +1,10 @@
 'use client'
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { IResposeData, IFilterParam } from '@/types/list';
 import { generateRequestId } from '@/lib/utils/genterateIdUtils';
 import { pdfBase64, excelBase64 } from './mockData';
 import { IFormPayload } from '@/types/form';
+import { baseQuery } from '@/services/api';
 
 const useMock = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 
@@ -173,24 +174,6 @@ const fakeBaseQuery = async (args: any) => {
 
     return { error: { status: 404, data: 'Not Found' } };
 };
-
-const baseQuery = useMock
-    ? fakeBaseQuery
-    : fetchBaseQuery({
-        baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || '',
-        prepareHeaders: (headers) => {
-            const requestId = generateRequestId();
-            if (requestId) headers.set('X-Request-ID', requestId);
-
-            const getUsername = localStorage.getItem('auth_user');
-            if (getUsername) {
-                const username = JSON.parse(getUsername).username || '';
-                headers.set('X-User-ID', username);
-            }
-
-            return headers;
-        },
-    });
 
 export const mediationApiSlice = createApi({
     reducerPath: 'mediationApi',

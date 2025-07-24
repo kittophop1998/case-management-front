@@ -2,7 +2,6 @@
 import { MainTable, SortableHeader } from '@/components/common/table'
 import * as React from 'react'
 import {
-  Column,
   ColumnDef,
   getCoreRowModel,
   getFilteredRowModel,
@@ -12,24 +11,17 @@ import {
   useReactTable,
   VisibilityState
 } from '@tanstack/react-table'
-import { MoreHorizontal, SquarePen } from 'lucide-react'
+import { SquarePen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { UserType } from '@/types/user.type'
+
+import { UsersTable, UserType } from '@/types/user.type'
 
 interface TableUserManagementProps {
-  data?: UserType[]
+  usersTable: UsersTable
   openDialogEditUser: (user: UserType) => void
 }
 export function TableUserManagement ({
-  data,
+  usersTable,
   openDialogEditUser
 }: TableUserManagementProps) {
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -88,7 +80,7 @@ export function TableUserManagement ({
     }
   ]
   const table = useReactTable({
-    data,
+    data: usersTable.data,
     columns,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
@@ -97,15 +89,19 @@ export function TableUserManagement ({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    // columnResizeMode: "onChange",
     state: {
       sorting,
       columnVisibility,
       rowSelection
-      // columnSizing: {
-      //     actions: 10,
-      // },
     }
   })
-  return <MainTable table={table} />
+  return (
+    <MainTable
+      table={table}
+      page={usersTable.page}
+      limit={usersTable.limit}
+      total={usersTable.total}
+      totalPages={usersTable.totalPages}
+    />
+  )
 }

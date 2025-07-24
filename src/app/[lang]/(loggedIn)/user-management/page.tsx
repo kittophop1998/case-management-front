@@ -10,8 +10,8 @@ import {
   DialogDetailsRef
 } from './_components/dialog-user-details'
 import { BtnAddUser } from './_components/btn-add-user'
-import { useRef, useState } from 'react'
-import { DialogImportUser } from './_components/dialog-import-user'
+import { useEffect, useRef, useState } from 'react'
+// import { DialogImportUser } from './_components/dialog-import-user'
 import { ExcelUploadDialog } from './_components/upload-excel-test/excel-upload-dialog'
 import { useUsers } from '@/hooks/user/useUsers'
 
@@ -19,23 +19,21 @@ export default function UserManagementPage () {
   const dialogDetailsRef = useRef<DialogDetailsRef>(null)
   const [modalImportUser, setModalImportUser] = useState(false)
   const [modalUserDetails, setModalUserDetails] = useState(false)
-  const { users: data, isLoading, isError, error, isSuccess } = useUsers()
+  const { usersTable, isLoading, isError, error, isSuccess, getUsers } =
+    useUsers()
 
+  useEffect(() => {
+    getUsers()
+  }, [])
   if (isError) {
-    return <div>error:{String(error)}</div>
+    return (
+      <div>
+        {/* error:{JSON.stringify(error)} */}
+        {error.data.message}
+      </div>
+    )
   }
-
-  // const data: UserType[] = []
-  // for (let i = 0; i < 110; i++) {
-  //   data.push({
-  //     id: `${i + 1}`,
-  //     name: `User ${i + 1}`,
-  //     role: i % 2 === 0 ? 'Admin' : 'User',
-  //     team: `Team ${(i % 3) + 1}`,
-  //     center: `Center ${(i % 2) + 1}`,
-  //     status: i % 2 === 0 ? 'Active' : 'Inactive'
-  //   })
-  // }
+  // return <div>usersTable:{JSON.stringify(usersTable)}</div>
 
   const openDialogEditUser = (user: UserType) => {
     dialogDetailsRef.current?.setDefaultUser(user)
@@ -56,6 +54,7 @@ export default function UserManagementPage () {
         />
       </div>
       <CardPageWrapper>
+        {/* <div>usersTable:{JSON.stringify(usersTable)}</div> */}
         <div className='flex gap-3 mb-3'>
           <Typography variant='h3' as='p'>
             User Lists
@@ -65,7 +64,7 @@ export default function UserManagementPage () {
           <BtnFilter />
         </div>
         <TableUserManagement
-          data={data}
+          usersTable={usersTable}
           openDialogEditUser={openDialogEditUser}
         />
       </CardPageWrapper>
