@@ -1,20 +1,20 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useGetMeMutation, useLoginMutation } from '@/features/auth/authApiSlice';
-import Cookies from 'js-cookie';
 import { UserType } from '@/types/user.type';
 import { convertKeysToCamelCase } from '@/lib/utils/formatKeyUtils';
 import z from 'zod';
 import { LoginSchemas } from '@/schemas';
 import { useRouter } from 'next/navigation'
-import { log } from 'console';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { th } from 'date-fns/locale';
 
 export default function useAuth() {
   const router = useRouter()
+  const [loginMutation, { isLoading: isLoadingLogin, isError: isLoginError, error: loginError }] = useLoginMutation();
+  const [getMeMutation, { data: me, isLoading: isLoadingGetMe, isError: isGetMeError, error: loginGetMe }] = useGetMeMutation();
+  // 
   const formLogin = useForm<z.infer<typeof LoginSchemas>>({
     resolver: zodResolver(LoginSchemas),
     defaultValues: {
@@ -22,70 +22,35 @@ export default function useAuth() {
       password: ''
     }
   })
-  const [loginMutation, { isLoading: isLoadingLogin, isError: isLoginError, error: loginError }] = useLoginMutation();
-  const [getMeMutation, { data: me, isLoading: isLoadingGetMe, isError: isGetMeError, error: loginGetMe }] = useGetMeMutation();
-  // useEffect(() => {
-  //   const savedToken = Cookies.get('mock_auth_token') || null;
-  //   const savedUserJson = localStorage.getItem('auth_user');
-  //   if (savedToken && savedUserJson) {
-  //     setToken(savedToken);
-  //     setUser(JSON.parse(savedUserJson));
-  //   }
-  // }, []);
+  const getMe = useCallback(async () => {
+    try {
+      const response = await getMeMutation(null).unwrap();
+      console.log('useAuth-getMe response', response);
+      return convertKeysToCamelCase(response) as UserType;
+    } catch (error: any) {
+      console.log('useAuth-getMe failed', error);
+      if (error.status === 401) {
+        // try refresh token
+      }
+    }
+  }, [getMeMutation]);
 
-  // const login = useCallback(
-  //   async (user_data: string) => {
-  //     try {
-  //       const result = await loginMutation({ user_data }).unwrap();
-  //       const formatResult = convertKeysToCamelCase(result)
-  //       setUser(formatResult.user);
-  //       setToken(user_data);
-  //       Cookies.set('mock_auth_token', user_data, { expires: 1 });
-  //       localStorage.setItem('auth_user', JSON.stringify(formatResult.user));
-
-  //       return { success: true, error: null };
-  //     } catch (err) {
-  //       console.error('Login failed', err);
-  //       return { success: false, error: err };
-  //     }
-  //   },
-  //   [loginMutation]
-  // );
-  // useEffect(() => {
-  //   const fetchMe = async () => {
-  //     try {
-  //       const response = await getMeMutation(null).unwrap();
-  //       const formatResponse = convertKeysToCamelCase(response);
-  //       console.log('useAuth-getMe', formatResponse);
-  //       // setUser(formatResponse.user);
-  //     } catch (error) {
-  //       console.error('useAuth-getMe failed', error);
-  //     }
-  //   };
-  //   fetchMe();
-  // }, [getMeMutation]);
-
-  // useEffect(() => {
-  //   switch (me?.role?.id) {
-  //     case 1:
-  //       // Admin role
-  //       break;
-  //     case 2:
-  //       // User role
-  //       break;
-  //     default:
-  //       // Unknown role
-  //   }
-  // }, [me?.role?.id]);
-
-
-  // const login = async (value: z.infer<typeof LoginSchemas>) => {
-  //   try {
-  //     const response = await loginMutation(value).unwrap();
-  //     console.log("response", response);
-  //     break;
-  //   }
-  // }, [me?.role?.id]);
+  const login = async (value: z.infer<typeof LoginSchemas>) => {
+    try {
+      await loginMutation(value).unwrap();
+      await getMe();
+    } catch (error) {
+      console.log('useAuth-Login failed', error);
+    }
+  };
+  const logout = useCallback(() => {
+    throw new Error('Logout functionality is not implemented yet');
+    // post /logout endpoint
+    // set user null
+    // clear
+  }, []);
+  // 
+  // 
 
   useEffect(() => {
     if (me) {
@@ -102,24 +67,12 @@ export default function useAuth() {
     }
   }, [me?.role?.id]);
   useEffect(() => {
-    getMeMutation(null).unwrap();
-  }, [getMeMutation]);
-  const login = async (value: z.infer<typeof LoginSchemas>) => {
     try {
-      const response = await loginMutation(value).unwrap();
-      console.log("response", response);
-      await getMeMutation(null).unwrap();
+      getMe()
     } catch (error) {
-      console.log('useAuth-Login failed', error);
-      // console.error('useAuth-Login failed', error);
+      console.log('&&&&& useAuth-getMe failed', error);
     }
-  };
-  const logout = useCallback(() => {
-    throw new Error('Logout functionality is not implemented yet');
-    // post /logout endpoint
-    // set user null
-    // clear
-  }, []);
+  }, [getMeMutation]);
   return {
     login: {
       login,

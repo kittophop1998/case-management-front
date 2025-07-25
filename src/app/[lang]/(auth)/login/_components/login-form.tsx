@@ -19,43 +19,6 @@ import { FormError } from '@/components/common/form-error'
 import useAuth from '@/hooks/use-auth'
 
 export const LoginForm = () => {
-  // const router = useRouter()
-  // const [error, setError] = useState<string | undefined>('')
-  // const [isPending, startTransition] = useTransition()
-  // const form = useForm<z.infer<typeof LoginSchemas>>({
-  //   resolver: zodResolver(LoginSchemas),
-  //   defaultValues: {
-  //     username: '',
-  //     password: ''
-  //   }
-  // })
-  // const onSubmit = async (value: z.infer<typeof LoginSchemas>) => {
-  //   setError('')
-  //   startTransition(async () => {
-  //     try {
-  //       const res = await loginUser({
-  //         username: value.username,
-  //         password: value.password
-  //       })
-  //       if (!res) {
-  //         throw new Error('Invalid response from server')
-  //       }
-  //       if (res.error) {
-  //         throw new Error(res.error)
-  //       }
-  //       if (res.accessToken && res.refreshToken) {
-  //         // setAccessToken(res.accessToken)
-  //         // setRefreshToken(res.refreshToken)
-  //         router.push('/customer-dashboard')
-  //       }
-  //       // Optionally, you can redirect or perform other actions here
-  //     } catch (error: unknown) {
-  //       if (error instanceof Error) {
-  //         setError(error.message)
-  //       }
-  //     }
-  //   })
-  // }
   const { login: {
     login: onSubmit,
     isLoadingLogin: isPending,
