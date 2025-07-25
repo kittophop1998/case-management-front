@@ -72,7 +72,12 @@ import { fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 //   // }
 // })
 export const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:8000/api/v1'
+  baseUrl: 'http://localhost:8000/api/v1',
+  timeout: 5000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  credentials: "include"
 })
 // export const baseQuery = async (args: any, api: any, extraOptions: any) => {
 //   let result = await base(args, api, extraOptions)
