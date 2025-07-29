@@ -6,7 +6,7 @@ import { Popover, PopoverContent } from '@/components/ui/popover'
 import { PopoverTrigger } from '@radix-ui/react-popover'
 import { Type } from 'react-feather'
 import { useRouter } from 'next/navigation'
-import { useGetMeQuery } from '@/features/auth/authApiSlice'
+import { useGetMeQuery, useLogoutMutation } from '@/features/auth/authApiSlice'
 import { UserProfileType } from '@/types/user.type'
 
 interface UserAvatarProps {
@@ -26,21 +26,22 @@ const UserAvatar = ({ userUrl, username }: UserAvatarProps) => {
 }
 
 const PopupUserUI = ({ user }: { user: UserProfileType }) => {
+  const [logoutMutation, { isLoading: isLoadingLogout, isError: isLogoutError, error: logoutError }] = useLogoutMutation();
+
   const router = useRouter()
-  // const username = 'Phaphum Pattana'
-  // const userEmail = 'phaphump@aeon.co.th'
-  // const userUrl = 'https://github.com/shadcn.psng'
-  // const userRole = 'Supervisor'
-  // const userCenter = 'BKK'
   const username = user.name ?? 'Unknown User'
   const userEmail = user.email ?? 'Unknown Email'
   const userUrl = ''
   const userRole = user.role?.name ?? 'Unknown Role'
   const userCenter = user.center?.name ?? 'Unknown Center'
 
-  const handleLogout = () => {
-    // Implement logout logic here
-    router.push('/login')
+  const handleLogout = async () => {
+    try {
+      await logoutMutation().unwrap()
+      router.push('/login')
+    } catch (error) {
+      console.error('Logout failed', error)
+    }
   }
   return (
     <div>
@@ -61,7 +62,7 @@ const PopupUserUI = ({ user }: { user: UserProfileType }) => {
           Reset Password
         </Button> */}
         <div></div>
-        <Button variant='outline' onClick={handleLogout}>
+        <Button variant='outline' onClick={handleLogout} disabled={isLoadingLogout}>
           Logout
         </Button>
       </div>
