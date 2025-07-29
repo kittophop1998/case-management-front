@@ -25,7 +25,7 @@ export const UserSchema = z.object({
 })
 
 export const CreateEditUserSchema = z.object({
-  "id": z.string().min(1, 'Agent ID is required').regex(/^\d+$/, 'Agent ID must contain only numbers'),,
+  "id": z.string().min(1, 'Agent ID is required').regex(/^\d+$/, 'Agent ID must contain only numbers'),
   "userName": z.string().min(1, 'Agent Name is required'),
   "email": z.string().min(1, 'Domain Name is required').email('Invalid email format'),
   "team": z.string().min(1, 'Team is required'),
