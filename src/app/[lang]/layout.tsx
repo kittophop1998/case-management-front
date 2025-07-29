@@ -1,6 +1,7 @@
 import { Kanit } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import { StoreProvider } from '@/store/provider'
+import { InitializersData } from './_components/initializers-data'
 const kanit = Kanit({
   weight: '400',
   subsets: ['latin']
@@ -25,8 +26,8 @@ export default async function RootLayout({
           lang === 'th' ? kanit.className : kanit.className
         )}
       >
-
         <StoreProvider>
+          <InitializersData />
           {/* <DndProviderCpn> */}
           {/* <InitializersData user={user} accessToken={accessToken} /> */}
           {children}

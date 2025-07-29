@@ -20,7 +20,7 @@ interface DialogDetailsProps {
 }
 const emptyUser: z.infer<typeof CreateEditUserSchema> = {
   "id": "",// Agent ID
-  "userName": "",// Agent Name
+  "username": "",// Agent Name
   "email": "",// Domain Name
   "team": "",// Team
   "operatorId": "",// Operator ID
@@ -71,7 +71,20 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
           setMode('edit')
           form.reset(emptyUser)
           const userDetails = await fetchUser(user.id).unwrap()
-          form.reset(userDetails)
+          console.log('Fetched user details:', userDetails)
+          const userAPI = userDetails.data
+          const updateForm = {
+            id: userAPI.id,
+            username: userAPI.username,
+            email: userAPI.email,
+            team: userAPI.team,
+            operatorId: userAPI.operatorId,
+            centerId: userAPI.center.id,
+            roleId: userAPI.role.id, // Assuming role is an object with an id
+            isActive: userAPI.isActive
+          }
+          console.log('updateForm :', updateForm)
+          form.reset(updateForm)
         } else {
           setMode('create')
           form.reset(emptyUser)

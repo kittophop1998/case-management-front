@@ -62,7 +62,7 @@ export const usersApiSlice = createApi({
         }
       }
     }),
-    getUser: builder.mutation<ApiResponse<UserType>, number>({
+    getUser: builder.mutation<ApiResponse<{ data: UserType }>, number>({
       query: uID => ({
         url: `/users/${uID}`,
         method: 'GET'

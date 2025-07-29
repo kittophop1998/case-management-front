@@ -15,6 +15,7 @@ import ReportIcon from '@public/icons/Report.svg'
 import SettingIcon from '@public/icons/Setting.svg'
 import CustomerDashboardIcon from '@public/icons/Customer Dashboard.svg'
 import { AppSidebarHeader } from './app-sidebar-header'
+import { useGetMeMutation } from '@/features/auth/authApiSlice'
 
 // const data = {
 //   user: {
@@ -56,14 +57,19 @@ const navMain = [
 ]
 // }
 
-export function AppSidebar ({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: user } = useGetMeMutation(); // ไม่ fetch ใหม่ ถ้า argument เดิม
+
+
   return (
     <>
+
       <Sidebar collapsible='icon' {...props}>
         <SidebarHeader>
           {/* <div>-------------------s-</div>
           <SettingIcon className='size-20' />
           <div>--------------------</div> */}
+          {JSON.stringify(user)}
           <AppSidebarHeader />
         </SidebarHeader>
         <SidebarContent className='mt-6'>

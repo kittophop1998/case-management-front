@@ -38,12 +38,13 @@ export const FormUserDetails = ({
   // const onSubmitTest = async (value: z.infer<typeof CreateEditUserSchema>) => {
   //   console.log('Form submitted with values:', value)
   // }
-  const username = form.watch('userName')
+  const username = form.watch('username')
   return (
     <div>
       <Typography variant='body2' className='mb-4'>
         {mode === 'create' ? 'Agent Information' : username}
       </Typography>
+      {isLoadingForm ? 'Loading...' : ''}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
           <div
@@ -64,7 +65,7 @@ export const FormUserDetails = ({
                 <TextField
                   loading={isPendingSubmit || isLoadingForm}
                   form={form}
-                  name='userName'
+                  name='username'
                   label='Agent Name'
                   placeholder='Name'
                 />

@@ -2,7 +2,6 @@
 
 import { useEffect, useCallback } from 'react';
 import { useGetMeMutation, useLoginMutation } from '@/features/auth/authApiSlice';
-import { convertKeysToCamelCase } from '@/lib/utils/formatKeyUtils';
 import z from 'zod';
 import { LoginSchemas } from '@/schemas';
 import { useRouter } from 'next/navigation'
@@ -25,12 +24,9 @@ export default function useAuth() {
     try {
       const response = await getMeMutation(null).unwrap();
       return response
-      // console.log('useAuth-getMe response', response);
-      // return convertKeysToCamelCase(response) as UserType;
     } catch (error: any) {
       console.log('useAuth-getMe failed', error);
       if (error.status === 401) {
-        // try refresh token
       }
     }
   }, [getMeMutation]);
@@ -39,7 +35,6 @@ export default function useAuth() {
     try {
       await loginMutation(value).unwrap();
       // TODO: use login response to set Me
-      // 
       await getMe();
     } catch (error) {
       console.log('useAuth-Login failed', error);
@@ -68,13 +63,13 @@ export default function useAuth() {
       }
     }
   }, [me?.role?.name]);
-  useEffect(() => {
-    try {
-      getMe()
-    } catch (error) {
-      console.log('&&&&& useAuth-getMe failed', error);
-    }
-  }, [getMeMutation]);
+  // useEffect(() => {
+  //   try {
+  //     getMe()
+  //   } catch (error) {
+  //     console.log('&&&&& useAuth-getMe failed', error);
+  //   }
+  // }, [getMeMutation]);
   return {
     login: {
       login,
