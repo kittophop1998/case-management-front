@@ -14,9 +14,9 @@ export type DialogDetailsRef = {
   setDefaultUser: (user: UserType | null) => void
 }
 interface DialogDetailsProps {
-  open: boolean
-  userId: string | null
-  onClose: () => void
+  // open: boolean
+  // userId: string | null
+  // onClose: () => void
 }
 const emptyUser: z.infer<typeof CreateEditUserSchema> = {
   "id": "",// Agent ID
@@ -31,10 +31,13 @@ const emptyUser: z.infer<typeof CreateEditUserSchema> = {
 
 export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
   ({
-    open = false,
-    userId = null,
-    onClose
+    // open = false,
+    // userId = null,
+    // onClose
   }, ref) => {
+    const [fetchUser, { isLoading: isLoadingForm, error: errorGet, isSuccess }] =
+      useGetUserMutation()
+    const [open, setOpen] = useState(false)
 
     const [mode, setMode] = useState<'create' | 'edit'>('create')
     const form = useForm<z.infer<typeof CreateEditUserSchema>>({
@@ -42,58 +45,59 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
     })
 
     // Fetch user data if editing
-    const { data: userData, isLoading: isLoadingForm, error: errorGet } = useGetUserMutation(userId!, {
-      skip: !userId, // skip fetching if creating
-    })
+    // const { data: userData, isLoading: isLoadingForm, error: errorGet } = useGetUserMutation(userId!, {
+    //   skip: !userId, // skip fetching if creating
+    // })
     const [createUser, { error: errorCreate, isLoading: isLoadingCreate }] = useCreateUserMutation()
     const [editUser, { error: errorEdit, isLoading: isLoadingEdit }] = useEditUserMutation()
 
-    useEffect(() => {
-      if (userData) {
-        form.reset(userData)
-      } else {
-        form.reset(emptyUser)
-      }
-    }, [userData, form.reset])
+    // useEffect(() => {
+    //   if (userData) {
+    //     form.reset(userData)
+    //   } else {
+    //     form.reset(emptyUser)
+    //   }
+    // }, [userData, form.reset])
 
     const onSubmit = async (userData: z.infer<typeof CreateEditUserSchema>) => {
       try {
-        if (userId) {
-          await editUser({ id: userId, data: userData }).unwrap()
+        if (userData.id) {
+          await editUser({ id: userData.id, data: userData }).unwrap()
         } else {
           await createUser(userData).unwrap()
         }
-        onClose()
+        setOpen(false)
       } catch (err) {
         console.error('Error saving user:', err)
       }
     }
 
-    useEffect(() => {
-      if (userId) {
-        setMode('edit')
-      } else {
-        setMode('create')
-      }
-    }, [userId])
+    // useEffect(() => {
+    //   if (userId) {
+    //     setMode('edit')
+    //   } else {
+    //     setMode('create')
+    //   }
+    // }, [userId])
     // const [isLoadingForm, startLoadingForm] = useTransition()
 
 
-    // useImperativeHandle(ref, () => ({
-    //   setDefaultUser: async user => {
-    //     if (user) {
-    //       setMode('edit')
-    //       form.reset(emptyUser)
-    //       startLoadingForm(async () => {
-    //         const userDetails = await getUserDetails(user.id)
-    //         form.reset(userDetails)
-    //       })
-    //     } else {
-    //       setMode('create')
-    //       form.reset(emptyUser)
-    //     }
-    //   }
-    // }))
+    useImperativeHandle(ref, () => ({
+      setDefaultUser: async user => {
+        console.log('setDefaultUser called with user:', user)
+        if (user) {
+          setMode('edit')
+          form.reset(emptyUser)
+          const userDetails = await fetchUser(user.id).unwrap()
+          form.reset(userDetails)
+        } else {
+          setMode('create')
+          form.reset(emptyUser)
+        }
+        setOpen(true)
+
+      }
+    }))
     // const getUserDetails = async (
     //   uID: string
     // ): Promise<z.infer<typeof CreateEditUserSchema>> => {
@@ -121,7 +125,7 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
         <FormUserDetails
           isLoadingForm={isLoadingForm}
           mode={mode}
-          onClose={onClose}
+          onClose={() => setOpen(false)}
           form={form}
           onSubmit={onSubmit}
           isPendingSubmit={isLoadingCreate || isLoadingEdit}

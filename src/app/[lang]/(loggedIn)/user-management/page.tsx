@@ -20,7 +20,7 @@ import { getErrorMessageAPI } from '@/lib/utils/get-error-message-api'
 export default function UserManagementPage() {
   const dialogDetailsRef = useRef<DialogDetailsRef>(null)
   const [modalImportUser, setModalImportUser] = useState(false)
-  const [modalUserDetails, setModalUserDetails] = useState(false)
+  // const [modalUserDetails, setModalUserDetails] = useState(false)
   const {
     usersTable,
     isLoading,
@@ -50,12 +50,12 @@ export default function UserManagementPage() {
 
   const openDialogEditUser = (user: UserType) => {
     dialogDetailsRef.current?.setDefaultUser(user)
-    setModalUserDetails(true)
+    // setModalUserDetails(true)
   }
 
   const openDialogCreateUser = () => {
     dialogDetailsRef.current?.setDefaultUser(null)
-    setModalUserDetails(true)
+    // setModalUserDetails(true)
   }
   // return <div>UserManagementPage</div>
 
@@ -84,11 +84,11 @@ export default function UserManagementPage() {
           openDialogEditUser={openDialogEditUser}
         />
       </CardPageWrapper>
-      {/* <DialogDetails
+      <DialogDetails
         ref={dialogDetailsRef}
-        open={modalUserDetails}
-        onClose={() => setModalUserDetails(false)}
-      /> */}
+      // open={modalUserDetails}
+      // onClose={() => setModalUserDetails(false)}
+      />
       <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
       <FilterUsersModal
         setRole={setRole}
