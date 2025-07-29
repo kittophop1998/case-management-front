@@ -3,13 +3,16 @@ import { useGetMeMutation } from "@/features/auth/authApiSlice";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { useRouter } from 'next/navigation'
+import { useGetDropdownQuery } from "@/features/system/systemApiSlice";
 
 export const InitializersData = () => {
     const pathname = usePathname()
     const router = useRouter()
-    const [getMeMutation, { isLoading, isError, error }] = useGetMeMutation();
-
+    const [getMeMutation, { data, isLoading, isError, error }] = useGetMeMutation();
+    // const [getDropdown, { data: ddData }] = useGetDropdownQuery();
+    const { data: ddData, isLoading: isDDLoading } = useGetDropdownQuery()
     // TODO: data form ssr-props
+    // TODO: use this to check auth and logined user
     const getMe = async () => {
         try {
             const me = await getMeMutation(null).unwrap()
@@ -43,28 +46,12 @@ export const InitializersData = () => {
     }
     useEffect(() => {
         getMe();
+        // getDropdown(null);
     }, [getMeMutation]);
+
     // useEffect(() => {
-    //     console.log("['/eng/login', '/th/login'].includes(pathname)", ['/eng/login', '/th/login'].includes(pathname), me);
-    //     if (['/eng/login', '/th/login'].includes(pathname)) {
-    //         if (me) {
-    //             switch (me?.role?.name) {
-    //                 case 'Admin':
-    //                     router.push('/user-management');
-    //                     break;
-    //                 case 'User':
-    //                     router.push('/case-management');
-    //                     break;
-    //                 default:
-    //                     router.push('/login');
-    //             }
-    //         }
-    //     } else {
-    //         if (!me) {
-    //             router.push('/login');
-    //         }
-    //     }
-    // }, [me?.role?.name]);
+    //     console.log('ddData', ddData);
+    // }, [ddData]);
+    // return <div>11111{JSON.stringify(data)}2222</div>
     return null;
-    // TODO: use this to check auth and logined user
 }
