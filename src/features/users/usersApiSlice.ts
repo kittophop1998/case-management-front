@@ -95,7 +95,7 @@ export const usersApiSlice = createApi({
           agentId: Number(user.agentId),
           operatorId: Number(user.operatorId)
         }
-        console.log('createUser body:', body)
+        delete body.id // Ensure id is not sent in the request
         // }
         return ({
           url: '/users',

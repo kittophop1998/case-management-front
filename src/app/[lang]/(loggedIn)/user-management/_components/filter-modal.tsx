@@ -19,6 +19,8 @@ interface FilterModalProps {
   team: string | null
   center: number | null
   isPending?: boolean // Optional prop to indicate loading state
+  isOpen: boolean
+  setIsOpen: (isOpen: boolean) => void
 }
 export const FilterUsersModal = ({
   setStatus,
@@ -29,9 +31,10 @@ export const FilterUsersModal = ({
   role,
   team,
   center,
-  isPending = false
+  isPending = false,
+  isOpen,
+  setIsOpen
 }: FilterModalProps) => {
-  const [isOpen, setIsOpen] = useState(false)
   const onSubmit = (value: z.infer<typeof FilterUsersDialogSchemas>) => {
     console.log('Filter values:', value)
     setStatus(value.status)
