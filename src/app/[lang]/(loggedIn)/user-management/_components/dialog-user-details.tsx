@@ -44,17 +44,24 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
     const [createUser, { error: errorCreate, isLoading: isLoadingCreate }] = useCreateUserMutation()
     const [editUser, { error: errorEdit, isLoading: isLoadingEdit }] = useEditUserMutation()
     const onSubmit = async (userData: z.infer<typeof CreateEditUserSchema>) => {
-      console.log('Form submitted with values:', userData)
-      // try {
-      //   if (userData.id) {
-      //     await editUser({ id: userData.id, data: userData }).unwrap()
-      //   } else {
-      //     await createUser(userData).unwrap()
-      //   }
-      //   setOpen(false)
-      // } catch (err) {
-      //   console.error('Error saving user:', err)
-      // }
+      // console.log('Form submitted with values:', userData)
+      try {
+        // if (mode === 'edit') {
+        // } else {
+        // }
+        switch (mode) {
+          case 'edit':
+            await editUser({ id: userData.id, data: userData }).unwrap()
+          case 'create':
+            await createUser(userData).unwrap()
+            break;
+          default:
+            throw new Error('Invalid mode')
+        }
+        setOpen(false)
+      } catch (err) {
+        console.error('Error saving user:', err)
+      }
     }
 
     useImperativeHandle(ref, () => ({
