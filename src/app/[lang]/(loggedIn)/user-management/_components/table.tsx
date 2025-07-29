@@ -76,7 +76,11 @@ export function TableUserManagement({
     {
       accessorKey: 'team',
       header: ({ column }) => <SortableHeader column={column} label='Team' />,
-      cell: ({ row }) => <div className='lowercase'>{row.getValue('team')}</div>
+      // cell: ({ row }) => <div className='lowercase'>{row.getValue('team')}</div>
+      cell: ({ row }) => {
+        const team = row.getValue('team') as JsonJoinDetails
+        return <div className='lowercase'>{team?.name}</div>;
+      }
     },
     {
       accessorKey: 'center',
@@ -131,6 +135,19 @@ export function TableUserManagement({
     }
   })
   // return <div>111111</div>
+  // return (
+  //   <div>
+  //     <div>
+  //       isLoading: {isLoading ? 'true' : 'false'}
+  //     </div>
+  //     <div>table:{JSON.stringify(table)}</div>
+  //     <div>limit:{usersTable.limit}</div>
+  //     <div>total:{usersTable.total}</div>
+  //     <div>totalPages:{usersTable.totalPages}</div>
+  //     <div>usersTable:{JSON.stringify(usersTable)}</div>
+
+  //   </div>
+  // )
   return (
     <>
       {/* sorting:{JSON.stringify(usersTable.data)} */}

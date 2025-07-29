@@ -85,7 +85,7 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
             id: userAPI.id,
             username: userAPI.username,
             email: userAPI.email,
-            team: userAPI.team,
+            team: userAPI.team.id,
             agentId: `${userAPI.agentId}`,
             operatorId: `${userAPI.operatorId}`,
             centerId: userAPI.center.id,
