@@ -127,7 +127,7 @@ export const FormUserDetails = ({
                 items={statuses}
                 name='isActive'
                 label='Status'
-                className='flex '
+                className='flex'
                 valueName='id'
                 labelName='name'
               />

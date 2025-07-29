@@ -6,9 +6,9 @@ export const LoginSchemas = z.object({
 })
 
 export const FilterUsersDialogSchemas = z.object({
-  role: z.number().nullable(),
+  role: z.string().nullable(),
   team: z.string().nullable(),
-  center: z.number().nullable(),
+  center: z.string().nullable(),
   status: z.boolean().nullable()
 })
 

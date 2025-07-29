@@ -3,21 +3,23 @@ import { SelectField } from '@/components/common/form/select-field'
 import { Modal } from '@/components/common/Modal'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
+import { statuses } from '@/const/mockup'
+import { useGetDropdownQuery } from '@/features/system/systemApiSlice'
 import { FilterUsersDialogSchemas } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
 interface FilterModalProps {
   setStatus: (status: boolean | null) => void
-  setRole: (role: number | null) => void
+  setRole: (role: string | null) => void
   setTeam: (team: string | null) => void
-  setCenter: (center: number | null) => void
+  setCenter: (center: string | null) => void
   status: boolean | null
-  role: number | null
+  role: string | null
   team: string | null
-  center: number | null
+  center: string | null
   isPending?: boolean // Optional prop to indicate loading state
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
@@ -43,6 +45,8 @@ export const FilterUsersModal = ({
     setCenter(value.center)
     setIsOpen(false)
   }
+  const { data: dataDropdown, isLoading: isLoadingDropdown } = useGetDropdownQuery()
+
   const form = useForm<z.infer<typeof FilterUsersDialogSchemas>>({
     resolver: zodResolver(FilterUsersDialogSchemas),
     defaultValues: {
@@ -52,6 +56,10 @@ export const FilterUsersModal = ({
       status: status
     }
   })
+  useEffect(() => {
+    console.log('Filter errors:', form.formState.errors)
+    console.log('Filter values:', form.getValues())
+  }, [form.formState.errors])
   return (
     <Modal isOpen={isOpen} title='Filter' className='max-w-sm'>
       <Form {...form}>
@@ -59,10 +67,11 @@ export const FilterUsersModal = ({
           <RadioField
             loading={isPending}
             form={form}
-            items={[
-              { value: true, label: 'Active' },
-              { value: false, label: 'Inactive' }
-            ]}
+
+            items={statuses}
+            valueName='id'
+            labelName='name'
+
             name='status'
             label='Status'
             className='flex '
@@ -73,12 +82,9 @@ export const FilterUsersModal = ({
             name='role'
             label='Role'
             placeholder='All'
-            items={[
-              { value: 1, label: 'Admin' },
-              { value: 2, label: 'User' }
-            ]}
-            valueName='value'
-            labelName='label'
+            items={dataDropdown?.data.roles || []}
+            valueName='id'
+            labelName='name'
           />
           <SelectField
             loading={isPending}
@@ -86,12 +92,9 @@ export const FilterUsersModal = ({
             name='team'
             label='Team'
             placeholder='All'
-            items={[
-              { value: 'team1', label: 'Team 1' },
-              { value: 'team2', label: 'Team 2' }
-            ]}
-            valueName='value'
-            labelName='label'
+            items={dataDropdown?.data.teams || []}
+            valueName='id'
+            labelName='name'
           />
           <SelectField
             loading={isPending}
@@ -99,12 +102,9 @@ export const FilterUsersModal = ({
             name='center'
             label='Center'
             placeholder='All'
-            items={[
-              { value: 1, label: 'Center 1' },
-              { value: 2, label: 'Center 2' }
-            ]}
-            valueName='value'
-            labelName='label'
+            items={dataDropdown?.data.centers || []}
+            valueName='id'
+            labelName='name'
           />
           <Button className='w-full'>Filter</Button>
         </form>

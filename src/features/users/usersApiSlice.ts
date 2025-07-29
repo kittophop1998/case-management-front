@@ -8,9 +8,9 @@ export interface GetUsersRequest {
   page: number
   limit: number
   status: boolean | null
-  role: number | null
+  role: string | null
   team: string | null
-  center: number | null
+  center: string | null
   sort: string | null
   order: 'asc' | 'desc' | null
   searchText: string
