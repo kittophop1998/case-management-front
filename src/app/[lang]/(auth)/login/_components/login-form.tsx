@@ -17,6 +17,9 @@ import { PasswordField } from '@/components/common/form/password-field'
 import { Typography } from '@/components/common/typography'
 import { FormError } from '@/components/common/form-error'
 import useAuth from '@/hooks/use-auth'
+import { SerializedError } from '@reduxjs/toolkit'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import { getErrorMessageAPI } from '@/lib/utils/get-error-message-api'
 
 export const LoginForm = () => {
   const { login: {
@@ -26,6 +29,10 @@ export const LoginForm = () => {
     isLoginError: isError,
     loginError: error
   } } = useAuth()
+  // function getErrorMessageAP(error: FetchBaseQueryError | SerializedError | undefined): string | undefined {
+  //   throw new Error('Function not implemented.')
+  // }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
@@ -49,7 +56,7 @@ export const LoginForm = () => {
         </div>
         <div className='h-[3rem]'>
           {isError ? (
-            <FormError message={error.data.message} />
+            <FormError message={getErrorMessageAPI(error)} />
           ) : (
             <Typography variant='caption' className='text-center p-3'>
               Enter your domain and password to log in”
