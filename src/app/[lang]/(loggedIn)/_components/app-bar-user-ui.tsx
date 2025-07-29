@@ -6,6 +6,8 @@ import { Popover, PopoverContent } from '@/components/ui/popover'
 import { PopoverTrigger } from '@radix-ui/react-popover'
 import { Type } from 'react-feather'
 import { useRouter } from 'next/navigation'
+import { useGetMeQuery } from '@/features/auth/authApiSlice'
+import { UserProfileType } from '@/types/user.type'
 
 interface UserAvatarProps {
   userUrl: string
@@ -23,13 +25,19 @@ const UserAvatar = ({ userUrl, username }: UserAvatarProps) => {
   )
 }
 
-const PopupUserUI = () => {
+const PopupUserUI = ({ user }: { user: UserProfileType }) => {
   const router = useRouter()
-  const username = 'Phaphum Pattana'
-  const userEmail = 'phaphump@aeon.co.th'
-  const userUrl = 'https://github.com/shadcn.psng'
-  const userRole = 'Supervisor'
-  const userCenter = 'BKK'
+  // const username = 'Phaphum Pattana'
+  // const userEmail = 'phaphump@aeon.co.th'
+  // const userUrl = 'https://github.com/shadcn.psng'
+  // const userRole = 'Supervisor'
+  // const userCenter = 'BKK'
+  const username = user.name ?? 'Unknown User'
+  const userEmail = user.email ?? 'Unknown Email'
+  const userUrl = ''
+  const userRole = user.role?.name ?? 'Unknown Role'
+  const userCenter = user.center?.name ?? 'Unknown Center'
+
   const handleLogout = () => {
     // Implement logout logic here
     router.push('/login')
@@ -49,9 +57,10 @@ const PopupUserUI = () => {
         </Typography>
       </div>
       <div className='flex justify-between'>
-        <Button variant='link' className='px-0'>
+        {/* <Button variant='link' className='px-0'>
           Reset Password
-        </Button>
+        </Button> */}
+        <div></div>
         <Button variant='outline' onClick={handleLogout}>
           Logout
         </Button>
@@ -61,7 +70,10 @@ const PopupUserUI = () => {
 }
 
 export const AppbarUserUI = () => {
-  const username = 'Phaphum Pattana'
+  const { data: me, isLoading: isLoadingGetMe, refetch: refetchMe, isError: isGetMeError } = useGetMeQuery()
+  if (!me) return null
+  // const me: UserProfileType = data
+  const username = me?.name ?? 'Unknown User'
   //   return <PopupUserUI />
   return (
     <Popover>
@@ -79,7 +91,7 @@ export const AppbarUserUI = () => {
         </div>
       </PopoverTrigger>
       <PopoverContent className='w-[23rem] mx-2'>
-        <PopupUserUI />
+        <PopupUserUI user={me} />
       </PopoverContent>
     </Popover>
   )
