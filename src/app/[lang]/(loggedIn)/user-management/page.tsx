@@ -25,7 +25,7 @@ export default function UserManagementPage() {
     isError,
     error,
     isSuccess,
-    getUsers,
+    getUsers, triggerFetch,
     state: { page, limit, status, role, team, center, sort, order, searchText },
     setSate: {
       setPage,
@@ -82,6 +82,7 @@ export default function UserManagementPage() {
       </CardPageWrapper>
       <DialogDetails
         ref={dialogDetailsRef}
+        getUsers={triggerFetch}
       />
       <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
       <FilterUsersModal

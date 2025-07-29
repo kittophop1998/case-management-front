@@ -62,7 +62,7 @@ export const FormUserDetails = ({
                 <TextField
                   loading={isPendingSubmit || isLoadingForm}
                   form={form}
-                  name='id'
+                  name='agentId'
                   label='Agent ID'
                   placeholder='Agent ID'
                 />
@@ -103,7 +103,7 @@ export const FormUserDetails = ({
               loading={isPendingSubmit || isLoadingForm}
               form={form}
               items={dataDropdown?.data?.teams || []}
-              name='teamId'
+              name='team'
               label='Team'
               placeholder='Select'
               valueName='id'

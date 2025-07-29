@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { UsersTable, UserType } from '@/types/user.type'
 import { baseQuery } from '@/services/api'
 import { ApiResponse, ApiResponseSuccess } from '@/types/api.type'
+import { number } from 'zod'
 
 export interface GetUsersRequest {
   page: number
@@ -68,19 +69,40 @@ export const usersApiSlice = createApi({
         method: 'GET'
       })
     }),
-    editUser: builder.mutation<ApiResponseSuccess, UserType>({
-      query: user => ({
-        url: `/users/${user.id}`,
-        method: 'PUT',
-        body: user
-      })
+    editUser: builder.mutation<ApiResponseSuccess, { id: string, data: any }>({
+      query: ({ id, data }) => {
+        console.log('editUser form:', data)
+        let body = {
+          "name": data.username,
+          "roleId": data.roleId,
+          "centerId": data.centerId,
+          "team": data.team,
+          "isActive": data.isActive
+        }
+        console.log('editUser body:', body)
+
+        return ({
+          url: `/users/${id}`,
+          method: 'PUT',
+          body
+        })
+      }
     }),
-    createUser: builder.mutation<ApiResponseSuccess, UserType>({
-      query: user => ({
-        url: '/users',
-        method: 'POST',
-        body: user
-      })
+    createUser: builder.mutation<ApiResponseSuccess, any>({
+      query: user => {
+        let body = {
+          ...user,
+          agentId: Number(user.agentId),
+          operatorId: Number(user.operatorId)
+        }
+        console.log('createUser body:', body)
+        // }
+        return ({
+          url: '/users',
+          method: 'POST',
+          body
+        })
+      }
     })
   })
 })
