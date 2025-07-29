@@ -33,13 +33,6 @@ export const FormUserDetails = ({
   isPendingSubmit = false,
   error = undefined
 }: FormUserDetailsProps) => {
-  // const [error, setError] = useState<string | undefined>('')
-  // const [isPending, startTransition] = useTransition()
-
-  // const onSubmitTest = async (value: z.infer<typeof CreateEditUserSchema>) => {
-  //   console.log('Form submitted with values:', value)
-  // }
-
   const username = form.watch('username')
   const { data: dataDropdown, isLoading: isLoadingDropdown } = useGetDropdownQuery()
 
@@ -103,7 +96,7 @@ export const FormUserDetails = ({
               loading={isPendingSubmit || isLoadingForm}
               form={form}
               items={dataDropdown?.data?.teams || []}
-              name='team'
+              name='teamId'
               label='Team'
               placeholder='Select'
               valueName='id'

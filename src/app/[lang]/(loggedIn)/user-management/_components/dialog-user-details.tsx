@@ -22,7 +22,7 @@ const emptyUser: z.infer<typeof CreateEditUserSchema> = {
   "id": "",// Agent ID
   "username": "",// Agent Name
   "email": "",// Domain Name
-  "team": "",// Team
+  "teamId": "",// Team
   "operatorId": '',// Operator ID
   "agentId": "",// Agent ID
   "centerId": "",// Center
@@ -85,7 +85,7 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
             id: userAPI.id,
             username: userAPI.username,
             email: userAPI.email,
-            team: userAPI.team.id,
+            teamId: userAPI.team.id,
             agentId: `${userAPI.agentId}`,
             operatorId: `${userAPI.operatorId}`,
             centerId: userAPI.center.id,

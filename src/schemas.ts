@@ -28,7 +28,7 @@ export const CreateEditUserSchema = z.object({
   "id": z.string().nullable(),
   "username": z.string().min(1, 'Agent Name is required'),
   "email": z.string().min(1, 'Domain Name is required').email('Invalid email format'),
-  "team": z.string().min(1, 'Team is required'),
+  "teamId": z.string().min(1, 'Team is required'),
   "centerId": z.string().min(1, 'Center is required'),
   "roleId": z.string().min(1, 'Role is required'),
   "isActive": z.boolean('Status is required'),

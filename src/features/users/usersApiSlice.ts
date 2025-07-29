@@ -76,7 +76,7 @@ export const usersApiSlice = createApi({
           "name": data.username,
           "roleId": data.roleId,
           "centerId": data.centerId,
-          "team": data.team,
+          "teamId": data.teamId,
           "isActive": data.isActive
         }
         console.log('editUser body:', body)
