@@ -5,11 +5,11 @@ const kanit = Kanit({
   weight: '400',
   subsets: ['latin']
 })
-export async function generateStaticParams () {
+export async function generateStaticParams() {
   return [{ lang: 'en' }, { lang: 'th' }]
 }
 
-export default async function RootLayout ({
+export default async function RootLayout({
   children,
   params
 }: Readonly<{
@@ -25,6 +25,7 @@ export default async function RootLayout ({
           lang === 'th' ? kanit.className : kanit.className
         )}
       >
+
         <StoreProvider>
           {/* <DndProviderCpn> */}
           {/* <InitializersData user={user} accessToken={accessToken} /> */}

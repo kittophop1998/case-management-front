@@ -6,45 +6,53 @@ import { SelectField } from '@/components/common/form/select-field'
 import { TextField } from '@/components/common/form/text-field'
 import { Typography } from '@/components/common/typography'
 import { Button } from '@/components/ui/button'
-import { Form, FormField } from '@/components/ui/form'
+import { Form } from '@/components/ui/form'
+import { centers, roles, statuses, teams } from '@/const/mockup'
 import { cn } from '@/lib/utils'
-import { UserSchemas } from '@/schemas'
+import { CreateEditUserSchema } from '@/schemas'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
+
 interface FormUserDetailsProps {
-  form: ReturnType<typeof useForm<z.infer<typeof UserSchemas>>>
+  form: ReturnType<typeof useForm<z.infer<typeof CreateEditUserSchema>>>
   mode: 'create' | 'edit'
   onClose: () => void
   isLoadingForm: boolean
+  onSubmit: (value: z.infer<typeof CreateEditUserSchema>) => void
+  isPendingSubmit?: boolean
+  error?: string
 }
 export const FormUserDetails = ({
   form,
   mode,
   onClose,
-  isLoadingForm
+  isLoadingForm,
+  onSubmit,
+  isPendingSubmit = false,
+  error = undefined
 }: FormUserDetailsProps) => {
-  const [error, setError] = useState<string | undefined>('')
-  const [isPending, startTransition] = useTransition()
+  // const [error, setError] = useState<string | undefined>('')
+  // const [isPending, startTransition] = useTransition()
 
-  const onSubmit = async (value: z.infer<typeof UserSchemas>) => {
-    console.log('Form submitted with values:', value)
-    setError('')
-    startTransition(async () => {
-      try {
-        console.log('Form submitted with values:', value)
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          setError(error.message)
-        }
-      }
-    })
-  }
-  const userName = form.watch('name')
+  // const onSubmit = async (value: z.infer<typeof CreateEditUserSchema>) => {
+  //   console.log('Form submitted with values:', value)
+  //   setError('')
+  //   startTransition(async () => {
+  //     try {
+  //       console.log('Form submitted with values:', value)
+  //     } catch (error: unknown) {
+  //       if (error instanceof Error) {
+  //         setError(error.message)
+  //       }
+  //     }
+  //   })
+  // }
+  const username = form.watch('userName')
   return (
     <div>
       <Typography variant='body2' className='mb-4'>
-        {mode === 'create' ? 'Agent Information' : userName}
+        {mode === 'create' ? 'Agent Information' : username}
       </Typography>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
@@ -57,28 +65,28 @@ export const FormUserDetails = ({
             {mode === 'create' && (
               <>
                 <TextField
-                  loading={isPending || isLoadingForm}
+                  loading={isPendingSubmit || isLoadingForm}
                   form={form}
-                  name='agentID'
+                  name='id'
                   label='Agent ID'
                   placeholder='Agent ID'
                 />
                 <TextField
-                  loading={isPending || isLoadingForm}
+                  loading={isPendingSubmit || isLoadingForm}
                   form={form}
                   name='name'
                   label='Agent Name'
                   placeholder='Name'
                 />
                 <TextField
-                  loading={isPending || isLoadingForm}
+                  loading={isPendingSubmit || isLoadingForm}
                   form={form}
                   name='domainName'
                   label='Domain Name'
                   placeholder='Domain Name'
                 />
                 <TextField
-                  loading={isPending || isLoadingForm}
+                  loading={isPendingSubmit || isLoadingForm}
                   form={form}
                   name='operatorID'
                   label='Operator ID'
@@ -87,37 +95,25 @@ export const FormUserDetails = ({
               </>
             )}
             <SelectField
-              loading={isPending || isLoadingForm}
+              loading={isPendingSubmit || isLoadingForm}
               form={form}
-              items={[
-                { value: 'Admin', label: 'Admin' },
-                { value: 'User', label: 'User' },
-                { value: 'Guest', label: 'Guest' }
-              ]}
+              items={roles}
               name='role'
               label='Role'
               placeholder='Select'
             />
             <SelectField
-              loading={isPending || isLoadingForm}
+              loading={isPendingSubmit || isLoadingForm}
               form={form}
-              items={[
-                { value: 'Team A', label: 'Team A' },
-                { value: 'Team B', label: 'Team B' },
-                { value: 'Team C', label: 'Team C' }
-              ]}
+              items={teams}
               name='team'
               label='Team'
               placeholder='Select'
             />
             <SelectField
-              loading={isPending || isLoadingForm}
+              loading={isPendingSubmit || isLoadingForm}
               form={form}
-              items={[
-                { value: 'BKK', label: 'BKK' },
-                { value: 'CNX', label: 'CNX' },
-                { value: 'HKT', label: 'HKT' }
-              ]}
+              items={centers}
               name='center'
               label='Center'
               placeholder='Select'
@@ -125,12 +121,9 @@ export const FormUserDetails = ({
             <div />
             <div className={cn(mode === 'create' ? '' : 'order-first')}>
               <RadioField
-                loading={isPending || isLoadingForm}
+                loading={isPendingSubmit || isLoadingForm}
                 form={form}
-                items={[
-                  { value: true, label: 'Active' },
-                  { value: false, label: 'Inactive' }
-                ]}
+                items={statuses}
                 name='status'
                 label='Status'
                 className='flex '
@@ -140,7 +133,7 @@ export const FormUserDetails = ({
           <FormError message={error} />
           <div className='flex justify-end gap-3'>
             <ButtonCancel onClick={onClose} />
-            <Button type='submit' disabled={isPending || isLoadingForm}>
+            <Button type='submit' disabled={isPendingSubmit || isLoadingForm}>
               {mode === 'create' ? 'Add' : 'Save'}
             </Button>
           </div>

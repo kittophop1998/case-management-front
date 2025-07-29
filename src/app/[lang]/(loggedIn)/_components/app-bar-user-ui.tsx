@@ -9,15 +9,15 @@ import { useRouter } from 'next/navigation'
 
 interface UserAvatarProps {
   userUrl: string
-  userName: string
+  username: string
 }
-const UserAvatar = ({ userUrl, userName }: UserAvatarProps) => {
+const UserAvatar = ({ userUrl, username }: UserAvatarProps) => {
   return (
     <Avatar className='h-[2.5rem] w-[2.5rem]'>
       <AvatarImage src={userUrl} />
       <AvatarFallback className='bg-primary/10'>
-        {userName?.[0] ?? ''}
-        {userName?.[1] ?? ''}
+        {username?.[0] ?? ''}
+        {username?.[1] ?? ''}
       </AvatarFallback>
     </Avatar>
   )
@@ -25,7 +25,7 @@ const UserAvatar = ({ userUrl, userName }: UserAvatarProps) => {
 
 const PopupUserUI = () => {
   const router = useRouter()
-  const userName = 'Phaphum Pattana'
+  const username = 'Phaphum Pattana'
   const userEmail = 'phaphump@aeon.co.th'
   const userUrl = 'https://github.com/shadcn.psng'
   const userRole = 'Supervisor'
@@ -38,9 +38,9 @@ const PopupUserUI = () => {
     <div>
       <Typography>Profile</Typography>
       <div className='flex gap-3 py-3'>
-        <UserAvatar userUrl={userUrl} userName={userName} />
+        <UserAvatar userUrl={userUrl} username={username} />
         <div>
-          <Typography>{userName}</Typography>
+          <Typography>{username}</Typography>
           <Typography variant='caption'>{userEmail}</Typography>
         </div>
         <div className='flex-1'></div>
@@ -61,7 +61,7 @@ const PopupUserUI = () => {
 }
 
 export const AppbarUserUI = () => {
-  const userName = 'Phaphum Pattana'
+  const username = 'Phaphum Pattana'
   //   return <PopupUserUI />
   return (
     <Popover>
@@ -71,11 +71,11 @@ export const AppbarUserUI = () => {
           <Avatar className='h-[2.5rem] w-[2.5rem]'>
             <AvatarImage src='https://github.com/shadcn.psng' />
             <AvatarFallback className='bg-primary/10'>
-              {userName?.[0] ?? ''}
-              {userName?.[1] ?? ''}
+              {username?.[0] ?? ''}
+              {username?.[1] ?? ''}
             </AvatarFallback>
           </Avatar>
-          <Typography>{userName}</Typography>
+          <Typography>{username}</Typography>
         </div>
       </PopoverTrigger>
       <PopoverContent className='w-[23rem] mx-2'>

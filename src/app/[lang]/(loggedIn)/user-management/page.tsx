@@ -15,8 +15,9 @@ import { useEffect, useRef, useState } from 'react'
 import { ExcelUploadDialog } from './_components/upload-excel-test/excel-upload-dialog'
 import { useUsers } from '@/hooks/user/useUsers'
 import { FilterUsersModal } from './_components/filter-modal'
+import { getErrorMessageAPI } from '@/lib/utils/get-error-message-api'
 
-export default function UserManagementPage () {
+export default function UserManagementPage() {
   const dialogDetailsRef = useRef<DialogDetailsRef>(null)
   const [modalImportUser, setModalImportUser] = useState(false)
   const [modalUserDetails, setModalUserDetails] = useState(false)
@@ -41,8 +42,11 @@ export default function UserManagementPage () {
     }
   } = useUsers()
 
+  // return <div>UserManagementPage</div>
+
+
   if (isError) {
-    return <div>{error.data.message}</div>
+    return <div>{getErrorMessageAPI(error.data.message)}</div>
   }
 
   const openDialogEditUser = (user: UserType) => {
@@ -64,7 +68,6 @@ export default function UserManagementPage () {
         />
       </div>
       <CardPageWrapper>
-        {/* <div>usersTable:{JSON.stringify(usersTable)}</div> */}
         <div className='flex gap-3 mb-3'>
           <Typography variant='h3' as='p'>
             User Lists
@@ -86,10 +89,6 @@ export default function UserManagementPage () {
         open={modalUserDetails}
         onClose={() => setModalUserDetails(false)}
       />
-      {/* <DialogImportUser
-        open={modalImportUser}
-        onClose={() => setModalImportUser(false)}
-      /> */}
       <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
       <FilterUsersModal
         setRole={setRole}

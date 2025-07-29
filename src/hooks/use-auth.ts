@@ -2,7 +2,6 @@
 
 import { useEffect, useCallback } from 'react';
 import { useGetMeMutation, useLoginMutation } from '@/features/auth/authApiSlice';
-import { UserType } from '@/types/user.type';
 import { convertKeysToCamelCase } from '@/lib/utils/formatKeyUtils';
 import z from 'zod';
 import { LoginSchemas } from '@/schemas';
@@ -25,8 +24,9 @@ export default function useAuth() {
   const getMe = useCallback(async () => {
     try {
       const response = await getMeMutation(null).unwrap();
-      console.log('useAuth-getMe response', response);
-      return convertKeysToCamelCase(response) as UserType;
+      return response
+      // console.log('useAuth-getMe response', response);
+      // return convertKeysToCamelCase(response) as UserType;
     } catch (error: any) {
       console.log('useAuth-getMe failed', error);
       if (error.status === 401) {
@@ -38,6 +38,8 @@ export default function useAuth() {
   const login = async (value: z.infer<typeof LoginSchemas>) => {
     try {
       await loginMutation(value).unwrap();
+      // TODO: use login response to set Me
+      // 
       await getMe();
     } catch (error) {
       console.log('useAuth-Login failed', error);
@@ -54,18 +56,18 @@ export default function useAuth() {
 
   useEffect(() => {
     if (me) {
-      switch (me?.role?.id) {
-        case 1:
+      switch (me?.role?.name) {
+        case 'Admin':
           router.push('/user-management');
           break;
-        case 2:
+        case 'User':
           router.push('/case-management');
           break;
         default:
           router.push('/login');
       }
     }
-  }, [me?.role?.id]);
+  }, [me?.role?.name]);
   useEffect(() => {
     try {
       getMe()

@@ -5,44 +5,60 @@ export const LoginSchemas = z.object({
   password: z.string().min(1, 'password is required')
 })
 
-export const RegisterSchemas = z
-  .object({
-    username: z
-      .string()
-      .min(6, { message: 'Name must be at least 6 characters long.' })
-      .trim(),
-    email: z.string().email(),
-    password: z
-      .string()
-      .min(8, { message: 'Be at least 8 characters long' })
-      .regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
-      .regex(/[0-9]/, { message: 'Contain at least one number.' })
-      .regex(/[^a-zA-Z0-9]/, {
-        message: 'Contain at least one special character.'
-      })
-      .trim(),
-    confirmPassword: z.string().trim(),
-    dateOfBirth: z.date({ message: 'Date of birth is required' })
-  })
-  .refine(data => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: 'Passwords do not match.'
-  })
-
-export const UserSchemas = z.object({
-  uID: z.number().nullable().optional(),
-  agentID: z.string().min(1, 'Agent ID is required'),
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Invalid email address'),
-  role: z.enum(['Admin', 'User'], 'Role is required'),
-  team: z.string().min(1, 'Team is required'),
-  center: z.string().min(1, 'Center is required'),
-  status: z.enum(['Active', 'Inactive'], 'Status is required')
-})
-
 export const FilterUsersDialogSchemas = z.object({
   role: z.number().nullable(),
   team: z.string().nullable(),
   center: z.number().nullable(),
   status: z.boolean().nullable()
 })
+
+export const UserSchema = z.object({
+  "id": z.string().min(1, 'Agent ID is required'),
+  "username": z.string().min(1, 'Agent Name is required'),
+  "email": z.string().min(1, 'Domain Name is required'),
+  "team": z.string().min(1, 'Team is required'),
+  "operatorId": z.string().min(1, 'Operator ID is required'),
+  "centerId": z.string().min(1, 'Center is required'),
+  "roleId": z.string().min(1, 'Role is required'),
+  "isActive": z.boolean('Status is required')
+})
+
+export const CreateEditUserSchema = z.object({
+  "id": z.string().nullable().optional(),
+  "userName": z.string().min(1, 'Agent Name is required'),
+  "email": z.string().min(1, 'Domain Name is required'),
+  "team": z.string().min(1, 'Team is required'),
+  "operatorId": z.string().min(1, 'Operator ID is required'),
+  "centerId": z.string().min(1, 'Center is required'),
+  "roleId": z.string().min(1, 'Role is required'),
+  "isActive": z.boolean('Status is required')
+})
+
+
+//{
+//     "id": "12337",
+//     "username": "Janet Adebayo",
+//     "email": "Janet@exam.com",
+//     "team": "Inbound",
+//     "operatorId": "1233",
+//     "centerId": "BKK",
+//     "roleId": "AGENT",
+//     "isActive": true
+// }
+
+
+
+// id: z.number().nullable().optional(),
+// username: z.string().min(1, 'Username is required'),
+// name: z.string().min(1, 'Name is required'),
+// email: z.string().email('Invalid email address'),
+// team: z.string().min(1, 'Team is required'),
+// isActive: (z.boolean(), 'Status is required'),
+// center: z.object({
+//   id: z.number().nullable(),
+//   name: z.string().min(1)
+// }, 'Center is required'),
+// role: z.object({
+//   id: z.number().nullable(),
+//   name: z.string().min(1)
+// }, 'Role is required')

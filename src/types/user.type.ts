@@ -1,5 +1,5 @@
 export type JsonJoinDetails = {
-  id: number
+  id: string
   name: string
 }
 //date '2025-07-24T02:16:42.171159Z'
@@ -8,7 +8,7 @@ export type UserType = {
   createdAt: string
   updatedAt: string
   deletedAt: string | null
-  userName: string
+  username: string
   name: string
   email: string
   team: string
@@ -16,10 +16,25 @@ export type UserType = {
   center: JsonJoinDetails
   role: JsonJoinDetails
 }
+
 export type UsersTable = {
   data: UserType[]
   page: number
   limit: number
   total: number
   totalPages: number
+}
+
+export type UserProfileType = {
+  center: JsonJoinDetails
+  createdAt: string
+  deletedAt: null
+  email: string
+  id: string
+  isActive: null
+  name: string
+  role: JsonJoinDetails & { Permissions: any[] }
+  team: string
+  updatedAt: string
+  username: string
 }
