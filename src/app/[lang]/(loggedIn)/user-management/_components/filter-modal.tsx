@@ -1,4 +1,4 @@
-import { RadioField } from '@/components/common/form/Radio'
+import { RadioField } from '@/components/common/form/radio'
 import { SelectField } from '@/components/common/form/select-field'
 import { Modal } from '@/components/common/Modal'
 import { Button } from '@/components/ui/button'

@@ -31,9 +31,6 @@ const emptyUser: z.infer<typeof CreateEditUserSchema> = {
 
 export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
   ({
-    // open = false,
-    // userId = null,
-    // onClose
   }, ref) => {
     const [fetchUser, { isLoading: isLoadingForm, error: errorGet, isSuccess }] =
       useGetUserMutation()
@@ -44,43 +41,21 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
       resolver: zodResolver(CreateEditUserSchema)
     })
 
-    // Fetch user data if editing
-    // const { data: userData, isLoading: isLoadingForm, error: errorGet } = useGetUserMutation(userId!, {
-    //   skip: !userId, // skip fetching if creating
-    // })
     const [createUser, { error: errorCreate, isLoading: isLoadingCreate }] = useCreateUserMutation()
     const [editUser, { error: errorEdit, isLoading: isLoadingEdit }] = useEditUserMutation()
-
-    // useEffect(() => {
-    //   if (userData) {
-    //     form.reset(userData)
-    //   } else {
-    //     form.reset(emptyUser)
-    //   }
-    // }, [userData, form.reset])
-
     const onSubmit = async (userData: z.infer<typeof CreateEditUserSchema>) => {
-      try {
-        if (userData.id) {
-          await editUser({ id: userData.id, data: userData }).unwrap()
-        } else {
-          await createUser(userData).unwrap()
-        }
-        setOpen(false)
-      } catch (err) {
-        console.error('Error saving user:', err)
-      }
+      console.log('Form submitted with values:', userData)
+      // try {
+      //   if (userData.id) {
+      //     await editUser({ id: userData.id, data: userData }).unwrap()
+      //   } else {
+      //     await createUser(userData).unwrap()
+      //   }
+      //   setOpen(false)
+      // } catch (err) {
+      //   console.error('Error saving user:', err)
+      // }
     }
-
-    // useEffect(() => {
-    //   if (userId) {
-    //     setMode('edit')
-    //   } else {
-    //     setMode('create')
-    //   }
-    // }, [userId])
-    // const [isLoadingForm, startLoadingForm] = useTransition()
-
 
     useImperativeHandle(ref, () => ({
       setDefaultUser: async user => {
@@ -98,24 +73,6 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
 
       }
     }))
-    // const getUserDetails = async (
-    //   uID: string
-    // ): Promise<z.infer<typeof CreateEditUserSchema>> => {
-    //   return new Promise(resolve => {
-    //     setTimeout(() => {
-    //       resolve({
-    //         id: uID,
-    //         userName: 'john.doe',
-    //         email: 'john.doe@example.com',
-    //         team: '4',
-    //         isActive: true,
-    //         roleId: '4',
-    //         operatorId: '4',
-    //         centerId: '4'
-    //       })
-    //     }, 3000)
-    //   })
-    // }
     if (!open) return null
     return (
       <Modal

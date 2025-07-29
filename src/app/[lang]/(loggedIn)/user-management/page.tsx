@@ -11,7 +11,6 @@ import {
 } from './_components/dialog-user-details'
 import { BtnAddUser } from './_components/btn-add-user'
 import { useEffect, useRef, useState } from 'react'
-// import { DialogImportUser } from './_components/dialog-import-user'
 import { ExcelUploadDialog } from './_components/upload-excel-test/excel-upload-dialog'
 import { useUsers } from '@/hooks/user/useUsers'
 import { FilterUsersModal } from './_components/filter-modal'
@@ -20,7 +19,6 @@ import { getErrorMessageAPI } from '@/lib/utils/get-error-message-api'
 export default function UserManagementPage() {
   const dialogDetailsRef = useRef<DialogDetailsRef>(null)
   const [modalImportUser, setModalImportUser] = useState(false)
-  // const [modalUserDetails, setModalUserDetails] = useState(false)
   const {
     usersTable,
     isLoading,
@@ -55,9 +53,7 @@ export default function UserManagementPage() {
 
   const openDialogCreateUser = () => {
     dialogDetailsRef.current?.setDefaultUser(null)
-    // setModalUserDetails(true)
   }
-  // return <div>UserManagementPage</div>
 
   return (
     <div>
@@ -86,8 +82,6 @@ export default function UserManagementPage() {
       </CardPageWrapper>
       <DialogDetails
         ref={dialogDetailsRef}
-      // open={modalUserDetails}
-      // onClose={() => setModalUserDetails(false)}
       />
       <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
       <FilterUsersModal

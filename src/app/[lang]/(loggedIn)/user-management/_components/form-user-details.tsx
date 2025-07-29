@@ -1,7 +1,7 @@
 'use client'
 import { ButtonCancel } from '@/components/common/btn-cancle'
 import { FormError } from '@/components/common/form-error'
-import { RadioField } from '@/components/common/form/Radio'
+import { RadioField } from '@/components/common/form/radio'
 import { SelectField } from '@/components/common/form/select-field'
 import { TextField } from '@/components/common/form/text-field'
 import { Typography } from '@/components/common/typography'
@@ -35,18 +35,8 @@ export const FormUserDetails = ({
   // const [error, setError] = useState<string | undefined>('')
   // const [isPending, startTransition] = useTransition()
 
-  // const onSubmit = async (value: z.infer<typeof CreateEditUserSchema>) => {
+  // const onSubmitTest = async (value: z.infer<typeof CreateEditUserSchema>) => {
   //   console.log('Form submitted with values:', value)
-  //   setError('')
-  //   startTransition(async () => {
-  //     try {
-  //       console.log('Form submitted with values:', value)
-  //     } catch (error: unknown) {
-  //       if (error instanceof Error) {
-  //         setError(error.message)
-  //       }
-  //     }
-  //   })
   // }
   const username = form.watch('userName')
   return (
@@ -74,21 +64,21 @@ export const FormUserDetails = ({
                 <TextField
                   loading={isPendingSubmit || isLoadingForm}
                   form={form}
-                  name='name'
+                  name='userName'
                   label='Agent Name'
                   placeholder='Name'
                 />
                 <TextField
                   loading={isPendingSubmit || isLoadingForm}
                   form={form}
-                  name='domainName'
+                  name='email'
                   label='Domain Name'
                   placeholder='Domain Name'
                 />
                 <TextField
                   loading={isPendingSubmit || isLoadingForm}
                   form={form}
-                  name='operatorID'
+                  name='operatorId'
                   label='Operator ID'
                   placeholder='Operator ID'
                 />
@@ -98,9 +88,11 @@ export const FormUserDetails = ({
               loading={isPendingSubmit || isLoadingForm}
               form={form}
               items={roles}
-              name='role'
+              name='roleId'
               label='Role'
               placeholder='Select'
+              valueName='id'
+              labelName='name'
             />
             <SelectField
               loading={isPendingSubmit || isLoadingForm}
@@ -109,14 +101,18 @@ export const FormUserDetails = ({
               name='team'
               label='Team'
               placeholder='Select'
+              valueName='id'
+              labelName='name'
             />
             <SelectField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
               items={centers}
-              name='center'
+              name='centerId'
               label='Center'
               placeholder='Select'
+              valueName='id'
+              labelName='name'
             />
             <div />
             <div className={cn(mode === 'create' ? '' : 'order-first')}>
@@ -124,15 +120,19 @@ export const FormUserDetails = ({
                 loading={isPendingSubmit || isLoadingForm}
                 form={form}
                 items={statuses}
-                name='status'
+                name='isActive'
                 label='Status'
                 className='flex '
+                valueName='id'
+                labelName='name'
               />
             </div>
           </div>
           <FormError message={error} />
           <div className='flex justify-end gap-3'>
             <ButtonCancel onClick={onClose} />
+            {isPendingSubmit ? 'isPendingSubmit-true' : ''}
+            {isLoadingForm ? 'isLoadingForm-true' : ''}
             <Button type='submit' disabled={isPendingSubmit || isLoadingForm}>
               {mode === 'create' ? 'Add' : 'Save'}
             </Button>

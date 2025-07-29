@@ -24,7 +24,8 @@ export const UserSchema = z.object({
 })
 
 export const CreateEditUserSchema = z.object({
-  "id": z.string().nullable().optional(),
+  // "id": z.string().nullable().optional(),
+  "id": z.string().min(1, 'Agent ID is required'),
   "userName": z.string().min(1, 'Agent Name is required'),
   "email": z.string().min(1, 'Domain Name is required'),
   "team": z.string().min(1, 'Team is required'),
