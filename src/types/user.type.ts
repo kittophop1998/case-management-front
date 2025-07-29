@@ -7,6 +7,7 @@ export type UserType = {
   id: number
   createdAt: string
   updatedAt: string
+  agentId: string
   deletedAt: string | null
   username: string
   name: string

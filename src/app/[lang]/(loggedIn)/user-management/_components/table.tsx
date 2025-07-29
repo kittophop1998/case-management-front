@@ -1,8 +1,10 @@
 'use client'
-import { MainTable, SortableHeader } from '@/components/common/table'
-import * as React from 'react'
+
+import { DataTable, SortableHeader } from '@/components/common/table'
 import {
   ColumnDef,
+  ColumnHelper,
+  createColumnHelper,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
@@ -13,9 +15,9 @@ import {
 } from '@tanstack/react-table'
 import { SquarePen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-
 import { JsonJoinDetails, UsersTable, UserType } from '@/types/user.type'
 import { ChipIsActive } from '@/components/common/chipIsActive'
+import { useEffect, useMemo, useState } from 'react'
 
 interface TableUserManagementProps {
   isLoading: boolean
@@ -26,94 +28,76 @@ interface TableUserManagementProps {
   // sort?: string | null
   // order?: 'asc' | 'desc' | null
 }
+
 export function TableUserManagement({
   isLoading = false,
   usersTable,
   openDialogEditUser,
   setSort,
   setOrder
-}: // sort,
-  // order
-  TableUserManagementProps) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  React.useEffect(() => {
-    // console.log('sorting', sorting)
+}: TableUserManagementProps) {
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = useState({})
+
+  useEffect(() => {
     if (setSort) {
-      // console.log('setSort(:)', sorting?.[0]?.id ?? null)
       setSort(sorting?.[0]?.id ?? null)
     }
+
     if (setOrder) {
-      // console.log(
-      //   'setOrder(:)',
-      //   sorting.length > 0 ? (sorting[0].desc ? 'desc' : 'asc') : null
-      // )
       setOrder(sorting.length > 0 ? (sorting[0].desc ? 'desc' : 'asc') : null)
     }
   }, [sorting])
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-  const columns: ColumnDef<UserType>[] = [
-    {
-      accessorKey: 'id',
-      header: ({ column }) => <SortableHeader column={column} label='Id' />,
-      cell: ({ row }) => <div className='capitalize'>{row.getValue('id')}</div>
-    },
-    {
-      accessorKey: 'name',
-      header: ({ column }) => <SortableHeader column={column} label='Name' />,
-      cell: ({ row }) => <div className='lowercase'>{row.getValue('name')}</div>
-    },
-    {
-      accessorKey: 'role',
-      header: ({ column }) => <SortableHeader column={column} label='Role' />,
-      // cell: ({ row }) => <div className='lowercase'>{row.getValue('role.name')}</div>
-      cell: ({ row }) => {
-        const role = row.getValue('role') as JsonJoinDetails
-        return <div className='lowercase'>{role?.name}</div>;
-      }
-    },
-    {
-      accessorKey: 'team',
-      header: ({ column }) => <SortableHeader column={column} label='Team' />,
-      cell: ({ row }) => <div className='lowercase'>{row.getValue('team')}</div>
-    },
-    {
-      accessorKey: 'center',
-      header: ({ column }) => <SortableHeader column={column} label='Center' />,
-      // cell: ({ row }) => (
-      //   <div className='lowercase'>{"row.getValue('center')"}</div>
-      // )
-      cell: ({ row }) => {
-        const center = row.getValue('center') as JsonJoinDetails
-        return <div className='lowercase'>{center?.name}</div>;
-      }
-    },
-    {
-      accessorKey: 'isActive',
-      header: ({ column }) => <SortableHeader column={column} label='isActive' />,
-      cell: ({ row }) => (
-        <div className='capitalize'>{
-          <ChipIsActive isActive={row.getValue('isActive')} />
-        }</div>
-      )
-    },
-    {
-      id: 'actions',
-      enableHiding: false,
-      size: 10,
-      cell: ({ row }) => {
-        const user = row.original
-        return (
-          <div className='w-[1rem]'>
-            <Button variant='ghost' onClick={() => openDialogEditUser(user)}>
-              <SquarePen />
-            </Button>
+
+  // Create columns for the table
+  const columnHelper = createColumnHelper<UserType>()
+  const columns = useMemo<ColumnDef<UserType, any>[]>(() => [
+      columnHelper.accessor('agentId', {
+         header: ({ column }) => <SortableHeader column={column} label='Id' />,
+         cell: info => <div>{info.getValue()}</div>
+      }),
+      columnHelper.accessor('name', {
+        header: ({ column }) => <SortableHeader column={column} label='Name' />,
+        cell: info => <div>{info.getValue()}</div>
+      }),
+      columnHelper.accessor('role.name', {
+        header: ({ column }) => <SortableHeader column={column} label='Role' />,
+        cell: info => <div>{info.getValue()}</div>
+      }),
+      columnHelper.accessor('team', {
+        header: ({ column }) => <SortableHeader column={column} label='Team' />,
+        cell: info => <div>{info.getValue()}</div>
+      }),
+      columnHelper.accessor('center.name', {
+        header: ({ column }) => <SortableHeader column={column} label='Center' />,
+        cell: info => <div>{info.getValue()}</div>,
+      }),
+      columnHelper.accessor('isActive', {
+        header: ({ column }) => <SortableHeader column={column} label='Status' />,
+        cell: info => (
+          <div>
+            <ChipIsActive isActive={info.getValue()} />
           </div>
         )
-      }
-    }
-  ]
+      }),
+      columnHelper.display({
+        id: 'actions',
+        enableHiding: false,
+        size: 10,
+        cell: info => {
+          const user = info.row.original
+          return (
+            <div className='w-[1rem]'>
+              <Button variant='ghost' onClick={() => openDialogEditUser(user)}>
+                <SquarePen />
+              </Button>
+            </div>
+          )
+        }
+      }),
+  ], [openDialogEditUser])
+
   const table = useReactTable({
     data: usersTable.data,
     columns,
@@ -130,11 +114,11 @@ export function TableUserManagement({
       rowSelection
     }
   })
-  // return <div>111111</div>
+
   return (
     <>
       {/* sorting:{JSON.stringify(usersTable.data)} */}
-      <MainTable
+      <DataTable
         loading={isLoading}
         table={table}
         page={usersTable.page}

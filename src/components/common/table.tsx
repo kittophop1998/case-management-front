@@ -1,7 +1,11 @@
 'use client'
 
-import * as React from 'react'
-import { Column, flexRender } from '@tanstack/react-table'
+import {
+  Column,
+  flexRender,
+  Table as ReactTable,
+  Row
+} from '@tanstack/react-table'
 import {
   ArrowDownWideNarrow,
   ArrowUpWideNarrow,
@@ -18,6 +22,19 @@ import {
 } from '../ui/table'
 import { Typography } from '../common/typography'
 import { ChevronRight } from 'react-feather'
+import clsx from 'clsx'
+
+export interface DataTableProps<T> {
+  table: ReactTable<T>;
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  loading?: boolean;
+  emptyText?: React.ReactNode;
+  onRowClick?: (row: Row<T>) => void;
+}
+
 export const SortableHeader = ({
   column,
   label
@@ -40,50 +57,53 @@ export const SortableHeader = ({
   )
 }
 
-interface MainTable {
-  table: any
-  page: number
-  limit: number
-  total: number
-  totalPages: number
-  loading?: boolean
-}
-export const MainTable = ({
+export function DataTable<T>({
   table,
-  page = 1,
-  limit = 10,
-  total = 0,
-  totalPages = 0,
-  loading = true
-}) => {
+  page,
+  limit,
+  total,
+  totalPages,
+  loading = false,
+  emptyText = 'No results.',
+  onRowClick
+}: DataTableProps<T>) {
   return (
     <>
-      {/* {loading && <div>loading .................</div>} */}
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map(header => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                )
-              })}
+              {headerGroup.headers.map(header => (
+                <TableHead key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                </TableHead>
+              ))}
             </TableRow>
           ))}
         </TableHeader>
+
         <TableBody className='text-[#6E7079]'>
-          {table.getRowModel().rows?.length ? (
+          {loading ? (
+            <TableRow>
+              <TableCell colSpan={table.getAllColumns().length}>
+                <div className='text-center py-8 text-muted-foreground'>Loading...</div>
+              </TableCell>
+            </TableRow>
+          ) : table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map(row => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
+                className={clsx(
+                  'cursor-pointer hover:bg-accent',
+                  onRowClick && 'hover:underline',
+                )}
+                onClick={onRowClick ? () => onRowClick(row) : undefined}
               >
                 {row.getVisibleCells().map(cell => (
                   <TableCell key={cell.id}>
@@ -96,41 +116,53 @@ export const MainTable = ({
             <TableRow>
               <TableCell
                 colSpan={table.getAllColumns().length}
-                className='h-24 text-center'
+                className='h-24 text-center text-muted-foreground'
               >
-                No results.
+                {emptyText}
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
-      <div className='flex items-center justify-end space-x-2'>
+
+      {/* Pagination controls */}
+      <div className='flex items-center justify-between mt-4'>
         <Typography variant='caption'>
-          {page} of {totalPages}
-          page(s)
+          Showing {(page - 1) * limit + 1} -{' '}
+          {Math.min(page * limit, total)} of {total} records
         </Typography>
-        <Button
-          variant='ghost'
-          size='sm'
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          <ChevronLeft />
-        </Button>
-        <Button
-          variant='ghost'
-          size='sm'
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          <ChevronRight />
-        </Button>
+        <div className='flex items-center space-x-2'>
+          <Typography variant='caption'>
+            Page {page} of {totalPages}
+          </Typography>
+          <Button
+            variant='ghost'
+            size='sm'
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ChevronLeft className='h-4 w-4' />
+          </Button>
+          <Button
+            variant='ghost'
+            size='sm'
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            <ChevronRight className='h-4 w-4' />
+          </Button>
+        </div>
       </div>
     </>
   )
 }
 
-export const SearchInput = ({ globalFilter, setGlobalFilter }) => {
+interface SearchInputProps {
+  globalFilter: string;
+  setGlobalFilter: (filter: string) => void;
+}
+
+export const SearchInput = ({ globalFilter, setGlobalFilter }: SearchInputProps) => {
   // const [globalFilter, setGlobalFilter] = useState("");
   // const table = useReactTable({
   //   data,
