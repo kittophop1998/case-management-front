@@ -5,9 +5,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 
@@ -15,7 +13,7 @@ interface RadioFieldProps<T> {
     onChange?: (value: string) => void; // Optional onChange handler
     loading?: boolean;
     readonly?: boolean;
-    items: T[];
+    items: any[];
     valueName?: string;
     labelName?: string;
     form: any; // Replace 'any' with the correct form type, e.g., UseFormReturn<any> if using react-hook-form
@@ -48,6 +46,9 @@ const RadioField = (
         label,
         className = ""
     }: RadioFieldProps) => {
+    const valueMap = new Map(
+        items.map((item: any) => [String(item[valueName]), item[valueName]])
+    )
     return (
         <FormField
             control={form.control}
@@ -59,13 +60,18 @@ const RadioField = (
                     <FormControl>
                         <RadioGroup
                             onChange={onChange ? onChange : field.onChange}
-                            onValueChange={field.onChange}
+                            // onValueChange={field.onChange}
                             defaultValue={field.value}
                             className={cn(RadioFieldVariants({ readonly }), className)}
+                            value={String(field.value)}
+                            onValueChange={val => {
+                                const actualValue = valueMap.get(val)
+                                field.onChange(actualValue ?? val) // fallback to val if not found
+                            }}
                         >
                             {
                                 items.map((item: any) => (
-                                    <FormItem className="flex items-center gap-3">
+                                    <FormItem className="flex items-center gap-3" key={String(item[valueName])}>
                                         <FormControl>
                                             <RadioGroupItem value={String(item[valueName])} id={String(item[valueName])} />
                                         </FormControl>
