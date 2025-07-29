@@ -14,7 +14,8 @@ import {
 import { SquarePen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-import { UsersTable, UserType } from '@/types/user.type'
+import { JsonJoinDetails, UsersTable, UserType } from '@/types/user.type'
+import { ChipIsActive } from '@/components/common/chipIsActive'
 
 interface TableUserManagementProps {
   isLoading: boolean
@@ -25,15 +26,15 @@ interface TableUserManagementProps {
   // sort?: string | null
   // order?: 'asc' | 'desc' | null
 }
-export function TableUserManagement ({
+export function TableUserManagement({
   isLoading = false,
   usersTable,
   openDialogEditUser,
   setSort,
   setOrder
 }: // sort,
-// order
-TableUserManagementProps) {
+  // order
+  TableUserManagementProps) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   React.useEffect(() => {
     // console.log('sorting', sorting)
@@ -66,7 +67,11 @@ TableUserManagementProps) {
     {
       accessorKey: 'role',
       header: ({ column }) => <SortableHeader column={column} label='Role' />,
-      cell: ({ row }) => <div className='lowercase'>{row.getValue('role')}</div>
+      // cell: ({ row }) => <div className='lowercase'>{row.getValue('role.name')}</div>
+      cell: ({ row }) => {
+        const role = row.getValue('role') as JsonJoinDetails
+        return <div className='lowercase'>{role?.name}</div>;
+      }
     },
     {
       accessorKey: 'team',
@@ -76,15 +81,21 @@ TableUserManagementProps) {
     {
       accessorKey: 'center',
       header: ({ column }) => <SortableHeader column={column} label='Center' />,
-      cell: ({ row }) => (
-        <div className='lowercase'>{row.getValue('center')}</div>
-      )
+      // cell: ({ row }) => (
+      //   <div className='lowercase'>{"row.getValue('center')"}</div>
+      // )
+      cell: ({ row }) => {
+        const center = row.getValue('center') as JsonJoinDetails
+        return <div className='lowercase'>{center?.name}</div>;
+      }
     },
     {
-      accessorKey: 'status',
-      header: ({ column }) => <SortableHeader column={column} label='Status' />,
+      accessorKey: 'isActive',
+      header: ({ column }) => <SortableHeader column={column} label='isActive' />,
       cell: ({ row }) => (
-        <div className='capitalize'>{row.getValue('status')}</div>
+        <div className='capitalize'>{
+          <ChipIsActive isActive={row.getValue('isActive')} />
+        }</div>
       )
     },
     {
@@ -119,9 +130,10 @@ TableUserManagementProps) {
       rowSelection
     }
   })
+  // return <div>111111</div>
   return (
     <>
-      {/* sorting:{JSON.stringify(sorting)} */}
+      {/* sorting:{JSON.stringify(usersTable.data)} */}
       <MainTable
         loading={isLoading}
         table={table}

@@ -31,7 +31,7 @@ export const usersApiSlice = createApi({
         order = null,
         searchText = ''
       }) => {
-        const searchParams = new URLSearchParams({
+        let searchObj = {
           page: String(page),
           limit: String(limit),
           is_active: String(status),
@@ -41,7 +41,21 @@ export const usersApiSlice = createApi({
           searchText: String(searchText || ''),
           sort: String(sort || ''),
           order: String(order || '')
-        })
+        }
+
+        if (!page) delete searchObj.page
+        if (!limit) delete searchObj.limit
+        if (!status) delete searchObj.is_active
+        if (!role) delete searchObj.role
+        if (!team) delete searchObj.team
+        if (!center) delete searchObj.center
+        if (!sort) delete searchObj.sort
+        if (!order) delete searchObj.order
+        if (!searchText) delete searchObj.searchText
+
+
+        const searchParams = new URLSearchParams(searchObj)
+
         return {
           url: `/users?${searchParams.toString()}`,
           method: 'GET'

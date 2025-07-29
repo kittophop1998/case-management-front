@@ -42,11 +42,10 @@ export default function UserManagementPage() {
     }
   } = useUsers()
 
-  // return <div>UserManagementPage</div>
 
 
   if (isError) {
-    return <div>{getErrorMessageAPI(error.data.message)}</div>
+    return <div>{getErrorMessageAPI(error?.data?.message)}</div>
   }
 
   const openDialogEditUser = (user: UserType) => {
@@ -58,6 +57,7 @@ export default function UserManagementPage() {
     dialogDetailsRef.current?.setDefaultUser(null)
     setModalUserDetails(true)
   }
+  // return <div>UserManagementPage</div>
 
   return (
     <div>
@@ -84,11 +84,11 @@ export default function UserManagementPage() {
           openDialogEditUser={openDialogEditUser}
         />
       </CardPageWrapper>
-      <DialogDetails
+      {/* <DialogDetails
         ref={dialogDetailsRef}
         open={modalUserDetails}
         onClose={() => setModalUserDetails(false)}
-      />
+      /> */}
       <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
       <FilterUsersModal
         setRole={setRole}
