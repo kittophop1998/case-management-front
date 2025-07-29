@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useCallback } from 'react';
-import { useGetMeMutation, useLoginMutation } from '@/features/auth/authApiSlice';
+import { useGetMeQuery, useLoginMutation } from '@/features/auth/authApiSlice';
 import z from 'zod';
 import { LoginSchemas } from '@/schemas';
 import { useRouter } from 'next/navigation'
@@ -11,7 +11,11 @@ import { useForm } from 'react-hook-form';
 export default function useAuth() {
   const router = useRouter()
   const [loginMutation, { isLoading: isLoadingLogin, isError: isLoginError, error: loginError }] = useLoginMutation();
-  const [getMeMutation, { data: me, isLoading: isLoadingGetMe, isError: isGetMeError, error: loginGetMe }] = useGetMeMutation();
+  const { data: me, isLoading: isLoadingGetMe, refetch: refetchMe, isError: isGetMeError } = useGetMeQuery()
+
+  // const [getMeMutation, { data: me, isLoading: isLoadingGetMe, isError: isGetMeError, error: loginGetMe }] = useLoginMutation();
+  // const getMeMutation = () => { }
+  // const me = null; // Placeholder for user profile data
   // 
   const formLogin = useForm<z.infer<typeof LoginSchemas>>({
     resolver: zodResolver(LoginSchemas),
@@ -20,22 +24,23 @@ export default function useAuth() {
       password: ''
     }
   })
-  const getMe = useCallback(async () => {
-    try {
-      const response = await getMeMutation(null).unwrap();
-      return response
-    } catch (error: any) {
-      console.log('useAuth-getMe failed', error);
-      if (error.status === 401) {
-      }
-    }
-  }, [getMeMutation]);
+  // const getMe = useCallback(async () => {
+  //   try {
+  //     const response = await getMeMutation(null).unwrap();
+  //     return response
+  //   } catch (error: any) {
+  //     console.log('useAuth-getMe failed', error);
+  //     if (error.status === 401) {
+  //     }
+  //   }
+  // }, [getMeMutation]);
 
   const login = async (value: z.infer<typeof LoginSchemas>) => {
     try {
       await loginMutation(value).unwrap();
       // TODO: use login response to set Me
-      await getMe();
+      // await getMe();
+      refetchMe();
     } catch (error) {
       console.log('useAuth-Login failed', error);
     }
@@ -84,7 +89,7 @@ export default function useAuth() {
       me,
       isLoadingGetMe,
       isGetMeError,
-      loginGetMe
+      // loginGetMe
     }
   };
 }

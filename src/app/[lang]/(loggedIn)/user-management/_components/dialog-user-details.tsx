@@ -14,16 +14,17 @@ export type DialogDetailsRef = {
   setDefaultUser: (user: UserType | null) => void
 }
 interface DialogDetailsProps {
-  // open: boolean
-  // userId: string | null
-  // onClose: () => void
+
+  getUsers: () => void
+
 }
 const emptyUser: z.infer<typeof CreateEditUserSchema> = {
   "id": "",// Agent ID
   "username": "",// Agent Name
   "email": "",// Domain Name
-  "team": "",// Team
-  "operatorId": "",// Operator ID
+  "teamId": "",// Team
+  "operatorId": '',// Operator ID
+  "agentId": "",// Agent ID
   "centerId": "",// Center
   "roleId": "",// Role
   "isActive": true// Status
@@ -31,6 +32,7 @@ const emptyUser: z.infer<typeof CreateEditUserSchema> = {
 
 export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
   ({
+    getUsers
   }, ref) => {
     const [fetchUser, { isLoading: isLoadingForm, error: errorGet, isSuccess }] =
       useGetUserMutation()
@@ -41,24 +43,30 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
       resolver: zodResolver(CreateEditUserSchema)
     })
 
+    useEffect(() => {
+      console.log('All errors:', form.formState.errors)
+      console.log('All errors:', form.getValues())
+    }, [form.formState.errors])
+
     const [createUser, { error: errorCreate, isLoading: isLoadingCreate }] = useCreateUserMutation()
     const [editUser, { error: errorEdit, isLoading: isLoadingEdit }] = useEditUserMutation()
     const onSubmit = async (userData: z.infer<typeof CreateEditUserSchema>) => {
-      // console.log('Form submitted with values:', userData)
+      console.log('Form submitted with values:', mode, userData)
       try {
-        // if (mode === 'edit') {
-        // } else {
-        // }
         switch (mode) {
           case 'edit':
             await editUser({ id: userData.id, data: userData }).unwrap()
+            alert('User updated successfully')
+            break;
           case 'create':
             await createUser(userData).unwrap()
+            alert('User created successfully')
             break;
           default:
             throw new Error('Invalid mode')
         }
         setOpen(false)
+        await getUsers()
       } catch (err) {
         console.error('Error saving user:', err)
       }
@@ -77,8 +85,9 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
             id: userAPI.id,
             username: userAPI.username,
             email: userAPI.email,
-            team: userAPI.team,
-            operatorId: userAPI.operatorId,
+            teamId: userAPI.team.id,
+            agentId: `${userAPI.agentId}`,
+            operatorId: `${userAPI.operatorId}`,
             centerId: userAPI.center.id,
             roleId: userAPI.role.id, // Assuming role is an object with an id
             isActive: userAPI.isActive

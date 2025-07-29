@@ -1,70 +1,51 @@
 "use client";
-import { useGetMeMutation } from "@/features/auth/authApiSlice";
+// import { useGetMeMutation } from "@/features/auth/authApiSlice";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { useRouter } from 'next/navigation'
+import { useGetDropdownQuery } from "@/features/system/systemApiSlice";
+import { useGetMeQuery } from "@/features/auth/authApiSlice";
 
 export const InitializersData = () => {
     const pathname = usePathname()
     const router = useRouter()
-    const [getMeMutation, { isLoading, isError, error }] = useGetMeMutation();
+    const { data: ddData, isLoading: isDDLoading } = useGetDropdownQuery()
+    const { data: me, isLoading: isUserLoading } = useGetMeQuery()
 
-    // TODO: data form ssr-props
-    const getMe = async () => {
-        try {
-            const me = await getMeMutation(null).unwrap()
-            console.log("['/eng/login', '/th/login'].includes(pathname)", ['/eng/login', '/th/login'].includes(pathname), me);
-            if (['/eng/login', '/th/login'].includes(pathname)) {
-                if (me) {
-                    switch (me?.role?.name) {
-                        case 'Admin':
-                            router.push('/user-management');
-                            break;
-                        case 'User':
-                            router.push('/case-management');
-                            break;
-                        default:
-                            router.push('/login');
-                    }
-                }
-            } else {
-                if (!me) {
-                    router.push('/login');
+    useEffect(() => {
+
+        if (isUserLoading) {
+            console.log('Loading user data...');
+            return;
+        }
+
+        const autoDirect = async () => {
+            const isLoginPage = ['/eng/login', '/th/login'].includes(pathname);
+            console.log('autoDirect me:', me, 'isLoginPage:', isLoginPage);
+            if (isLoginPage && !me) {
+                return;
+            }
+            if (isLoginPage && me) {
+                switch (me?.role?.name) {
+                    case 'Admin':
+                        console.log('Redirecting to user-management');
+                        router.push('/user-management');
+                        break;
+                    case 'User':
+                        console.log('Redirecting to case-management');
+                        router.push('/case-management');
+                        break;
+                    default:
+                        console.log('Redirecting to login');
+                        router.push('/login');
                 }
             }
-        } catch (error) {
-            // TODO: move this to a global error handler
-            if (error?.data?.status === 401 || error?.data?.error === 'invalid token') {
+            if (!isLoginPage && !me) {
                 router.push('/login');
             }
 
         }
-
-    }
-    useEffect(() => {
-        getMe();
-    }, [getMeMutation]);
-    // useEffect(() => {
-    //     console.log("['/eng/login', '/th/login'].includes(pathname)", ['/eng/login', '/th/login'].includes(pathname), me);
-    //     if (['/eng/login', '/th/login'].includes(pathname)) {
-    //         if (me) {
-    //             switch (me?.role?.name) {
-    //                 case 'Admin':
-    //                     router.push('/user-management');
-    //                     break;
-    //                 case 'User':
-    //                     router.push('/case-management');
-    //                     break;
-    //                 default:
-    //                     router.push('/login');
-    //             }
-    //         }
-    //     } else {
-    //         if (!me) {
-    //             router.push('/login');
-    //         }
-    //     }
-    // }, [me?.role?.name]);
+        autoDirect()
+    }, [me?.role?.name, isUserLoading]);
     return null;
-    // TODO: use this to check auth and logined user
 }

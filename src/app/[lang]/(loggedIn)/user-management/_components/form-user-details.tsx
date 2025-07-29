@@ -8,6 +8,7 @@ import { Typography } from '@/components/common/typography'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { centers, roles, statuses, teams } from '@/const/mockup'
+import { useGetDropdownQuery } from '@/features/system/systemApiSlice'
 import { cn } from '@/lib/utils'
 import { CreateEditUserSchema } from '@/schemas'
 import { useState, useTransition } from 'react'
@@ -32,13 +33,9 @@ export const FormUserDetails = ({
   isPendingSubmit = false,
   error = undefined
 }: FormUserDetailsProps) => {
-  // const [error, setError] = useState<string | undefined>('')
-  // const [isPending, startTransition] = useTransition()
-
-  // const onSubmitTest = async (value: z.infer<typeof CreateEditUserSchema>) => {
-  //   console.log('Form submitted with values:', value)
-  // }
   const username = form.watch('username')
+  const { data: dataDropdown, isLoading: isLoadingDropdown } = useGetDropdownQuery()
+
   return (
     <div>
       <Typography variant='body2' className='mb-4'>
@@ -58,7 +55,7 @@ export const FormUserDetails = ({
                 <TextField
                   loading={isPendingSubmit || isLoadingForm}
                   form={form}
-                  name='id'
+                  name='agentId'
                   label='Agent ID'
                   placeholder='Agent ID'
                 />
@@ -88,7 +85,7 @@ export const FormUserDetails = ({
             <SelectField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
-              items={roles}
+              items={dataDropdown?.data?.roles || []}
               name='roleId'
               label='Role'
               placeholder='Select'
@@ -98,8 +95,8 @@ export const FormUserDetails = ({
             <SelectField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
-              items={teams}
-              name='team'
+              items={dataDropdown?.data?.teams || []}
+              name='teamId'
               label='Team'
               placeholder='Select'
               valueName='id'
@@ -108,7 +105,7 @@ export const FormUserDetails = ({
             <SelectField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
-              items={centers}
+              items={dataDropdown?.data?.centers || []}
               name='centerId'
               label='Center'
               placeholder='Select'
@@ -123,7 +120,7 @@ export const FormUserDetails = ({
                 items={statuses}
                 name='isActive'
                 label='Status'
-                className='flex '
+                className='flex'
                 valueName='id'
                 labelName='name'
               />

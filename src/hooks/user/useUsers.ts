@@ -9,14 +9,16 @@ export const useUsers = () => {
   const [page, setPage] = useState<number>(1)
   const [limit, setLimit] = useState<number>(10)
   const [status, setStatus] = useState<boolean | null>(null)
-  const [role, setRole] = useState<number | null>(null)
+  const [role, setRole] = useState<string | null>(null)
   const [team, setTeam] = useState<string | null>(null)
-  const [center, setCenter] = useState<number | null>(null)
+  const [center, setCenter] = useState<string | null>(null)
   const [sort, setSort] = useState<string | null>(null)
   const [order, setOrder] = useState<'asc' | 'desc' | null>(null)
   const [searchText, setSearchText] = useState('')
+  const [numberTrickerFetch, setNumberTrickerFetch] = useState<number>(1)
   const [fetchUsers, { data, isLoading, isError, error, isSuccess }] =
     useGetUsersMutation()
+
   const getUsers = async (params: GetUsersRequest) => {
     try {
       const result = await fetchUsers(params).unwrap()
@@ -25,6 +27,9 @@ export const useUsers = () => {
       console.error('Failed to fetch users:', err)
       throw err
     }
+  }
+  const triggerFetch = () => {
+    setNumberTrickerFetch(prev => prev + 1)
   }
   useEffect(() => {
     getUsers({
@@ -38,7 +43,7 @@ export const useUsers = () => {
       order,
       searchText
     })
-  }, [page, limit, status, role, team, center, sort, order, searchText])
+  }, [page, limit, status, role, team, center, sort, order, searchText, numberTrickerFetch])
 
   const defaultData = {
     data: [],
@@ -54,6 +59,7 @@ export const useUsers = () => {
     isSuccess,
     isError,
     error,
+    triggerFetch,
     state: {
       page,
       limit,

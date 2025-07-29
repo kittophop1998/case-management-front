@@ -17,6 +17,8 @@ import { FilterUsersModal } from './_components/filter-modal'
 import { getErrorMessageAPI } from '@/lib/utils/get-error-message-api'
 
 export default function UserManagementPage() {
+  const [isOpenFilter, setIsOpenFilter] = useState(false)
+
   const dialogDetailsRef = useRef<DialogDetailsRef>(null)
   const [modalImportUser, setModalImportUser] = useState(false)
   const {
@@ -25,7 +27,7 @@ export default function UserManagementPage() {
     isError,
     error,
     isSuccess,
-    getUsers,
+    getUsers, triggerFetch,
     state: { page, limit, status, role, team, center, sort, order, searchText },
     setSate: {
       setPage,
@@ -70,7 +72,7 @@ export default function UserManagementPage() {
           </Typography>
           <div className='flex-1' />
           <InputFilter setValue={setSearchText} value={searchText} />
-          <BtnFilter />
+          <BtnFilter onClick={() => setIsOpenFilter(true)} />
         </div>
         <TableUserManagement
           setSort={setSort}
@@ -82,9 +84,12 @@ export default function UserManagementPage() {
       </CardPageWrapper>
       <DialogDetails
         ref={dialogDetailsRef}
+        getUsers={triggerFetch}
       />
       <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
       <FilterUsersModal
+        isOpen={isOpenFilter}
+        setIsOpen={setIsOpenFilter}
         setRole={setRole}
         setStatus={setStatus}
         setTeam={setTeam}

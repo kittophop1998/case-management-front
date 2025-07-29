@@ -114,7 +114,6 @@ export function TableUserManagement({
       rowSelection
     }
   })
-
   return (
     <>
       {/* sorting:{JSON.stringify(usersTable.data)} */}

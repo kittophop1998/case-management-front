@@ -59,8 +59,7 @@ const RadioField = (
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
                         <RadioGroup
-                            onChange={onChange ? onChange : field.onChange}
-                            // onValueChange={field.onChange}
+                            // onChange={onChange ? onChange : field.onChange}
                             defaultValue={field.value}
                             className={cn(RadioFieldVariants({ readonly }), className)}
                             value={String(field.value)}
