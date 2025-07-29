@@ -9,12 +9,11 @@ export type UserType = {
   agentId: number
   createdAt: string
   updatedAt: string
-  agentId: string
   deletedAt: string | null
   username: string
   name: string
   email: string
-  team: string
+  team: JsonJoinDetails
   isActive: boolean
   center: JsonJoinDetails
   role: JsonJoinDetails
@@ -37,7 +36,7 @@ export type UserProfileType = {
   isActive: boolean
   name: string
   role: JsonJoinDetails & { Permissions: any[] }
-  team: string
+  team: JsonJoinDetails
   updatedAt: string
   username: string
 }

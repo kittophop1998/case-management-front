@@ -15,7 +15,7 @@ import {
 } from '@tanstack/react-table'
 import { SquarePen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { JsonJoinDetails, UsersTable, UserType } from '@/types/user.type'
+import { UsersTable, UserType } from '@/types/user.type'
 import { ChipIsActive } from '@/components/common/chipIsActive'
 import { useEffect, useMemo, useState } from 'react'
 
@@ -65,7 +65,7 @@ export function TableUserManagement({
         header: ({ column }) => <SortableHeader column={column} label='Role' />,
         cell: info => <div>{info.getValue()}</div>
       }),
-      columnHelper.accessor('team', {
+      columnHelper.accessor('team.name', {
         header: ({ column }) => <SortableHeader column={column} label='Team' />,
         cell: info => <div>{info.getValue()}</div>
       }),
