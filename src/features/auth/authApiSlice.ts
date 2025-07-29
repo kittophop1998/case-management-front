@@ -28,7 +28,7 @@ export const authApiSlice = createApi({
         method: 'POST',
       }),
     }),
-    getMe: builder.mutation<ApiResponse<UserProfileType>, null>({
+    getMe: builder.query<ApiResponse<UserProfileType>, null>({
       query: () => ({
         url: '/auth/profile',
         method: 'GET',
@@ -40,5 +40,6 @@ export const authApiSlice = createApi({
 export const {
   useLoginMutation,
   useLogoutMutation,
-  useGetMeMutation
+  // useGetMeMutation
+  useGetMeQuery
 } = authApiSlice;
