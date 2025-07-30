@@ -22,6 +22,7 @@ export const useUsers = () => {
   const getUsers = async (params: GetUsersRequest) => {
     try {
       const result = await fetchUsers(params).unwrap()
+      console.log('Fetched users:', result)
       return result
     } catch (err) {
       console.error('Failed to fetch users:', err)
@@ -71,7 +72,7 @@ export const useUsers = () => {
       order,
       searchText
     },
-    setSate: {
+    setState: {
       setPage,
       setLimit,
       setStatus,

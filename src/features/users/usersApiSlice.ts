@@ -36,10 +36,10 @@ export const usersApiSlice = createApi({
           page: String(page),
           limit: String(limit),
           is_active: String(status),
-          role: String(role || ''),
-          team: String(team),
-          center: String(center || ''),
-          searchText: String(searchText || ''),
+          roleId: String(role || ''),
+          teamId: String(team || ''),
+          centerId: String(center || ''),
+          keyword: String(searchText || ''),
           sort: String(sort || ''),
           order: String(order || '')
         }
@@ -47,12 +47,12 @@ export const usersApiSlice = createApi({
         if (!page) delete searchObj.page
         if (!limit) delete searchObj.limit
         if (!status) delete searchObj.is_active
-        if (!role) delete searchObj.role
-        if (!team) delete searchObj.team
-        if (!center) delete searchObj.center
+        if (!role) delete searchObj.roleId
+        if (!team) delete searchObj.teamId
+        if (!center) delete searchObj.centerId
         if (!sort) delete searchObj.sort
         if (!order) delete searchObj.order
-        if (!searchText) delete searchObj.searchText
+        if (!searchText) delete searchObj.keyword
 
 
         const searchParams = new URLSearchParams(searchObj)

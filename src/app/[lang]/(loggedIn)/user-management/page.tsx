@@ -30,7 +30,7 @@ export default function UserManagementPage() {
     isSuccess,
     getUsers, triggerFetch,
     state: { page, limit, status, role, team, center, sort, order, searchText },
-    setSate: {
+    setState: {
       setPage,
       setLimit,
       setStatus,

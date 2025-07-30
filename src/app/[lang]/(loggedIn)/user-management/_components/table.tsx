@@ -53,49 +53,53 @@ export function TableUserManagement({
   // Create columns for the table
   const columnHelper = createColumnHelper<UserType>()
   const columns = useMemo<ColumnDef<UserType, any>[]>(() => [
-      columnHelper.accessor('agentId', {
-         header: ({ column }) => <SortableHeader column={column} label='Id' />,
-         cell: info => <div>{info.getValue()}</div>
-      }),
-      columnHelper.accessor('name', {
-        header: ({ column }) => <SortableHeader column={column} label='Name' />,
-        cell: info => <div>{info.getValue()}</div>
-      }),
-      columnHelper.accessor('role.name', {
-        header: ({ column }) => <SortableHeader column={column} label='Role' />,
-        cell: info => <div>{info.getValue()}</div>
-      }),
-      columnHelper.accessor('team.name', {
-        header: ({ column }) => <SortableHeader column={column} label='Team' />,
-        cell: info => <div>{info.getValue()}</div>
-      }),
-      columnHelper.accessor('center.name', {
-        header: ({ column }) => <SortableHeader column={column} label='Center' />,
-        cell: info => <div>{info.getValue()}</div>,
-      }),
-      columnHelper.accessor('isActive', {
-        header: ({ column }) => <SortableHeader column={column} label='Status' />,
-        cell: info => (
-          <div>
-            <ChipIsActive isActive={info.getValue()} />
+    columnHelper.accessor('agentId', {
+      header: ({ column }) => <SortableHeader column={column} label='Id' />,
+      cell: info => <div>{info.getValue()}</div>
+    }),
+    columnHelper.accessor('username', {
+      header: ({ column }) => <SortableHeader column={column} label='Name' />,
+      cell: info => <div>{info.getValue()}</div>
+    }),
+    columnHelper.accessor('email', {
+      header: ({ column }) => <SortableHeader column={column} label='Domain Name' />,
+      cell: info => <div>{info.getValue()}</div>
+    }),
+    columnHelper.accessor('role.name', {
+      header: ({ column }) => <SortableHeader column={column} label='Role' />,
+      cell: info => <div>{info.getValue()}</div>
+    }),
+    columnHelper.accessor('team.name', {
+      header: ({ column }) => <SortableHeader column={column} label='Team' />,
+      cell: info => <div>{info.getValue()}</div>
+    }),
+    columnHelper.accessor('center.name', {
+      header: ({ column }) => <SortableHeader column={column} label='Center' />,
+      cell: info => <div>{info.getValue()}</div>,
+    }),
+    columnHelper.accessor('isActive', {
+      header: ({ column }) => <SortableHeader column={column} label='Status' />,
+      cell: info => (
+        <div>
+          <ChipIsActive isActive={info.getValue()} />
+        </div>
+      )
+    }),
+    columnHelper.display({
+      id: 'actions',
+      enableHiding: false,
+      size: 10,
+      cell: info => {
+        const user = info.row.original
+        return (
+          <div className='w-[1rem]'>
+            <Button variant='ghost' onClick={() => openDialogEditUser(user)}>
+              <SquarePen />
+            </Button>
           </div>
         )
-      }),
-      columnHelper.display({
-        id: 'actions',
-        enableHiding: false,
-        size: 10,
-        cell: info => {
-          const user = info.row.original
-          return (
-            <div className='w-[1rem]'>
-              <Button variant='ghost' onClick={() => openDialogEditUser(user)}>
-                <SquarePen />
-              </Button>
-            </div>
-          )
-        }
-      }),
+      }
+    }),
   ], [openDialogEditUser])
 
   const table = useReactTable({
