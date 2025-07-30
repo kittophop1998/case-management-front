@@ -5,6 +5,10 @@ export const LoginSchemas = z.object({
   password: z.string().min(1, 'password is required')
 })
 
+export const ConfirmPasswordSchemas = z.object({
+  password: z.string().min(1, 'password is required')
+})
+
 export const FilterUsersDialogSchemas = z.object({
   role: z.string().nullable(),
   team: z.string().nullable(),

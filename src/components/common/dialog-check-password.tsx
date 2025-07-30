@@ -2,18 +2,31 @@
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import * as ReactDOM from 'react-dom/client'
+import { ButtonCancel } from './btn-cancle'
+import { Button } from '../ui/button'
+import { Form, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ConfirmPasswordSchemas } from '@/schemas'
+import z from 'zod'
+import { PasswordField } from './form/password-field'
+import Lock from '@public/icons/Lock.svg'
+import { FormError } from './form-error'
+import { FormProvider } from 'react-hook-form'
 
 export function checkPassword(): Promise<string | null> {
     return new Promise((resolve) => {
         const container = document.createElement('div')
         document.body.appendChild(container)
-
         const root = ReactDOM.createRoot(container)
-
         const Modal = () => {
-            const [password, setPassword] = useState('')
-            const [error, setError] = useState('')
-
+            // const [password, setPassword] = useState('')
+            // const [error, setError] = useState('')
+            const form = useForm<z.infer<typeof ConfirmPasswordSchemas>>({
+                resolver: zodResolver(ConfirmPasswordSchemas),
+                defaultValues: {
+                    password: ''
+                }
+            })
             const cleanup = () => {
                 resolve(null)
                 setTimeout(() => {
@@ -21,8 +34,7 @@ export function checkPassword(): Promise<string | null> {
                     container.remove()
                 }, 0)
             }
-
-            const handleConfirm = async () => {
+            const handleConfirm = async (value: z.infer<typeof ConfirmPasswordSchemas>) => {
                 // const res = await fetch('/api/check-password', {
                 //     method: 'POST',
                 //     body: JSON.stringify({ password }),
@@ -32,36 +44,47 @@ export function checkPassword(): Promise<string | null> {
                 // const data = await res.json()
 
                 // if (!res.ok) return setError(data.message || 'Wrong password')
-                resolve(password)
+                resolve(value.password)
                 setTimeout(() => {
                     root.unmount()
                     container.remove()
                 }, 0)
-
-
             }
 
             return (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white p-4 rounded shadow w-80">
+                    <div className="bg-white p-6 rounded-lg shadow w-80">
                         <h2 className="font-bold text-lg mb-2">Confirm Password</h2>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Enter your password"
-                            className="border w-full p-2 mb-2"
-                        />
-                        {error && <div className="text-red-500 mb-2">{error}</div>}
-                        <div className="flex justify-end space-x-2">
-                            <button onClick={cleanup}>Cancel</button>
-                            <button
-                                onClick={handleConfirm}
-                                className="bg-blue-500 text-white px-3 py-1 rounded"
-                            >
-                                Confirm
-                            </button>
-                        </div>
+                        <FormProvider {...form}>
+                            <form onSubmit={form.handleSubmit(handleConfirm)} className='space-y-4'>
+                                <PasswordField
+                                    prependInnerIcon={<Lock />}
+                                    // loading={isPending}
+                                    form={form}
+                                    name='password'
+                                    label=''
+                                    placeholder='Password'
+                                />
+                                {/* <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="Enter your password"
+                                    className="border w-full p-2 mb-2"
+                                /> */}
+                                {/* <FormError message={error} /> */}
+                                <div className="flex justify-end gap-4">
+                                    {/* <button onClick={cleanup}>Cancel</button> */}
+                                    <ButtonCancel
+                                        onClick={cleanup}
+                                    />
+                                    <Button>
+                                        Confirm
+                                    </Button>
+                                </div>
+                            </form>
+                        </FormProvider>
+
                     </div>
                 </div>
             )
