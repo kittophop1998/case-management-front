@@ -27,8 +27,12 @@ export const LoginForm = () => {
     isLoadingLogin: isPending,
     formLogin: form,
     isLoginError: isError,
-    loginError: error
-  } } = useAuth()
+    loginError: error,
+
+  },
+    getMe: {
+      isLoadingGetMe
+    } } = useAuth()
   // function getErrorMessageAP(error: FetchBaseQueryError | SerializedError | undefined): string | undefined {
   //   throw new Error('Function not implemented.')
   // }
@@ -65,8 +69,8 @@ export const LoginForm = () => {
         </div>
         {/* TODO: SET COLOR */}
         <Button
-          disabled={isPending}
-          loading={isPending}
+          disabled={isPending || isLoadingGetMe}
+          loading={isPending || isLoadingGetMe}
           type='submit'
           className='w-full bg-[#5570f1] hover:bg-[#5570f1]/90 text-white'
         >

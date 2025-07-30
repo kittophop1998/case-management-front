@@ -1,3 +1,4 @@
+'use client'
 import {
   SidebarProvider,
   SidebarTrigger,
@@ -5,14 +6,19 @@ import {
 } from '@/components/ui/sidebar'
 import { AppSidebar } from './_components/app-sidebar'
 import { AppBar } from './_components/app-bar'
-export default async function UserLayout ({
-  children,
-  params
-}: Readonly<{
-  children: React.ReactNode
-  params: Promise<{ lang: 'en' | 'th' }>
-}>) {
-  const { lang } = await params
+// export default async function UserLayout ({
+export default function UserLayout(
+  {
+    children,
+    // params
+  }
+  // : Readonly<{
+  // children: React.ReactNode
+  // params: Promise<{ lang: 'en' | 'th' }>
+  // }
+  // >
+) {
+  // const { lang } = await params
   return (
     <div>
       <SidebarProvider>

@@ -9,22 +9,20 @@ import { useGetMeQuery } from "@/features/auth/authApiSlice";
 export const InitializersData = () => {
     const pathname = usePathname()
     const router = useRouter()
-    const { data: ddData, isLoading: isDDLoading } = useGetDropdownQuery()
+    const { data: ddData, isLoading: isDDLoading } = useGetDropdownQuery()// not auto fetch dropdown data
     const { data: me, isLoading: isUserLoading } = useGetMeQuery()
-
     useEffect(() => {
-
         if (isUserLoading) {
             console.log('Loading user data...');
             return;
         }
-
         const autoDirect = async () => {
             const isLoginPage = ['/eng/login', '/th/login'].includes(pathname);
             console.log('autoDirect me:', me, 'isLoginPage:', isLoginPage);
             if (isLoginPage && !me) {
                 return;
             }
+            // fetch dropdown data if not already loaded
             if (isLoginPage && me) {
                 switch (me?.role?.name) {
                     case 'Admin':
