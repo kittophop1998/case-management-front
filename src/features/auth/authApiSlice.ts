@@ -9,6 +9,12 @@ export const authApiSlice = createApi({
   reducerPath: 'authApi',
   baseQuery,
   endpoints: (builder) => ({
+    getMe: builder.query<ApiResponse<UserProfileType>, void>({
+      query: () => ({
+        url: '/auth/profile',
+        method: 'GET',
+      }),
+    }),
     login: builder.mutation<ApiResponse<UserProfileType>, typeof LoginSchemas>({
       query: (body) => ({
         url: '/auth/login',
@@ -16,24 +22,18 @@ export const authApiSlice = createApi({
         body,
       }),
     }),
-    logout: builder.mutation<ApiResponse<null>, null>({
+    logout: builder.mutation<ApiResponse<any>, void>({
       query: () => ({
         url: '/auth/logout',
         method: 'POST',
       }),
     }),
-    getMe: builder.query<ApiResponse<UserProfileType>, null>({
-      query: () => ({
-        url: '/auth/profile',
-        method: 'GET',
-      }),
-    })
+
   }),
 });
 
 export const {
   useLoginMutation,
   useLogoutMutation,
-  // useGetMeMutation
   useGetMeQuery
 } = authApiSlice;
