@@ -12,7 +12,7 @@ import Lock from '@public/icons/Lock.svg'
 import Email from '@public/icons/Email.svg'
 import { Form } from '@/components/ui/form'
 import { TextField } from '@/components/common/form/text-field'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/common/Button'
 import { PasswordField } from '@/components/common/form/password-field'
 import { Typography } from '@/components/common/typography'
 import { FormError } from '@/components/common/form-error'
@@ -66,11 +66,13 @@ export const LoginForm = () => {
         {/* TODO: SET COLOR */}
         <Button
           disabled={isPending}
+          loading={isPending}
           type='submit'
           className='w-full bg-[#5570f1] hover:bg-[#5570f1]/90 text-white'
         >
           Login
         </Button>
+
       </form>
     </Form>
   )
