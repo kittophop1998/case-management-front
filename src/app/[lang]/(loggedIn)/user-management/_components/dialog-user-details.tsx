@@ -64,7 +64,6 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
             break;
           case 'create':
             await createUser(userData).unwrap()
-            // alert('User created successfully')
             dialogAlert(true)
 
             break;
