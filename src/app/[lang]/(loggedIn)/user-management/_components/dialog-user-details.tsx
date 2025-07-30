@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCreateUserMutation, useEditUserMutation, useGetUserMutation } from '@/features/users/usersApiSlice'
 import { checkPassword } from '@/components/common/dialog-check-password'
+import { dialogAlert } from '@/components/common/dialog-alert'
 
 export type DialogDetailsRef = {
   setDefaultUser: (user: UserType | null) => void
@@ -60,11 +61,12 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
             const password = await checkPassword()
             if (!password) return // กดยกเลิก หรือกรอกผิด
             await editUser({ id: userData.id, data: userData }).unwrap()
-            // alert('User updated successfully')
             break;
           case 'create':
             await createUser(userData).unwrap()
-            alert('User created successfully')
+            // alert('User created successfully')
+            dialogAlert(true)
+
             break;
           default:
             throw new Error('Invalid mode')
