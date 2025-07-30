@@ -63,7 +63,11 @@ const SelectField = ({
             value={String(field.value)}
             onValueChange={val => {
               const actualValue = valueMap.get(val)
-              field.onChange(actualValue ?? val) // fallback to val if not found
+              if (actualValue !== undefined) {
+                field.onChange(actualValue) // fallback to val if not found
+              } else {
+                field.onChange(val) // fallback to val if not found
+              }
             }}
           >
             <FormControl>
