@@ -60,7 +60,7 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
             const password = await checkPassword()
             if (!password) return // กดยกเลิก หรือกรอกผิด
             await editUser({ id: userData.id, data: userData }).unwrap()
-            alert('User updated successfully')
+            // alert('User updated successfully')
             break;
           case 'create':
             await createUser(userData).unwrap()

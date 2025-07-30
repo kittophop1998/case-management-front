@@ -12,6 +12,7 @@ import { PasswordField } from './form/password-field'
 import Lock from '@public/icons/Lock.svg'
 import { FormError } from './form-error'
 import { FormProvider } from 'react-hook-form'
+import { dialogAlert } from './dialog-alert'
 
 export function checkPassword(): Promise<string | null> {
     return new Promise((resolve) => {
@@ -20,7 +21,7 @@ export function checkPassword(): Promise<string | null> {
         const root = ReactDOM.createRoot(container)
         const Modal = () => {
             // const [password, setPassword] = useState('')
-            // const [error, setError] = useState('')
+            const [error, setError] = useState('')
             const form = useForm<z.infer<typeof ConfirmPasswordSchemas>>({
                 resolver: zodResolver(ConfirmPasswordSchemas),
                 defaultValues: {
@@ -43,12 +44,28 @@ export function checkPassword(): Promise<string | null> {
 
                 // const data = await res.json()
 
-                // if (!res.ok) return setError(data.message || 'Wrong password')
-                resolve(value.password)
-                setTimeout(() => {
-                    root.unmount()
-                    container.remove()
-                }, 0)
+                // if (!res.ok) return    setError(data.message || 'Wrong password')
+                if (value.password === 'admin') {
+                    await dialogAlert(true)
+                    resolve(value.password)
+                    setTimeout(() => {
+                        root.unmount()
+                        container.remove()
+                    }, 0)
+                } else {
+                    // setError('Wrong password')
+                    dialogAlert(false,
+                        {
+                            title: 'Invalid Password',
+                            message: 'The password you entered is incorrect.',
+                            confirmText: 'Try again',
+                            cancelText: 'Try again',
+                            onConfirm: () => { },
+                            onCancel: () => { }
+                        }
+                    )
+                }
+
             }
 
             return (
@@ -72,7 +89,7 @@ export function checkPassword(): Promise<string | null> {
                                     placeholder="Enter your password"
                                     className="border w-full p-2 mb-2"
                                 /> */}
-                                {/* <FormError message={error} /> */}
+                                <FormError message={error} />
                                 <div className="flex justify-end gap-4">
                                     {/* <button onClick={cleanup}>Cancel</button> */}
                                     <ButtonCancel
