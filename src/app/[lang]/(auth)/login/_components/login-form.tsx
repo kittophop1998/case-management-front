@@ -68,9 +68,10 @@ export const LoginForm = () => {
           )}
         </div>
         {/* TODO: SET COLOR */}
+        {/* || isLoadingGetMe */}
         <Button
-          disabled={isPending || isLoadingGetMe}
-          loading={isPending || isLoadingGetMe}
+          disabled={isPending}
+          loading={isPending}
           type='submit'
           className='w-full bg-[#5570f1] hover:bg-[#5570f1]/90 text-white'
         >
