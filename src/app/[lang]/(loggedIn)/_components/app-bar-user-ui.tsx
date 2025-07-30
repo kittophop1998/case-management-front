@@ -6,13 +6,15 @@ import { Popover, PopoverContent } from '@/components/ui/popover'
 import { PopoverTrigger } from '@radix-ui/react-popover'
 import { Type } from 'react-feather'
 import { useRouter } from 'next/navigation'
-import { useGetMeQuery, useLogoutMutation } from '@/features/auth/authApiSlice'
+import { useGetMeQuery, useLogoutMutation, authApiSlice } from '@/features/auth/authApiSlice'
 import { UserProfileType } from '@/types/user.type'
+import { useDispatch } from 'react-redux'
 
 interface UserAvatarProps {
   userUrl: string
   username: string
 }
+
 const UserAvatar = ({ userUrl, username }: UserAvatarProps) => {
   return (
     <Avatar className='h-[2.5rem] w-[2.5rem]'>
@@ -26,8 +28,8 @@ const UserAvatar = ({ userUrl, username }: UserAvatarProps) => {
 }
 
 const PopupUserUI = ({ user }: { user: UserProfileType }) => {
+  const dispatch = useDispatch()
   const [logoutMutation, { isLoading: isLoadingLogout, isError: isLogoutError, error: logoutError }] = useLogoutMutation();
-
   const router = useRouter()
   const username = user.name ?? 'Unknown User'
   const userEmail = user.email ?? 'Unknown Email'
@@ -38,6 +40,9 @@ const PopupUserUI = ({ user }: { user: UserProfileType }) => {
   const handleLogout = async () => {
     try {
       await logoutMutation().unwrap()
+      await dispatch(authApiSlice.util.resetApiState())
+
+      // await refetchMe()
       router.push('/login')
     } catch (error) {
       console.error('Logout failed', error)
