@@ -9,6 +9,7 @@ import z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCreateUserMutation, useEditUserMutation, useGetUserMutation } from '@/features/users/usersApiSlice'
+import { checkPassword } from '@/components/common/dialog-check-password'
 
 export type DialogDetailsRef = {
   setDefaultUser: (user: UserType | null) => void
@@ -52,9 +53,12 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
     const [editUser, { error: errorEdit, isLoading: isLoadingEdit }] = useEditUserMutation()
     const onSubmit = async (userData: z.infer<typeof CreateEditUserSchema>) => {
       console.log('Form submitted with values:', mode, userData)
+
       try {
         switch (mode) {
           case 'edit':
+            const password = await checkPassword()
+            if (!password) return // กดยกเลิก หรือกรอกผิด
             await editUser({ id: userData.id, data: userData }).unwrap()
             alert('User updated successfully')
             break;
