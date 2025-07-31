@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useCallback, useRef, useState } from 'react';
-import { useGetMeQuery, useLoginMutation } from '@/features/auth/authApiSlice';
+import { useLazyGetMeQuery, useLoginMutation } from '@/features/auth/authApiSlice';
 import z from 'zod';
 import { LoginSchemas } from '@/schemas';
 import { useRouter } from 'next/navigation'
@@ -19,16 +19,15 @@ export default function useAuth() {
   })
   const router = useRouter()
   const [loginMutation, { isLoading: isLoadingLogin, isError: isLoginError, error: loginError }] = useLoginMutation();
-  const [shouldFetchMe, setShouldFetchMe] = useState(false);
-  const { data: me, isLoading: isLoadingGetMe, refetch: refetchMe, isError: isGetMeError } = useGetMeQuery(undefined, {
-    // skip: true,
-    skip: !shouldFetchMe,
-  })
+  // const [shouldFetchMe, setShouldFetchMe] = useState(false);
+  // const { data: me, isLoading: isLoadingGetMe, refetch: refetchMe, isError: isGetMeError } = useGetMeQuery(undefined, {
+  //   skip: !shouldFetchMe,
+  // })
+  const [getMe, { data: me, currentData: currentMe, isLoading: isLoadingGetMe, isError: isGetMeError }] = useLazyGetMeQuery();
   const login = async (value: z.infer<typeof LoginSchemas>) => {
     try {
       await loginMutation(value).unwrap();
-      setShouldFetchMe(true);
-      // refetchMe();
+      getMe()
     } catch (error) {
       console.log('useAuth-Login failed', error);
     }
@@ -36,12 +35,7 @@ export default function useAuth() {
   useEffect(() => {
     console.log('useAuth-me changed:', me);
   }, [me]);
-  const logout = useCallback(() => {
-    throw new Error('Logout functionality is not implemented yet');
-    // post /logout endpoint
-    // set user null
-    // clear
-  }, []);
+
   const isMutted = useRef(false);
   useEffect(() => {
     if (!isMutted.current) {
@@ -70,8 +64,6 @@ export default function useAuth() {
       formLogin,
       isLoginError,
       loginError
-    }, logout: {
-      logout,
     },
     getMe: {
       me,

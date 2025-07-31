@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import { useGetMeQuery, useLogoutMutation, authApiSlice } from '@/features/auth/authApiSlice'
 import { UserProfileType } from '@/types/user.type'
 import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
 
 interface UserAvatarProps {
   userUrl: string
@@ -77,6 +78,7 @@ const PopupUserUI = ({ user }: { user: UserProfileType }) => {
 
 export const AppbarUserUI = () => {
   const { data: me, isLoading: isLoadingGetMe, refetch: refetchMe, isError: isGetMeError } = useGetMeQuery()
+
   if (!me) return null
   // const me: UserProfileType = data
   const username = me?.name ?? 'Unknown User'

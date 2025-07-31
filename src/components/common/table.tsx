@@ -33,11 +33,14 @@ export interface DataTableProps<T> {
   loading?: boolean;
   emptyText?: React.ReactNode;
   onRowClick?: (row: Row<T>) => void;
+  setPage: (page: number) => void;
+  setLimit: (limit: number) => void;
 }
 
 export const SortableHeader = ({
   column,
-  label
+  label,
+  className = ''
 }: {
   column: Column<any, unknown>
   label: string
@@ -46,6 +49,7 @@ export const SortableHeader = ({
     <Button
       variant='ghost'
       onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      className={className}
     >
       {label}
       {column.getIsSorted() === 'asc' ? (
@@ -65,7 +69,10 @@ export function DataTable<T>({
   totalPages,
   loading = false,
   emptyText = 'No results.',
-  onRowClick
+  onRowClick,
+  setPage,
+  setLimit
+
 }: DataTableProps<T>) {
   return (
     <>
@@ -138,16 +145,16 @@ export function DataTable<T>({
           <Button
             variant='ghost'
             size='sm'
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => setPage((p) => p - 1)}
+            disabled={page === 1}
           >
             <ChevronLeft className='h-4 w-4' />
           </Button>
           <Button
             variant='ghost'
             size='sm'
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={() => setPage((p) => p + 1)}
+            disabled={page >= totalPages}
           >
             <ChevronRight className='h-4 w-4' />
           </Button>

@@ -1,3 +1,4 @@
+import { InitializersData } from './../../app/[lang]/_components/initializers-data';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { UserProfileType, UserType } from '@/types/user.type';
 import { baseQuery } from '@/services/api';
@@ -35,5 +36,6 @@ export const authApiSlice = createApi({
 export const {
   useLoginMutation,
   useLogoutMutation,
-  useGetMeQuery
+  useGetMeQuery,
+  useLazyGetMeQuery
 } = authApiSlice;

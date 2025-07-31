@@ -85,6 +85,8 @@ export default function UserManagementPage() {
           isLoading={isLoading}
           usersTable={usersTable}
           openDialogEditUser={openDialogEditUser}
+          setPage={setPage}
+          setLimit={setLimit}
         />
       </CardPageWrapper>
       <DialogDetails

@@ -43,3 +43,10 @@ export const CreateEditUserSchema = z.object({
 })
 
 // "operatorId": z.string().min(1, 'Operator ID is required').regex(/^\d+$/, 'Operator ID must contain only numbers'),
+
+
+
+export const SettingAccessControlSchema = z.object({
+  permission: z.string().min(1, 'Permission Key is required'),
+  roles: z.array(z.string().min(1, 'Role is required')).min(1, 'At least one role is required'),
+})

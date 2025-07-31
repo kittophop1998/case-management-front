@@ -1,79 +1,91 @@
+'use client';
+import { Checkbox } from "@/components/ui/checkbox";
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
-// array values
-{/* 
-    <p>{{ selected }}</p>
-    <checkbox
-      v-model="selected"
-      label="John"
-      value="John"
-    ></checkbox>
-    <checkbox
-      v-model="selected"
-      label="Jacob"
-      value="Jacob"
-    ></checkbox>
- */}
-// boolean values
-//   <checkbox
-//       v-model="checkbox1"
-//       :label="`Checkbox 1: ${checkbox1.toString()}`"
-//     ></checkbox>
-//     <checkbox
-//       v-model="checkbox2"
-//       :label="`Checkbox 2: ${checkbox2.toString()}`"
-//     ></checkbox>
-const Checkbox = ({ isPending, readonly = false, form, name, label, placeholder }: TextFieldProps) => {
+interface CheckboxFieldProps {
+    isPending?: boolean;
+    readonly?: boolean;
+    form: any; // Adjust type as needed
+    name: string;
+    label?: string;
+    placeholder?: string;
+    items: any[]; // Adjust type as needed
+    valueName?: string;
+    labelName?: string;
+}
+export const CheckboxField = ({ isPending, readonly = false, form, items, name, label, placeholder,
+    valueName = "value",
+    labelName = "label",
+}: CheckboxFieldProps) => {
+    const valueMap = new Map(
+        items.map((item: any) => [String(item[valueName]), item[valueName]])
+    )
     return <FormField
         control={form.control}
-        name="preferences"
-        render={({ field }) => (
+        name="items"
+        render={() => (
             <FormItem>
-                <FormLabel>Preferences</FormLabel>
-                <div className="space-y-2">
+                {/* <div className="mb-4">
+                    <FormLabel className="text-base">Sidebar</FormLabel>
+                    <FormDescription>
+                        Select the items you want to display in the sidebar.
+                    </FormDescription>
+                </div> */}
+                {items.map((item) => (
                     <FormField
+                        key={item[valueName]}
                         control={form.control}
-                        name={`${field.name}.newsletter`}
-                        render={({ field: newsletterField }) => (
-                            <FormItem>
-                                <FormControl>
-                                    <label className="flex items-center space-x-2">
-                                        <input
-                                            type="checkbox"
-                                            {...newsletterField}
-                                            checked={newsletterField.value}
-                                            onChange={(e) => newsletterField.onChange(e.target.checked)}
+                        name={name}
+                        render={({ field }) => {
+                            return (
+                                <FormItem
+                                    key={item[valueName]}
+                                    className="flex flex-row items-center gap-2"
+                                >
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value?.includes(item[valueName])}
+
+                                            defaultValue={field.value}
+                                            // value={field.value}
+                                            onCheckedChange={(checked) => {
+                                                // console.log('CheckboxField onCheckedChange', checked, item[valueName])
+                                                // console.log('field.value', field.value)
+                                                return checked
+                                                    ? field.onChange([...field.value, item[valueName]])
+                                                    : field.onChange(
+                                                        field.value?.filter(
+                                                            (value) => value !== item[valueName]
+                                                        )
+                                                    )
+                                            }}
+                                        // onCheckedChange={val => {
+                                        //     const actualValue = valueMap.get(val)
+                                        //     console.log('RadioField onValueChange', val, actualValue)
+                                        //     if (actualValue !== undefined) {
+                                        //         field.onChange(actualValue) // fallback to val if not found
+                                        //     } else {
+                                        //         field.onChange(val) // fallback to val if not found
+                                        //     }
+                                        // }}
                                         />
-                                        <span>Subscribe to newsletter</span>
-                                    </label>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                                    </FormControl>
+                                    <FormLabel className="text-sm font-normal">
+                                        {item[labelName] || item[valueName]}
+                                        {/* <div>
+                                            item[valueName]:{item[valueName]}
+                                        </div>
+                                        <div>
+                                            field.value:{JSON.stringify(field.value)}
+                                        </div> */}
+                                    </FormLabel>
+                                </FormItem>
+                            )
+                        }}
                     />
-                    <FormField
-                        control={form.control}
-                        name={`${field.name}.notifications`}
-                        render={({ field: notificationsField }) => (
-                            <FormItem>
-                                <FormControl>
-                                    <label className="flex items-center space-x-2">
-                                        <input
-                                            type="checkbox"
-                                            {...notificationsField}
-                                            checked={notificationsField.value}
-                                            onChange={(e) => notificationsField.onChange(e.target.checked)}
-                                        />
-                                        <span>Enable notifications</span>
-                                    </label>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </div>
+                ))}
+                <FormMessage />
             </FormItem>
         )}
     />
 };
-
-export { Checkbox };

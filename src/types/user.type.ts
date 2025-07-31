@@ -1,3 +1,5 @@
+import { TableType } from "./table.type"
+
 export type JsonJoinDetails = {
   id: string
   name: string
@@ -19,13 +21,15 @@ export type UserType = {
   role: JsonJoinDetails
 }
 
-export type UsersTable = {
-  data: UserType[]
-  page: number
-  limit: number
-  total: number
-  totalPages: number
-}
+// export type UsersTable = {
+//   data: UserType[]
+//   page: number
+//   limit: number
+//   total: number
+//   totalPages: number
+// }
+
+export type UsersTable = TableType<UserType>
 
 export type UserProfileType = {
   center: JsonJoinDetails
