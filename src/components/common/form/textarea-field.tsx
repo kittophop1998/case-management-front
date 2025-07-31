@@ -6,7 +6,6 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
-// import { Input } from "@/components/ui/input";
 import { cva } from 'class-variance-authority'
 import { Textarea } from "@/components/ui/textarea"
 
@@ -28,7 +27,7 @@ const textFieldVariants = cva('', {
     }
   }
 })
-const TextField = ({
+const TextAreaField = ({
   loading,
   readonly = false,
   form,
@@ -51,12 +50,10 @@ const TextField = ({
               <div className='absolute flex items-center justify-center h-full w-[2rem]'>
                 {prependInnerIcon}
               </div>
-              <Input
+              <Textarea
                 className={textFieldVariants({ readonly })}
                 placeholder={placeholder}
                 {...field}
-                prependInnerIcon={!!prependInnerIcon}
-                appendInnerIcon={!!appendInnerIcon}
                 readOnly={readonly}
               />
             </div>
@@ -68,4 +65,4 @@ const TextField = ({
   )
 }
 
-export { TextField }
+export { TextAreaField }

@@ -52,9 +52,12 @@ const navMain = [
     url: '/access-control',
     icon: SettingIcon
   },
-
+  {
+    title: 'Customer Search',
+    url: '/customer/search',
+    icon: SettingIcon
+  },
 ]
-// }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 

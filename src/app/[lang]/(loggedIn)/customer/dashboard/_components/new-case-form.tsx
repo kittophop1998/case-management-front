@@ -1,0 +1,234 @@
+'use client';
+// import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@radix-ui/react-accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Form } from "@/components/ui/form";
+import { NewCaseSchema } from "@/schemas";
+import z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, FormProvider } from 'react-hook-form';
+import { TextAreaField } from "@/components/common/form/textarea-field";
+import { Typography } from "@/components/common/typography";
+import { Check, Maximize2, Minimize2, Minus, Square, X } from "lucide-react";
+import { CheckboxField } from "@/components/common/form/checkbox";
+import { SelectField } from "@/components/common/form/select-field";
+import { Separator } from "@/components/ui/separator";
+import { Card } from "@/components/ui/card";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ButtonCancel } from "@/components/common/btn-cancle";
+import { RadioField } from "@/components/common/form/radio";
+
+const SectionCard = ({ title, children, isAccordion }: { title: string, children: React.ReactNode, isAccordion: boolean }) => {
+    if (isAccordion) {
+        return (
+            <Card className="rounded-none shadow-none p-3">
+                <Accordion type="single" collapsible className="">
+                    <AccordionItem value="item-1">
+                        <AccordionTrigger className='p-0 m-0'>{title}</AccordionTrigger>
+                        <AccordionContent className="mt-2 text-gray-600">
+                            {children}
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
+            </Card>
+        );
+    } else {
+        return (
+            <>
+                <div className="p-3">
+                    <div >
+                        {title}
+                    </div>
+                    <div>
+                        {children}
+                    </div>
+                </div>
+                <Separator />
+            </>)
+
+    }
+
+}
+
+export const NewCaseForm = () => {
+    const form = useForm<z.infer<typeof NewCaseSchema>>({
+        resolver: zodResolver(NewCaseSchema),
+        defaultValues: {
+            mainInquiry: '',
+            mainInquiryStamp: '',
+            supInquiry: '',
+            isDraft: false
+        }
+    })
+    const onSubmit = (data: z.infer<typeof NewCaseSchema>) => {
+        console.log('Form submitted with data:', data);
+    };
+    const [isSmallMod, setIsMaximized] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isHidden, setIsHidden] = useState(false);
+
+    return (
+        <>
+            <Button
+                onClick={() => setIsOpen(v => !v)}
+            >
+                New
+            </Button>
+            <div className={
+                cn('fixed z-50', (isSmallMod || isHidden) ? 'right-0 bottom-0 max-h-[70vh] w-[40vw]' : 'inset-0  flex items-center justify-center bg-black/45', isOpen ? '' : 'hidden')
+            }>
+
+                <div className="bg-white rounded-sm overflow-hidden">
+                    <div className="flex items-center bg-primary/25 px-3">
+                        <Typography>New Case</Typography>
+                        <div className="flex-1" />
+
+                        <Button variant='ghost'
+                            onClick={() => setIsHidden((v) => !v)}
+                        >
+                            {isHidden ? <Square /> : <Minus />}
+                        </Button>
+                        {
+                            isHidden ? null :
+                                <Button variant='ghost' onClick={() => setIsMaximized((v) => !v)} className="ml-2">
+                                    {isSmallMod ? <Maximize2 /> : <Minimize2 />}
+                                </Button>
+                        }
+
+                        <Button variant='ghost'
+                            onClick={() => setIsOpen(false)}
+                        >
+                            <X />
+                        </Button>
+                    </div>
+                    <FormProvider {...form} >
+                        <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3', isHidden ? 'hidden' : '')}>
+                            <div className={cn("py-3", isSmallMod ? "max-h-[50vh] overflow-y-auto" : "grid grid-cols-2 gap-3")}>
+                                <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
+                                    <SectionCard title="Customer Info" isAccordion={isSmallMod}>
+                                        <>
+                                            <h3>Customer Information</h3>
+                                            <p>Name: John Doe</p>
+                                            <p>Email: john.doe@example.com</p>
+                                            <p>Phone: (123) 456-7890</p>
+                                        </>
+                                    </SectionCard>
+                                    <SectionCard title="Case Info" isAccordion={isSmallMod}>
+                                        <>
+                                            <h3>Case Information</h3>
+                                            <p>Case ID: 123456</p>
+                                            <p>Status: Open</p>
+                                            <p>Description: This is a sample case description.</p>
+                                            <TextAreaField
+                                                name="mainInquiry"
+                                                label="Add Note"
+                                                placeholder="Enter Note"
+                                                form={form}
+                                            />
+                                        </>
+                                    </SectionCard>
+                                </div>
+                                <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
+                                    <SectionCard title="Disposition" isAccordion={isSmallMod}>
+                                        <>
+                                            <SelectField
+                                                form={form}
+                                                name="supInquiry"
+                                                label="Select Sup Inquiry"
+                                                items={[
+                                                    { value: 'sup1', label: 'SUP001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                    { value: 'sup2', label: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                    { value: 'sup3', label: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                ]}
+                                                valueName="value"
+                                                labelName="label"
+
+                                            />
+                                            <CheckboxField
+                                                label="Select Main inquiry Stamp to Genesys:"
+                                                form={form}
+                                                items={[
+                                                    { value: 'inquiry1', label: 'MIA001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                    { value: 'inquiry2', label: 'MIA002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                    { value: 'inquiry3', label: 'MIA003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                ]}
+                                                name="mainInquiryStamp"
+                                                valueName="value"
+                                                labelName="label"
+
+                                            >
+                                            </CheckboxField>
+                                            {/*  */}
+                                            {/*  */}
+                                            <Typography className="mt-3">Sup inquiry</Typography>
+                                            <SelectField
+                                                form={form}
+                                                name="supInquiry"
+                                                label="Select Sup Inquiry"
+                                                items={[
+                                                    { value: 'sup1', label: 'SUP001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                    { value: 'sup2', label: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                    { value: 'sup3', label: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                ]}
+                                                valueName="value"
+                                                labelName="label"
+                                            />
+                                            <CheckboxField
+                                                label="Select Main inquiry Stamp to Genesys:"
+                                                form={form}
+                                                items={[
+                                                    { value: 'inquiry1', label: 'MIA001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                    { value: 'inquiry2', label: 'MIA002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                    { value: 'inquiry3', label: 'MIA003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                ]}
+                                                name="mainInquiryStamp"
+                                                valueName="value"
+                                                labelName="label"
+
+                                            >
+                                            </CheckboxField>
+                                        </>
+                                    </SectionCard>
+                                    <Typography>Require Create Case</Typography>
+                                    <RadioField
+                                        form={form}
+                                        items={
+                                            [
+                                                {
+                                                    label: 'Yes',
+                                                    value: true
+                                                },
+                                                {
+                                                    label: 'No',
+                                                    value: false
+                                                }
+                                            ]
+                                        }
+                                        valueName='value'
+                                        labelName='label'
+                                        name='isDraft'
+                                        label='Create Draft case ?'
+                                        className='flex'
+                                    >
+
+                                    </RadioField>
+                                    <Typography>Select Case for Draft</Typography>
+
+                                </div>
+                            </div>
+                            <div className="flex justify-end gap-3 pb-3">
+                                <ButtonCancel
+                                    onClick={() => setIsOpen(false)}
+                                />
+                                <Button>Save</Button>
+
+                            </div>
+                        </form>
+                    </FormProvider>
+                </div>
+            </div >
+
+        </>
+    );
+};

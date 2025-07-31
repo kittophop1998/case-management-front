@@ -2,12 +2,11 @@
 
 import { useEffect, useCallback, useRef, useState } from 'react';
 import { useLazyGetMeQuery, useLoginMutation } from '@/features/auth/authApiSlice';
-import z from 'zod';
 import { LoginSchemas } from '@/schemas';
 import { useRouter } from 'next/navigation'
+import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-
 
 export default function useAuth() {
   const formLogin = useForm<z.infer<typeof LoginSchemas>>({

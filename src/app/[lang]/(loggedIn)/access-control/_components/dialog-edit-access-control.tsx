@@ -8,10 +8,8 @@ import { useEditTableMutation } from "@/features/permission/permissionApiSlice";
 import { SettingAccessControlSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { Form, FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
-
-
 
 export type DialogRef = {
     setDefaultForm: (obj: any) => void
@@ -95,9 +93,6 @@ export const DialogEditAccessControl = forwardRef<DialogRef, DialogEditAccessCon
                     </form>
 
                 </FormProvider>
-                {/* {
-                    JSON.stringify(formView)
-                } */}
             </Modal >
         );
     })

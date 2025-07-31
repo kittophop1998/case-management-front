@@ -50,3 +50,11 @@ export const SettingAccessControlSchema = z.object({
   permission: z.string().min(1, 'Permission Key is required'),
   roles: z.array(z.string().min(1, 'Role is required')).min(1, 'At least one role is required'),
 })
+
+export const NewCaseSchema = z.object({
+  note: z.string().optional(),
+  mainInquiry: z.string().optional(),
+  mainInquiryStamp: z.string().optional(),
+  supInquiry: z.string().optional(),
+  isDraft: z.boolean().optional(),
+})

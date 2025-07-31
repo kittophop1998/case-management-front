@@ -27,8 +27,8 @@ const RadioFieldVariants = cva(
     {
         variants: {
             readonly: {
-                true: "bg-gray-100 cursor-not-allowed",
-                false: "bg-white cursor-text",
+                true: "cursor-not-allowed",
+                false: "cursor-text",
             }
         }
     }
@@ -59,6 +59,7 @@ const RadioField = (
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
                         <RadioGroup
+
                             // onChange={onChange ? onChange : field.onChange}
                             defaultValue={field.value}
                             className={cn(RadioFieldVariants({ readonly }), className)}

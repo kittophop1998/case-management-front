@@ -7,9 +7,9 @@ interface CardPageWrapperProps {
     children: React.ReactNode;
 }
 
-const CardPageWrapper = ({ children }: CardPageWrapperProps) => {
+const CardPageWrapper = ({ children, className }: CardPageWrapperProps) => {
     return (
-        <Container className="mx-0 px-0 sm:px-0 lg:px-0">
+        <Container className={`mx-0 px-0 sm:px-0 lg:px-0 ${className}`}>
             <Card className="p-6">
                 {children}
             </Card>
