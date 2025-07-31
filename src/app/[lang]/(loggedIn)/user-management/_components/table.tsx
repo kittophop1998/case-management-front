@@ -1,6 +1,6 @@
 'use client'
 
-import { DataTable, SortableHeader } from '@/components/common/table'
+import { DataTable, Header, SortableHeader } from '@/components/common/table'
 import {
   ColumnDef,
   ColumnHelper,
@@ -54,36 +54,32 @@ export function TableUserManagement({
   const columnHelper = createColumnHelper<UserType>()
   const columns = useMemo<ColumnDef<UserType, any>[]>(() => [
     columnHelper.accessor('agentId', {
-      header: ({ column }) => <SortableHeader column={column} label='Id' />,
+      header: () => <Header label='Id' />,
       cell: info => <div>{info.getValue()}</div>
     }),
     columnHelper.accessor('username', {
-      header: ({ column }) => <SortableHeader column={column} label='Name' />,
+      header: () => <Header label='Name' />,
       cell: info => <div>{info.getValue()}</div>
     }),
     columnHelper.accessor('email', {
-      header: ({ column }) => <SortableHeader column={column} label='Domain Name' />,
+      header: () => <Header label='Domain Name' />,
       cell: info => <div>{info.getValue()}</div>
     }),
     columnHelper.accessor('role.name', {
-      header: ({ column }) => <SortableHeader column={column} label='Role' />,
+      header: () => <Header label='Role' />,
       cell: info => <div>{info.getValue()}</div>
     }),
     columnHelper.accessor('team.name', {
-      header: ({ column }) => <SortableHeader column={column} label='Team' />,
+      header: () => <Header label='Team' />,
       cell: info => <div>{info.getValue()}</div>
     }),
     columnHelper.accessor('center.name', {
-      header: ({ column }) => <SortableHeader column={column} label='Center' />,
+      header: () => <Header label='Center' />,
       cell: info => <div>{info.getValue()}</div>,
     }),
     columnHelper.accessor('isActive', {
-      header: ({ column }) => <SortableHeader column={column} label='Status' />,
-      cell: info => (
-        <div>
-          <ChipIsActive isActive={info.getValue()} />
-        </div>
-      )
+      header: () => <Header label='Status' />,
+      cell: info => <ChipIsActive isActive={info.getValue()} />
     }),
     columnHelper.display({
       id: 'actions',
@@ -92,7 +88,7 @@ export function TableUserManagement({
       cell: info => {
         const user = info.row.original
         return (
-          <div className='w-[1rem]'>
+          <div>
             <Button variant='ghost' onClick={() => openDialogEditUser(user)}>
               <SquarePen />
             </Button>

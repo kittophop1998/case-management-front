@@ -57,6 +57,12 @@ export const SortableHeader = ({
   )
 }
 
+export const Header = ({label}: {label: string}) => {
+  return (
+    <span>{label}</span>
+  );
+}
+
 export function DataTable<T>({
   table,
   page,
