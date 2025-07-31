@@ -20,3 +20,12 @@ export const statuses = [
     { id: true, name: 'Active' },
     { id: false, name: 'Inactive' },
 ]
+
+
+export const path2name = {
+    'case-management': 'Case Management',
+    'customer/search': 'Customer Search',
+    'access-control': 'Access Control',
+    'customer/dashboard': 'Customer Dashboard',
+    '': ' Case Management',
+}
