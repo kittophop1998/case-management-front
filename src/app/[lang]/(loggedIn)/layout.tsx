@@ -1,4 +1,5 @@
 'use client'
+
 import {
   SidebarProvider,
   SidebarTrigger,
@@ -6,28 +7,28 @@ import {
 } from '@/components/ui/sidebar'
 import { AppSidebar } from './_components/app-sidebar'
 import { AppBar } from './_components/app-bar'
-// export default async function UserLayout ({
-export default function UserLayout(
-  {
-    children,
-    // params
-  }
-  // : Readonly<{
-  // children: React.ReactNode
-  // params: Promise<{ lang: 'en' | 'th' }>
-  // }
-  // >
-) {
-  // const { lang } = await params
+import { useState } from 'react';
+import { useHeaderTitle } from '@/hooks/useHeaderTitle';
+import { HeaderWrapper } from '../../../components/common/HeaderWrapper';
+import { useRouter } from 'next/navigation';
+
+export default function UserLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const [title, setTitle] = useState('');
+  useHeaderTitle(setTitle);
+
   return (
     <div>
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset className='bg-[#f4f5fa]'>
-          <AppBar />
+          <AppBar title={title} />
           <div className='max-w-[1600px] mx-auto w-full  px-2'>{children}</div>
         </SidebarInset>
       </SidebarProvider>
     </div>
-  )
+  );
 }
