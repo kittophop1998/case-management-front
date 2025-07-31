@@ -134,7 +134,6 @@ export function TableUserManagement({
         totalPages={usersTable.totalPages}
         setPage={setPage}
         setLimit={setLimit}
-
       />
     </>
   )

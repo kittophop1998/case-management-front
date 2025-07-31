@@ -33,8 +33,8 @@ export interface DataTableProps<T> {
   loading?: boolean;
   emptyText?: React.ReactNode;
   onRowClick?: (row: Row<T>) => void;
-  setPage: (page: number) => void;
-  setLimit: (limit: number) => void;
+  setPage?: (page: number) => void;
+  setLimit?: (limit: number) => void;
 }
 
 export const SortableHeader = ({
@@ -44,6 +44,7 @@ export const SortableHeader = ({
 }: {
   column: Column<any, unknown>
   label: string
+  className?: string
 }) => {
   return (
     <Button
