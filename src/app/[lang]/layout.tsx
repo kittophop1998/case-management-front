@@ -2,6 +2,11 @@ import { Kanit } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import { StoreProvider } from '@/store/provider'
 import { InitializersData } from './_components/initializers-data'
+import { updateTokenAuth } from '@/actions/updateTokenAuth'
+import { handleError401 } from '@/lib/utils/handleError'
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+
 const kanit = Kanit({
   weight: '400',
   subsets: ['latin']
@@ -18,6 +23,27 @@ export default async function RootLayout({
   params: Promise<{ lang: 'en' | 'th' }>
 }>) {
   const { lang } = await params
+  const { user, accessToken, refreshToken } = await updateTokenAuth();
+  const headerList = headers();
+  const pathname = (await headerList).get("x-current-path") as string;
+  if (!user) {
+    await handleError401({ pathname });
+  } else {
+    if (pathname.includes('/login')) {
+      switch (user?.role?.name) {
+        case 'Admin':
+          redirect(`/user-management`);
+
+          break;
+        case 'User':
+          redirect(`/case-management`);
+          break;
+        default:
+          redirect('/login');
+      }
+    }
+
+  }
   return (
     <html lang={lang}>
       <body
@@ -27,9 +53,7 @@ export default async function RootLayout({
         )}
       >
         <StoreProvider>
-          <InitializersData />
-          {/* <DndProviderCpn> */}
-          {/* <InitializersData user={user} accessToken={accessToken} /> */}
+          <InitializersData user={user} />
           {children}
           {/* </DndProviderCpn> */}
         </StoreProvider>

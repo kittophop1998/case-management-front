@@ -1,22 +1,15 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
-import { useGetMeQuery, useLoginMutation } from '@/features/auth/authApiSlice';
+import { useEffect, useCallback, useRef, useState } from 'react';
+import { useLazyGetMeQuery, useLoginMutation } from '@/features/auth/authApiSlice';
 import z from 'zod';
 import { LoginSchemas } from '@/schemas';
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-export default function useAuth() {
-  const router = useRouter()
-  const [loginMutation, { isLoading: isLoadingLogin, isError: isLoginError, error: loginError }] = useLoginMutation();
-  const { data: me, isLoading: isLoadingGetMe, refetch: refetchMe, isError: isGetMeError } = useGetMeQuery()
 
-  // const [getMeMutation, { data: me, isLoading: isLoadingGetMe, isError: isGetMeError, error: loginGetMe }] = useLoginMutation();
-  // const getMeMutation = () => { }
-  // const me = null; // Placeholder for user profile data
-  // 
+export default function useAuth() {
   const formLogin = useForm<z.infer<typeof LoginSchemas>>({
     resolver: zodResolver(LoginSchemas),
     defaultValues: {
@@ -24,37 +17,32 @@ export default function useAuth() {
       password: ''
     }
   })
-  // const getMe = useCallback(async () => {
-  //   try {
-  //     const response = await getMeMutation(null).unwrap();
-  //     return response
-  //   } catch (error: any) {
-  //     console.log('useAuth-getMe failed', error);
-  //     if (error.status === 401) {
-  //     }
-  //   }
-  // }, [getMeMutation]);
-
+  const router = useRouter()
+  const [loginMutation, { isLoading: isLoadingLogin, isError: isLoginError, error: loginError }] = useLoginMutation();
+  // const [shouldFetchMe, setShouldFetchMe] = useState(false);
+  // const { data: me, isLoading: isLoadingGetMe, refetch: refetchMe, isError: isGetMeError } = useGetMeQuery(undefined, {
+  //   skip: !shouldFetchMe,
+  // })
+  const [getMe, { data: me, currentData: currentMe, isLoading: isLoadingGetMe, isError: isGetMeError }] = useLazyGetMeQuery();
   const login = async (value: z.infer<typeof LoginSchemas>) => {
     try {
       await loginMutation(value).unwrap();
-      // TODO: use login response to set Me
-      // await getMe();
-      refetchMe();
+      getMe()
     } catch (error) {
       console.log('useAuth-Login failed', error);
     }
   };
-  const logout = useCallback(() => {
-    throw new Error('Logout functionality is not implemented yet');
-    // post /logout endpoint
-    // set user null
-    // clear
-  }, []);
-  // 
-  // 
-
   useEffect(() => {
+    console.log('useAuth-me changed:', me);
+  }, [me]);
+
+  const isMutted = useRef(false);
+  useEffect(() => {
+    if (!isMutted.current) {
+      isMutted.current = true;
+      return;
+    }
+    console.log('USE-AUTH autoDirect me:', me);
     if (me) {
       switch (me?.role?.name) {
         case 'Admin':
@@ -68,13 +56,7 @@ export default function useAuth() {
       }
     }
   }, [me?.role?.name]);
-  // useEffect(() => {
-  //   try {
-  //     getMe()
-  //   } catch (error) {
-  //     console.log('&&&&& useAuth-getMe failed', error);
-  //   }
-  // }, [getMeMutation]);
+
   return {
     login: {
       login,
@@ -82,8 +64,6 @@ export default function useAuth() {
       formLogin,
       isLoginError,
       loginError
-    }, logout: {
-      logout,
     },
     getMe: {
       me,
@@ -93,3 +73,4 @@ export default function useAuth() {
     }
   };
 }
+

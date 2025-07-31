@@ -65,7 +65,12 @@ const RadioField = (
                             value={String(field.value)}
                             onValueChange={val => {
                                 const actualValue = valueMap.get(val)
-                                field.onChange(actualValue ?? val) // fallback to val if not found
+                                console.log('RadioField onValueChange', val, actualValue)
+                                if (actualValue !== undefined) {
+                                    field.onChange(actualValue) // fallback to val if not found
+                                } else {
+                                    field.onChange(val) // fallback to val if not found
+                                }
                             }}
                         >
                             {

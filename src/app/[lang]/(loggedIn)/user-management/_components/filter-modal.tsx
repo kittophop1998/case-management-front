@@ -24,6 +24,10 @@ interface FilterModalProps {
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
 }
+const seeAllObj = {
+  id: null,
+  name: 'All'
+}
 export const FilterUsersModal = ({
   setStatus,
   setRole,
@@ -67,14 +71,14 @@ export const FilterUsersModal = ({
           <RadioField
             loading={isPending}
             form={form}
-
-            items={statuses}
+            items={[
+              seeAllObj,
+              ...statuses]}
             valueName='id'
             labelName='name'
-
             name='status'
             label='Status'
-            className='flex '
+            className='flex'
           />
           <SelectField
             loading={isPending}
@@ -82,7 +86,8 @@ export const FilterUsersModal = ({
             name='role'
             label='Role'
             placeholder='All'
-            items={dataDropdown?.data.roles || []}
+
+            items={[seeAllObj, ...(dataDropdown?.data?.roles || [])]}
             valueName='id'
             labelName='name'
           />
@@ -92,7 +97,7 @@ export const FilterUsersModal = ({
             name='team'
             label='Team'
             placeholder='All'
-            items={dataDropdown?.data.teams || []}
+            items={[seeAllObj, ...(dataDropdown?.data?.teams || [])]}
             valueName='id'
             labelName='name'
           />
@@ -102,7 +107,7 @@ export const FilterUsersModal = ({
             name='center'
             label='Center'
             placeholder='All'
-            items={dataDropdown?.data.centers || []}
+            items={[seeAllObj, ...(dataDropdown?.data?.centers || [])]}
             valueName='id'
             labelName='name'
           />

@@ -4,6 +4,7 @@ import { rootReducer } from './rootReducer';
 import { authApiSlice } from '@/features/auth/authApiSlice';
 import { usersApiSlice } from '@/features/users/usersApiSlice';
 import { systemApiSlice } from '@/features/system/systemApiSlice';
+import { permissionApiSlice } from '@/features/permission/permissionApiSlice';
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -12,6 +13,7 @@ export const store = configureStore({
       .concat(authApiSlice.middleware)
       .concat(usersApiSlice.middleware)
       .concat(systemApiSlice.middleware)
+      .concat(permissionApiSlice.middleware)
 });
 
 

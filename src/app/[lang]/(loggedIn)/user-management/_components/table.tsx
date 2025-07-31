@@ -25,6 +25,10 @@ interface TableUserManagementProps {
   openDialogEditUser: (user: UserType) => void
   setSort?: (sort: string | null) => void
   setOrder?: (order: 'asc' | 'desc' | null) => void
+  setPage?: (page: number) => void
+  setLimit?: (limit: number) => void
+  page?: number
+  limit?: number
   // sort?: string | null
   // order?: 'asc' | 'desc' | null
 }
@@ -34,7 +38,11 @@ export function TableUserManagement({
   usersTable,
   openDialogEditUser,
   setSort,
-  setOrder
+  setOrder,
+  setPage,
+  setLimit,
+  page = 1,
+  limit = 10
 }: TableUserManagementProps) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -124,6 +132,9 @@ export function TableUserManagement({
         limit={usersTable.limit}
         total={usersTable.total}
         totalPages={usersTable.totalPages}
+        setPage={setPage}
+        setLimit={setLimit}
+
       />
     </>
   )

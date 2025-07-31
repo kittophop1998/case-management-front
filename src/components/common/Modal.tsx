@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 
 interface ModalProps {
   isOpen: boolean
-  // onClose: () => void;
+  onClose: () => void;
   title: string
   children: React.ReactNode
   className?: string
@@ -15,7 +15,7 @@ interface ModalProps {
 
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
-  // onClose,
+  onClose,
   title,
   children,
   className
@@ -34,9 +34,13 @@ export const Modal: React.FC<ModalProps> = ({
           <Typography variant='h3' as='h3' className='text-xl font-semibold'>
             {title}
           </Typography>
-          {/* <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-200">
-            <X className="w-6 h-6" />
-          </button> */}
+          {
+            onClose && (
+              <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-200">
+                <X className="w-6 h-6" />
+              </button>
+            )
+          }
         </div>
         <div className='mt-4'>{children}</div>
       </Card>

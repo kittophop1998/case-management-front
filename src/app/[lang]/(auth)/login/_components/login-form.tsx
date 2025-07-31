@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import z from 'zod'
 // import { setAccessToken, setRefreshToken } from '@/services/api'
 import { useRouter } from 'next/navigation'
@@ -36,9 +36,8 @@ export const LoginForm = () => {
   // function getErrorMessageAP(error: FetchBaseQueryError | SerializedError | undefined): string | undefined {
   //   throw new Error('Function not implemented.')
   // }
-
   return (
-    <Form {...form}>
+    <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4' method='post'>
         <div className='space-y-4'>
           <TextField
@@ -79,8 +78,6 @@ export const LoginForm = () => {
         </Button>
 
       </form>
-    </Form>
+    </FormProvider>
   )
 }
-//
-//

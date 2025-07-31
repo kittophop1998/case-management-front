@@ -1,49 +1,36 @@
 "use client";
-// import { useGetMeMutation } from "@/features/auth/authApiSlice";
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
-import { useRouter } from 'next/navigation'
+import { use, useEffect, useState } from "react";
+import { UserProfileType } from "@/types/user.type";
+import { ApiResponse } from "@/types/api.type";
+import { AppDispatch } from '@/store/store'
+import { useDispatch } from 'react-redux'
 import { useGetDropdownQuery } from "@/features/system/systemApiSlice";
-import { useGetMeQuery } from "@/features/auth/authApiSlice";
-
-export const InitializersData = () => {
-    const pathname = usePathname()
-    const router = useRouter()
-    const { data: ddData, isLoading: isDDLoading } = useGetDropdownQuery()// not auto fetch dropdown data
-    const { data: me, isLoading: isUserLoading } = useGetMeQuery()
+import { authApiSlice } from '@/features/auth/authApiSlice'
+export const InitializersData = ({ user }: { user: ApiResponse<UserProfileType> | null }) => {
+    const dispatch = useDispatch<AppDispatch>()
+    const [number, setNumber] = useState(0);
+    // useEffect(() => {
+    // dispatch(
+    //     authApiSlice.util.updateQueryData('getMe', undefined, (draft) => {
+    //         console.log('✅ Updating getMe query data with user:', user)
+    //         console.log('Before:', draft)
+    //         Object.assign(draft, user)
+    //     })
+    // )
+    // }, [number])
     useEffect(() => {
-        if (isUserLoading) {
-            console.log('Loading user data...');
-            return;
-        }
-        const autoDirect = async () => {
-            const isLoginPage = ['/eng/login', '/th/login'].includes(pathname);
-            console.log('autoDirect me:', me, 'isLoginPage:', isLoginPage);
-            if (isLoginPage && !me) {
-                return;
-            }
-            // fetch dropdown data if not already loaded
-            if (isLoginPage && me) {
-                switch (me?.role?.name) {
-                    case 'Admin':
-                        console.log('Redirecting to user-management');
-                        router.push('/user-management');
-                        break;
-                    case 'User':
-                        console.log('Redirecting to case-management');
-                        router.push('/case-management');
-                        break;
-                    default:
-                        console.log('Redirecting to login');
-                        router.push('/login');
-                }
-            }
-            if (!isLoginPage && !me) {
-                router.push('/login');
-            }
-
-        }
-        autoDirect()
-    }, [me?.role?.name, isUserLoading]);
+        // console.log('InitializersData useEffect', user)
+        if (!user) return
+        // const mock = JSON.stringify(JSON.parse({ ...user }))
+        // mock.name = 'aaaaaaaaaaaa'
+        // dispatch(
+        //     authApiSlice.util.upsertQueryData('getMe', undefined, mock))
+    }, [dispatch, number])
+    const { data: ddData, isLoading: isDDLoading } = useGetDropdownQuery();
+    // return <div className="bg-red w-screen h-screen flex items-center justify-center">
+    //     <button onClick={() => setNumber(prev => prev + 1)}>
+    //         aaaaaa
+    //     </button>
+    // </div>
     return null;
 }

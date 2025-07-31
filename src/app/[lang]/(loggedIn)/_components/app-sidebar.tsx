@@ -15,13 +15,7 @@ import ReportIcon from '@public/icons/Report.svg'
 import SettingIcon from '@public/icons/Setting.svg'
 import CustomerDashboardIcon from '@public/icons/Customer Dashboard.svg'
 import { AppSidebarHeader } from './app-sidebar-header'
-import { useGetMeQuery } from '@/features/auth/authApiSlice'
-// const data = {
-//   user: {
-//     name: 'shadcn',
-//     email: 'm@example.com',
-//     avatar: '/avatars/shadcn.jpg'
-//   },
+
 const navMain = [
   {
     title: 'Customer Dashboard',
@@ -52,7 +46,13 @@ const navMain = [
     title: 'User Management',
     url: '/user-management',
     icon: SettingIcon
-  }
+  },
+  {
+    title: 'Access Control',
+    url: '/access-control',
+    icon: SettingIcon
+  },
+
 ]
 // }
 
