@@ -1,6 +1,7 @@
 'use client';
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Typography } from "../typography";
 
 interface CheckboxFieldProps {
     isPending?: boolean;
@@ -25,12 +26,9 @@ export const CheckboxField = ({ isPending, readonly = false, form, items, name, 
         name="items"
         render={() => (
             <FormItem>
-                {/* <div className="mb-4">
-                    <FormLabel className="text-base">Sidebar</FormLabel>
-                    <FormDescription>
-                        Select the items you want to display in the sidebar.
-                    </FormDescription>
-                </div> */}
+                <Typography variant="caption" className="mt-2">
+                    {label}
+                </Typography>
                 {items.map((item) => (
                     <FormField
                         key={item[valueName]}
@@ -43,6 +41,8 @@ export const CheckboxField = ({ isPending, readonly = false, form, items, name, 
                                     className="flex flex-row items-center gap-2"
                                 >
                                     <FormControl>
+
+
                                         <Checkbox
                                             checked={field.value?.includes(item[valueName])}
 
@@ -59,15 +59,7 @@ export const CheckboxField = ({ isPending, readonly = false, form, items, name, 
                                                         )
                                                     )
                                             }}
-                                        // onCheckedChange={val => {
-                                        //     const actualValue = valueMap.get(val)
-                                        //     console.log('RadioField onValueChange', val, actualValue)
-                                        //     if (actualValue !== undefined) {
-                                        //         field.onChange(actualValue) // fallback to val if not found
-                                        //     } else {
-                                        //         field.onChange(val) // fallback to val if not found
-                                        //     }
-                                        // }}
+
                                         />
                                     </FormControl>
                                     <FormLabel className="text-sm font-normal">
