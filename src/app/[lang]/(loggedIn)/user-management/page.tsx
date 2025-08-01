@@ -93,6 +93,7 @@ export default function UserManagementPage() {
         ref={dialogDetailsRef}
         getUsers={triggerFetch}
       />
+      
       <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
       <FilterUsersModal
         isOpen={isOpenFilter}

@@ -62,11 +62,11 @@ export function TableUserManagement({
   const columnHelper = createColumnHelper<UserType>()
   const columns = useMemo<ColumnDef<UserType, any>[]>(() => [
     columnHelper.accessor('agentId', {
-      header: () => <Header label='Id' />,
+      header: () => <Header label='Agent ID' />,
       cell: info => <div>{info.getValue()}</div>
     }),
     columnHelper.accessor('username', {
-      header: () => <Header label='Name' />,
+      header: () => <Header label='Agent Name' />,
       cell: info => <div>{info.getValue()}</div>
     }),
     columnHelper.accessor('email', {

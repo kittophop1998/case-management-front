@@ -1,3 +1,5 @@
+'use client'
+
 import { RadioField } from '@/components/common/form/radio'
 import { SelectField } from '@/components/common/form/select-field'
 import { Modal } from '@/components/common/Modal'
@@ -7,7 +9,7 @@ import { statuses } from '@/const/mockup'
 import { useGetDropdownQuery } from '@/features/system/systemApiSlice'
 import { FilterUsersDialogSchemas } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
@@ -20,14 +22,16 @@ interface FilterModalProps {
   role: string | null
   team: string | null
   center: string | null
-  isPending?: boolean // Optional prop to indicate loading state
+  isPending?: boolean
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
 }
+
 const seeAllObj = {
   id: null,
   name: 'All'
 }
+
 export const FilterUsersModal = ({
   setStatus,
   setRole,
@@ -41,77 +45,90 @@ export const FilterUsersModal = ({
   isOpen,
   setIsOpen
 }: FilterModalProps) => {
-  const onSubmit = (value: z.infer<typeof FilterUsersDialogSchemas>) => {
-    console.log('Filter values:', value)
-    setStatus(value.status)
-    setRole(value.role)
-    setTeam(value.team)
-    setCenter(value.center)
-    setIsOpen(false)
+  const defaultValues: z.infer<typeof FilterUsersDialogSchemas> = {
+    role,
+    team,
+    center,
+    status
   }
-  const { data: dataDropdown, isLoading: isLoadingDropdown } = useGetDropdownQuery()
 
   const form = useForm<z.infer<typeof FilterUsersDialogSchemas>>({
     resolver: zodResolver(FilterUsersDialogSchemas),
-    defaultValues: {
-      role: role,
-      team: team,
-      center: center,
-      status: status
-    }
+    defaultValues
   })
+
+  const { data: dataDropdown } = useGetDropdownQuery()
+
+  const onSubmit = (values: z.infer<typeof FilterUsersDialogSchemas>) => {
+    setStatus(values.status)
+    setRole(values.role)
+    setTeam(values.team)
+    setCenter(values.center)
+    setIsOpen(false)
+  }
+
+  const clearFilter = () => {
+    setStatus(null)
+    setRole(null)
+    setTeam(null)
+    setCenter(null)
+    form.reset(defaultValues)
+  }
+
   useEffect(() => {
-    console.log('Filter errors:', form.formState.errors)
-    console.log('Filter values:', form.getValues())
-  }, [form.formState.errors])
+    if (isOpen) {
+      form.reset(defaultValues)
+    }
+  }, [isOpen, role, team, center, status])
+
   return (
     <Modal isOpen={isOpen} title='Filter' className='max-w-sm'>
       <Form {...form}>
-        <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
           <RadioField
-            loading={isPending}
             form={form}
-            items={[
-              seeAllObj,
-              ...statuses]}
-            valueName='id'
-            labelName='name'
             name='status'
             label='Status'
             className='flex'
+            valueName='id'
+            labelName='name'
+            loading={isPending}
+            items={[seeAllObj, ...statuses]}
           />
           <SelectField
-            loading={isPending}
             form={form}
             name='role'
             label='Role'
             placeholder='All'
-
-            items={[seeAllObj, ...(dataDropdown?.data?.roles || [])]}
             valueName='id'
             labelName='name'
+            loading={isPending}
+            items={[seeAllObj, ...(dataDropdown?.data?.roles || [])]}
           />
           <SelectField
-            loading={isPending}
             form={form}
             name='team'
             label='Team'
             placeholder='All'
-            items={[seeAllObj, ...(dataDropdown?.data?.teams || [])]}
             valueName='id'
             labelName='name'
+            loading={isPending}
+            items={[seeAllObj, ...(dataDropdown?.data?.teams || [])]}
           />
           <SelectField
-            loading={isPending}
             form={form}
             name='center'
             label='Center'
             placeholder='All'
-            items={[seeAllObj, ...(dataDropdown?.data?.centers || [])]}
             valueName='id'
             labelName='name'
+            loading={isPending}
+            items={[seeAllObj, ...(dataDropdown?.data?.centers || [])]}
           />
-          <Button className='w-full'>Filter</Button>
+          <div className='flex gap-2 justify-end'>
+            <Button onClick={clearFilter} className='bg-transparent border border-primary text-primary hover:text-white'>Clear</Button>
+            <Button type='submit'>Filter</Button>
+          </div>
         </form>
       </Form>
     </Modal>
