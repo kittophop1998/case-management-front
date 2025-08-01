@@ -19,7 +19,6 @@ export default function DashboardPage({
 }>) {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
   const { data: ddData, isLoading: isDDLoading } = useGetDropdownQuery();
-  const [getTable, { data: permissionTableData, isLoading: isPermissionTableLoading }] = useLazyGetTableQuery();
   const columnHelper = createColumnHelper<any>()
   const roles = ddData?.data?.roles || [];
   const columns = useMemo<ColumnDef<any, any>[]>(() => {
@@ -50,8 +49,10 @@ export default function DashboardPage({
       }),
     ]
   }, [roles])
+  // 
+  const [getTable, { data: dataTable, isLoading: isPermissionTableLoading }] = useLazyGetTableQuery();
   const { table, sort, order, page, limit, setPage, setLimit } = useTable({
-    data: permissionTableData?.data || [],
+    data: dataTable?.data || [],
     columns: columns,
   })
   useEffect(() => {
@@ -70,16 +71,16 @@ export default function DashboardPage({
   }
   return (
     <>
-      <Typography className="my-3">All Function: {permissionTableData?.data?.length || 0}</Typography>
+      <Typography className="my-3">All Function: {dataTable?.data?.length || 0}</Typography>
       <CardPageWrapper>
         <Typography className='mb-4'>Manage Access Lists</Typography>
         <DataTable
           loading={false}
           table={table}
-          page={permissionTableData?.page ?? 1}
-          limit={permissionTableData?.limit ?? 10}
-          total={permissionTableData?.total ?? 0}
-          totalPages={permissionTableData?.totalPages ?? 0}
+          page={dataTable?.page ?? 1}
+          limit={dataTable?.limit ?? 10}
+          total={dataTable?.total ?? 0}
+          totalPages={dataTable?.totalPages ?? 0}
           setPage={setPage}
           setLimit={setLimit}
         />

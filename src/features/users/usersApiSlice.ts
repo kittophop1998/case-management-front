@@ -3,16 +3,13 @@ import { UsersTable, UserType } from '@/types/user.type'
 import { baseQuery } from '@/services/api'
 import { ApiResponse, ApiResponseSuccess } from '@/types/api.type'
 import { number } from 'zod'
+import { DefaultReqTableType } from '@/types/table.type'
 
-export interface GetUsersRequest {
-  page: number
-  limit: number
+export interface GetUsersRequest extends DefaultReqTableType {
   status: boolean | null
   role: string | null
   team: string | null
   center: string | null
-  sort: string | null
-  order: 'asc' | 'desc' | null
   searchText: string
 }
 

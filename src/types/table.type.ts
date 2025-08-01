@@ -5,3 +5,11 @@ export type TableType<T> = {
     total: number
     totalPages: number
 }
+
+
+export type DefaultReqTableType = {
+    page?: number;
+    limit?: number;
+    sort?: string | null;
+    order?: 'asc' | 'desc' | null;
+}

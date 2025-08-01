@@ -20,7 +20,6 @@ export function useTable({
         if (setSort) {
             setSort(sorting?.[0]?.id ?? null)
         }
-
         if (setOrder) {
             setOrder(sorting.length > 0 ? (sorting[0].desc ? 'desc' : 'asc') : null)
         }
@@ -44,3 +43,27 @@ export function useTable({
 
     return { table, sort, order, page, limit, setPage, setLimit }
 }
+
+
+
+
+
+//   useEffect(() => {
+//     getTable({
+//       page,
+//       limit,
+//       sort,
+//       order,
+//     })
+//   }, [page, limit, sort, order])
+
+//    <DataTable
+//           loading={false}
+//           table={table}
+//           page={permissionTableData?.page ?? 1}
+//           limit={permissionTableData?.limit ?? 10}
+//           total={permissionTableData?.total ?? 0}
+//           totalPages={permissionTableData?.totalPages ?? 0}
+//           setPage={setPage}
+//           setLimit={setLimit}
+//         />

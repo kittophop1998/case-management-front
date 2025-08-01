@@ -3,10 +3,7 @@ import { JsonJoinDetails, UserProfileType, UserType } from '@/types/user.type';
 import { baseQuery } from '@/services/api';
 import { ApiResponse, ApiResponseSuccess } from '@/types/api.type'
 import { SettingAccessControlSchema } from '@/schemas';
-// centers
-// permissions
-// roles
-// teams
+import { DefaultReqTableType } from '@/types/table.type';
 type GetDropdownResponse = ApiResponse<{
   data: {
     centers: JsonJoinDetails[];
@@ -19,24 +16,13 @@ export const permissionApiSlice = createApi({
   reducerPath: 'permissionApi',
   baseQuery,
   endpoints: (builder) => ({
-    // getDropdown: builder.query<GetDropdownResponse, void>({
-    //   query: () => ({
-    //     url: '/lookups',
-    //     method: 'GET',
-    //   }),
-    // })
-    getTable: builder.query<GetDropdownResponse, void>({
+    getTable: builder.query<GetDropdownResponse, DefaultReqTableType>({
       query: (
         {
           page,
           limit,
-          // status = true,
-          // role = null,
-          // team = null,
-          // center = null,
           sort = null,
           order = null,
-          // searchText = ''
         }
       ) => {
         let searchObj = {
@@ -52,7 +38,6 @@ export const permissionApiSlice = createApi({
 
 
         const searchParams = new URLSearchParams(searchObj)
-
         return {
           url: `/permissions?${searchParams.toString()}`,
           method: 'GET',
