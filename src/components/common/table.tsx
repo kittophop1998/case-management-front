@@ -23,6 +23,7 @@ import {
 import { Typography } from '../common/typography'
 import { ChevronRight } from 'react-feather'
 import clsx from 'clsx'
+import { cn } from '@/lib/utils'
 
 export interface DataTableProps<T> {
   table: ReactTable<T>;
@@ -37,34 +38,35 @@ export interface DataTableProps<T> {
   setLimit?: (limit: number) => void;
 }
 
-export const SortableHeader = ({
-  column,
-  label,
-  className = ''
-}: {
-  column: Column<any, unknown>
-  label: string
-  className?: string
-}) => {
-  return (
-    <Button
-      variant='ghost'
-      onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-      className={className}
-    >
-      {label}
-      {column.getIsSorted() === 'asc' ? (
-        <ArrowUpWideNarrow className='ml-2 h-4 w-4' />
-      ) : column.getIsSorted() === 'desc' ? (
-        <ArrowDownWideNarrow className='ml-2 h-4 w-4' />
-      ) : null}
-    </Button>
-  )
-}
 
-export const Header = ({label}: {label: string}) => {
+interface HeaderProps {
+  label: string;
+  column: Column<any, unknown>;
+  className?: string;
+  sortAble?: boolean;
+}
+export const Header = ({
+  label,
+  column,
+  className,
+  sortAble = false,
+
+}: HeaderProps) => {
+  const isSorted = typeof column.getIsSorted === 'function' ? column.getIsSorted() : false;
+
   return (
-    <span>{label}</span>
+    <span className={cn('flex items-center', className)}>
+      {label}
+      {sortAble ? (
+        <span onClick={() => column.toggleSorting(isSorted === 'asc')}>
+          {isSorted === 'asc' ? (
+            <ArrowUpWideNarrow className='ml-2 h-4 w-4' />
+          ) : (
+            <ArrowDownWideNarrow className='ml-2 h-4 w-4' />
+          )}
+        </span>
+      ) : null}
+    </span>
   );
 }
 
@@ -79,7 +81,6 @@ export function DataTable<T>({
   onRowClick,
   setPage,
   setLimit
-
 }: DataTableProps<T>) {
   return (
     <>
@@ -126,16 +127,17 @@ export function DataTable<T>({
                 ))}
               </TableRow>
             ))
-          ) : (
-            <TableRow>
-              <TableCell
-                colSpan={table.getAllColumns().length}
-                className='h-24 text-center text-muted-foreground'
-              >
-                {emptyText}
-              </TableCell>
-            </TableRow>
-          )}
+          )
+            : (
+              <TableRow>
+                <TableCell
+                  colSpan={table.getAllColumns().length}
+                  className='h-24 text-center text-muted-foreground'
+                >
+                  {emptyText}
+                </TableCell>
+              </TableRow>
+            )}
         </TableBody>
       </Table>
 

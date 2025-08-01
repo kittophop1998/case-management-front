@@ -6,73 +6,82 @@ import { DialogEditAccessControl } from "./_components/dialog-edit-access-contro
 import { useGetDropdownQuery } from "@/features/system/systemApiSlice";
 import { permissionApiSlice, useLazyGetTableQuery } from "@/features/permission/permissionApiSlice";
 import { useLazyGetMeQuery } from "@/features/auth/authApiSlice";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { set } from "zod";
+import { useTable } from "@/hooks/use-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import { DataTable, Header } from "@/components/common/table";
+import BtnEdit from "@/components/common/btn-edit";
+import { CheckIsActive } from "@/components/common/check-is-active";
 
 export default function DashboardPage({
-  // params
 }: Readonly<{
-  // params: Promise<{ lang: 'en' | 'th' }>
 }>) {
-  // const { lang } = await params
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
-  const [page, setPage] = useState<number>(1)
-  const [limit, setLimit] = useState<number>(10)
-  const [sort, setSort] = useState<string | null>(null)
-  const [order, setOrder] = useState<'asc' | 'desc' | null>(null)
   const { data: ddData, isLoading: isDDLoading } = useGetDropdownQuery();
-  // const { data: permissionTableData, isLoading: isPermissionTableLoading } = permissionApiSlice();
-  const [getTable, { data: permissionTableData, isLoading: isPermissionTableLoading }] = useLazyGetTableQuery();
-
+  const columnHelper = createColumnHelper<any>()
+  const roles = ddData?.data?.roles || [];
+  const columns = useMemo<ColumnDef<any, any>[]>(() => {
+    return [
+      columnHelper.accessor('label', {
+        header: ({ column }) => <Header column={column} label='Permission' sortAble />,
+        cell: info => <div>{info.getValue()}</div>
+      }),
+      ...(roles.map(role =>
+        columnHelper.accessor(`roles.${role.name}`, {
+          header: ({ column }) => <Header column={column} label={role.name} sortAble />,
+          cell: info => {
+            const isActive = info.row.original.roles.includes(role.name)
+            return (
+              <div>
+                <CheckIsActive isActive={isActive} />
+              </div>
+            )
+          }
+        })
+      )),
+      columnHelper.accessor('action', {
+        header: ({ column }) => <Header column={column} label='Permission Key' className='w-[3rem]' />,
+        cell: info =>
+          <div className='w-[3rem]'>
+            <BtnEdit onClick={() => setObjEdit(info.row.original)} />
+          </div>
+      }),
+    ]
+  }, [roles])
+  // 
+  const [getTable, { data: dataTable, isLoading: isPermissionTableLoading }] = useLazyGetTableQuery();
+  const { table, sort, page, limit, setPage, setLimit } = useTable({
+    data: dataTable?.data || [],
+    columns,
+  })
   useEffect(() => {
     getTable({
       page,
       limit,
       sort,
-      order,
     })
-  }, [page, limit, sort, order])
-  const roles = ddData?.data?.roles || [];
+  }, [page, limit, sort])
+
   const dialogRef = useRef<any>(null)
   const setObjEdit = (obj: any) => {
     setDialogOpen(true)
     dialogRef.current?.setDefaultForm(obj)
-
   }
   return (
     <>
-      <Typography className="my-3">All Function: {permissionTableData?.data?.length || 0}</Typography>
+      <Typography className="my-3">All Function: {dataTable?.data?.length || 0}</Typography>
       <CardPageWrapper>
         <Typography className='mb-4'>Manage Access Lists</Typography>
-        <TableAccessControl
-          isLoading={false}
-          roles={roles}
-          onClickEdit={setObjEdit}
-          objTable={
-            permissionTableData || {
-              data: [],
-              page: 1,
-              limit: 10,
-              total: 0,
-              totalPages: 0
-            }
-          }
-          openDialogEditUser={
-            (obj) => { }
-          }
-          setSort={setSort}
-          setOrder={setOrder}
+        <DataTable
+          loading={false}
+          table={table}
+          page={dataTable?.page ?? 1}
+          limit={dataTable?.limit ?? 10}
+          total={dataTable?.total ?? 0}
+          totalPages={dataTable?.totalPages ?? 0}
           setPage={setPage}
           setLimit={setLimit}
-          sort={sort}
-          order={order}
-          page={page}
-          limit={limit}
-          isLoading={isPermissionTableLoading}
-          isError={false}
-          error={null}
-
-
         />
       </CardPageWrapper>
       <DialogEditAccessControl
@@ -87,7 +96,6 @@ export default function DashboardPage({
             page,
             limit,
             sort,
-            order,
           })
         }}
         accessControlData={{}}
@@ -95,3 +103,4 @@ export default function DashboardPage({
     </>
   )
 }
+

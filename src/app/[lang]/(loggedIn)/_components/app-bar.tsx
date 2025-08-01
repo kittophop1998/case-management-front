@@ -9,8 +9,8 @@ import { Notification } from './notification'
 
 
 import { usePathname } from 'next/navigation'
-import { path2clientpath, path2name } from '@/const/mockup'
 import { cn } from '@/lib/utils'
+import { path2clientpath, path2name } from '@/const/title-path'
 
 
 const getTitle = (pathNameArr: string[]) => {
@@ -44,21 +44,15 @@ export function AppBar() {
       <Separator />
       <Container className='flex gap-2 items-center py-1'>
         <HomeIcon className='inline-block w-4 h-4' />
-        {/* <Typography variant='caption' as='p'>
-          /
-        </Typography> */}
-        {/* <Typography variant='caption' as='p'>
-          Access Control
-        </Typography> */}
         {clientPath?.map((item, index) => (
-          <>
+          <div className='flex gap-2' key={index}>
             <Typography variant='caption' as='p'>
               /
             </Typography>
-            <Typography key={index} variant='caption' as='p'>
+            <Typography key={'title' + index} variant='caption' as='p'>
               <span className={cn(!item.goto ? '' : 'text-blue-600 hover:underline cursor-pointer', '')}>{item.name}</span>
             </Typography>
-          </>
+          </div>
         ))}
       </Container>
     </header>

@@ -1,12 +1,19 @@
+'use client';
 import CardPageWrapper from "@/components/common/card-page-warpper";
 import { Typography } from "@/components/common/typography";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
+import { Link } from "lucide-react";
+import { useRouter } from 'next/navigation'
 
 
 const CostomerCard = ({ code, name, img }) => {
+    const router = useRouter()
+
     return (
-        <Card className="p-4 flex items-center gap-4">
+        // <Link href={`/customer/dashboard?costomerId=${code}`} >
+        <Card className="p-4 flex items-center gap-4"
+            onClick={() => router.push(`/customer/dashboard?costomerId=${code}`)}>
             <Avatar className='h-[2.5rem] w-[2.5rem]'>
                 <AvatarImage src={img} />
                 <AvatarFallback className='bg-primary/10'>
@@ -17,6 +24,7 @@ const CostomerCard = ({ code, name, img }) => {
             <Typography variant="body1">Customer Name: {name}</Typography>
             <Typography variant="body1">Customer ID: {code}</Typography>
         </Card>
+        // </Link>
     );
 }
 
