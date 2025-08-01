@@ -6,7 +6,7 @@ export function useTableRTK({
     useLazyGetTableQuery,
 }) {
     const [getTable, { data, isLoading }] = useLazyGetTableQuery();
-    const { table, sort, order, page, limit, setPage, setLimit } = useTable({
+    const { table, sort, page, limit, setPage, setLimit } = useTable({
         data: data,
         columns: columns,
     })
@@ -17,7 +17,6 @@ export function useTableRTK({
         getTable,
         // 
         sort,
-        order,
         page,
         limit,
         data,

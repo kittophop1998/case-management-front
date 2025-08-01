@@ -10,7 +10,7 @@ import { useEffect, useRef, useState, useMemo } from "react";
 import { set } from "zod";
 import { useTable } from "@/hooks/use-table";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { DataTable, SortableHeader } from "@/components/common/table";
+import { DataTable, Header } from "@/components/common/table";
 import BtnEdit from "@/components/common/btn-edit";
 import { CheckIsActive } from "@/components/common/check-is-active";
 
@@ -24,12 +24,12 @@ export default function DashboardPage({
   const columns = useMemo<ColumnDef<any, any>[]>(() => {
     return [
       columnHelper.accessor('label', {
-        header: ({ column }) => <SortableHeader column={column} label='Permission' />,
+        header: ({ column }) => <Header column={column} label='Permission' sortAble />,
         cell: info => <div>{info.getValue()}</div>
       }),
       ...(roles.map(role =>
         columnHelper.accessor(`roles.${role.name}`, {
-          header: ({ column }) => <SortableHeader column={column} label={role.name} />,
+          header: ({ column }) => <Header column={column} label={role.name} sortAble />,
           cell: info => {
             const isActive = info.row.original.roles.includes(role.name)
             return (
@@ -41,7 +41,7 @@ export default function DashboardPage({
         })
       )),
       columnHelper.accessor('action', {
-        header: ({ column }) => <SortableHeader column={column} label='Permission Key' className='w-[3rem]' />,
+        header: ({ column }) => <Header column={column} label='Permission Key' className='w-[3rem]' />,
         cell: info =>
           <div className='w-[3rem]'>
             <BtnEdit onClick={() => setObjEdit(info.row.original)} />
@@ -51,18 +51,17 @@ export default function DashboardPage({
   }, [roles])
   // 
   const [getTable, { data: dataTable, isLoading: isPermissionTableLoading }] = useLazyGetTableQuery();
-  const { table, sort, order, page, limit, setPage, setLimit } = useTable({
+  const { table, sort, page, limit, setPage, setLimit } = useTable({
     data: dataTable?.data || [],
-    columns: columns,
+    columns,
   })
   useEffect(() => {
     getTable({
       page,
       limit,
       sort,
-      order,
     })
-  }, [page, limit, sort, order])
+  }, [page, limit, sort])
 
   const dialogRef = useRef<any>(null)
   const setObjEdit = (obj: any) => {
@@ -97,7 +96,6 @@ export default function DashboardPage({
             page,
             limit,
             sort,
-            order,
           })
         }}
         accessControlData={{}}

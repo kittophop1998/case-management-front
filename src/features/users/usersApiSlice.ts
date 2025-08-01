@@ -26,7 +26,6 @@ export const usersApiSlice = createApi({
         team = null,
         center = null,
         sort = null,
-        order = null,
         searchText = ''
       }) => {
         let searchObj = {
@@ -37,8 +36,7 @@ export const usersApiSlice = createApi({
           teamId: String(team || ''),
           centerId: String(center || ''),
           keyword: String(searchText || ''),
-          sort: String(sort || ''),
-          order: String(order || '')
+          sort: String(sort),
         }
 
         if (!page) delete searchObj.page
@@ -48,7 +46,6 @@ export const usersApiSlice = createApi({
         if (!team) delete searchObj.teamId
         if (!center) delete searchObj.centerId
         if (!sort) delete searchObj.sort
-        if (!order) delete searchObj.order
         if (!searchText) delete searchObj.keyword
 
 

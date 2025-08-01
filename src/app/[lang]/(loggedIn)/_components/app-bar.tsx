@@ -45,14 +45,14 @@ export function AppBar() {
       <Container className='flex gap-2 items-center py-1'>
         <HomeIcon className='inline-block w-4 h-4' />
         {clientPath?.map((item, index) => (
-          <>
-            <Typography variant='caption' as='p' key={'/' + index}>
+          <div className='flex gap-2' key={index}>
+            <Typography variant='caption' as='p'>
               /
             </Typography>
             <Typography key={'title' + index} variant='caption' as='p'>
               <span className={cn(!item.goto ? '' : 'text-blue-600 hover:underline cursor-pointer', '')}>{item.name}</span>
             </Typography>
-          </>
+          </div>
         ))}
       </Container>
     </header>

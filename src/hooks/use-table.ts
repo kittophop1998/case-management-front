@@ -4,28 +4,36 @@ import { getCoreRowModel, getPaginationRowModel, getSortedRowModel, getFilteredR
 interface UsePermissionTableProps {
     data: any[]
     columns: any[]
+    mapSortingName?: Record<string, string>
 }
 export function useTable({
     data,
     columns,
+    mapSortingName,
 }: UsePermissionTableProps) {
     const [sorting, setSorting] = useState<{ id: string; desc: boolean }[]>([])
     const [columnVisibility, setColumnVisibility] = useState({})
     const [rowSelection, setRowSelection] = useState({})
     const [sort, setSort] = useState<string | null>(null)
-    const [order, setOrder] = useState<'asc' | 'desc' | null>(null)
     const [page, setPage] = useState<number>(1)
     const [limit, setLimit] = useState<number>(10)
     useEffect(() => {
-        if (setSort) {
-            setSort(sorting?.[0]?.id ?? null)
-        }
-        if (setOrder) {
-            setOrder(sorting.length > 0 ? (sorting[0].desc ? 'desc' : 'asc') : null)
+        try {
+            const queryName = mapSortingName?.[sorting?.[0]?.id] || sorting?.[0]?.id || null
+            if (queryName) {
+                const queryDesc = sorting?.[0]?.desc ? 'desc' : 'asc'
+                setSort(`${queryName} ${queryDesc}`)
+            } else {
+                setSort(null)
+            }
+
+
+        } catch (error) {
+            console.error('Error updating sorting state:', error)
         }
     }, [sorting])
     const table = useReactTable({
-        data: data || [],
+        data,
         columns,
         onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
@@ -41,29 +49,5 @@ export function useTable({
         },
     })
 
-    return { table, sort, order, page, limit, setPage, setLimit }
+    return { table, sort, page, limit, setPage, setLimit }
 }
-
-
-
-
-
-//   useEffect(() => {
-//     getTable({
-//       page,
-//       limit,
-//       sort,
-//       order,
-//     })
-//   }, [page, limit, sort, order])
-
-//    <DataTable
-//           loading={false}
-//           table={table}
-//           page={permissionTableData?.page ?? 1}
-//           limit={permissionTableData?.limit ?? 10}
-//           total={permissionTableData?.total ?? 0}
-//           totalPages={permissionTableData?.totalPages ?? 0}
-//           setPage={setPage}
-//           setLimit={setLimit}
-//         />

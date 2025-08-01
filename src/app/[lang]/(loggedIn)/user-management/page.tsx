@@ -4,25 +4,80 @@ import BtnFilter from '@/components/common/btn-filter'
 import CardPageWrapper from '@/components/common/card-page-warpper'
 import InputFilter from '@/components/common/input-filter'
 import { UserType } from '@/types/user.type'
-import { TableUserManagement } from './_components/table'
 import {
   DialogDetails,
   DialogDetailsRef
 } from './_components/dialog-user-details'
 import { BtnAddUser } from './_components/btn-add-user'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { ExcelUploadDialog } from './_components/upload-excel-test/excel-upload-dialog'
 import { useUsers } from '@/hooks/user/useUsers'
 import { FilterUsersModal } from './_components/filter-modal'
 import { getErrorMessageAPI } from '@/lib/utils/get-error-message-api'
 import { dialogAlert } from '@/components/common/dialog-alert'
+import { useTable } from '@/hooks/use-table'
+import { DataTable, Header } from '@/components/common/table'
+import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
+import { ChipIsActive } from '@/components/common/chipIsActive'
+import { Button } from '@/components/ui/button'
+import { SquarePen } from 'lucide-react'
 
 export default function UserManagementPage() {
   const [isOpenFilter, setIsOpenFilter] = useState(false)
-
   const dialogDetailsRef = useRef<DialogDetailsRef>(null)
   const [modalImportUser, setModalImportUser] = useState(false)
+  const columnHelper = createColumnHelper<UserType>()
+  const openDialogEditUser = (user: UserType) => {
+    dialogDetailsRef.current?.setDefaultUser(user)
+  }
+
+  const columns = useMemo<ColumnDef<UserType, any>[]>(() => [
+    columnHelper.accessor('agentId', {
+      header: ({ column }) => <Header label='Id' sortAble column={column} />,
+      cell: info => <div>{info.getValue()}</div>
+    }),
+    columnHelper.accessor('username', {
+      header: ({ column }) => <Header label='Name' sortAble column={column} />,
+      cell: info => <div>{info.getValue()}</div>
+    }),
+    columnHelper.accessor('email', {
+      header: ({ column }) => <Header label='Domain Name' sortAble column={column} />,
+      cell: info => <div>{info.getValue()}</div>
+    }),
+    columnHelper.accessor('role.name', {
+      header: ({ column }) => <Header label='Role' sortAble column={column} />,
+      cell: info => <div>{info.getValue()}</div>
+    }),
+    columnHelper.accessor('team.name', {
+      header: ({ column }) => <Header label='Team' sortAble column={column} />,
+      cell: info => <div>{info.getValue()}</div>
+    }),
+    columnHelper.accessor('center.name', {
+      header: ({ column }) => <Header label='Center' sortAble column={column} />,
+      cell: info => <div>{info.getValue()}</div>,
+    }),
+    columnHelper.accessor('isActive', {
+      header: ({ column }) => <Header label='Status' sortAble column={column} />,
+      cell: info => <ChipIsActive isActive={info.getValue()} />
+    }),
+    columnHelper.display({
+      id: 'actions',
+      enableHiding: false,
+      size: 10,
+      cell: info => {
+        const user = info.row.original
+        return (
+          <div>
+            <Button variant='ghost' onClick={() => openDialogEditUser(user)}>
+              <SquarePen />
+            </Button>
+          </div>
+        )
+      }
+    }),
+  ], [openDialogEditUser])
   const {
+    table,
     usersTable,
     isLoading,
     isError,
@@ -37,31 +92,16 @@ export default function UserManagementPage() {
       setRole,
       setTeam,
       setCenter,
-      setSort,
-      setOrder,
       setSearchText
     }
-  } = useUsers()
-
-
-
-  if (isError) {
-    // 
-    // 
-    return <div>{getErrorMessageAPI(error?.data?.message)}</div>
-  }
-
-  const openDialogEditUser = (user: UserType) => {
-    dialogDetailsRef.current?.setDefaultUser(user)
-    // setModalUserDetails(true)
-  }
+  } = useUsers({
+    columns
+  })
 
   const openDialogCreateUser = () => {
     dialogDetailsRef.current?.setDefaultUser(null)
   }
 
-  // dialogAlert(true)
-  // dialogAlert(false)
   return (
     <div>
       <div className='flex justify-end mb-3 mt-3'>
@@ -79,15 +119,17 @@ export default function UserManagementPage() {
           <InputFilter setValue={setSearchText} value={searchText} />
           <BtnFilter onClick={() => setIsOpenFilter(true)} />
         </div>
-        <TableUserManagement
-          setSort={setSort}
-          setOrder={setOrder}
-          isLoading={isLoading}
-          usersTable={usersTable}
-          openDialogEditUser={openDialogEditUser}
+        <DataTable
+          loading={false}
+          table={table}
+          page={usersTable?.page ?? 1}
+          limit={usersTable?.limit ?? 10}
+          total={usersTable?.total ?? 0}
+          totalPages={usersTable?.totalPages ?? 0}
           setPage={setPage}
           setLimit={setLimit}
         />
+
       </CardPageWrapper>
       <DialogDetails
         ref={dialogDetailsRef}
