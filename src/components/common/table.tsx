@@ -62,7 +62,7 @@ export const SortableHeader = ({
   )
 }
 
-export const Header = ({label}: {label: string}) => {
+export const Header = ({ label }: { label: string }) => {
   return (
     <span>{label}</span>
   );
