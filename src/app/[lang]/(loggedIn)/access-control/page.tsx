@@ -8,7 +8,7 @@ import { permissionApiSlice, useLazyGetTableQuery } from "@/features/permission/
 import { useLazyGetMeQuery } from "@/features/auth/authApiSlice";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { set } from "zod";
-import { useTable } from "@/hooks/useTable";
+import { useTable } from "@/hooks/use-table";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { DataTable, SortableHeader } from "@/components/common/table";
 import BtnEdit from "@/components/common/btn-edit";

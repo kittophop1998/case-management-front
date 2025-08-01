@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useTable } from "@/hooks/useTable";
+import { useTable } from "@/hooks/use-table";
 
 const SearchTools = () => {
     return (

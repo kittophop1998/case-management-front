@@ -1,28 +1,15 @@
 import { useEffect, useState } from 'react'
 import { getCoreRowModel, getPaginationRowModel, getSortedRowModel, getFilteredRowModel, useReactTable, ColumnDef } from '@tanstack/react-table'
 
-type RolesType = 'Agent' | 'Supervisor' | 'Manager' | 'Admin'
-
-interface Role {
-    name: RolesType
-}
-
-interface RowData {
-    label: string
-    roles: RolesType[]
-    action?: string
-}
-
 interface UsePermissionTableProps {
-    data: RowData[]
-    columns: ColumnDef<RowData, any>[]
+    data: any[]
+    columns: any[]
 }
-
 export function useTable({
     data,
     columns,
 }: UsePermissionTableProps) {
-    const [sorting, setSorting] = useState([])
+    const [sorting, setSorting] = useState<{ id: string; desc: boolean }[]>([])
     const [columnVisibility, setColumnVisibility] = useState({})
     const [rowSelection, setRowSelection] = useState({})
     const [sort, setSort] = useState<string | null>(null)
