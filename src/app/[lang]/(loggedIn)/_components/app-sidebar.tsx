@@ -15,52 +15,54 @@ import ReportIcon from '@public/icons/Report.svg'
 import SettingIcon from '@public/icons/Setting.svg'
 import CustomerDashboardIcon from '@public/icons/Customer Dashboard.svg'
 import { AppSidebarHeader } from './app-sidebar-header'
-import { permission } from 'process'
+import { PermissionKeyType } from '@/types/permission.type'
 
-const navMain = [
+export const navMain:
   {
-    title: 'Customer Dashboard',
-    url: '/customer/search',
-    icon: CustomerDashboardIcon
-  },
-  {
-    title: 'Case Management',
-    url: '/case-management',
-    icon: CaseManagementIcon,
-    permission: ['case.view']
-  },
-  {
-    title: 'Inquiry Log',
-    url: '/inquiry-log',
-    icon: InquiryLogIcon
-  },
-  {
-    title: 'Report',
-    url: '/report',
-    icon: ReportIcon
-  },
-  {
-    title: 'Settings',
-    url: '/settings',
-    icon: SettingIcon
-  },
-  {
-    title: 'User Management',
-    url: '/user-management',
-    icon: SettingIcon,
-    permission: ['user.manage']
-  },
-  {
-    title: 'Access Control',
-    url: '/access-control',
-    icon: SettingIcon
-  },
-  // {
-  //   title: 'Customer Search',
-  //   url: '/customer/search',
-  //   icon: SettingIcon
-  // },
-]
+    title: string
+    url: string
+    icon: React.ComponentType<any>
+    permission?: PermissionKeyType[]
+  }[]
+  = [
+    {
+      title: 'Customer Dashboard',
+      url: '/customer/search',
+      icon: CustomerDashboardIcon,
+      permission: ['user.customersearch', 'user.customerdashboard']
+    },
+    {
+      title: 'Case Management',
+      url: '/case-management',
+      icon: CaseManagementIcon,
+      permission: ['case.management']
+    },
+    {
+      title: 'Inquiry Log',
+      url: '/inquiry-log',
+      icon: InquiryLogIcon
+    },
+    {
+      title: 'Report',
+      url: '/report',
+      icon: ReportIcon
+    },
+    {
+      title: 'Settings',
+      url: '/settings',
+      icon: SettingIcon
+    },
+    {
+      title: 'User Management',
+      url: '/user-management',
+      icon: SettingIcon,
+    },
+    {
+      title: 'Access Control',
+      url: '/access-control',
+      icon: SettingIcon
+    },
+  ]
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 

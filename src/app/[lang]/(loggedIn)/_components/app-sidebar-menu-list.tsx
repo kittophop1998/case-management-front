@@ -53,7 +53,6 @@ export function AppSidebarMenuList({
         myPermissions.push(element.key)
       }
       setMyPermissions(myPermissions)
-      // setMyPermissions(me.data.permissions.map((p: any) => p.name))
     }
   }, [me])
   const router = useRouter()

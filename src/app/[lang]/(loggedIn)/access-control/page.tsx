@@ -28,7 +28,7 @@ export default function DashboardPage({
         columnHelper.accessor(`roles.${role.name}`, {
           header: ({ column }) => <Header column={column} label={role.name} sortAble />,
           cell: info => {
-            const isActive = info.row.original.roles.includes(role.name)
+            const isActive = (info?.row?.original?.roles || []).includes(role.name)
             return (
               <div>
                 <CheckIsActive isActive={isActive} />
@@ -63,7 +63,10 @@ export default function DashboardPage({
   const dialogRef = useRef<any>(null)
   const setObjEdit = (obj: any) => {
     setDialogOpen(true)
-    dialogRef.current?.setDefaultForm(obj)
+    dialogRef.current?.setDefaultForm({
+      ...obj,
+      roles: obj.roles || [],
+    })
   }
   return (
     <>
