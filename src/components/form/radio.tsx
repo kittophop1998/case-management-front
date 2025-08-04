@@ -9,7 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 
-interface RadioFieldProps<T> {
+interface RadioFieldProps {
     onChange?: (value: string) => void; // Optional onChange handler
     loading?: boolean;
     readonly?: boolean;

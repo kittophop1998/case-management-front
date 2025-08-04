@@ -1,14 +1,14 @@
 'use client';
 
 import React, { createContext, useCallback, useContext, useState, useEffect } from 'react';
-import ModalError from '@/components/common/ModalError';
+// import ModalError from '@/components/common/ModalError';
 
 interface ErrorModalContextType {
   showError: (message: string) => void;
 }
 
 const ErrorModalContext = createContext<{ showError: (err: unknown) => void }>({
-  showError: () => {},
+  showError: () => { },
 });
 
 export const ErrorModalProvider = ({ children }: { children: React.ReactNode }) => {
@@ -17,7 +17,7 @@ export const ErrorModalProvider = ({ children }: { children: React.ReactNode }) 
 
   const showError = useCallback((err: unknown) => {
     let msg = 'ไม่สามารถดำเนินการได้ในขณะนี้';
-  
+
     if (
       err &&
       typeof err === 'object' &&
@@ -27,7 +27,7 @@ export const ErrorModalProvider = ({ children }: { children: React.ReactNode }) 
     ) {
       msg = (err as any).data?.error?.[0]?.message ?? msg;
     }
-  
+
     setMessage(msg);
     setIsOpen(true);
   }, []);
@@ -37,7 +37,7 @@ export const ErrorModalProvider = ({ children }: { children: React.ReactNode }) 
   return (
     <ErrorModalContext.Provider value={{ showError }}>
       {children}
-      <ModalError isOpen={isOpen} message={message} onClose={handleClose} />
+      {/* <ModalError isOpen={isOpen} message={message} onClose={handleClose} /> */}
     </ErrorModalContext.Provider>
   );
 };

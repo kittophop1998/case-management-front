@@ -1,13 +1,10 @@
 'use client'
 import { Typography } from "@/components/common/typography";
-import { TableAccessControl } from "./_components/table-access-control";
 import CardPageWrapper from "@/components/common/card-page-warpper";
 import { DialogEditAccessControl } from "./_components/dialog-edit-access-control";
 import { useGetDropdownQuery } from "@/features/system/systemApiSlice";
-import { permissionApiSlice, useLazyGetTableQuery } from "@/features/permission/permissionApiSlice";
-import { useLazyGetMeQuery } from "@/features/auth/authApiSlice";
+import { useLazyGetTableQuery } from "@/features/permission/permissionApiSlice";
 import { useEffect, useRef, useState, useMemo } from "react";
-import { set } from "zod";
 import { useTable } from "@/hooks/use-table";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { DataTable, Header } from "@/components/common/table";

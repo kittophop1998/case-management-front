@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 
 interface ModalProps {
   isOpen: boolean
-  onClose: () => void;
+  onClose?: () => void;
   title: string
   children: React.ReactNode
   className?: string
@@ -37,6 +37,7 @@ export const Modal: React.FC<ModalProps> = ({
           {
             onClose && (
               <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-200">
+                {/* @ts-expect-error className is valid for lucide icon */}
                 <X className="w-6 h-6" />
               </button>
             )

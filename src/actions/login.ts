@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import api, { setAccessToken, setRefreshToken } from "@/services/api";
+import { setAccessToken, setRefreshToken } from "@/services/api";
 import { LoginSchemas } from "@/schemas";
 import * as z from "zod";
 

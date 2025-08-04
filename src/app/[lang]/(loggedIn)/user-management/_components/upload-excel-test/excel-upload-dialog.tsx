@@ -1,10 +1,8 @@
 'use client'
 
 import type React from 'react'
-
 import { useState, useRef } from 'react'
 import {
-  Upload,
   FileSpreadsheet,
   X,
   Check,
@@ -12,11 +10,8 @@ import {
   CloudUpload
 } from 'lucide-react'
 import * as XLSX from 'xlsx'
-
 import { Button } from '@/components/ui/button'
-
 import { Progress } from '@/components/ui/progress'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { Badge } from '@/components/ui/badge'
 import { DataPreview } from './data-preview'
 import { Modal } from '@/components/common/Modal'
@@ -235,6 +230,7 @@ export function ExcelUploadDialog({
       <div className='flex gap-4 items-center'>
         <Typography variant='body1'>Upload File</Typography>
         <Button variant='link' size='sm' onClick={downloadTemplate}>
+          {/* @ts-expect-error className is valid for lucide icon */}
           <Download className='mr-2 h-4 w-4' />
           Download Template
         </Button>
@@ -250,6 +246,7 @@ export function ExcelUploadDialog({
           >
             {/* TODO: SET COLOR */}
             <FileSpreadsheet
+              // @ts-expect-error className is valid for lucide icon
               className='mx-auto h-12 w-12 text-muted-foreground mb-4'
               color='#7461cf'
             />
@@ -304,6 +301,7 @@ export function ExcelUploadDialog({
           <div className='space-y-4'>
             <div className='flex items-center justify-between p-4 border rounded-lg'>
               <div className='flex items-center space-x-3'>
+                {/* @ts-expect-error className is valid for lucide icon */}
                 <FileSpreadsheet className='h-8 w-8 text-green-600' />
                 <div>
                   <p className='font-medium'>{file.name}</p>
@@ -318,6 +316,7 @@ export function ExcelUploadDialog({
                 onClick={handleReset}
                 disabled={uploading}
               >
+                {/* @ts-expect-error className is valid for lucide icon */}
                 <X className='h-4 w-4' />
               </Button>
             </div>
@@ -368,6 +367,7 @@ export function ExcelUploadDialog({
           <div className='space-y-4'>
             <div className='flex items-center justify-between'>
               <div className='flex items-center space-x-2'>
+                {/* @ts-expect-error className is valid for lucide icon */}
                 <Check className='h-5 w-5 text-green-600' />
                 <span className='font-medium'>Upload Complete</span>
                 <Badge variant='secondary'>{excelData.fileName}</Badge>

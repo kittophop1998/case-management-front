@@ -25,10 +25,23 @@ interface FileFieldProps {
 
 
 async function downloadURI(path = 'http://localhost:5003/files/dummy.pdf', isPreview = false) {
+    // TODO DO NOT DELETE THIS CHECK BELOW IS WORKING
+    // if (!path) return;
+    // const response = await api(path, { responseType: 'arraybuffer' })
+    // var file = new Blob([response.data], { type: 'application/pdf' });
+    // var fileURL = URL.createObjectURL(file);
+
+    // if (isPreview) {
+    //     window.open(fileURL);
+    // } else {
+    //     window.open(fileURL, '_blank');
+    // }
     if (!path) return;
-    const response = await api(path, { responseType: 'arraybuffer' })
-    var file = new Blob([response.data], { type: 'application/pdf' });
-    var fileURL = URL.createObjectURL(file);
+
+    const response = await fetch(path);
+    const arrayBuffer = await response.arrayBuffer();
+    const file = new Blob([arrayBuffer], { type: 'application/pdf' });
+    const fileURL = URL.createObjectURL(file);
 
     if (isPreview) {
         window.open(fileURL);
@@ -36,7 +49,7 @@ async function downloadURI(path = 'http://localhost:5003/files/dummy.pdf', isPre
         window.open(fileURL, '_blank');
     }
 }
-const FileField = ({ readonly, label, name, form,placeholder
+const FileField = ({ readonly, label, name, form, placeholder
 }: FileFieldProps) => {
     return (
         <FormField

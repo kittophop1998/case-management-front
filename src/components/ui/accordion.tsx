@@ -41,7 +41,9 @@ function AccordionTrigger({
                 {...props}
             >
                 {children}
-                <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
+                <ChevronDownIcon
+                    // @ts-expect-error className is valid but TS resolution is wrong
+                    className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
             </AccordionPrimitive.Trigger>
         </AccordionPrimitive.Header>
     )

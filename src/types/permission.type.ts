@@ -1,0 +1,1 @@
+type PermissionKeyType = 'case.create'|'case.view'|'case.edit'|'case.delete'|'user.manage'

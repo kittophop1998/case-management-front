@@ -8,11 +8,12 @@ import {
 } from "@/components/ui/form";
 import { cva } from "class-variance-authority";
 import { Button } from "../../ui/button";
-import { cn, getFilePath } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useRef } from "react";
 import Image from "next/image"
 import { InputHidden, onTriggerClick } from "./hidden-input";
 import { DefaultDeleteButton } from "./default-remove-item";
+import { getFilePath } from "@/lib/utils/get-file-path";
 
 interface ImageFieldDefaultProps {
     className?: string;
@@ -85,7 +86,7 @@ const ImageField = ({ className, readonly = false, form, name, label, previewCom
                             cn('', trickerPreview ? "cursor-pointer" : "")}
                     >
                         {previewComponent ? (
-                            { previewComponent }
+                            previewComponent
                         ) :
                             <DefaultDisplayImage
                                 className={className}
@@ -149,7 +150,7 @@ const ImageFieldMultiple = ({ className, readonly = false, form, name, label, pr
                                     cn(readonly ? "cursor-not-allowed" : "cursor-pointer", "w-24 h-24 relative rounded-xl overflow-hidden")}
                             >
                                 {previewComponent ? (
-                                    { previewComponent }
+                                    previewComponent
                                 ) :
                                     <DefaultDisplayImage
                                         className={className}
@@ -163,7 +164,7 @@ const ImageFieldMultiple = ({ className, readonly = false, form, name, label, pr
                                 key={`delete-${index}`}
                                 className="absolute -top-1 -right-1"
                                 onClick={() => {
-                                    const newValue = field.value.filter((_, i) => i !== index);
+                                    const newValue = field.value.filter((_: any, i: number) => i !== index);
                                     field.onChange(newValue);
                                 }}
                             />

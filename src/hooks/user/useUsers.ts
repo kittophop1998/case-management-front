@@ -5,7 +5,9 @@ import {
 import { useEffect, useState } from 'react'
 import { useTable } from '../use-table'
 
-export const useUsers = ({ columns = [] }) => {
+export const useUsers = ({ columns = [] }:{
+  columns: any[]
+}) => {
   const [status, setStatus] = useState<boolean | null>(null)
   const [role, setRole] = useState<string | null>(null)
   const [team, setTeam] = useState<string | null>(null)

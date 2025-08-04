@@ -79,12 +79,8 @@ export default function UserManagementPage() {
   const {
     table,
     usersTable,
-    isLoading,
-    isError,
-    error,
-    isSuccess,
     getUsers, triggerFetch,
-    state: { page, limit, status, role, team, center, sort, order, searchText },
+    state: { status, role, team, center, searchText },
     setState: {
       setPage,
       setLimit,

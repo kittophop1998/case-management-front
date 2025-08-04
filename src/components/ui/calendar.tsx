@@ -138,13 +138,16 @@ function Calendar({
         Chevron: ({ className, orientation, ...props }) => {
           if (orientation === "left") {
             return (
-              <ChevronLeftIcon className={cn("size-4", className)} {...props} />
+              <ChevronLeftIcon
+                // @ts-expect-error className is valid but TS resolution is wrong
+                className={cn("size-4", className)} {...props} />
             )
           }
 
           if (orientation === "right") {
             return (
               <ChevronRightIcon
+                // @ts-expect-error className is valid but TS resolution is wrong
                 className={cn("size-4", className)}
                 {...props}
               />
@@ -152,7 +155,9 @@ function Calendar({
           }
 
           return (
-            <ChevronDownIcon className={cn("size-4", className)} {...props} />
+            <ChevronDownIcon
+              // @ts-expect-error className is valid but TS resolution is wrong
+              className={cn("size-4", className)} {...props} />
           )
         },
         DayButton: CalendarDayButton,

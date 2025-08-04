@@ -3,11 +3,15 @@ import CardPageWrapper from "@/components/common/card-page-warpper";
 import { Typography } from "@/components/common/typography";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
-import { Link } from "lucide-react";
 import { useRouter } from 'next/navigation'
 
 
-const CostomerCard = ({ code, name, img }) => {
+interface CostomerCardProps {
+    code: string;
+    name: string;
+    img: string;
+}
+const CostomerCard = ({ code, name, img }: CostomerCardProps) => {
     const router = useRouter()
 
     return (

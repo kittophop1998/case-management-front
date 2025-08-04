@@ -71,9 +71,9 @@ export const DialogEditAccessControl = forwardRef<DialogRef, DialogEditAccessCon
         const formView = form.watch();
         return (
             <Modal
-                isOpen={isOpen} title={'Permission'} onClose={() => onClose()}
+                isOpen={isOpen} title={'Permission'}
                 className="max-w-md"
-                onClose={() => onClose()}
+                onClose={onClose}
             >
                 <FormProvider {...form} >
                     <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4' method='post'>

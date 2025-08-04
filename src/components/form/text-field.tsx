@@ -57,13 +57,21 @@ export const TextField = ({
     </TextFieldWarpper>
   )
 }
+
+interface TextFieldWarpperProps {
+  children: React.ReactElement<{ field: any }>
+  loading?: boolean
+  form: any // Replace 'any' with the correct form type, e.g., UseFormReturn<any> if using react-hook-form
+  name: string
+  label: string
+}
 export const TextFieldWarpper = ({
   children,
   loading,
   form,
   name,
   label
-}) => {
+}: TextFieldWarpperProps) => {
   return (
     <FormField
       disabled={loading}
@@ -80,13 +88,21 @@ export const TextFieldWarpper = ({
   )
   // 
 }
+
+interface TextFieldInputProps {
+  prependInnerIcon?: React.ReactNode
+  appendInnerIcon?: React.ReactNode
+  placeholder?: string
+  readonly?: boolean
+  field: any // Replace 'any' with the correct field type, e.g., UseFormReturn<any> if using react-hook-form
+}
 export const TextFieldInput = ({
   prependInnerIcon,
   appendInnerIcon,
   placeholder,
   readonly = false,
   field
-}) => {
+}: TextFieldInputProps) => {
   return (
     <div className='relative'>
       <div className='absolute flex items-center justify-center h-full w-[2rem]'>

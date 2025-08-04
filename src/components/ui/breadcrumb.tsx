@@ -92,7 +92,9 @@ function BreadcrumbEllipsis({
       className={cn("flex size-9 items-center justify-center", className)}
       {...props}
     >
-      <MoreHorizontal className="size-4" />
+      <MoreHorizontal
+        // @ts-expect-error className is valid but TS resolution is wrong
+        className="size-4" />
       <span className="sr-only">More</span>
     </span>
   )

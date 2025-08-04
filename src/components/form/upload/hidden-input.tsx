@@ -15,9 +15,15 @@ const onTriggerClick = (name: string) => {
     }
 };
 
-const onChangeUpload = async (e: React.ChangeEvent<HTMLInputElement>, field, {
+const onChangeUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: {
+    onChange: (value: any) => void;
+    value: any;
+}, {
     multiple = false,
     index = null
+}: {
+    multiple?: boolean;
+    index?: number | null;
 }) => {
     try {
         const files = e.target.files;
@@ -29,7 +35,12 @@ const onChangeUpload = async (e: React.ChangeEvent<HTMLInputElement>, field, {
         formdata.append("file", file);
         // console.log("Files changed:", file);
         // console.log("formdata:", formdata);
-        let apiResponse = await api('/upload', {
+        let apiResponse = await api<
+            {
+                filename: string;
+                url: string;
+            }
+        >('/upload', {
             method: "POST",
             body: formdata
         });

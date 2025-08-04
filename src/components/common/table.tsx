@@ -35,8 +35,8 @@ export interface DataTableProps<T> {
   loading?: boolean;
   emptyText?: React.ReactNode;
   onRowClick?: (row: Row<T>) => void;
-  setPage?: (page: number) => void;
-  setLimit?: (limit: number) => void;
+  setPage?: React.Dispatch<React.SetStateAction<number>>;
+  setLimit?: React.Dispatch<React.SetStateAction<number>>;
 }
 
 
@@ -71,9 +71,13 @@ export const Header = ({
         {sortAble ? (
           <span onClick={() => column.toggleSorting(isSorted === 'asc')}>
             {isSorted === 'asc' ? (
-              <ArrowUpWideNarrow className='ml-2 h-4 w-4 cursor-pointer' />
+              <ArrowUpWideNarrow
+                // @ts-expect-error className is valid for lucide icon
+                className='ml-2 h-4 w-4 cursor-pointer' />
             ) : (
-              <ArrowDownWideNarrow className='ml-2 h-4 w-4 cursor-pointer' />
+              <ArrowDownWideNarrow
+                // @ts-expect-error className is valid for lucide icon
+                className='ml-2 h-4 w-4 cursor-pointer' />
             )}
           </span>
         ) : null}
@@ -167,18 +171,22 @@ export function DataTable<T>({
           <Button
             variant='ghost'
             size='sm'
-            onClick={() => setPage((p) => p - 1)}
+            onClick={() => setPage && setPage((p: number) => p - 1)}
             disabled={page === 1}
           >
-            <ChevronLeft className='h-4 w-4' />
+            <ChevronLeft
+              // @ts-expect-error className is valid for lucide icon
+              className='h-4 w-4' />
           </Button>
           <Button
             variant='ghost'
             size='sm'
-            onClick={() => setPage((p) => p + 1)}
+            onClick={() => setPage && setPage((p) => p + 1)}
             disabled={page >= totalPages}
           >
-            <ChevronRight className='h-4 w-4' />
+            <ChevronRight
+              // @ts-expect-error className is valid for lucide icon
+              className='h-4 w-4' />
             {/* <div>page:{page}</div>
             <div>totalPages:{totalPages}</div> */}
           </Button>

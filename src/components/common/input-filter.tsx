@@ -15,6 +15,7 @@ const InputFilter = ({
   return (
     <div className='relative flex'>
       <div className='absolute flex items-center justify-center h-full w-[2rem]'>
+        {/* @ts-expect-error className is valid for lucide icon */}
         <Search size={15} className='cursor-pointer' />
       </div>
       <Input

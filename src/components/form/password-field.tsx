@@ -64,14 +64,17 @@ const PasswordField = ({
               />
               <div className='right-0  absolute flex items-center justify-center h-full w-[2rem]'>
                 {showPassword ? (
+
                   <Eye
                     size={15}
+                    // @ts-expect-error className is valid for lucide icon
                     className='cursor-pointer'
                     onClick={() => setShowPassword(false)}
                   />
                 ) : (
                   <EyeOff
                     size={15}
+                    // @ts-expect-error className is valid for lucide icon
                     className='cursor-pointer'
                     onClick={() => setShowPassword(true)}
                   />

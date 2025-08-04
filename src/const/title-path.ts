@@ -1,4 +1,4 @@
-export const path2name = {
+export const path2name:Record<string, string> = {
     // default
     '/': ' Case Management',
     // 1st level
@@ -13,7 +13,7 @@ export const path2name = {
     '/customer/dashboard': 'Customer Dashboard',
 }
 
-export const path2clientpath = {
+export const path2clientpath:Record<string, {name:string,goto:string}[]> = {
     // default
     '/': [],
     // 1st level
@@ -56,7 +56,7 @@ export const path2clientpath = {
         }],
 }
 
-export const path2sidebar = {
+export const path2sidebar:Record<string,string> = {
   // default
     '/': '',
     // 1st level

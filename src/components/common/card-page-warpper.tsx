@@ -5,6 +5,7 @@ import Container from "../common/containter";
 
 interface CardPageWrapperProps {
     children: React.ReactNode;
+    className?: string;
 }
 
 const CardPageWrapper = ({ children, className }: CardPageWrapperProps) => {

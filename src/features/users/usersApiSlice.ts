@@ -12,10 +12,18 @@ export interface GetUsersRequest extends DefaultReqTableType {
   center: string | null
   searchText: string
 }
+type EditUserBody = {
+  username: string
+  roleId: number
+  centerId: number
+  teamId: number
+  isActive: boolean
+}
 
 export const usersApiSlice = createApi({
   reducerPath: 'usersApi',
   baseQuery,
+  // tagTypes: ['User'], // สำคัญถ้าคุณใช้ cache tag
   endpoints: builder => ({
     getUsers: builder.mutation<ApiResponse<UsersTable>, GetUsersRequest>({
       query: ({
@@ -28,7 +36,16 @@ export const usersApiSlice = createApi({
         sort = null,
         searchText = ''
       }) => {
-        let searchObj = {
+        let searchObj:{
+          page?: string;
+          limit?: string;
+          is_active?: string;
+          roleId?: string;
+          teamId?: string;
+          centerId?: string;
+          keyword?: string;
+          sort?: string;
+        } = {
           page: String(page),
           limit: String(limit),
           is_active: String(status),
@@ -63,9 +80,9 @@ export const usersApiSlice = createApi({
         method: 'GET'
       })
     }),
-    editUser: builder.mutation<ApiResponseSuccess, { id: string, data: any }>({
+    editUser: builder.mutation<ApiResponseSuccess, { id: string, data: EditUserBody}>(
+      {
       query: ({ id, data }) => {
-        console.log('editUser form:', data)
         let body = {
           "name": data.username,
           "roleId": data.roleId,
@@ -73,15 +90,15 @@ export const usersApiSlice = createApi({
           "teamId": data.teamId,
           "isActive": data.isActive
         }
-        console.log('editUser body:', body)
-
         return ({
           url: `/users/${id}`,
           method: 'PUT',
           body
         })
-      }
+      },
+      // invalidatesTags: (result, error, { id }) => [{ type: 'User', id }],
     }),
+    
     createUser: builder.mutation<ApiResponseSuccess, any>({
       query: user => {
         let body = {

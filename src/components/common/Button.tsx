@@ -46,8 +46,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={loading || props.disabled}
       >
         <div className='flex items-center gap-2'>
+
+          {/* @ts-expect-error className is valid for lucide icon */}
           {loading && <Loader2 className="size-4 animate-spin" />}
           {children}
+          {/* @ts-expect-error className is valid for lucide icon */}
           {loading && <Loader2 className="size-4 invisible" />}
         </div>
       </button>

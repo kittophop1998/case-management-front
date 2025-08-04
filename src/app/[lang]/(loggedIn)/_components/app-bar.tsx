@@ -13,21 +13,18 @@ import { cn } from '@/lib/utils'
 import { path2clientpath, path2name } from '@/const/title-path'
 
 
-const getTitle = (pathNameArr: string[]) => {
-  return path2name?.[`/${pathNameArr[0]}/${pathNameArr[1]}/${pathNameArr[2]}`] || path2name?.[`/${pathNameArr[0]}/${pathNameArr[1]}`] || path2name?.[`/${pathNameArr[0]}`] || path2name['/']
+const getTitle = (pathArr: string[]) => {
+  return path2name?.[`/${pathArr[2]}/${pathArr[3]}/${pathArr[4]}`] || path2name?.[`/${pathArr[2]}/${pathArr[3]}`] || path2name?.[`/${pathArr[2]}`] || path2name['/']
 }
-const getClientPath = (pathNameArr: string[]) => {
-  return path2clientpath?.[`/${pathNameArr[0]}/${pathNameArr[1]}/${pathNameArr[2]}`] || path2clientpath?.[`/${pathNameArr[0]}/${pathNameArr[1]}`] || path2clientpath?.[`/${pathNameArr[0]}`] || path2clientpath['/']
+const getClientPath = (pathArr: string[]) => {
+  return path2clientpath?.[`/${pathArr[2]}/${pathArr[3]}/${pathArr[4]}`] || path2clientpath?.[`/${pathArr[2]}/${pathArr[3]}`] || path2clientpath?.[`/${pathArr[2]}`] || path2clientpath['/']
 }
 export function AppBar() {
 
   const pathname = usePathname()
-  const pathNameArr = pathname.split('/')
-  pathNameArr.shift();
-  pathNameArr.shift();
-
-  const title = getTitle(pathNameArr)
-  const clientPath = getClientPath(pathNameArr)
+  const pathArr = pathname.split('/')
+  const title = getTitle(pathArr)
+  const clientPath = getClientPath(pathArr)
 
   return (
     <header className='bg-white shrink-0 items-center gap-2 transition-[width,height] ease-linear '>

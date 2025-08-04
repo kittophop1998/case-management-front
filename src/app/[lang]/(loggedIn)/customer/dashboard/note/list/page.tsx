@@ -96,7 +96,9 @@ const NoteListPage = () => {
                             field={
                                 {
                                     value: filterForm.text,
-                                    onChange: (e) => setFilterForm((pv) => ({ ...pv, text: e.target.value }))
+                                    onChange: (e: {
+                                        target: { value: string }
+                                    }) => setFilterForm((pv) => ({ ...pv, text: e.target.value }))
                                 }
                             }
                         />
@@ -119,6 +121,8 @@ const NoteListPage = () => {
                     limit={limit}
                     setPage={setPage}
                     setLimit={setLimit}
+                    total={data.length}
+                    totalPages={1}
                 />
             </CardPageWrapper>
             <Modal

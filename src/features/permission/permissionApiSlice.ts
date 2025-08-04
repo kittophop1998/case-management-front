@@ -3,7 +3,8 @@ import { JsonJoinDetails, UserProfileType, UserType } from '@/types/user.type';
 import { baseQuery } from '@/services/api';
 import { ApiResponse, ApiResponseSuccess } from '@/types/api.type'
 import { SettingAccessControlSchema } from '@/schemas';
-import { DefaultReqTableType } from '@/types/table.type';
+import { DefaultReqTableType, TableType } from '@/types/table.type';
+import z from 'zod';
 type GetDropdownResponse = ApiResponse<{
   data: {
     centers: JsonJoinDetails[];
@@ -16,7 +17,7 @@ export const permissionApiSlice = createApi({
   reducerPath: 'permissionApi',
   baseQuery,
   endpoints: (builder) => ({
-    getTable: builder.query<GetDropdownResponse, DefaultReqTableType>({
+    getTable: builder.query<TableType<{label: string, roles: string[], action: string}>, DefaultReqTableType>({
       query: (
         {
           page,
@@ -25,7 +26,12 @@ export const permissionApiSlice = createApi({
           order = null,
         }
       ) => {
-        let searchObj = {
+        let searchObj:{
+          page?: string;
+          limit?: string;
+          sort?: string;
+          order?: string;
+        } = {
           page: String(page),
           limit: String(limit),
           sort: String(sort || ''),
@@ -44,7 +50,7 @@ export const permissionApiSlice = createApi({
         }
       },
     }),
-    editTable: builder.mutation<void, typeof SettingAccessControlSchema>({
+    editTable: builder.mutation<void, z.infer<typeof SettingAccessControlSchema>>({
       query: (body) => ({
         url: '/permissions/update',
         method: 'PATCH',

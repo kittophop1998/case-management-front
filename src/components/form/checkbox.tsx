@@ -49,13 +49,11 @@ export const CheckboxField = ({ isPending, readonly = false, form, items, name, 
                                             defaultValue={field.value}
                                             // value={field.value}
                                             onCheckedChange={(checked) => {
-                                                // console.log('CheckboxField onCheckedChange', checked, item[valueName])
-                                                // console.log('field.value', field.value)
                                                 return checked
                                                     ? field.onChange([...field.value, item[valueName]])
                                                     : field.onChange(
                                                         field.value?.filter(
-                                                            (value) => value !== item[valueName]
+                                                            (value: any) => value !== item[valueName]
                                                         )
                                                     )
                                             }}
