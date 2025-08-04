@@ -32,6 +32,7 @@ export const useUsers = ({ columns = [] }) => {
       role_name: 'role',
       'team_name': 'team',
       'center_name': 'center',
+      'isActive':'is_active'
     }
   })
   const triggerFetch = () => {// TODO:change this to lazy
