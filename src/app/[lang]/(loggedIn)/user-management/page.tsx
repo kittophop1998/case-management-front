@@ -1,6 +1,6 @@
 'use client'
 import { Typography } from '@/components/common/typography'
-import BtnFilter from '@/components/common/btn-filter'
+import BtnFilter from '@/components/button/btn-filter'
 import CardPageWrapper from '@/components/common/card-page-warpper'
 import InputFilter from '@/components/common/input-filter'
 import { UserType } from '@/types/user.type'
@@ -135,7 +135,7 @@ export default function UserManagementPage() {
         ref={dialogDetailsRef}
         getUsers={triggerFetch}
       />
-      
+
       <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
       <FilterUsersModal
         isOpen={isOpenFilter}

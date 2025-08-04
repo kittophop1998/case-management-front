@@ -16,7 +16,7 @@ import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ButtonCancel } from "@/components/common/btn-cancle";
+import { ButtonCancel } from "@/components/button/btn-cancle";
 import { RadioField } from "@/components/form/radio";
 
 const SectionCard = ({ title, children, isAccordion }: { title: string, children: React.ReactNode, isAccordion: boolean }) => {

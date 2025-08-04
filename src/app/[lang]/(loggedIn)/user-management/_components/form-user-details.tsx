@@ -1,5 +1,5 @@
 'use client'
-import { ButtonCancel } from '@/components/common/btn-cancle'
+import { ButtonCancel } from '@/components/button/btn-cancle'
 import { FormError } from '@/components/form/form-error'
 import { RadioField } from '@/components/form/radio'
 import { SelectField } from '@/components/form/select-field'

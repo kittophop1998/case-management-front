@@ -11,7 +11,7 @@ import { set } from "zod";
 import { useTable } from "@/hooks/use-table";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { DataTable, Header } from "@/components/common/table";
-import BtnEdit from "@/components/common/btn-edit";
+import BtnEdit from "@/components/button/btn-edit";
 import { CheckIsActive } from "@/components/common/check-is-active";
 
 export default function DashboardPage({

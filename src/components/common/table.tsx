@@ -58,9 +58,9 @@ export const Header = ({
 
   return (
     <span className={cn('flex items-center', className)}>
-    <span className={cn('flex items-center', className)}>
-      {label}
-      {/* {sortAble ? (
+      <span className={cn('flex items-center', className)}>
+        {label}
+        {/* {sortAble ? (
         <span onClick={() => column.toggleSorting(isSorted === 'asc')}>
           {isSorted === 'asc' ? (
             <ArrowUpWideNarrow className='ml-2 h-4 w-4' />
@@ -68,16 +68,16 @@ export const Header = ({
             <ArrowDownWideNarrow className='ml-2 h-4 w-4' />
           )}
         </span> */}
-      {sortAble ? (
-        <span onClick={() => column.toggleSorting(isSorted === 'asc')}>
-          {isSorted === 'asc' ? (
-            <ArrowUpWideNarrow className='ml-2 h-4 w-4' />
-          ) : (
-            <ArrowDownWideNarrow className='ml-2 h-4 w-4' />
-          )}
-        </span>
-      ) : null}
-    </span>
+        {sortAble ? (
+          <span onClick={() => column.toggleSorting(isSorted === 'asc')}>
+            {isSorted === 'asc' ? (
+              <ArrowUpWideNarrow className='ml-2 h-4 w-4 cursor-pointer' />
+            ) : (
+              <ArrowDownWideNarrow className='ml-2 h-4 w-4 cursor-pointer' />
+            )}
+          </span>
+        ) : null}
+      </span>
     </span>
   );
 }

@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import * as ReactDOM from 'react-dom/client'
-import { ButtonCancel } from './btn-cancle'
+import { ButtonCancel } from '../button/btn-cancle'
 import { Button } from '../ui/button'
 import { Form, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'

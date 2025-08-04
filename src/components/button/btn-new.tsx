@@ -6,7 +6,7 @@ interface BtnFilterProps {
 }
 const BtnNew = ({ onClick }: BtnFilterProps) => {
     return (
-        <Button variant='outline' onClick={onClick} >
+        <Button className="bg-[#5570f1] text-white hover:bg-[#5570f1]/90 hover:text-white" variant='outline' onClick={onClick} >
             <Funnel />  New
         </Button >
     );

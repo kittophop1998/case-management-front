@@ -21,7 +21,7 @@ import { Badge } from '@/components/ui/badge'
 import { DataPreview } from './data-preview'
 import { Modal } from '@/components/common/Modal'
 import { Typography } from '@/components/common/typography'
-import { ButtonCancel } from '@/components/common/btn-cancle'
+import { ButtonCancel } from '@/components/button/btn-cancle'
 
 interface ExcelData {
   fileName: string
@@ -30,7 +30,7 @@ interface ExcelData {
   }
 }
 
-export function ExcelUploadDialog ({
+export function ExcelUploadDialog({
   open,
   setOpen
 }: {
