@@ -55,3 +55,20 @@ export const path2clientpath = {
             goto: ''
         }],
 }
+
+export const path2sidebar = {
+  // default
+    '/': '',
+    // 1st level
+    '/settings': 'Settings',
+    '/case-management': 'Case Management',
+    '/user-management': 'User Management',
+    '/access-control': 'Access Control',
+    '/report': 'Report',
+    '/inquiry-log': 'Inquiry Log',
+    // 2nd level
+    '/case/management': 'Customer Dashboard',
+    '/customer/search': 'Customer Dashboard',
+    '/customer/dashboard': 'Customer Dashboard',
+}
+    

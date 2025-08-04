@@ -13,6 +13,7 @@ import {
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 import { Typography } from '@/components/common/typography'
+import { path2sidebar } from '@/const/title-path'
 const sidebarMenuButtonVariants = cva('', {
   variants: {
     active: {
@@ -29,7 +30,9 @@ const sidebarMenuIconVariants = cva('', {
     }
   }
 })
-
+const mappingActive = (pathNameArr: string[]) => {
+  return path2sidebar?.[`/${pathNameArr[2]}/${pathNameArr[3]}/${pathNameArr[4]}`] || path2sidebar?.[`/${pathNameArr[2]}/${pathNameArr[3]}`] || path2sidebar?.[`/${pathNameArr[2]}`] || path2sidebar['/']
+}
 export function AppSidebarMenuList ({
   items
 }: {
@@ -42,6 +45,14 @@ export function AppSidebarMenuList ({
   const router = useRouter()
   const pathname = usePathname()
   // const SettingIcon = items[4].icon
+    // const pathname = usePathname()
+    const pathNameArr = pathname.split('/')
+    // pathNameArr.shift();
+    // pathNameArr.shift();
+  
+    const title = mappingActive(pathNameArr)
+    // const clientPath = getClientPath(pathNameArr)
+  
   return (
     <SidebarGroup>
       <SidebarMenu>
@@ -57,7 +68,9 @@ export function AppSidebarMenuList ({
                 className={cn(
                   'h-[3rem] gap-3',
                   sidebarMenuButtonVariants({
-                    active: pathname.includes(item.url)
+                    // active: pathname.includes(item.url)
+                      active: title === item.title 
+
                   })
                 )}
                 tooltip={item.title}
@@ -67,11 +80,17 @@ export function AppSidebarMenuList ({
                   className={cn(
                     'w-20 h-20',
                     sidebarMenuIconVariants({
-                      active: pathname.includes(item.url)
+                      // active: pathname.includes(item.url)
+                      active: title === item.title 
                     })
                   )}
                 />
-                <Typography>{item.title}</Typography>
+                <Typography>
+                  {item.title}
+
+{/* {title === item.title ? 't':'f'} */}
+
+                </Typography>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </Collapsible>

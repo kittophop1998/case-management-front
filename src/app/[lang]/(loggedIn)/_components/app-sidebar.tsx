@@ -19,7 +19,7 @@ import { AppSidebarHeader } from './app-sidebar-header'
 const navMain = [
   {
     title: 'Customer Dashboard',
-    url: 'customer-dashboard',
+    url: '/customer/search',
     icon: CustomerDashboardIcon
   },
   {
@@ -52,11 +52,11 @@ const navMain = [
     url: '/access-control',
     icon: SettingIcon
   },
-  {
-    title: 'Customer Search',
-    url: '/customer/search',
-    icon: SettingIcon
-  },
+  // {
+  //   title: 'Customer Search',
+  //   url: '/customer/search',
+  //   icon: SettingIcon
+  // },
 ]
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
