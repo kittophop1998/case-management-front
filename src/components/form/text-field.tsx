@@ -9,6 +9,7 @@ import {
 // import { Input } from "@/components/ui/input";
 import { cva } from 'class-variance-authority'
 import { Textarea } from "@/components/ui/textarea"
+import { cloneElement } from 'react'
 
 interface TextFieldProps {
   form: any // Replace 'any' with the correct form type, e.g., UseFormReturn<any> if using react-hook-form
@@ -28,7 +29,8 @@ const textFieldVariants = cva('', {
     }
   }
 })
-const TextField = ({
+
+export const TextField = ({
   loading,
   readonly = false,
   form,
@@ -39,6 +41,30 @@ const TextField = ({
   appendInnerIcon
 }: TextFieldProps) => {
   return (
+    <TextFieldWarpper
+      loading={loading}
+      form={form}
+      name={name}
+      label={label}
+    >
+      <TextFieldInput
+        prependInnerIcon={prependInnerIcon}
+        appendInnerIcon={appendInnerIcon}
+        placeholder={placeholder}
+        readonly={readonly}
+        field={form}
+      />
+    </TextFieldWarpper>
+  )
+}
+export const TextFieldWarpper = ({
+  children,
+  loading,
+  form,
+  name,
+  label
+}) => {
+  return (
     <FormField
       disabled={loading}
       control={form.control}
@@ -46,26 +72,34 @@ const TextField = ({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <FormControl>
-            <div className='relative'>
-              <div className='absolute flex items-center justify-center h-full w-[2rem]'>
-                {prependInnerIcon}
-              </div>
-              <Input
-                className={textFieldVariants({ readonly })}
-                placeholder={placeholder}
-                {...field}
-                prependInnerIcon={!!prependInnerIcon}
-                appendInnerIcon={!!appendInnerIcon}
-                readOnly={readonly}
-              />
-            </div>
-          </FormControl>
+          {cloneElement(children, { field })}
           <FormMessage />
         </FormItem>
       )}
     />
   )
+  // 
 }
-
-export { TextField }
+export const TextFieldInput = ({
+  prependInnerIcon,
+  appendInnerIcon,
+  placeholder,
+  readonly = false,
+  field
+}) => {
+  return (
+    <div className='relative'>
+      <div className='absolute flex items-center justify-center h-full w-[2rem]'>
+        {prependInnerIcon}
+      </div>
+      <Input
+        className={textFieldVariants({ readonly })}
+        placeholder={placeholder}
+        {...field}
+        prependInnerIcon={!!prependInnerIcon}
+        appendInnerIcon={!!appendInnerIcon}
+        readOnly={readonly}
+      />
+    </div>
+  )
+}
