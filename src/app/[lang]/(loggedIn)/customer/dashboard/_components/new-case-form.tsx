@@ -6,18 +6,18 @@ import { NewCaseSchema } from "@/schemas";
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, FormProvider } from 'react-hook-form';
-import { TextAreaField } from "@/components/common/form/textarea-field";
+import { TextAreaField } from "@/components/form/textarea-field";
 import { Typography } from "@/components/common/typography";
 import { Check, Maximize2, Minimize2, Minus, Square, X } from "lucide-react";
-import { CheckboxField } from "@/components/common/form/checkbox";
-import { SelectField } from "@/components/common/form/select-field";
+import { CheckboxField } from "@/components/form/checkbox";
+import { SelectField } from "@/components/form/select-field";
 import { Separator } from "@/components/ui/separator";
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ButtonCancel } from "@/components/common/btn-cancle";
-import { RadioField } from "@/components/common/form/radio";
+import { RadioField } from "@/components/form/radio";
 
 const SectionCard = ({ title, children, isAccordion }: { title: string, children: React.ReactNode, isAccordion: boolean }) => {
     if (isAccordion) {

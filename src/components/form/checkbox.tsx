@@ -1,7 +1,7 @@
 'use client';
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Typography } from "../typography";
+import { Typography } from "@/components/common/typography";
 
 interface CheckboxFieldProps {
     isPending?: boolean;

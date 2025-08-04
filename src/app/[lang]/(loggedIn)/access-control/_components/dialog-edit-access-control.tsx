@@ -1,7 +1,7 @@
 'use client';
 import { Button } from "@/components/common/Button";
 import { checkPassword } from "@/components/common/dialog-check-password";
-import { CheckboxField } from "@/components/common/form/checkbox";
+import { CheckboxField } from "@/components/form/checkbox";
 import { Modal } from "@/components/common/Modal";
 import { Typography } from "@/components/common/typography";
 import { useEditTableMutation } from "@/features/permission/permissionApiSlice";

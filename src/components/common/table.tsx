@@ -24,6 +24,7 @@ import { Typography } from '../common/typography'
 import { ChevronRight } from 'react-feather'
 import clsx from 'clsx'
 import { cn } from '@/lib/utils'
+import { Separator } from '../ui/separator'
 
 export interface DataTableProps<T> {
   table: ReactTable<T>;
@@ -47,6 +48,15 @@ interface HeaderProps {
 }
 export const Header = ({
   label,
+
+interface HeaderProps {
+  label: string;
+  column: Column<any, unknown>;
+  className?: string;
+  sortAble?: boolean;
+}
+export const Header = ({
+  label,
   column,
   className,
   sortAble = false,
@@ -55,6 +65,7 @@ export const Header = ({
   const isSorted = typeof column.getIsSorted === 'function' ? column.getIsSorted() : false;
 
   return (
+    <span className={cn('flex items-center', className)}>
     <span className={cn('flex items-center', className)}>
       {label}
       {sortAble ? (
@@ -65,17 +76,26 @@ export const Header = ({
             <ArrowDownWideNarrow className='ml-2 h-4 w-4' />
           )}
         </span>
+      {sortAble ? (
+        <span onClick={() => column.toggleSorting(isSorted === 'asc')}>
+          {isSorted === 'asc' ? (
+            <ArrowUpWideNarrow className='ml-2 h-4 w-4' />
+          ) : (
+            <ArrowDownWideNarrow className='ml-2 h-4 w-4' />
+          )}
+        </span>
       ) : null}
+    </span>
     </span>
   );
 }
 
 export function DataTable<T>({
   table,
-  page,
+  page = 1,
   limit,
   total,
-  totalPages,
+  totalPages = 0,
   loading = false,
   emptyText = 'No results.',
   onRowClick,
@@ -138,8 +158,20 @@ export function DataTable<T>({
                 </TableCell>
               </TableRow>
             )}
+          )
+            : (
+              <TableRow>
+                <TableCell
+                  colSpan={table.getAllColumns().length}
+                  className='h-24 text-center text-muted-foreground'
+                >
+                  {emptyText}
+                </TableCell>
+              </TableRow>
+            )}
         </TableBody>
       </Table>
+      <Separator />
 
       {/* Pagination controls */}
       <div className='flex items-center justify-between mt-4'>
@@ -166,6 +198,8 @@ export function DataTable<T>({
             disabled={page >= totalPages}
           >
             <ChevronRight className='h-4 w-4' />
+            {/* <div>page:{page}</div>
+            <div>totalPages:{totalPages}</div> */}
           </Button>
         </div>
       </div>
