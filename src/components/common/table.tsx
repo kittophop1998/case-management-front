@@ -46,15 +46,7 @@ interface HeaderProps {
   className?: string;
   sortAble?: boolean;
 }
-export const Header = ({
-  label,
 
-interface HeaderProps {
-  label: string;
-  column: Column<any, unknown>;
-  className?: string;
-  sortAble?: boolean;
-}
 export const Header = ({
   label,
   column,
@@ -68,14 +60,14 @@ export const Header = ({
     <span className={cn('flex items-center', className)}>
     <span className={cn('flex items-center', className)}>
       {label}
-      {sortAble ? (
+      {/* {sortAble ? (
         <span onClick={() => column.toggleSorting(isSorted === 'asc')}>
           {isSorted === 'asc' ? (
             <ArrowUpWideNarrow className='ml-2 h-4 w-4' />
           ) : (
             <ArrowDownWideNarrow className='ml-2 h-4 w-4' />
           )}
-        </span>
+        </span> */}
       {sortAble ? (
         <span onClick={() => column.toggleSorting(isSorted === 'asc')}>
           {isSorted === 'asc' ? (
@@ -147,17 +139,6 @@ export function DataTable<T>({
                 ))}
               </TableRow>
             ))
-          )
-            : (
-              <TableRow>
-                <TableCell
-                  colSpan={table.getAllColumns().length}
-                  className='h-24 text-center text-muted-foreground'
-                >
-                  {emptyText}
-                </TableCell>
-              </TableRow>
-            )}
           )
             : (
               <TableRow>
