@@ -14,6 +14,8 @@ import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 import { Typography } from '@/components/common/typography'
 import { path2sidebar } from '@/const/title-path'
+import { useGetMeQuery } from '@/features/auth/authApiSlice'
+import { useEffect, useState } from 'react'
 const sidebarMenuButtonVariants = cva('', {
   variants: {
     active: {
@@ -33,7 +35,7 @@ const sidebarMenuIconVariants = cva('', {
 const mappingActive = (pathNameArr: string[]) => {
   return path2sidebar?.[`/${pathNameArr[2]}/${pathNameArr[3]}/${pathNameArr[4]}`] || path2sidebar?.[`/${pathNameArr[2]}/${pathNameArr[3]}`] || path2sidebar?.[`/${pathNameArr[2]}`] || path2sidebar['/']
 }
-export function AppSidebarMenuList ({
+export function AppSidebarMenuList({
   items
 }: {
   items: {
@@ -42,59 +44,73 @@ export function AppSidebarMenuList ({
     icon: any
   }[]
 }) {
+  const { data: me, isLoading: isLoadingGetMe } = useGetMeQuery()
+  const [myPermissions, setMyPermissions] = useState<string[]>([])
+  useEffect(() => {
+    let myPermissions = []
+    if (me?.role?.permissions) {
+      for (const element of me?.role?.permissions || []) {
+        myPermissions.push(element.key)
+      }
+      setMyPermissions(myPermissions)
+      // setMyPermissions(me.data.permissions.map((p: any) => p.name))
+    }
+  }, [me])
   const router = useRouter()
   const pathname = usePathname()
-  // const SettingIcon = items[4].icon
-    // const pathname = usePathname()
-    const pathNameArr = pathname.split('/')
-    // pathNameArr.shift();
-    // pathNameArr.shift();
-  
-    const title = mappingActive(pathNameArr)
-    // const clientPath = getClientPath(pathNameArr)
-  
+  const pathNameArr = pathname.split('/')
+  const title = mappingActive(pathNameArr)
+
   return (
     <SidebarGroup>
       <SidebarMenu>
-        {items.map(item => (
-          <Collapsible
-            key={item.title}
-            asChild
-            // defaultOpen={item.isActive}
-            className='group/collapsible'
-          >
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                className={cn(
-                  'h-[3rem] gap-3',
-                  sidebarMenuButtonVariants({
-                    // active: pathname.includes(item.url)
-                      active: title === item.title 
-
-                  })
-                )}
-                tooltip={item.title}
-                onClick={() => router.push(item.url)}
-              >
-                <item.icon
+        {items.map(item => {
+          if (item?.permission?.length) {
+            const hasCommon = item.permission.some(item => myPermissions.includes(item));
+            console.log('hasCommon', hasCommon, item.permission, myPermissions)
+            if (!hasCommon) {
+              return null
+            }
+          }
+          return (
+            <Collapsible
+              key={item.title}
+              asChild
+              className='group/collapsible'
+            >
+              <SidebarMenuItem>
+                <SidebarMenuButton
                   className={cn(
-                    'w-20 h-20',
-                    sidebarMenuIconVariants({
+                    'h-[3rem] gap-3',
+                    sidebarMenuButtonVariants({
                       // active: pathname.includes(item.url)
-                      active: title === item.title 
+                      active: title === item.title
+
                     })
                   )}
-                />
-                <Typography>
-                  {item.title}
+                  tooltip={item.title}
+                  onClick={() => router.push(item.url)}
+                >
+                  <item.icon
+                    className={cn(
+                      'w-20 h-20',
+                      sidebarMenuIconVariants({
+                        // active: pathname.includes(item.url)
+                        active: title === item.title
+                      })
+                    )}
+                  />
+                  <Typography>
+                    {item.title}
+                    {/* {JSON.stringify(myPermissions)} */}
+                    {/* {title === item.title ? 't':'f'} */}
 
-{/* {title === item.title ? 't':'f'} */}
-
-                </Typography>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </Collapsible>
-        ))}
+                  </Typography>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </Collapsible>
+          )
+        })}
       </SidebarMenu>
     </SidebarGroup>
   )

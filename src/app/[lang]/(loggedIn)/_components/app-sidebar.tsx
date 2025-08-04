@@ -15,6 +15,7 @@ import ReportIcon from '@public/icons/Report.svg'
 import SettingIcon from '@public/icons/Setting.svg'
 import CustomerDashboardIcon from '@public/icons/Customer Dashboard.svg'
 import { AppSidebarHeader } from './app-sidebar-header'
+import { permission } from 'process'
 
 const navMain = [
   {
@@ -25,7 +26,8 @@ const navMain = [
   {
     title: 'Case Management',
     url: '/case-management',
-    icon: CaseManagementIcon
+    icon: CaseManagementIcon,
+    permission: ['case.view']
   },
   {
     title: 'Inquiry Log',
@@ -45,7 +47,8 @@ const navMain = [
   {
     title: 'User Management',
     url: '/user-management',
-    icon: SettingIcon
+    icon: SettingIcon,
+    permission: ['user.manage']
   },
   {
     title: 'Access Control',
