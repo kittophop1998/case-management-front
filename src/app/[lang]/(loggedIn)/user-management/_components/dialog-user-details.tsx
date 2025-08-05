@@ -97,6 +97,7 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
             operatorId: `${userAPI.operatorId}`,
             centerId: userAPI.center.id,
             roleId: userAPI.role.id, // Assuming role is an object with an id
+            queueId: userAPI.queue.id,
             isActive: userAPI.isActive
           }
           console.log('updateForm :', updateForm)
@@ -123,6 +124,7 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
           onSubmit={onSubmit}
           isPendingSubmit={isLoadingCreate || isLoadingEdit}
           error={errorCreate || errorEdit || errorGet || undefined}
+
         />
       </Modal>
     )

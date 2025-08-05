@@ -5,7 +5,7 @@ import { RadioField } from '@/components/form/radio'
 import { SelectField } from '@/components/form/select-field'
 import { TextField } from '@/components/form/text-field'
 import { Typography } from '@/components/common/typography'
-import { Button } from '@/components/ui/button'
+// import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { statuses } from '@/const/mockup'
 import { useGetDropdownQuery } from '@/features/system/systemApiSlice'
@@ -14,6 +14,7 @@ import { CreateEditUserSchema } from '@/schemas'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { getErrorMessageAPI } from '@/lib/utils/get-error-message-api'
+import { Button } from '@/components/common/Button'
 
 interface FormUserDetailsProps {
   form: ReturnType<typeof useForm<z.infer<typeof CreateEditUserSchema>>>
@@ -140,9 +141,11 @@ export const FormUserDetails = ({
           {!!error && <FormError message={getErrorMessageAPI(error)} />}
           <div className='flex justify-end gap-3'>
             <ButtonCancel onClick={onClose} />
-            {isPendingSubmit ? 'isPendingSubmit-true' : ''}
-            {isLoadingForm ? 'isLoadingForm-true' : ''}
-            <Button type='submit' disabled={isPendingSubmit || isLoadingForm}>
+            <Button
+              type='submit'
+              loading={isPendingSubmit || isLoadingForm}
+              disabled={!form.formState.isDirty}
+            >
               {mode === 'create' ? 'Add' : 'Save'}
             </Button>
           </div>
