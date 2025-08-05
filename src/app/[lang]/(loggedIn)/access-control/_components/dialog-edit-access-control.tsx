@@ -48,7 +48,7 @@ export const DialogEditAccessControl = forwardRef<DialogRef, DialogEditAccessCon
                 console.log('setDefaultForm called with obj:', obj);
                 if (obj) {
                     form.reset(obj)
-                    setLabel(obj.label || '');
+                    setLabel(obj.name || '');
                 }
 
             }

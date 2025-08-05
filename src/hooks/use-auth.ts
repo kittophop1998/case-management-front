@@ -53,7 +53,6 @@ export default function useAuth() {
       isMutted.current = true;
       return;
     }
-    console.log("USE-AUTH autoDirect me:", me);
     if (me) {
       const initPath = getInitPathByRole(router.pathname, me?.role?.name);
       if (initPath) {

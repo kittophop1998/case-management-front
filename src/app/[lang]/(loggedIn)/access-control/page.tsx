@@ -20,7 +20,7 @@ export default function DashboardPage({
   const roles = ddData?.data?.roles || [];
   const columns = useMemo<ColumnDef<any, any>[]>(() => {
     return [
-      columnHelper.accessor('label', {
+      columnHelper.accessor('name', {
         header: ({ column }) => <Header column={column} label='Permission' sortAble />,
         cell: info => <div>{info.getValue()}</div>
       }),
