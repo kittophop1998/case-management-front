@@ -13,6 +13,7 @@ import { cn } from '@/lib/utils'
 import { CreateEditUserSchema } from '@/schemas'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
+import { getErrorMessageAPI } from '@/lib/utils/get-error-message-api'
 
 interface FormUserDetailsProps {
   form: ReturnType<typeof useForm<z.infer<typeof CreateEditUserSchema>>>
@@ -136,7 +137,7 @@ export const FormUserDetails = ({
               />
             </div>
           </div>
-          <FormError message={error} />
+          {!!error && <FormError message={getErrorMessageAPI(error)} />}
           <div className='flex justify-end gap-3'>
             <ButtonCancel onClick={onClose} />
             {isPendingSubmit ? 'isPendingSubmit-true' : ''}

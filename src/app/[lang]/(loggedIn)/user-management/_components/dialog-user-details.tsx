@@ -75,7 +75,7 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
         setOpen(false)
         await getUsers()
       } catch (err) {
-        console.error('Error saving user:', err)
+        console.log('Error saving user:', err)
       }
     }
 
