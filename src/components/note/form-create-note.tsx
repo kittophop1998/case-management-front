@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 // 
 import { SelectField } from "@/components/form/select-field";
-import { TextField } from "@/components/form/text-field";
 import { Form } from "@/components/ui/form";
 import { ButtonCancel } from "../button/btn-cancle";
 import { Button } from "../common/Button";
@@ -25,6 +24,10 @@ export const FormCreateNote = ({
     const onSubmit = (values: z.infer<typeof CreateNoteSchemas>) => {
         console.log('Form submitted with values:', values);
         // Handle form submission logic here
+        onClose();
+    }
+    const onClose = () => {
+        setStatus(false);
     }
     const formState = form.formState;
     const isFormPending = formState.isSubmitting || formState.isValidating;
@@ -54,7 +57,7 @@ export const FormCreateNote = ({
                     placeholder='message'
                 />
                 <div className="flex gap-3 items-center justify-end">
-                    <ButtonCancel />
+                    <ButtonCancel onClick={onClose} />
                     <Button loading={isFormPending} disabled={isFormDisabled}>Save</Button>
                 </div>
             </form>

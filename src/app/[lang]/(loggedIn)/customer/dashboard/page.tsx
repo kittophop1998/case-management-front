@@ -75,6 +75,7 @@ const CustomerDashboard = () => {
                         </div>
                     </SectionCard>
                     <FloatingWidget
+                        title="New Case"
                         status={status}
                         setStatus={setStatus}
                     >

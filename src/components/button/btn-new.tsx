@@ -1,4 +1,4 @@
-import { Funnel } from "lucide-react";
+import { ClipboardPlus } from "lucide-react";
 import { Button } from "../ui/button";
 
 interface BtnFilterProps {
@@ -7,7 +7,7 @@ interface BtnFilterProps {
 const BtnNew = ({ onClick }: BtnFilterProps) => {
     return (
         <Button className="bg-[#5570f1] text-white hover:bg-[#5570f1]/90 hover:text-white" variant='outline' onClick={onClick} >
-            <Funnel />  New
+            <ClipboardPlus />  New
         </Button >
     );
 };

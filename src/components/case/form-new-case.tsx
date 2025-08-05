@@ -20,10 +20,11 @@ import { ButtonCancel } from "@/components/button/btn-cancle";
 import { RadioField } from "@/components/form/radio";
 
 const SectionCard = ({ title, children, isAccordion }: { title: string, children: React.ReactNode, isAccordion: boolean }) => {
+    const [isOpen, setIsOpen] = useState(true);
     if (isAccordion) {
         return (
             <Card className="rounded-none shadow-none p-3">
-                <Accordion type="single" collapsible className="">
+                <Accordion type="single" collapsible className="" value={isOpen ? "item-1" : ""} onValueChange={(value) => setIsOpen(value === "item-1")}>
                     <AccordionItem value="item-1">
                         <AccordionTrigger className='p-0 m-0'>{title}</AccordionTrigger>
                         <AccordionContent className="mt-2 text-gray-600">
@@ -77,7 +78,7 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
             <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>
                 <div className={cn("py-3", isSmallMod ? "max-h-[50vh] overflow-y-auto" : "grid grid-cols-2 gap-3")}>
                     <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
-                        <SectionCard title="Customer Info" isAccordion={isSmallMod}>
+                        <SectionCard title="Customer Info" isAccordion={!!isSmallMod}>
                             <>
                                 <h3>Customer Information</h3>
                                 <p>Name: John Doe</p>
@@ -85,7 +86,7 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                                 <p>Phone: (123) 456-7890</p>
                             </>
                         </SectionCard>
-                        <SectionCard title="Case Info" isAccordion={isSmallMod}>
+                        <SectionCard title="Case Info" isAccordion={!!isSmallMod}>
                             <>
                                 <h3>Case Information</h3>
                                 <p>Case ID: 123456</p>
@@ -101,7 +102,7 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                         </SectionCard>
                     </div>
                     <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
-                        <SectionCard title="Disposition" isAccordion={isSmallMod}>
+                        <SectionCard title="Disposition" isAccordion={!!isSmallMod}>
                             <>
                                 <SelectField
                                     form={form}

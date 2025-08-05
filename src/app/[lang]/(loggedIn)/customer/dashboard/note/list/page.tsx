@@ -4,17 +4,12 @@ import BtnExport from "@/components/button/btn-export";
 import BtnFilter from "@/components/button/btn-filter";
 import BtnNew from "@/components/button/btn-new";
 import CardPageWrapper from "@/components/common/card-page-warpper";
-import { CheckIsActive } from "@/components/common/check-is-active";
 import { FloatingWidget } from "@/components/common/floating-widget";
-import { Modal } from "@/components/common/Modal";
 import { DataTable, Header } from "@/components/common/table";
 import { Typography } from "@/components/common/typography";
 import { DatePickerFieldInput, DateValueType } from "@/components/form/date-picker";
-import { ExampeleForm } from "@/components/form/example-template-form";
 import { SearchFieldInput } from "@/components/form/search-field";
 import { CreateNewNoteTemplate } from "@/components/note/form-create-note";
-import { FormFilterNote } from "@/components/note/form-filter-note";
-import { Button } from "@/components/ui/button";
 import { useTable } from "@/hooks/use-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { format } from "date-fns";
@@ -136,6 +131,7 @@ const NoteListPage = () => {
                 >
                 </Modal> */}
                 <FloatingWidget
+                    title="Create Note"
                     status={status}
                     setStatus={setStatus}
                 >

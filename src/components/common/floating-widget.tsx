@@ -8,8 +8,9 @@ interface FloatingWidgetProps {
     status: boolean;
     setStatus: (status: boolean) => void;
     children: React.ReactElement;
+    title: string;
 }
-export const FloatingWidget = ({ status, setStatus, children }: FloatingWidgetProps) => {
+export const FloatingWidget = ({ title, status, setStatus, children }: FloatingWidgetProps) => {
     const [isSmallMod, setIsMaximized] = useState(true);
     const [isHidden, setIsHidden] = useState(false);
 
@@ -19,7 +20,7 @@ export const FloatingWidget = ({ status, setStatus, children }: FloatingWidgetPr
         }>
             <div className="bg-white rounded-sm overflow-hidden">
                 <div className="flex items-center bg-primary/25 px-3">
-                    <Typography>New Case</Typography>
+                    <Typography>{title}</Typography>
                     <div className="flex-1" />
 
                     <Button variant='ghost'
