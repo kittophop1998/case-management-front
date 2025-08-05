@@ -30,10 +30,11 @@ export default async function RootLayout({
   if (!user) {
     await handleError401({ pathname });
   } else {
-    const initPath = await getInitPathByRole(pathname, user?.role?.name);
-    if (initPath) {
-      redirect(initPath);
-    }
+    // const initPath = await getInitPathByRole(pathname, user?.role?.name, 'aaaaaaaaaa');
+    // console.log('initPath', initPath);
+    // if (initPath) {
+    //   redirect(initPath);
+    // }
   }
   return (
     <html lang={lang}>
@@ -46,7 +47,6 @@ export default async function RootLayout({
         <StoreProvider>
           <InitializersData user={user} accessToken={accessToken} refreshToken={refreshToken} />
           {children}
-          {/* </DndProviderCpn> */}
         </StoreProvider>
       </body>
     </html>

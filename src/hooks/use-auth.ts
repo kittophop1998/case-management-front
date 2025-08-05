@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { setAccessToken, setRefreshToken } from "@/services/api";
 import { loginUser } from "@/actions/login";
 import getInitPathByRole from "@/lib/utils/get-init-path-by-role";
+import { usePathname } from "next/navigation";
 
 export default function useAuth() {
   const formLogin = useForm<z.infer<typeof LoginSchemas>>({
@@ -32,6 +33,7 @@ export default function useAuth() {
     },
   ] = useLazyGetMeQuery();
   const login = async (value: z.infer<typeof LoginSchemas>) => {
+    console.log("useAuth-Login", value);
     try {
       const { accessToken, refreshToken, error } = await loginUser(value);
       if (error) {
@@ -42,19 +44,25 @@ export default function useAuth() {
       }
       await setAccessToken(accessToken);
       await setRefreshToken(refreshToken);
-      // getMe();
+      getMe();
     } catch (error) {
       console.log("useAuth-Login failed", error);
     }
   };
   const isMutted = useRef(false);
+  const pathname = usePathname();
+
   useEffect(() => {
     if (!isMutted.current) {
       isMutted.current = true;
       return;
     }
     if (me) {
-      const initPath = getInitPathByRole(router.pathname, me?.role?.name);
+      const initPath = getInitPathByRole(
+        pathname,
+        me?.role?.name,
+        "eeeeeeeeeeeeeee"
+      );
       if (initPath) {
         router.push(initPath);
       }

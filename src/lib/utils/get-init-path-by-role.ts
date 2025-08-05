@@ -1,9 +1,10 @@
 function getInitPathByRole(
   currentPath: string,
-  currentRole: "Admin" | "User"
+  currentRole: "Admin" | "User",
+  tagDebug = ""
 ): string {
   // return "";
-  console.log("getInitPathByRole.call()", currentPath, currentRole);
+  console.log("getInitPathByRole.call()", tagDebug, currentPath, currentRole);
   if (currentPath.includes("/login")) {
     switch (currentRole) {
       case "Admin":
