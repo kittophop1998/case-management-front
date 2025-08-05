@@ -5,12 +5,14 @@ import BtnFilter from "@/components/button/btn-filter";
 import BtnNew from "@/components/button/btn-new";
 import CardPageWrapper from "@/components/common/card-page-warpper";
 import { CheckIsActive } from "@/components/common/check-is-active";
+import { FloatingWidget } from "@/components/common/floating-widget";
 import { Modal } from "@/components/common/Modal";
 import { DataTable, Header } from "@/components/common/table";
 import { Typography } from "@/components/common/typography";
 import { DatePickerFieldInput, DateValueType } from "@/components/form/date-picker";
+import { ExampeleForm } from "@/components/form/example-template-form";
 import { SearchFieldInput } from "@/components/form/search-field";
-import { FormCreateNote } from "@/components/note/form-create-note";
+import { CreateNewNoteTemplate } from "@/components/note/form-create-note";
 import { FormFilterNote } from "@/components/note/form-filter-note";
 import { Button } from "@/components/ui/button";
 import { useTable } from "@/hooks/use-table";
@@ -32,6 +34,7 @@ const NoteListPage = () => {
         createdDate: new Date().toISOString(),
         action: ''
     }]); // Replace with actual data fetching logic
+    const [status, setStatus] = useState<boolean>(false);
     const columnHelper = createColumnHelper<any>()
     const columns = useMemo(() => [
         columnHelper.accessor('type', {
@@ -82,11 +85,11 @@ const NoteListPage = () => {
         date: null,
     });
     return (
-        <div>
-            <div className="flex justify-end my-3">
-                <BtnNew onClick={() => console.log('New clicked')} />
+        <div className="h-full flex flex-col">
+            <div className="flex justify-end py-3">
+                <BtnNew onClick={() => setStatus(true)} />
             </div>
-            <CardPageWrapper>
+            <CardPageWrapper className="pb-3">
                 <div className="flex justify-between mb-3">
                     <Typography variant="h4" className="mb-4">
                         Note List
@@ -124,14 +127,22 @@ const NoteListPage = () => {
                     total={data.length}
                     totalPages={1}
                 />
+                {/* <FormCreateNote /> */}
+                {/* <ExampeleForm /> */}
+                {/* <Modal
+                    isOpen={false} // Replace with actual state to control modal visibility
+                    onClose={() => console.log('Modal closed')}
+                    title="Note Creation"
+                >
+                </Modal> */}
+                <FloatingWidget
+                    status={status}
+                    setStatus={setStatus}
+                >
+                    <CreateNewNoteTemplate />
+                </FloatingWidget>
             </CardPageWrapper>
-            <Modal
-                isOpen={false} // Replace with actual state to control modal visibility
-                onClose={() => console.log('Modal closed')}
-                title="Note Creation"
-            >
-                <FormCreateNote />
-            </Modal>
+
         </div >
     )
 }

@@ -52,7 +52,6 @@ export const TextField = ({
         appendInnerIcon={appendInnerIcon}
         placeholder={placeholder}
         readonly={readonly}
-        field={form}
       />
     </TextFieldWarpper>
   )
@@ -94,7 +93,7 @@ interface TextFieldInputProps {
   appendInnerIcon?: React.ReactNode
   placeholder?: string
   readonly?: boolean
-  field: any // Replace 'any' with the correct field type, e.g., UseFormReturn<any> if using react-hook-form
+  field?: any // Replace 'any' with the correct field type, e.g., UseFormReturn<any> if using react-hook-form
 }
 export const TextFieldInput = ({
   prependInnerIcon,

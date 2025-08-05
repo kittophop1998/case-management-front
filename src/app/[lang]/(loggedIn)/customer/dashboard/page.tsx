@@ -2,9 +2,11 @@
 import Container from "@/components/common/containter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { NewCaseForm } from "./_components/new-case-form";
 import { Typography } from "@/components/common/typography";
 import { useRouter } from 'next/navigation'
+import { useState } from "react";
+import { FloatingWidget } from "@/components/common/floating-widget";
+import { FormNewCase } from "@/components/case/form-new-case";
 
 const SectionCard = ({ title, children }: { title: string, children: React.ReactNode }) => {
     return (
@@ -21,6 +23,7 @@ const CustomerDashboard = () => {
     const customerId = "9712333456234";
     const costumerType = "Individual";
     const customerSince = "2023-10-01";
+    const [status, setStatus] = useState<boolean>(false);
     return (
         <>
             <Container className="space-y-4 my-3">
@@ -29,7 +32,11 @@ const CustomerDashboard = () => {
                     <div>Customer ID {customerId}</div>
                     <div>Costomer Since</div>
                     <div className="flex-1"></div>
-                    <NewCaseForm />
+                    <Button
+                        type="button"
+                        onClick={() => setStatus((v) => !v)}
+                    >New</Button>
+
                     <Button>End call</Button>
                 </div>
                 <div className="grid grid-cols-3 gap-4">
@@ -67,11 +74,12 @@ const CustomerDashboard = () => {
                             aaaaa
                         </div>
                     </SectionCard>
-                    {/* asdasdasd */}
-                    {/* asdasdasd */}
-                    {/* asdasdasd-asdasdasd */}
-                    {/*  */}
-                    {/* Surapong Lertprayapat */}
+                    <FloatingWidget
+                        status={status}
+                        setStatus={setStatus}
+                    >
+                        <FormNewCase />
+                    </FloatingWidget>
                 </div>
             </Container>
         </>
