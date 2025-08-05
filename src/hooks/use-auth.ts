@@ -58,14 +58,19 @@ export default function useAuth() {
       return;
     }
     if (me) {
-      const initPath = getInitPathByRole(
-        pathname,
-        me?.role?.name,
-        "eeeeeeeeeeeeeee"
-      );
-      if (initPath) {
-        router.push(initPath);
+      const cloneGetInitPathByRole = async () => {
+        const initPath = await getInitPathByRole(
+          pathname,
+          me?.role?.name,
+          "eeeeeeeeeeeeeee"
+        );
+        console.log("useAuth-getInitPathByRole", initPath, me?.role?.name);
+        if (initPath) {
+          router.push(initPath);
+        }
       }
+      cloneGetInitPathByRole()
+
     }
   }, [me?.role?.name]);
 
