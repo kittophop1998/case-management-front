@@ -5,7 +5,6 @@ import { RadioField } from '@/components/form/radio'
 import { SelectField } from '@/components/form/select-field'
 import { TextField } from '@/components/form/text-field'
 import { Typography } from '@/components/common/typography'
-// import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { statuses } from '@/const/mockup'
 import { useGetDropdownQuery } from '@/features/system/systemApiSlice'
@@ -124,7 +123,17 @@ export const FormUserDetails = ({
               valueName='id'
               labelName='name'
             />
-            {/* <div /> */}
+            <SelectField
+              loading={isPendingSubmit || isLoadingForm}
+              form={form}
+              items={dataDropdown?.data?.departments || []}
+              name='departmentId'
+              label='Department'
+              placeholder='Select'
+              valueName='id'
+              labelName='name'
+            />
+            <div />
             <div className={cn(mode === 'create' ? '' : 'order-first')}>
               <RadioField
                 loading={isPendingSubmit || isLoadingForm}

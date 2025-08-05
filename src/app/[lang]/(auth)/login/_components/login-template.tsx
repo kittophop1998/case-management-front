@@ -2,15 +2,10 @@ import { Typography } from '@/components/common/typography'
 import { Card } from '@/components/ui/card'
 import { LoginForm } from './login-form'
 import Image from 'next/image'
-// import { cookies } from 'next/headers'
-
 
 export const LoginTemplate = async () => {
-  // const cookieStore = await cookies()
-  // const access_token = cookieStore.get('access_token')
   return (
     <Card className='max-w-md w-full p-6'>
-      {/* {access_token} */}
       <Image
         src='/eaon-icon.png'
         alt={'eaon-icon.png'}

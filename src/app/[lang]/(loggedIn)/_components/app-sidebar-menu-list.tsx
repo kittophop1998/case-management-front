@@ -13,9 +13,17 @@ import {
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 import { Typography } from '@/components/common/typography'
-import { path2sidebar } from '@/const/title-path'
+import { navMain, path2sidebar } from '@/const/title-path'
 import { useGetMeQuery } from '@/features/auth/authApiSlice'
 import { useEffect, useState } from 'react'
+import { GalleryVerticalEnd, Settings2 } from 'lucide-react'
+import CaseManagementIcon from '@public/icons/Case Management.svg'
+import InquiryLogIcon from '@public/icons/Inquiry Log.svg'
+import ReportIcon from '@public/icons/Report.svg'
+import SettingIcon from '@public/icons/Setting.svg'
+import CustomerDashboardIcon from '@public/icons/Customer Dashboard.svg'
+import { PermissionKeyType } from '@/types/permission.type'
+
 const sidebarMenuButtonVariants = cva('', {
   variants: {
     active: {
@@ -35,15 +43,18 @@ const sidebarMenuIconVariants = cva('', {
 const mappingActive = (pathNameArr: string[]) => {
   return path2sidebar?.[`/${pathNameArr[2]}/${pathNameArr[3]}/${pathNameArr[4]}`] || path2sidebar?.[`/${pathNameArr[2]}/${pathNameArr[3]}`] || path2sidebar?.[`/${pathNameArr[2]}`] || path2sidebar['/']
 }
-export function AppSidebarMenuList({
-  items
-}: {
-  items: {
-    title: string
-    url: string
-    icon: any
-  }[]
-}) {
+
+
+const title2icon: Record<string, React.ComponentType<any>> = {
+  'Customer Dashboard': CustomerDashboardIcon,
+  'Case Management': CaseManagementIcon,
+  'Inquiry Log': InquiryLogIcon,
+  Report: ReportIcon,
+  Settings: SettingIcon,
+  'User Management': SettingIcon,
+  'Access Control': SettingIcon
+}
+export function AppSidebarMenuList({ }) {
   const { data: me, isLoading: isLoadingGetMe } = useGetMeQuery()
   const [myPermissions, setMyPermissions] = useState<string[]>([])
   useEffect(() => {
@@ -59,14 +70,12 @@ export function AppSidebarMenuList({
   const pathname = usePathname()
   const pathNameArr = pathname.split('/')
   const title = mappingActive(pathNameArr)
-
   return (
     <SidebarGroup>
       <SidebarMenu>
-        {items.map(item => {
+        {navMain.map(item => {
           if (item?.permission?.length) {
             const hasCommon = item.permission.some(item => myPermissions.includes(item));
-            console.log('hasCommon', hasCommon, item.permission, myPermissions)
             if (!hasCommon) {
               return null
             }
@@ -90,7 +99,7 @@ export function AppSidebarMenuList({
                   tooltip={item.title}
                   onClick={() => router.push(item.url)}
                 >
-                  <item.icon
+                  {/* <item.icon
                     className={cn(
                       'w-20 h-20',
                       sidebarMenuIconVariants({
@@ -98,7 +107,18 @@ export function AppSidebarMenuList({
                         active: title === item.title
                       })
                     )}
-                  />
+                  /> */}
+                  {(() => {
+                    const Icon = title2icon[item.title]
+                    return (
+                      <Icon
+                        className={cn(
+                          'w-20 h-20',
+                          sidebarMenuIconVariants({ active: title === item.title })
+                        )}
+                      />
+                    )
+                  })()}
                   <Typography>
                     {item.title}
                     {/* {JSON.stringify(myPermissions)} */}

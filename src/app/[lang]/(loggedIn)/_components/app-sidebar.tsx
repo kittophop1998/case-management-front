@@ -1,6 +1,5 @@
 'use client'
 import * as React from 'react'
-import { GalleryVerticalEnd, Settings2 } from 'lucide-react'
 
 import { AppSidebarMenuList } from './app-sidebar-menu-list'
 import {
@@ -9,60 +8,9 @@ import {
   SidebarHeader,
   SidebarRail
 } from '@/components/ui/sidebar'
-import CaseManagementIcon from '@public/icons/Case Management.svg'
-import InquiryLogIcon from '@public/icons/Inquiry Log.svg'
-import ReportIcon from '@public/icons/Report.svg'
-import SettingIcon from '@public/icons/Setting.svg'
-import CustomerDashboardIcon from '@public/icons/Customer Dashboard.svg'
 import { AppSidebarHeader } from './app-sidebar-header'
-import { PermissionKeyType } from '@/types/permission.type'
 
-export const navMain:
-  {
-    title: string
-    url: string
-    icon: React.ComponentType<any>
-    permission?: PermissionKeyType[]
-  }[]
-  = [
-    {
-      title: 'Customer Dashboard',
-      url: '/customer/search',
-      icon: CustomerDashboardIcon,
-      permission: ['user.customersearch', 'user.customerdashboard']
-    },
-    {
-      title: 'Case Management',
-      url: '/case-management',
-      icon: CaseManagementIcon,
-      permission: ['case.management']
-    },
-    {
-      title: 'Inquiry Log',
-      url: '/inquiry-log',
-      icon: InquiryLogIcon
-    },
-    {
-      title: 'Report',
-      url: '/report',
-      icon: ReportIcon
-    },
-    {
-      title: 'Settings',
-      url: '/settings',
-      icon: SettingIcon
-    },
-    {
-      title: 'User Management',
-      url: '/user-management',
-      icon: SettingIcon,
-    },
-    {
-      title: 'Access Control',
-      url: '/access-control',
-      icon: SettingIcon
-    },
-  ]
+
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
@@ -75,7 +23,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <AppSidebarHeader />
         </SidebarHeader>
         <SidebarContent className='mt-6'>
-          <AppSidebarMenuList items={navMain} />
+          <AppSidebarMenuList />
         </SidebarContent>
         <SidebarRail />
       </Sidebar>

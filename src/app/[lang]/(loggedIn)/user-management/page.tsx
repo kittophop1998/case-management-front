@@ -30,7 +30,6 @@ export default function UserManagementPage() {
   const openDialogEditUser = (user: UserType) => {
     dialogDetailsRef.current?.setDefaultUser(user)
   }
-
   const columns = useMemo<ColumnDef<UserType, any>[]>(() => [
     columnHelper.accessor('agentId', {
       header: ({ column }) => <Header label='Id' sortAble column={column} />,
@@ -79,7 +78,8 @@ export default function UserManagementPage() {
   const {
     table,
     usersTable,
-    getUsers, triggerFetch,
+    getUsers,
+    triggerFetch,
     state: { status, role, team, center, searchText },
     setState: {
       setPage,

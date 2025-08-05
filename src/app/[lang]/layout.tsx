@@ -6,6 +6,7 @@ import { updateTokenAuth } from '@/actions/updateTokenAuth'
 import { handleError401 } from '@/lib/utils/handleError'
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import getInitPathByRole from '@/lib/utils/get-init-path-by-role'
 
 const kanit = Kanit({
   weight: '400',
@@ -29,20 +30,10 @@ export default async function RootLayout({
   if (!user) {
     await handleError401({ pathname });
   } else {
-    if (pathname.includes('/login')) {
-      switch (user?.role?.name) {
-        case 'Admin':
-          redirect(`/user-management`);
-
-          break;
-        case 'User':
-          redirect(`/case-management`);
-          break;
-        default:
-          redirect('/login');
-      }
+    const initPath = await getInitPathByRole(pathname, user?.role?.name);
+    if (initPath) {
+      redirect(initPath);
     }
-
   }
   return (
     <html lang={lang}>
@@ -53,7 +44,7 @@ export default async function RootLayout({
         )}
       >
         <StoreProvider>
-          <InitializersData user={user} />
+          <InitializersData user={user} accessToken={accessToken} refreshToken={refreshToken} />
           {children}
           {/* </DndProviderCpn> */}
         </StoreProvider>

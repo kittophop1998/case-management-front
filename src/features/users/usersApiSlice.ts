@@ -18,7 +18,8 @@ type EditUserBody = {
   centerId: number;
   teamId: number;
   isActive: boolean;
-  queueId?: string;
+  queueId: string;
+  departmentId: string;
 };
 
 export const usersApiSlice = createApi({
@@ -91,6 +92,7 @@ export const usersApiSlice = createApi({
           centerId: data.centerId,
           queueId: data.queueId,
           teamId: data.teamId,
+          departmentId: data.departmentId,
           isActive: data.isActive,
         };
         return {

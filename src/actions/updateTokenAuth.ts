@@ -13,13 +13,18 @@ import { cookies } from "next/headers";
 export const updateTokenAuth = async () => {
   let user: ApiResponse<UserProfileType> | null = null;
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get("access_token")?.value || null;
-  const refreshToken = cookieStore.get("refresh_token")?.value || null;
-  if (!!accessToken && !!refreshToken && typeof accessToken === "string" && typeof refreshToken === "string") {
+  const accessToken = cookieStore.get("accessToken")?.value || null;
+  const refreshToken = cookieStore.get("refreshToken")?.value || null;
+  if (
+    !!accessToken &&
+    !!refreshToken &&
+    typeof accessToken === "string" &&
+    typeof refreshToken === "string"
+  ) {
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
     try {
-      user = await api<UserProfileType>(`/auth/profile`)
+      user = await api<UserProfileType>(`/auth/profile`);
     } catch (error) {
       console.error("Error RootLayout.user", error);
     }
@@ -29,6 +34,4 @@ export const updateTokenAuth = async () => {
   }
   return { user, accessToken, refreshToken };
   // return user;
-}
-
-
+};

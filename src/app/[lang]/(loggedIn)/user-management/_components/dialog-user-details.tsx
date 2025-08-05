@@ -56,7 +56,6 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
     const [editUser, { error: errorEdit, isLoading: isLoadingEdit }] = useEditUserMutation()
     const onSubmit = async (userData: z.infer<typeof CreateEditUserSchema>) => {
       console.log('Form submitted with values:', mode, userData)
-
       try {
         switch (mode) {
           case 'edit':
@@ -98,6 +97,7 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
             centerId: userAPI.center.id,
             roleId: userAPI.role.id, // Assuming role is an object with an id
             queueId: userAPI.queue.id,
+            departmentId: userAPI.department.id,
             isActive: userAPI.isActive
           }
           console.log('updateForm :', updateForm)
