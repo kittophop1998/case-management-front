@@ -7,11 +7,10 @@ import { TextField } from '@/components/form/text-field'
 import { Typography } from '@/components/common/typography'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
-import { centers, roles, statuses, teams } from '@/const/mockup'
+import { statuses } from '@/const/mockup'
 import { useGetDropdownQuery } from '@/features/system/systemApiSlice'
 import { cn } from '@/lib/utils'
 import { CreateEditUserSchema } from '@/schemas'
-import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
@@ -24,6 +23,7 @@ interface FormUserDetailsProps {
   isPendingSubmit?: boolean
   error?: string
 }
+
 export const FormUserDetails = ({
   form,
   mode,
@@ -112,7 +112,17 @@ export const FormUserDetails = ({
               valueName='id'
               labelName='name'
             />
-            <div />
+            <SelectField
+              loading={isPendingSubmit || isLoadingForm}
+              form={form}
+              items={dataDropdown?.data?.queues || []}
+              name='queueId'
+              label='Queue'
+              placeholder='Select'
+              valueName='id'
+              labelName='name'
+            />
+            {/* <div /> */}
             <div className={cn(mode === 'create' ? '' : 'order-first')}>
               <RadioField
                 loading={isPendingSubmit || isLoadingForm}

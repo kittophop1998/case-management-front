@@ -29,7 +29,9 @@ const emptyUser: z.infer<typeof CreateEditUserSchema> = {
   "agentId": "",// Agent ID
   "centerId": "",// Center
   "roleId": "",// Role
+  "queueId": "",// Queue ID
   "isActive": true// Status
+
 }
 
 export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
