@@ -22,7 +22,7 @@ export default function UserLayout({
         <AppSidebar />
         <SidebarInset className='bg-[#f4f5fa]'>
           <AppBar />
-          <div className='max-w-[1600px] mx-auto w-full  px-2  h-full'>{children}</div>
+          <div className='w-full h-full'>{children}</div>
         </SidebarInset>
       </SidebarProvider>
     </div>
