@@ -16,6 +16,7 @@ import { StatusCostomer } from "@/components/customer/status-customer";
 import { StatusPayment } from "@/components/customer/status-payment";
 import { StatusMobileApp } from "@/components/customer/status-mobile-app";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import BtnNew from "@/components/button/btn-new";
 
 const DisplayDerivedValue = ({ title, value, className, classNameValue }: { title: string, value: any, className?: string, classNameValue?: string }) => {
     if (typeof value === 'string') {
@@ -78,8 +79,8 @@ const CustomerDashboard = () => {
             <Tabs defaultValue="account">
                 <TabsList className="bg-white w-full flex justify-start rounded-none pb-0">
                     <Container >
-                        <TabsTrigger value="account" className=" my-0 w-[200px] max-w-[300px] data-[state=active]:shadow-none  rounded-none border-0 data-[state=active]:border-b-4  border-[#5570f1]">Overview</TabsTrigger>
-                        <TabsTrigger value="password" className="my-0 w-[200px] max-w-[300px] data-[state=active]:shadow-none  rounded-none border-0 data-[state=active]:border-b-4  border-[#5570f1]">Product</TabsTrigger>
+                        <TabsTrigger value="account" className="cursor-pointer data-[state=active]:cursor-default my-0 w-[200px] max-w-[300px] data-[state=active]:shadow-none  rounded-none border-0 data-[state=active]:border-b-4  border-[#5570f1]">Overview</TabsTrigger>
+                        <TabsTrigger value="password" className="cursor-pointer data-[state=active]:cursor-default my-0 w-[200px] max-w-[300px] data-[state=active]:shadow-none  rounded-none border-0 data-[state=active]:border-b-4  border-[#5570f1]">Product</TabsTrigger>
                     </Container>
                 </TabsList>
                 <Container className="space-y-4 my-3">
@@ -88,10 +89,9 @@ const CustomerDashboard = () => {
                         <DataWithCopy title='Customer ID/Passport' value='9712333456234' showCopy />
                         <DataWithCopy title='Customer Since' value='2024-02-02' />
                         <div className="flex-1" />
-                        <Button
-                            type="button"
+                        <BtnNew
                             onClick={() => setStatus((v) => !v)}
-                        >New</Button>
+                        />
 
                         <Button>End call</Button>
                     </div>
@@ -176,23 +176,22 @@ const CustomerDashboard = () => {
                                     <Typography >Customer Type: {costumerType}</Typography>
                                 </>
                             </SectionCard>
-                            <FloatingWidget
-                                title="New Case"
-                                status={status}
-                                setStatus={setStatus}
-                            >
-                                <FormNewCase />
-                            </FloatingWidget>
+
                         </div>
                     </TabsContent>
                     <TabsContent value="password" className="w-full max-w-none">
                         <div className="w-full bg-white px-3 h-[50vh]">Change your password here.</div>
                     </TabsContent>
-
                 </Container>
 
             </Tabs>
-
+            <FloatingWidget
+                title="New Case"
+                status={status}
+                setStatus={setStatus}
+            >
+                <FormNewCase />
+            </FloatingWidget>
         </>
     );
 };
