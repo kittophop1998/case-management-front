@@ -1,6 +1,15 @@
 export type ApiResponseError = {
-  error?: string;
+  statusCode: number;
+  error: string;
+  message: {
+    th: string;
+    en: string;
+  };
+  timestamp: string;
+  path: string;
 };
-export type ApiResponse<T> = T & ApiResponseError;
 
-export type ApiResponseSuccess = ApiResponse<null>;
+export type ApiResponse<T> = {
+  data?: T;
+  error?: ApiResponseError;
+};

@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { UsersTable, UserType } from "@/types/user.type";
 import { baseQuery } from "@/services/api";
-import { ApiResponse, ApiResponseSuccess } from "@/types/api.type";
+import { ApiResponse } from "@/types/api.type";
 import { number } from "zod";
 import { DefaultReqTableType } from "@/types/table.type";
 
@@ -82,7 +82,7 @@ export const usersApiSlice = createApi({
       }),
     }),
     editUser: builder.mutation<
-      ApiResponseSuccess,
+      ApiResponse<{}>,
       { id: string; data: EditUserBody }
     >({
       query: ({ id, data }) => {

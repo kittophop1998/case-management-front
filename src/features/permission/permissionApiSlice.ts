@@ -1,32 +1,28 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { JsonJoinDetails, UserProfileType, UserType } from '@/types/user.type';
-import { baseQuery } from '@/services/api';
-import { ApiResponse, ApiResponseSuccess } from '@/types/api.type'
-import { SettingAccessControlSchema } from '@/schemas';
-import { DefaultReqTableType, TableType } from '@/types/table.type';
-import z from 'zod';
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { JsonJoinDetails, UserProfileType, UserType } from "@/types/user.type";
+import { baseQuery } from "@/services/api";
+import { ApiResponse } from "@/types/api.type";
+import { SettingAccessControlSchema } from "@/schemas";
+import { DefaultReqTableType, TableType } from "@/types/table.type";
+import z from "zod";
 type GetDropdownResponse = ApiResponse<{
   data: {
     centers: JsonJoinDetails[];
     permissions: JsonJoinDetails[];
     roles: JsonJoinDetails[];
     teams: JsonJoinDetails[];
-  }
+  };
 }>;
 export const permissionApiSlice = createApi({
-  reducerPath: 'permissionApi',
+  reducerPath: "permissionApi",
   baseQuery,
   endpoints: (builder) => ({
-    getTable: builder.query<TableType<{label: string, roles: string[], action: string}>, DefaultReqTableType>({
-      query: (
-        {
-          page,
-          limit,
-          sort = null,
-          order = null,
-        }
-      ) => {
-        let searchObj:{
+    getTable: builder.query<
+      TableType<{ label: string; roles: string[]; action: string }>,
+      DefaultReqTableType
+    >({
+      query: ({ page, limit, sort = null, order = null }) => {
+        let searchObj: {
           page?: string;
           limit?: string;
           sort?: string;
@@ -34,34 +30,33 @@ export const permissionApiSlice = createApi({
         } = {
           page: String(page),
           limit: String(limit),
-          sort: String(sort || ''),
-          order: String(order || '')
-        }
-        if (!page) delete searchObj.page
-        if (!limit) delete searchObj.limit
-        if (!sort) delete searchObj.sort
-        if (!order) delete searchObj.order
+          sort: String(sort || ""),
+          order: String(order || ""),
+        };
+        if (!page) delete searchObj.page;
+        if (!limit) delete searchObj.limit;
+        if (!sort) delete searchObj.sort;
+        if (!order) delete searchObj.order;
 
-
-        const searchParams = new URLSearchParams(searchObj)
+        const searchParams = new URLSearchParams(searchObj);
         return {
           url: `/permissions?${searchParams.toString()}`,
-          method: 'GET',
-        }
+          method: "GET",
+        };
       },
     }),
-    editTable: builder.mutation<void, z.infer<typeof SettingAccessControlSchema>>({
+    editTable: builder.mutation<
+      void,
+      z.infer<typeof SettingAccessControlSchema>
+    >({
       query: (body) => ({
-        url: '/permissions/update',
-        method: 'PATCH',
-        body
+        url: "/permissions/update",
+        method: "PATCH",
+        body,
       }),
-    })
-
+    }),
   }),
 });
 
-export const {
-  useLazyGetTableQuery,
-  useEditTableMutation
-} = permissionApiSlice;
+export const { useLazyGetTableQuery, useEditTableMutation } =
+  permissionApiSlice;
