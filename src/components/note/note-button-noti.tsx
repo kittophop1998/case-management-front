@@ -10,20 +10,15 @@ interface NoteButtonNotiProps {
 }
 export const NoteButtonNoti = ({ onClick, count = 0, size = 'sm' }: NoteButtonNotiProps) => {
     return (
-        <span>
+        <Button variant='ghost' size={size} onClick={onClick} className="relative">
             <Badge
-                className="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums bg-[#ffcc91] text-back absolute right-0"
+                onClick={onClick}
+                className="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums bg-[#ffcc91] text-back absolute right-[-2px] top-[-2px] cursor-pointer"
                 variant="destructive"
             >
                 {count}
             </Badge>
-            <Button variant='ghost' size='sm' >
-                <FileText />
-            </Button>
-            <Button variant='ghost' size={size} onClick={onClick}>
-                <FileText />
-            </Button>
-
-        </span>
+            <FileText />
+        </Button>
     );
 }

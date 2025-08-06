@@ -10,19 +10,28 @@ import { FormNewCase } from "@/components/case/form-new-case";
 import { cn } from "@/lib/utils";
 import { ClipboardPlus, FileText } from "lucide-react";
 import { NoteButtonNoti } from "@/components/note/note-button-noti";
+import { Badge } from "@/components/ui/badge";
+import { StatusCostomerFeeling, StatusCostomerType } from "@/components/customer/status-customer-feeling";
+import { StatusComplaintLv } from "@/components/customer/status-complaint-lv";
+import { StatusCostomer } from "@/components/customer/status-customer";
+import { StatusPayment } from "@/components/customer/status-payment";
+import { StatusMobileApp } from "@/components/customer/status-mobile-app";
 
 const DisplayDerivedValue = ({ title, value, className, classNameValue }: { title: string, value: any, className?: string, classNameValue?: string }) => {
+    if (typeof value === 'string') {
+        value = <Typography variant="body2" className={classNameValue}>{value}</Typography>
+    }
     return (
         <div className={cn('pb-2', className)}>
             <Typography variant="caption">{title}</Typography>
-            <Typography variant="body2" className={classNameValue}>{value}</Typography>
+            {value}
         </div>
     )
 }
 const SectionCard = ({ title, children, TopRight = null, className }: { title: string, children: React.ReactNode, TopRight: React.ReactNode, className?: string }) => {
     return (
-        <Card className={cn("p-4 shadow-none rounded-sm outline-0 border-0", className)}>
-            <div className="flex items-center justify-between">
+        <Card className={cn("p-4 shadow-none rounded-sm outline-0 border-0 gap-3", className)}>
+            <div className="flex items-center justify-between ">
                 <Typography variant="h4">{title}</Typography>
                 {TopRight}
             </div>
@@ -70,29 +79,34 @@ const CustomerDashboard = () => {
                     <Button>End call</Button>
                 </div>
                 <div className="grid grid-cols-12 gap-4">
-                    <SectionCard title={customerName} TopRight={null} className="col-span-4" >
+                    <SectionCard title={customerName} TopRight={<>ICON</>} className="col-span-4" >
                         <>
+                            <div className="flex gap-3  mt-0">
+                                <StatusComplaintLv lv={1} />
+                                <StatusCostomerFeeling status='Sweetheart' />
+                            </div>
                             <div className="grid grid-cols-6 gap-4">
-                                <DisplayDerivedValue title="Phone" value={customer.phone} className="col-span-3" />
+                                <DisplayDerivedValue title="Phone" value={
+                                    <div className="flex gap-1">
+                                        <Typography variant="body2">+66</Typography>
+                                        <Typography variant="body2" className="text-[#FA541C]">0656506331</Typography>
+                                    </div>
+                                } className="col-span-3" />
                                 <DisplayDerivedValue title="Email" value={customer.email} className="col-span-3" />
-                                <DisplayDerivedValue title="Status" value={customer.status} className="col-span-2" />
+                                <DisplayDerivedValue title="Status" value={<StatusCostomer status={customer.status} />} className="col-span-2" />
                                 <DisplayDerivedValue title="Type" value={customer.type} className="col-span-2" />
                                 <DisplayDerivedValue title="Group" value={customer.group} className="col-span-2" />
-                                <DisplayDerivedValue title="Payment Status" value={customer.paymentStatus} className="col-span-2" />
-                                <DisplayDerivedValue title="Segment" value={customer.segment} className="col-span-2" />
-                                <DisplayDerivedValue title="Mobile App Status" value={customer.mobileAppStatus} className="col-span-2" />
-                                <DisplayDerivedValue title="Mobile App Status"
+                                <DisplayDerivedValue title="Payment Status" value={<StatusPayment status={customer.paymentStatus} />} className="col-span-2" />
+                                <DisplayDerivedValue title="Segment" value={customer.segment} className="col-span-4" />
+                                <DisplayDerivedValue title="Mobile App Status" value={<StatusMobileApp status={customer.mobileAppStatus} />} className="col-span-2" />
+                                <DisplayDerivedValue title="Notes"
                                     value={
-                                        <div className="flex items-center gap-2">
-                                            {/* <Button className="mt-2" variant='ghost' size='sm' onClick={() => router.push('/customer/dashboard/note/list?')}>
-                                                <FileText />
-                                            </Button> */}
+                                        <div className="flex items-center gap-1">
                                             <NoteButtonNoti
                                                 onClick={() => router.push('/customer/dashboard/note/list?')}
                                                 count={customer.note.count}
                                                 size='sm'
                                             />
-
                                             <Button variant='ghost' size='sm' >
                                                 <ClipboardPlus />
                                             </Button>
