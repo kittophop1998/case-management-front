@@ -33,7 +33,8 @@ export async function api<T>(
 ): Promise<T | null> {
   let res;
   try {
-    const isServer = typeof window === "undefined";
+    console.log("[api-service]-1111111111");
+    // const isServer = typeof window === "undefined";
     res = await fetch(`${BASE_URL}${url}`, {
       ...options,
       headers: {
@@ -42,14 +43,17 @@ export async function api<T>(
         ...(options?.headers ?? {}),
       },
     });
+    console.log("[api-service] api response", res);
   } catch (error) {
     throw new Error("Network error or invalid URL");
   }
   const text = await res.text();
+  console.log("[api-service] api response text", text);
   const data: ApiResponse<T> = text ? JSON.parse(text) : {};
+  console.log("[api-service] api response data res.ok", res.ok, data);
   if (!res.ok) {
     throw new Error(
-      String(data.error || `Request failed with status ${res.status}`)
+      String(data?.error || `Request failed with status ${res.status}`)
     );
   }
   return (data || null) as T | null;
