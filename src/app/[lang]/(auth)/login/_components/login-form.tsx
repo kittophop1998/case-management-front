@@ -1,3 +1,68 @@
+// 'use client'
+
+// import { FormProvider } from 'react-hook-form'
+// import Lock from '@public/icons/Lock.svg'
+// import Email from '@public/icons/Email.svg'
+// import { TextField } from '@/components/form/text-field'
+// import { Button } from '@/components/common/Button'
+// import { PasswordField } from '@/components/form/password-field'
+// import useAuth from '@/hooks/use-auth'
+// import { Typography } from '@/components/common/typography'
+
+// export const LoginForm = () => {
+//   const { login: {
+//     login: onSubmit,
+//     formLogin: form,
+
+//   }
+//   } = useAuth()
+//   return (
+//     <FormProvider {...form}>
+//       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4' method='post'>
+//         <div className='space-y-4'>
+//           <TextField
+//             // loading={isPending}
+//             form={form}
+//             name='username'
+//             label=''
+//             prependInnerIcon={<Email />}
+//             placeholder='Username'
+//           />
+//           <PasswordField
+//             prependInnerIcon={<Lock />}
+//             // loading={isPending}
+//             form={form}
+//             name='password'
+//             label=''
+//             placeholder='Password'
+//           />
+//         </div>
+//         <div className='h-[3rem]'>
+//           <Typography variant='caption' className='text-center p-3 text-base text-gray-300'>
+//             Enter your domain and password to log in
+//           </Typography>
+//           {/* {isError ? (
+//             <FormError message={getErrorMessageAPI(error)} />
+//           ) : (
+//             <Typography variant='caption' className='text-center p-3'>
+//               Enter your domain and password to log in”
+//             </Typography>
+//           )} */}
+//         </div>
+//         <div className="flex justify-center items-center">
+//           <Button
+//             type="submit"
+//             className="text-xl py-8 w-[50%] rounded-xl bg-[#5570F1]"
+//           >
+//             Login
+//           </Button>
+//         </div>
+
+//       </form>
+//     </FormProvider>
+//   )
+// }
+
 'use client'
 
 import { FormProvider } from 'react-hook-form'
@@ -7,13 +72,16 @@ import { TextField } from '@/components/form/text-field'
 import { Button } from '@/components/common/Button'
 import { PasswordField } from '@/components/form/password-field'
 import useAuth from '@/hooks/use-auth'
+import { FormError } from '@/components/form/form-error'
 import { Typography } from '@/components/common/typography'
+import { getErrorMessageAPI } from '@/lib/utils/get-error-message-api'
 
 export const LoginForm = () => {
   const { login: {
     login: onSubmit,
     formLogin: form,
-
+    loginError,
+    isLoadingLogin
   }
   } = useAuth()
   return (
@@ -21,7 +89,7 @@ export const LoginForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4' method='post'>
         <div className='space-y-4'>
           <TextField
-            // loading={isPending}
+            loading={isLoadingLogin}
             form={form}
             name='username'
             label=''
@@ -30,7 +98,7 @@ export const LoginForm = () => {
           />
           <PasswordField
             prependInnerIcon={<Lock />}
-            // loading={isPending}
+            loading={isLoadingLogin}
             form={form}
             name='password'
             label=''
@@ -38,25 +106,22 @@ export const LoginForm = () => {
           />
         </div>
         <div className='h-[3rem]'>
-          <Typography variant='caption' className='text-center p-3 text-base text-gray-300'>
-            Enter your domain and password to log in
-          </Typography>
-          {/* {isError ? (
-            <FormError message={getErrorMessageAPI(error)} />
+          {loginError ? (
+            <FormError message={loginError} />
           ) : (
             <Typography variant='caption' className='text-center p-3'>
               Enter your domain and password to log in”
             </Typography>
-          )} */}
+          )}
         </div>
-        <div className="flex justify-center items-center">
-          <Button
-            type="submit"
-            className="text-xl py-8 w-[50%] rounded-xl bg-[#5570F1]"
-          >
-            Login
-          </Button>
-        </div>
+        <Button
+          // disabled={isPending}
+          loading={isLoadingLogin}
+          type='submit'
+          className='w-full bg-[#5570F1] hover:bg-[#5570F1]/90 text-white'
+        >
+          Login
+        </Button>
 
       </form>
     </FormProvider>
