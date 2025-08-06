@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 export const LoginTemplate = async () => {
   return (
-    <Card className='max-w-md w-full p-6'>
+    <Card className='max-w-[380px] w-full p-6'>
       <Image
         src='/eaon-icon.png'
         alt={'eaon-icon.png'}

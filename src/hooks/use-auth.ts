@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useLazyGetMeQuery,
   // useLoginMutation,
@@ -15,6 +15,8 @@ import getInitPathByRole from "@/lib/utils/get-init-path-by-role";
 import { usePathname } from "next/navigation";
 
 export default function useAuth() {
+  const [loginError, setLoginError] = useState<string | null>(null);
+  const [isLoadingLogin, setIsLoadingLogin] = useState<boolean>(false);
   const formLogin = useForm<z.infer<typeof LoginSchemas>>({
     resolver: zodResolver(LoginSchemas),
     defaultValues: {
@@ -33,10 +35,14 @@ export default function useAuth() {
     },
   ] = useLazyGetMeQuery();
   const login = async (value: z.infer<typeof LoginSchemas>) => {
+    setIsLoadingLogin(true);
+    setLoginError(null);
+
     console.log("useAuth-Login", value);
     try {
-      const { accessToken, refreshToken, error } = await loginUser(value);
+      const { accessToken, refreshToken, error } = await loginUser(value);", accessToken, refreshToken, error);
       if (error) {
+        console.log("useAuth-Login error", error);
         throw new Error(error);
       }
       if (!accessToken || !refreshToken) {
@@ -45,8 +51,16 @@ export default function useAuth() {
       await setAccessToken(accessToken);
       await setRefreshToken(refreshToken);
       getMe();
+      setIsLoadingLogin(false);
+      setLoginError(null);
     } catch (error) {
+      setIsLoadingLogin(false);
       console.log("useAuth-Login failed", error);
+      if (error instanceof Error) {
+        setLoginError(error.message);
+      } else {
+        setLoginError("An unexpected error occurred");
+      }
     }
   };
   const isMutted = useRef(false);
@@ -68,19 +82,18 @@ export default function useAuth() {
         if (initPath) {
           router.push(initPath);
         }
-      }
-      cloneGetInitPathByRole()
-
+      };
+      cloneGetInitPathByRole();
     }
   }, [me?.role?.name]);
 
   return {
     login: {
       login,
-      // isLoadingLogin,
+      isLoadingLogin,
       formLogin,
       // isLoginError,
-      // loginError,
+      loginError,
     },
     getMe: {
       me,
