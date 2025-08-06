@@ -17,7 +17,7 @@ export const LoginTemplate = async () => {
         <Typography variant="h3" as="h3" className="text-center">
           Case Management
         </Typography>
-        <Typography variant="caption" className="text-center mb-4">
+        <Typography variant="caption" className="text-base text-center mb-4">
           Login to your account
         </Typography>
         <LoginForm />

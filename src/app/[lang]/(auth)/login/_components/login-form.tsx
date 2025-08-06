@@ -109,20 +109,19 @@ export const LoginForm = () => {
           {loginError ? (
             <FormError message={loginError} />
           ) : (
-            <Typography variant='caption' className='text-center p-3'>
-              Enter your domain and password to log in”
+            <Typography variant='caption' className='text-center p-3 text-base text-gray-400'>
+              Enter your domain and password to log in
             </Typography>
           )}
         </div>
-        <Button
-          // disabled={isPending}
-          loading={isLoadingLogin}
-          type='submit'
-          className='w-full bg-[#5570F1] hover:bg-[#5570F1]/90 text-white'
-        >
-          Login
-        </Button>
-
+        <div className="flex justify-center items-center">
+          <Button
+            type="submit"
+            className="text-xl py-8 w-[50%] rounded-xl bg-[#5570F1]"
+          >
+            Login
+          </Button>
+        </div>
       </form>
     </FormProvider>
   )
