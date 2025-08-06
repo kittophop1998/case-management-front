@@ -7,11 +7,15 @@ import { useRouter } from 'next/navigation'
 import { useState } from "react";
 import { FloatingWidget } from "@/components/common/floating-widget";
 import { FormNewCase } from "@/components/case/form-new-case";
+import { cn } from "@/lib/utils";
 
-const SectionCard = ({ title, children }: { title: string, children: React.ReactNode }) => {
+const SectionCard = ({ title, children, TopRight = null, className }: { title: string, children: React.ReactNode, TopRight: React.ReactNode, className?: string }) => {
     return (
-        <Card className="flex flex-col items-center justify-center p-4 shadow-none rounded-sm outline-0">
-            <h3 className="text-lg font-semibold">{title}</h3>
+        <Card className={cn("p-4 shadow-none rounded-sm outline-0 border-0", className)}>
+            <div className="flex items-center justify-between">
+                <Typography variant="h4">{title}</Typography>
+                {TopRight}
+            </div>
             {children}
         </Card>
     );
@@ -39,8 +43,8 @@ const CustomerDashboard = () => {
 
                     <Button>End call</Button>
                 </div>
-                <div className="grid grid-cols-3 gap-4">
-                    <SectionCard title="Customer Profile" >
+                <div className="grid grid-cols-12 gap-4">
+                    <SectionCard title="Customer Profile" TopRight={null} className="col-span-4" >
                         <>
                             <Typography className="text-lg font-semibold">Customer ID: {customerId}</Typography>
                             <Typography className="text-lg font-semibold">Customer Type: {costumerType}</Typography>
@@ -49,29 +53,44 @@ const CustomerDashboard = () => {
                                 onClick={() => router.push('/customer/dashboard/note/list?')}>Note</Button>
                         </>
                     </SectionCard>
-                    <SectionCard title="Customer Profile" >
+                    <SectionCard title="Customer Profile" TopRight={null} className="col-span-4">
                         <div>
-                            aaaaa
+                            <Typography >Customer Since: {customerSince}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
                         </div>
                     </SectionCard>
-                    <SectionCard title="Customer Profile" >
+                    <SectionCard title="Customer Profile" TopRight={null} className="col-span-4">
                         <div>
-                            aaaaa
+                            <Typography >Customer Since: {customerSince}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
                         </div>
                     </SectionCard>
-                    <SectionCard title="Customer Profile" >
+                    <SectionCard title="Customer Profile" TopRight={null} className="col-span-4">
                         <div>
-                            aaaaa
+                            <Typography >Customer Since: {customerSince}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
                         </div>
                     </SectionCard>
-                    <SectionCard title="Customer Profile" >
+                    <SectionCard title="Customer Profile" TopRight={null} className="col-span-3" >
                         <div>
-                            aaaaa
+                            <Typography >Customer Since: {customerSince}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
                         </div>
                     </SectionCard>
-                    <SectionCard title="Customer Profile" >
+                    <SectionCard title="Customer Profile" TopRight={null} className="col-span-5" >
                         <div>
-                            aaaaa
+                            <Typography >Customer Since: {customerSince}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
+                            <Typography >Customer Type: {costumerType}</Typography>
                         </div>
                     </SectionCard>
                     <FloatingWidget
