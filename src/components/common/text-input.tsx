@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
-function Input ({
+function Input({
   className,
   prependInnerIcon = false,
   appendInnerIcon = false,
@@ -15,14 +15,18 @@ function Input ({
   return (
     <input
       type={type}
-      data-slot='input'
+      data-slot="input"
       className={cn(
-        'file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
-        'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
-        'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
-        'bg-[#f6f7fb]', // TODO: SET COLOR
-        prependInnerIcon ? 'pl-[2rem]' : '',
-        appendInnerIcon ? 'pr-[2rem]' : '',
+        'w-full h-10 px-4 py-2 text-base md:text-sm rounded-md border transition-all shadow-sm outline-none',
+        'bg-white dark:bg-[#1f1f1f] border-gray-300 dark:border-gray-600',
+        'placeholder-gray-400 dark:placeholder-gray-500',
+        'focus:border-[#5570f1] focus:ring-[3px] focus:ring-[#5570f1]/30',
+        'disabled:opacity-50 disabled:cursor-not-allowed',
+        'file:text-gray-700 file:font-medium file:text-sm file:border-0 file:bg-transparent file:h-7',
+        'selection:bg-[#5570f1] selection:text-white',
+        'aria-invalid:border-red-500 aria-invalid:ring-red-300',
+        prependInnerIcon ? 'pl-[2.5rem]' : '',
+        appendInnerIcon ? 'pr-[2.5rem]' : '',
         className
       )}
       {...props}

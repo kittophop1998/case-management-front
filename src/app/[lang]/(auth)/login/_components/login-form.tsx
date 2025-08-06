@@ -7,6 +7,7 @@ import { TextField } from '@/components/form/text-field'
 import { Button } from '@/components/common/Button'
 import { PasswordField } from '@/components/form/password-field'
 import useAuth from '@/hooks/use-auth'
+import { Typography } from '@/components/common/typography'
 
 export const LoginForm = () => {
   const { login: {
@@ -37,6 +38,9 @@ export const LoginForm = () => {
           />
         </div>
         <div className='h-[3rem]'>
+          <Typography variant='caption' className='text-center p-3 text-base text-gray-300'>
+            Enter your domain and password to log in
+          </Typography>
           {/* {isError ? (
             <FormError message={getErrorMessageAPI(error)} />
           ) : (
@@ -45,14 +49,14 @@ export const LoginForm = () => {
             </Typography>
           )} */}
         </div>
-        <Button
-          // disabled={isPending}
-          // loading={isPending}
-          type='submit'
-          className='w-full bg-[#5570f1] hover:bg-[#5570f1]/90 text-white'
-        >
-          Login
-        </Button>
+        <div className="flex justify-center items-center">
+          <Button
+            type="submit"
+            className="text-xl py-8 w-[50%] rounded-xl bg-[#5570F1]"
+          >
+            Login
+          </Button>
+        </div>
 
       </form>
     </FormProvider>
