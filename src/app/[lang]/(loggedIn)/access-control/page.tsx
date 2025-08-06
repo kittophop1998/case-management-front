@@ -10,6 +10,7 @@ import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { DataTable, Header } from "@/components/common/table";
 import BtnEdit from "@/components/button/btn-edit";
 import { CheckIsActive } from "@/components/common/check-is-active";
+import Container from "@/components/common/containter";
 
 export default function DashboardPage({
 }: Readonly<{
@@ -70,7 +71,9 @@ export default function DashboardPage({
   }
   return (
     <>
-      <Typography className="my-3">All Function: {dataTable?.data?.length || 0}</Typography>
+      <Container>
+        <Typography className="my-3">All Function: {dataTable?.data?.length || 0}</Typography>
+      </Container>
       <CardPageWrapper>
         <Typography className='mb-4'>Manage Access Lists</Typography>
         <DataTable

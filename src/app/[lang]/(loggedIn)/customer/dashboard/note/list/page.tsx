@@ -4,6 +4,7 @@ import BtnExport from "@/components/button/btn-export";
 import BtnFilter from "@/components/button/btn-filter";
 import BtnNew from "@/components/button/btn-new";
 import CardPageWrapper from "@/components/common/card-page-warpper";
+import Container from "@/components/common/containter";
 import { FloatingWidget } from "@/components/common/floating-widget";
 import { DataTable, Header } from "@/components/common/table";
 import { Typography } from "@/components/common/typography";
@@ -81,9 +82,9 @@ const NoteListPage = () => {
     });
     return (
         <div className="h-full flex flex-col">
-            <div className="flex justify-end py-3">
+            <Container className="flex justify-end py-3">
                 <BtnNew onClick={() => setStatus(true)} />
-            </div>
+            </Container>
             <CardPageWrapper className="pb-3">
                 <div className="flex justify-between mb-3">
                     <Typography variant="h4" className="mb-4">

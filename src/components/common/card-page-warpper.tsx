@@ -9,8 +9,12 @@ interface CardPageWrapperProps {
 }
 
 const CardPageWrapper = ({ children, className }: CardPageWrapperProps) => {
+    // 
+    // 
+    // 
+    // 
     return (
-        <Container className={`mx-0 px-0 sm:px-0 lg:px-0 h-full ${className}`}>
+        <Container className={`mx-auto sm:px-0 lg:px-0 h-full px-3 ${className}`}>
             <Card className="p-6 h-full">
                 {children}
             </Card>

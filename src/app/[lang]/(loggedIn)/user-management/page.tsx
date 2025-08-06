@@ -21,6 +21,7 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { ChipIsActive } from '@/components/common/chipIsActive'
 import { Button } from '@/components/ui/button'
 import { SquarePen } from 'lucide-react'
+import Container from '@/components/common/containter'
 
 export default function UserManagementPage() {
   const [isOpenFilter, setIsOpenFilter] = useState(false)
@@ -100,12 +101,14 @@ export default function UserManagementPage() {
 
   return (
     <div>
-      <div className='flex justify-end mb-3 mt-3'>
-        <BtnAddUser
-          onOpenDialogCreateUser={() => openDialogCreateUser()}
-          onOpenDialogImportUser={() => setModalImportUser(true)}
-        />
-      </div>
+      <Container>
+        <div className='flex justify-end mb-3 mt-3'>
+          <BtnAddUser
+            onOpenDialogCreateUser={() => openDialogCreateUser()}
+            onOpenDialogImportUser={() => setModalImportUser(true)}
+          />
+        </div>
+      </Container>
       <CardPageWrapper>
         <div className='flex gap-3 mb-3'>
           <Typography variant='h3' as='p'>

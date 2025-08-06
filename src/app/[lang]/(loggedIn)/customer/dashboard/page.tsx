@@ -17,6 +17,7 @@ import { StatusPayment } from "@/components/customer/status-payment";
 import { StatusMobileApp } from "@/components/customer/status-mobile-app";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BtnNew from "@/components/button/btn-new";
+import { CreateNewNoteTemplate } from "@/components/note/form-create-note";
 
 const DisplayDerivedValue = ({ title, value, className, classNameValue }: { title: string, value: any, className?: string, classNameValue?: string }) => {
     if (typeof value === 'string') {
@@ -74,6 +75,7 @@ const CustomerDashboard = () => {
     }
     const customerName = "Surapong Lertprayapat";
     const [status, setStatus] = useState<boolean>(false);
+    const [statusNote, setStatusNote] = useState<boolean>(false);
     return (
         <>
             <Tabs defaultValue="account">
@@ -90,7 +92,12 @@ const CustomerDashboard = () => {
                         <DataWithCopy title='Customer Since' value='2024-02-02' />
                         <div className="flex-1" />
                         <BtnNew
-                            onClick={() => setStatus((v) => !v)}
+                            // onClick={() => setStatus((v) => !v)}
+                            onClick={() => {
+                                setStatusNote(false)
+                                setStatus(true)
+                            }
+                            }
                         />
 
                         <Button>End call</Button>
@@ -129,7 +136,12 @@ const CustomerDashboard = () => {
                                                         <ClipboardPlus />
                                                     </Button>
                                                     <Button className=" bg-black white-text" size='sm'
-                                                        onClick={() => setStatus((v) => !v)}
+                                                        onClick={() => {
+                                                            setStatus(false)
+                                                            setStatusNote(true)
+                                                        }
+
+                                                        }
                                                     >New Note</Button>
                                                 </div>
                                             } className="col-span-6 flex items-center gap-3" classNameValue='flex-1' />
@@ -191,6 +203,13 @@ const CustomerDashboard = () => {
                 setStatus={setStatus}
             >
                 <FormNewCase />
+            </FloatingWidget>
+            <FloatingWidget
+                title="Create Note"
+                status={statusNote}
+                setStatus={setStatusNote}
+            >
+                <CreateNewNoteTemplate />
             </FloatingWidget>
         </>
     );
