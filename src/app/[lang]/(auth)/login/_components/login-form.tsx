@@ -116,6 +116,7 @@ export const LoginForm = () => {
         </div>
         <div className="flex justify-center items-center">
           <Button
+            loading={isLoadingLogin}
             type="submit"
             className="text-xl py-8 w-[50%] rounded-xl bg-[#5570F1]"
           >
