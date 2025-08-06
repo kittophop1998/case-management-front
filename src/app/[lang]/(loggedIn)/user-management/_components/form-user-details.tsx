@@ -13,7 +13,7 @@ import { CreateEditUserSchema } from '@/schemas'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { getErrorMessageAPI } from '@/lib/utils/get-error-message-api'
-import { Button } from '@/components/common/Button'
+import { Button } from '@/components/common/button'
 
 interface FormUserDetailsProps {
   form: ReturnType<typeof useForm<z.infer<typeof CreateEditUserSchema>>>

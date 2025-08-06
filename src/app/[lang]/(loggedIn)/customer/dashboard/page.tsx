@@ -8,13 +8,15 @@ import { useState } from "react";
 import { FloatingWidget } from "@/components/common/floating-widget";
 import { FormNewCase } from "@/components/case/form-new-case";
 import { cn } from "@/lib/utils";
+import { ClipboardPlus, FileText } from "lucide-react";
+import { NoteButtonNoti } from "@/components/note/note-button-noti";
 
-const DisplayDerivedValue = ({ title, value }: { title: string, value: string }) => {
+const DisplayDerivedValue = ({ title, value, className, classNameValue }: { title: string, value: any, className?: string, classNameValue?: string }) => {
     return (
-        <>
+        <div className={cn('pb-2', className)}>
             <Typography variant="caption">{title}</Typography>
-            <Typography >{value}</Typography>
-        </>
+            <Typography variant="body2" className={classNameValue}>{value}</Typography>
+        </div>
     )
 }
 const SectionCard = ({ title, children, TopRight = null, className }: { title: string, children: React.ReactNode, TopRight: React.ReactNode, className?: string }) => {
@@ -70,17 +72,36 @@ const CustomerDashboard = () => {
                 <div className="grid grid-cols-12 gap-4">
                     <SectionCard title={customerName} TopRight={null} className="col-span-4" >
                         <>
-                            <div className="grid grid-cols-3 gap-4">
-                                <DisplayDerivedValue title="Phone" value={customer.phone} />
-                                <DisplayDerivedValue title="Email" value={customer.email} />
-                                <DisplayDerivedValue title="Status" value={customer.status} />
-                                <DisplayDerivedValue title="Type" value={customer.type} />
-                                <DisplayDerivedValue title="Group" value={customer.group} />
-                                <DisplayDerivedValue title="Payment Status" value={customer.paymentStatus} />
-                                <DisplayDerivedValue title="Segment" value={customer.segment} />
-                                <DisplayDerivedValue title="Mobile App Status" value={customer.mobileAppStatus} />
+                            <div className="grid grid-cols-6 gap-4">
+                                <DisplayDerivedValue title="Phone" value={customer.phone} className="col-span-3" />
+                                <DisplayDerivedValue title="Email" value={customer.email} className="col-span-3" />
+                                <DisplayDerivedValue title="Status" value={customer.status} className="col-span-2" />
+                                <DisplayDerivedValue title="Type" value={customer.type} className="col-span-2" />
+                                <DisplayDerivedValue title="Group" value={customer.group} className="col-span-2" />
+                                <DisplayDerivedValue title="Payment Status" value={customer.paymentStatus} className="col-span-2" />
+                                <DisplayDerivedValue title="Segment" value={customer.segment} className="col-span-2" />
+                                <DisplayDerivedValue title="Mobile App Status" value={customer.mobileAppStatus} className="col-span-2" />
+                                <DisplayDerivedValue title="Mobile App Status"
+                                    value={
+                                        <div className="flex items-center gap-2">
+                                            {/* <Button className="mt-2" variant='ghost' size='sm' onClick={() => router.push('/customer/dashboard/note/list?')}>
+                                                <FileText />
+                                            </Button> */}
+                                            <NoteButtonNoti
+                                                onClick={() => router.push('/customer/dashboard/note/list?')}
+                                                count={customer.note.count}
+                                                size='sm'
+                                            />
+
+                                            <Button variant='ghost' size='sm' >
+                                                <ClipboardPlus />
+                                            </Button>
+                                            <Button className=" bg-black white-text" size='sm'
+                                                onClick={() => setStatus((v) => !v)}
+                                            >New Note</Button>
+                                        </div>
+                                    } className="col-span-6 flex items-center gap-3" classNameValue='flex-1' />
                             </div>
-                            <Button className="mt-2" onClick={() => router.push('/customer/dashboard/note/list?')}>Note</Button>
                         </>
                     </SectionCard>
                     <SectionCard title="Customer Profile" TopRight={null} className="col-span-4">

@@ -1,5 +1,5 @@
 'use client';
-import { Button } from "@/components/common/Button";
+import { Button } from "@/components/common/button";
 import { checkPassword } from "@/components/common/dialog-check-password";
 import { CheckboxField } from "@/components/form/checkbox";
 import { Modal } from "@/components/common/Modal";
