@@ -2,11 +2,12 @@
 import { useEffect, useRef, useState } from "react";
 import {
   useLazyGetMeQuery,
+  useLogoutMutation,
   // useLoginMutation,
 } from "@/features/auth/authApiSlice";
 import { LoginSchemas } from "@/schemas";
 import { useRouter } from "next/navigation";
-import z from "zod";
+import z, { set } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { setAccessToken, setRefreshToken } from "@/services/api";
@@ -16,6 +17,11 @@ import { usePathname } from "next/navigation";
 
 export default function useAuth() {
   const [loginError, setLoginError] = useState<string | null>(null);
+  const [
+    logoutMutation,
+    { isLoading: isLoadingLogout, isError: isLogoutError, error: logoutError },
+  ] = useLogoutMutation();
+
   const [isLoadingLogin, setIsLoadingLogin] = useState<boolean>(false);
   const formLogin = useForm<z.infer<typeof LoginSchemas>>({
     resolver: zodResolver(LoginSchemas),
@@ -46,11 +52,37 @@ export default function useAuth() {
         throw new Error(error);
       }
       if (!accessToken || !refreshToken) {
+        await logoutMutation();
         throw new Error("Invalid login response");
       }
       await setAccessToken(accessToken);
       await setRefreshToken(refreshToken);
-      getMe();
+      getMe()
+        .unwrap()
+        .then(async (currentMe) => {
+          console.log("useAuth-getMe success", currentMe);
+          try {
+            const initPath = await getInitPathByRole(
+              pathname,
+              currentMe?.role?.name,
+              "eeeeeeeeeeeeeee"
+            );
+            console.log(
+              "useAuth-getInitPathByRole",
+              initPath,
+              currentMe?.role?.name
+            );
+            if (initPath) {
+              router.push(initPath);
+            }
+          } catch (error) {
+            setLoginError(error.message);
+          }
+        })
+        .catch((error) => {
+          console.error("useAuth-getMe error", error);
+          setLoginError("Failed to fetch user data");
+        });
       setIsLoadingLogin(false);
       setLoginError(null);
     } catch (error) {
@@ -66,26 +98,30 @@ export default function useAuth() {
   const isMutted = useRef(false);
   const pathname = usePathname();
 
-  useEffect(() => {
-    if (!isMutted.current) {
-      isMutted.current = true;
-      return;
-    }
-    if (me) {
-      const cloneGetInitPathByRole = async () => {
-        const initPath = await getInitPathByRole(
-          pathname,
-          me?.role?.name,
-          "eeeeeeeeeeeeeee"
-        );
-        console.log("useAuth-getInitPathByRole", initPath, me?.role?.name);
-        if (initPath) {
-          router.push(initPath);
-        }
-      };
-      cloneGetInitPathByRole();
-    }
-  }, [me?.role?.name]);
+  // useEffect(() => {
+  //   if (!isMutted.current) {
+  //     isMutted.current = true;
+  //     return;
+  //   }
+  //   if (me) {
+  //     const cloneGetInitPathByRole = async () => {
+  // try {
+  //   const initPath = await getInitPathByRole(
+  //     pathname,
+  //     me?.role?.name,
+  //     "eeeeeeeeeeeeeee"
+  //   );
+  //   console.log("useAuth-getInitPathByRole", initPath, me?.role?.name);
+  //   if (initPath) {
+  //     router.push(initPath);
+  //   }
+  // } catch (error) {
+  //   setLoginError(error.message);
+  // }
+  //     };
+  //     cloneGetInitPathByRole();
+  //   }
+  // }, [me?.role?.name]);
 
   return {
     login: {

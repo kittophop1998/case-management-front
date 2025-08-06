@@ -1,3 +1,10 @@
+const userRoles = [
+  "Admin",
+  "User",
+  "Staff",
+  "AsstManager Up",
+  "Supervisor",
+] as const;
 function getInitPathByRole(
   currentPath: string,
   currentRole: "Admin" | "User" | "Staff" | "AsstManager Up" | "Supervisor",
@@ -7,23 +14,25 @@ function getInitPathByRole(
   console.log("getInitPathByRole.call()", tagDebug, currentPath, currentRole);
   if (currentPath.includes("/login")) {
     switch (currentRole) {
+      case "Admin":
       case "Staff":
-        return "/th/user-management";
+        return "/user-management";
       // return "/user-management";
       case "User":
-        return "/th/case-management";
+        return "/case-management";
       // return "/case-management";
       case "AsstManager Up":
-        return "/th/assistant-management";
+        return "/assistant-management";
       case "Supervisor":
-        return "/th/supervisor-management";
+        return "/supervisor-management";
       default:
-        return "";
+        throw new Error(`Invalid role ${currentRole}`);
+      // return "";
     }
   } else {
-    if (!["Admin", "User"].includes(currentRole)) {
-      return "/th/login";
-      // return "/login";
+    if (!userRoles.includes(currentRole)) {
+      throw new Error("Invalid role");
+      // return "/th/login";
     }
   }
   return "";
