@@ -9,6 +9,14 @@ import { FloatingWidget } from "@/components/common/floating-widget";
 import { FormNewCase } from "@/components/case/form-new-case";
 import { cn } from "@/lib/utils";
 
+const DisplayDerivedValue = ({ title, value }: { title: string, value: string }) => {
+    return (
+        <>
+            <Typography variant="caption">{title}</Typography>
+            <Typography >{value}</Typography>
+        </>
+    )
+}
 const SectionCard = ({ title, children, TopRight = null, className }: { title: string, children: React.ReactNode, TopRight: React.ReactNode, className?: string }) => {
     return (
         <Card className={cn("p-4 shadow-none rounded-sm outline-0 border-0", className)}>
@@ -27,6 +35,22 @@ const CustomerDashboard = () => {
     const customerId = "9712333456234";
     const costumerType = "Individual";
     const customerSince = "2023-10-01";
+    const customer = {
+        phone: "+66 0656506331",
+        email: "surapong.Lert@gmail.com",
+        status: "Normal",
+        type: "VP",
+        group: "Nomal-VIP",
+        'paymentStatus': 'On-Time',
+        segment: 'Existing Customer - Active',
+        mobileAppStatus: 'Active',
+        gender: 'Men',
+        note: {
+            count: 3,
+        }
+
+    }
+    const customerName = "Surapong Lertprayapat";
     const [status, setStatus] = useState<boolean>(false);
     return (
         <>
@@ -44,13 +68,19 @@ const CustomerDashboard = () => {
                     <Button>End call</Button>
                 </div>
                 <div className="grid grid-cols-12 gap-4">
-                    <SectionCard title="Customer Profile" TopRight={null} className="col-span-4" >
+                    <SectionCard title={customerName} TopRight={null} className="col-span-4" >
                         <>
-                            <Typography className="text-lg font-semibold">Customer ID: {customerId}</Typography>
-                            <Typography className="text-lg font-semibold">Customer Type: {costumerType}</Typography>
-                            <Button className="mt-2"
-
-                                onClick={() => router.push('/customer/dashboard/note/list?')}>Note</Button>
+                            <div className="grid grid-cols-3 gap-4">
+                                <DisplayDerivedValue title="Phone" value={customer.phone} />
+                                <DisplayDerivedValue title="Email" value={customer.email} />
+                                <DisplayDerivedValue title="Status" value={customer.status} />
+                                <DisplayDerivedValue title="Type" value={customer.type} />
+                                <DisplayDerivedValue title="Group" value={customer.group} />
+                                <DisplayDerivedValue title="Payment Status" value={customer.paymentStatus} />
+                                <DisplayDerivedValue title="Segment" value={customer.segment} />
+                                <DisplayDerivedValue title="Mobile App Status" value={customer.mobileAppStatus} />
+                            </div>
+                            <Button className="mt-2" onClick={() => router.push('/customer/dashboard/note/list?')}>Note</Button>
                         </>
                     </SectionCard>
                     <SectionCard title="Customer Profile" TopRight={null} className="col-span-4">

@@ -1,40 +1,26 @@
-const userRoles = [
-  "Admin",
-  "User",
-  "Staff",
-  "AsstManager Up",
-  "Supervisor",
-] as const;
+import { redirectAfterLoginByRole, userRoles } from "@/const/user-config";
+import { UserRolesType } from "@/types/user.type";
+
 function getInitPathByRole(
   currentPath: string,
-  currentRole: "Admin" | "User" | "Staff" | "AsstManager Up" | "Supervisor",
+  currentRole: UserRolesType,
   tagDebug = ""
 ): string {
   // return "";
   console.log("getInitPathByRole.call()", tagDebug, currentPath, currentRole);
   if (currentPath.includes("/login")) {
-    switch (currentRole) {
-      case "Admin":
-      case "Staff":
-        return "/user-management";
-      // return "/user-management";
-      case "User":
-        return "/case-management";
-      // return "/case-management";
-      case "AsstManager Up":
-        return "/assistant-management";
-      case "Supervisor":
-        return "/supervisor-management";
-      default:
-        throw new Error(`Invalid role ${currentRole}`);
-      // return "";
+    let path = redirectAfterLoginByRole[currentRole];
+    if (!path) {
+      throw new Error(`No redirect path defined for role ${currentRole}`);
     }
+    return path;
   } else {
     if (!userRoles.includes(currentRole)) {
       throw new Error("Invalid role");
-      // return "/th/login";
     }
   }
-  return "";
+  throw new Error(
+    `No redirect path defined for role ${currentRole} in current path ${currentPath}`
+  );
 }
 export default getInitPathByRole;
