@@ -40,7 +40,7 @@ export default function useAuth() {
 
     console.log("useAuth-Login", value);
     try {
-      const { accessToken, refreshToken, error } = await loginUser(value);", accessToken, refreshToken, error);
+      const { accessToken, refreshToken, error } = await loginUser(value);
       if (error) {
         console.log("useAuth-Login error", error);
         throw new Error(error);
