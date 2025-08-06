@@ -94,13 +94,15 @@ interface TextFieldInputProps {
   placeholder?: string
   readonly?: boolean
   field?: any // Replace 'any' with the correct field type, e.g., UseFormReturn<any> if using react-hook-form
+  clearABle?: boolean
 }
 export const TextFieldInput = ({
   prependInnerIcon,
   appendInnerIcon,
   placeholder,
   readonly = false,
-  field
+  field,
+  clearABle = false
 }: TextFieldInputProps) => {
   return (
     <div className='relative'>

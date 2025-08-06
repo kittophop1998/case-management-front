@@ -73,6 +73,13 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
             isDraft: false
         }
     })
+    const customer = {
+        name: 'John Doe',
+        email: '',
+        phone: '(123) 456-7890',
+        caseType: '123456',
+        caseId: '123456',
+    }
     return (
         <FormProvider {...form} >
             <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>

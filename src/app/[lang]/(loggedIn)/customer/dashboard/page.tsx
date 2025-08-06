@@ -18,6 +18,7 @@ import { StatusMobileApp } from "@/components/customer/status-mobile-app";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BtnNew from "@/components/button/btn-new";
 import { CreateNewNoteTemplate } from "@/components/note/form-create-note";
+import { DialogSelectCaseType } from "@/components/case/dialog-select-case-type";
 
 const DisplayDerivedValue = ({ title, value, className, classNameValue }: { title: string, value: any, className?: string, classNameValue?: string }) => {
     if (typeof value === 'string') {
@@ -74,8 +75,19 @@ const CustomerDashboard = () => {
 
     }
     const customerName = "Surapong Lertprayapat";
+    const [openSelectCase, setOpenSelectCase] = useState<boolean>(false);
     const [status, setStatus] = useState<boolean>(false);
     const [statusNote, setStatusNote] = useState<boolean>(false);
+    const onSelectCase = (value: string) => {
+        console.log("Selected case type:", value);
+        setOpenSelectCase(false);
+        setStatus(true)
+    }
+    const handleOpenSelectCase = () => {
+        setOpenSelectCase(true);
+        setStatus(false);
+        setStatusNote(false);
+    }
     return (
         <>
             <Tabs defaultValue="account">
@@ -86,6 +98,11 @@ const CustomerDashboard = () => {
                     </Container>
                 </TabsList>
                 <Container className="space-y-4 my-3">
+                    <DialogSelectCaseType
+                        open={openSelectCase}
+                        setOpen={setOpenSelectCase}
+                        onSelect={onSelectCase}
+                    />
                     <div className="flex gap-3">
                         <DataWithCopy title='Aeon ID' value='#47378877' showCopy />
                         <DataWithCopy title='Customer ID/Passport' value='9712333456234' showCopy />
@@ -93,11 +110,7 @@ const CustomerDashboard = () => {
                         <div className="flex-1" />
                         <BtnNew
                             // onClick={() => setStatus((v) => !v)}
-                            onClick={() => {
-                                setStatusNote(false)
-                                setStatus(true)
-                            }
-                            }
+                            onClick={handleOpenSelectCase}
                         />
 
                         <Button>End call</Button>
@@ -214,8 +227,4 @@ const CustomerDashboard = () => {
         </>
     );
 };
-
 export default CustomerDashboard;
-// 
-// 
-// 

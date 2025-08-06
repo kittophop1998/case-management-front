@@ -4,7 +4,16 @@ import { Search } from 'lucide-react'
 interface SearchFieldInputProps {
   placeholder?: string;
   readonly?: boolean;
-  field: any; // Replace 'any' with the correct field type, e.g., UseFormReturn<any> if using react-hook-form
+  // field: {
+  //   value: string;
+  //   onChange: (value: string) => void;
+  //   onBlur?: () => void;
+  //   onFocus?: () => void;
+  //   name?: string;
+  //   disabled?: boolean;
+  // }; // Replace 'any' with the correct field type, e.g., UseFormReturn<any> if using react-hook-form
+  field: React.ComponentProps<typeof TextFieldInput>['field'];
+  clearABle?: boolean;
 }
 export const SearchFieldInput = ({
   placeholder,
@@ -17,6 +26,7 @@ export const SearchFieldInput = ({
       field={field}
       placeholder={placeholder || 'Search'}
       readonly={readonly}
+      clearABle
     />
   )
 }
