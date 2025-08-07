@@ -46,7 +46,15 @@ export default function useAuth() {
 
     console.log("useAuth-Login", value);
     try {
+      console.log("1 clint login call action");
       const { accessToken, refreshToken, error } = await loginUser(value);
+      console.log(
+        "2 clint after call login  action",
+        accessToken,
+        refreshToken,
+        error
+      );
+
       if (error) {
         console.log("useAuth-Login error", error);
         throw new Error(error);
@@ -86,6 +94,7 @@ export default function useAuth() {
       setIsLoadingLogin(false);
       setLoginError(null);
     } catch (error) {
+      console.log("3 clint catch login  action", error);
       setIsLoadingLogin(false);
       console.log("useAuth-Login failed", error);
       if (error instanceof Error) {
