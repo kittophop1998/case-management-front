@@ -61,6 +61,7 @@ export async function api<T>(
 
     // console.log("[api-service] api response", res);
   } catch (error) {
+    console.error(`apiSSR.catch()${BASE_URL}${url}`, error);
     throw new Error(
       `apiSSR.catch() Network error or invalid URL ${BASE_URL}${url}`,
       error
