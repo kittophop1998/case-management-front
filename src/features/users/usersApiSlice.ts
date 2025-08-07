@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { UsersTable, UserType } from "@/types/user.type";
+import { UserType } from "@/types/user.type";
 import { baseQuery } from "@/services/api";
 import { ApiResponse } from "@/types/api.type";
 import { number } from "zod";

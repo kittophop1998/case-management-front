@@ -28,16 +28,6 @@ export type UserType = {
   role: JsonJoinDetails;
 };
 
-// export type UsersTable = {
-//   data: UserType[]
-//   page: number
-//   limit: number
-//   total: number
-//   totalPages: number
-// }
-
-export type UsersTable = TableType<UserType>;
-
 export type UserProfileType = {
   center: JsonJoinDetails;
   createdAt: string;
