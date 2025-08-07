@@ -95,6 +95,7 @@ interface TextFieldInputProps {
   readonly?: boolean
   field?: any // Replace 'any' with the correct field type, e.g., UseFormReturn<any> if using react-hook-form
   clearABle?: boolean
+  loading?: boolean
 }
 export const TextFieldInput = ({
   prependInnerIcon,
@@ -102,7 +103,8 @@ export const TextFieldInput = ({
   placeholder,
   readonly = false,
   field,
-  clearABle = false
+  clearABle = false,
+  loading = false,
 }: TextFieldInputProps) => {
   return (
     <div className='relative'>
@@ -110,12 +112,12 @@ export const TextFieldInput = ({
         {prependInnerIcon}
       </div>
       <Input
-        className={textFieldVariants({ readonly })}
+        className={textFieldVariants({ readonly: readonly || loading })}
         placeholder={placeholder}
         {...field}
         prependInnerIcon={!!prependInnerIcon}
         appendInnerIcon={!!appendInnerIcon}
-        readOnly={readonly}
+        readOnly={readonly || loading}
       />
     </div>
   )

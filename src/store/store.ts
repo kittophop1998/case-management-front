@@ -1,10 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { rootReducer } from './rootReducer';
+import { configureStore } from "@reduxjs/toolkit";
+import { rootReducer } from "./rootReducer";
 // Slice
-import { authApiSlice } from '@/features/auth/authApiSlice';
-import { usersApiSlice } from '@/features/users/usersApiSlice';
-import { systemApiSlice } from '@/features/system/systemApiSlice';
-import { permissionApiSlice } from '@/features/permission/permissionApiSlice';
+import { authApiSlice } from "@/features/auth/authApiSlice";
+import { usersApiSlice } from "@/features/users/usersApiSlice";
+import { systemApiSlice } from "@/features/system/systemApiSlice";
+import { permissionApiSlice } from "@/features/permission/permissionApiSlice";
+import { customersApiSlice } from "@/features/customers/customersApiSlice";
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -14,9 +15,9 @@ export const store = configureStore({
       .concat(usersApiSlice.middleware)
       .concat(systemApiSlice.middleware)
       .concat(permissionApiSlice.middleware)
+      .concat(customersApiSlice.middleware),
 });
 
-
 export type AppStore = typeof store;
-export type RootState = ReturnType<AppStore['getState']>;
-export type AppDispatch = AppStore['dispatch']; 
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];

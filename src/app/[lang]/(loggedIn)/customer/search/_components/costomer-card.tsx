@@ -2,14 +2,11 @@
 import { Typography } from "@/components/common/typography";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
+import { Customer } from "@/types/customer.type";
 import { useRouter } from 'next/navigation'
 
-interface CostomerCardProps {
-    code: string;
-    name: string;
-    img: string;
-}
-export const CostomerCard = ({ code, name, img }: CostomerCardProps) => {
+
+export const CostomerCard = ({ code, name, img }: Customer) => {
     const router = useRouter()
     return (
         <Card className="p-4 flex items-center gap-4 cursor-pointer"
