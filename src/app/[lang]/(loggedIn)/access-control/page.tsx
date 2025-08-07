@@ -72,7 +72,7 @@ export default function DashboardPage({
   return (
     <>
       <Container>
-        <Typography className="my-3">All Function: {dataTable?.data?.length || 0}</Typography>
+        <Typography className="my-3">All Function: {dataTable?.total || 0}</Typography>
       </Container>
       <CardPageWrapper>
         <Typography className='mb-4'>Manage Access Lists</Typography>
