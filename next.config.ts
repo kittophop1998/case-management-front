@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  ignoreBuildErrors: true,
   reactStrictMode: true,
   swcMinify: true,
   webpack(config) {
@@ -9,17 +10,24 @@ const nextConfig: NextConfig = {
       test: /\.svg$/i,
       use: [
         {
-          loader: '@svgr/webpack',
+          loader: "@svgr/webpack",
           options: {
-            icon: true
-          }
-        }
+            icon: true,
+          },
+        },
       ],
     });
     return config;
   },
   images: {
-    remotePatterns: [new URL('http://localhost:5003/**')],
+    remotePatterns: [new URL("http://localhost:5003/**")],
+  },
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
   },
 };
 

@@ -6,16 +6,20 @@ import { Button } from "@/components/common/button";
 import { useRouter } from 'next/navigation'
 
 export const SearchSection = ({
-    items = [],
     query = '',
     lang = 'en'
 }: {
-    items?: any[];
     query?: string;
     lang?: 'en' | 'th';
 }) => {
     const [search, setSearch] = useState<string>(query);
-    const costumers = items
+    const [isSearhted, setIsSearhted] = useState<boolean>(false);
+    let costumer = {
+        code: '1234567890',
+        name: 'John Doe',
+        img: 'https://via.placeholder.com/150'
+    }
+    // costumer = null
     const router = useRouter()
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -32,7 +36,6 @@ export const SearchSection = ({
                     onChange: (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)
                 }}
             />
-
         </div>
         <div className="flex justify-center">
             <Button className="min-w-[15rem]">
@@ -40,9 +43,15 @@ export const SearchSection = ({
             </Button>
         </div>
         <div className="mx-auto max-w-md space-y-3">
-            {costumers.map((item, index) => (
-                <CostomerCard key={index} code={item.code} name={item.name} img={item.img} />
-            ))}
-        </div>
-    </div>
+            {costumer ?
+                <CostomerCard code={costumer.code} name={costumer.name} img={costumer.img} />
+                :
+                (isSearhted ?
+                    <div className="text-center space-y-6">
+                        <div > Not Fond</div>
+                        <div><Button>Inquiry & Disposition</Button></div>
+                    </div> : null)
+            }
+        </div >
+    </div >
 }

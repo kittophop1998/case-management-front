@@ -15,13 +15,13 @@ export default async function CostomerSearchPage({
 ) {
     const { lang } = await params
     const query = typeof searchParams.q === 'string' ? searchParams.q : ''
-    const items = await getItems(query);
+    // const items = await getItems(query);
     return (
         <CardPageWrapper className="my-6">
             <Typography variant="h3" className="text-center">
                 Search Customer ID/AEON ID
             </Typography>
-            <SearchSection items={items} query={query} lang={lang} />
+            <SearchSection query={query} lang={lang} />
         </CardPageWrapper>
     );
 }
