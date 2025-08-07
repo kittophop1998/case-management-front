@@ -34,7 +34,12 @@ export function checkPassword(): Promise<string | null> {
                     container.remove()
                 }, 0)
             }
+            let isLoading = false
             const handleConfirm = async (value: z.infer<typeof ConfirmPasswordSchemas>) => {
+                if (isLoading) {
+                    console.log('loading')
+                    return
+                }
                 // const res = await fetch('/api/check-password', {
                 //     method: 'POST',
                 //     body: JSON.stringify({ password }),
@@ -44,6 +49,8 @@ export function checkPassword(): Promise<string | null> {
                 // const data = await res.json()
 
                 // if (!res.ok) return    setError(data.message || 'Wrong password')
+                isLoading = true
+                console.log('!!!!!!1')
                 if (value.password === 'admin') {
                     await dialogAlert(true)
                     resolve(value.password)
@@ -52,8 +59,7 @@ export function checkPassword(): Promise<string | null> {
                         container.remove()
                     }, 0)
                 } else {
-                    // setError('Wrong password')
-                    dialogAlert(false,
+                    await dialogAlert(false,
                         {
                             title: 'Invalid Password',
                             message: 'The password you entered is incorrect.',
@@ -64,6 +70,10 @@ export function checkPassword(): Promise<string | null> {
                         }
                     )
                 }
+                console.log('!!!!!!2')
+                isLoading = false
+
+
 
             }
 
