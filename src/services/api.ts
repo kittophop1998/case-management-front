@@ -52,7 +52,6 @@ export async function api<T>(
     res = await fetch(`${BASE_URL}${url}`, {
       ...options,
       headers: {
-        "Content-Type": "application/json",
         ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
         ...(options?.headers ?? {}),
       },
@@ -61,11 +60,12 @@ export async function api<T>(
 
     // console.log("[api-service] api response", res);
   } catch (error) {
-    console.error(`apiSSR.catch()${BASE_URL}${url}`, error);
-    throw new Error(
-      `apiSSR.catch() Network error or invalid URL ${BASE_URL}${url}`,
-      error
-    );
+    // console.error(`apiSSR.catch()${BASE_URL}${url}`, error);
+    // throw new Error(
+    //   `apiSSR.catch() Network error or invalid URL ${BASE_URL}${url}`,
+    //   error
+    // );
+    throw new Error("Network error or invalid URL");
   }
   const text: string = await res.text();
   // console.log("[api-service] api response text", text);
