@@ -1,8 +1,7 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { UserType } from "@/types/user.type";
 import { baseQuery } from "@/services/api";
 import { ApiResponse } from "@/types/api.type";
-import { number } from "zod";
 import { DefaultReqTableType } from "@/types/table.type";
 
 export interface GetUsersRequest extends DefaultReqTableType {
