@@ -1,7 +1,7 @@
 import { ApiResponse } from "@/types/api.type";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "case-management-backend.railway.internal/api/v1";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://case-management-backend.railway.internal/api/v1";
 
 export let lang: "th" | "en" = "th";
 let accessToken: string | null = null;
