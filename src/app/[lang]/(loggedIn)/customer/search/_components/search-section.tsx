@@ -2,7 +2,7 @@
 import { SearchFieldInput } from "@/components/form/search-field";
 import { CostomerCard } from "./costomer-card";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/common/button";
+import { Button } from "@/components/common/Button";
 import { useRouter } from 'next/navigation'
 
 export const SearchSection = ({

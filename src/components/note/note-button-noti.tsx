@@ -1,7 +1,7 @@
 import { FileText } from "lucide-react";
 // import { Button } from "../common/button";
 import { Badge } from "../ui/badge";
-import { Button } from "../common/button";
+import { Button } from "../common/Button";
 
 interface NoteButtonNotiProps {
     onClick: () => void;

@@ -5,7 +5,7 @@ import z from "zod";
 // 
 import { SelectField } from "@/components/form/select-field";
 import { TextField } from "@/components/form/text-field";
-import { Button } from "@/components/common/button";
+import { Button } from "@/components/common/Button";
 import { Form } from "@/components/ui/form";
 
 export const ExampeleForm = () => {
