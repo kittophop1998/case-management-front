@@ -121,8 +121,25 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* .skeletonmode {
+    @apply bg-gray-200/50 animate-pulse rounded-md hidden-child;
+  } */
+}
+.skeleton-mode {
+  /* @apply bg-gray-200/50 animate-pulse rounded-md hidden-child; */
+  background-color: rgba(229, 231, 235, 0.5); /* same as bg-gray-200/50 */
+  border-radius: 0.375rem; /* same as rounded-md */
+  animation: pulse 2s cubic-bezier(0.1, 0, 0.6, 1) infinite;
+}
+.skeleton-mode > * {
+  visibility: hidden;
 }
 
 /* @theme {
   --primary: oklch(0.8535 0.1744 88.77);
+} */
+
+/* .hidden-child > * {
+  visibility: hidden;
 } */

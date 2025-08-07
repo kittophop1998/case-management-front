@@ -20,7 +20,10 @@ import BtnNew from "@/components/button/btn-new";
 import { CreateNewNoteTemplate } from "@/components/note/form-create-note";
 import { DialogSelectCaseType } from "@/components/case/dialog-select-case-type";
 import { useLazySearchCustomerQuery } from "@/features/customers/customersApiSlice";
-import { Customer } from "@/types/customer.type";
+import { Customer } from "@/types/customer?.type";
+import Lock from '@public/icons/Lock.svg'
+import VerifyPass from '@public/icons/VerifyPass.svg'
+
 
 const DisplayDerivedValue = ({ title, value, className, classNameValue }: { title: string, value: any, className?: string, classNameValue?: string }) => {
     if (typeof value === 'string') {
@@ -45,7 +48,7 @@ const SectionCard = ({ title, children, TopRight = null, className }: { title: s
     );
 }
 
-const DataWithCopy = ({ title, value, showCopy = false }: { value: string, title: string, showCopy?: boolean }) => {
+const DataWithCopy = ({ title, value, showCopy = false, loading }: { value: string, title: string, showCopy?: boolean }) => {
     return (
         <div className="flex items-center gap-1">
             <Typography variant="body2">{title}</Typography>
@@ -80,8 +83,8 @@ const CustomerDashboard = () => {
         setStatus(false);
         setStatusNote(false);
     }
-    if (isFetching) return <>Loading</>
-    if (!customer) return <>ERROR</>
+    // if (isFetching) return <SkeletonPage />
+    // if (!customer) return <>ERROR</>
     return (
         <>
             <Tabs defaultValue="account">
@@ -111,32 +114,37 @@ const CustomerDashboard = () => {
                     </div>
                     <TabsContent value="account" className="max-w-none">
                         <div className="grid grid-cols-12 gap-4">
-                            <SectionCard title={customerName} TopRight={<>ICON</>} className="col-span-4" >
+                            <SectionCard title={customerName} TopRight={
+                                <>
+                                    {/* <Lock />/ */}
+                                    <VerifyPass className='size-7' />
+                                </>
+                            } className={cn("col-span-4")} >
                                 <>
                                     <div className="flex gap-3  mt-0">
                                         <StatusComplaintLv lv={1} />
                                         <StatusCostomerFeeling status='Sweetheart' />
                                     </div>
-                                    <div className="grid grid-cols-6 gap-4">
+                                    <div className="grid grid-cols-6 gap-4 ">
                                         <DisplayDerivedValue title="Phone" value={
                                             <div className="flex gap-1">
-                                                <Typography variant="body2">+66</Typography>
-                                                <Typography variant="body2" className="text-[#FA541C]">0656506331</Typography>
+                                                <Typography variant="body2">{customer?.status ? '+66' : ''}</Typography>
+                                                <Typography variant="body2" className="text-[#FA541C]">{customer?.status ? '0656506331' : ''}</Typography>
                                             </div>
                                         } className="col-span-3" />
-                                        <DisplayDerivedValue title="Email" value={customer.email} className="col-span-3" />
-                                        <DisplayDerivedValue title="Status" value={<StatusCostomer status={customer.status} />} className="col-span-2" />
-                                        <DisplayDerivedValue title="Type" value={customer.type} className="col-span-2" />
-                                        <DisplayDerivedValue title="Group" value={customer.group} className="col-span-2" />
-                                        <DisplayDerivedValue title="Payment Status" value={<StatusPayment status={customer.paymentStatus} />} className="col-span-2" />
-                                        <DisplayDerivedValue title="Segment" value={customer.segment} className="col-span-4" />
-                                        <DisplayDerivedValue title="Mobile App Status" value={<StatusMobileApp status={customer.mobileAppStatus} />} className="col-span-2" />
+                                        <DisplayDerivedValue title="Email" value={customer?.email} className="col-span-3 " />
+                                        <DisplayDerivedValue title="Status" value={<StatusCostomer status={customer?.status} />} className="col-span-2" />
+                                        <DisplayDerivedValue title="Type" value={customer?.type} className="col-span-2" />
+                                        <DisplayDerivedValue title="Group" value={customer?.group} className="col-span-2" />
+                                        <DisplayDerivedValue title="Payment Status" value={<StatusPayment status={customer?.paymentStatus} />} className="col-span-2" />
+                                        <DisplayDerivedValue title="Segment" value={customer?.segment} className={cn("col-span-4")} />
+                                        <DisplayDerivedValue title="Mobile App Status" value={<StatusMobileApp status={customer?.mobileAppStatus} />} className="col-span-2" />
                                         <DisplayDerivedValue title="Notes"
                                             value={
                                                 <div className="flex items-center gap-1">
                                                     <NoteButtonNoti
                                                         onClick={() => router.push('/customer/dashboard/note/list?')}
-                                                        count={customer.note.count}
+                                                        count={customer?.note.count}
                                                         size='sm'
                                                     />
                                                     <Button variant='ghost' size='sm' >
@@ -155,41 +163,41 @@ const CustomerDashboard = () => {
                                     </div>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Customer Profile" TopRight={null} className="col-span-4">
+                            <SectionCard title="Suggested Promotion" TopRight={null} className={cn("col-span-4")}>
                                 <>
-                                    <Typography >Customer Since: {customer.since}</Typography>
+
                                     <Typography >{""}</Typography>
                                     <Typography >{""}</Typography>
                                     <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Customer Profile" TopRight={null} className="col-span-4">
+                            <SectionCard title="Case History" TopRight={null} className={cn("col-span-4")}>
                                 <>
-                                    <Typography >Customer Since: {customer.since}</Typography>
+
                                     <Typography >{""}</Typography>
                                     <Typography >{""}</Typography>
                                     <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Customer Profile" TopRight={null} className="col-span-4">
+                            <SectionCard title="Top Purchased Categories" TopRight={null} className={cn("col-span-4 min-h-[20rem]")}>
                                 <>
-                                    <Typography >Customer Since: {customer.since}</Typography>
+
                                     <Typography >{""}</Typography>
                                     <Typography >{""}</Typography>
                                     <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Customer Profile" TopRight={null} className="col-span-3" >
+                            <SectionCard title="Suggested Card" TopRight={null} className={cn("col-span-3")} >
                                 <>
-                                    <Typography >Customer Since: {customer.since}</Typography>
+
                                     <Typography >{""}</Typography>
                                     <Typography >{""}</Typography>
                                     <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Customer Profile" TopRight={null} className="col-span-5" >
+                            <SectionCard title="Last Activity" TopRight={null} className={cn("col-span-5")}>
                                 <>
-                                    <Typography >Customer Since: {customer.since}</Typography>
+
                                     <Typography >{""}</Typography>
                                     <Typography >{""}</Typography>
                                     <Typography >{""}</Typography>
@@ -198,8 +206,21 @@ const CustomerDashboard = () => {
 
                         </div>
                     </TabsContent>
-                    <TabsContent value="password" className="w-full max-w-none">
-                        <div className="w-full bg-white px-3 h-[50vh]">Change your password here.</div>
+                    <TabsContent value="password" className="w-full max-w-none h-[70vh]">
+                        {/* <div className="w-full bg-white px-3 h-[50vh]"></div> */}
+                        <div className="flex gap-3 h-full">
+                            <div className="bg-white">
+                                <div className="w-[500px]"></div>
+                            </div>
+                            <div className="flex-1 flex flex-col gap-3 h-full">
+                                <div className="flex w-full gap-3">
+                                    <div className="bg-white flex-1 h-[200px]"></div>
+                                    <div className="bg-white flex-1 h-[200px]"></div>
+                                    <div className="bg-white flex-1  h-[200px]"></div>
+                                </div>
+                                <div className="bg-white flex-1"></div>
+                            </div>
+                        </div>
                     </TabsContent>
                 </Container>
 
