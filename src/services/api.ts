@@ -19,7 +19,10 @@ export const getErrorText = (
   response: ApiResponse<undefined>,
   defaultMessage = "An unexpected error occurred. Please try again later."
 ): string => {
-  // const langUse = lang === "th" ? "th" : "eng";
+  // TODO: error response on rtk is response: { data: ApiResponse<undefined>; status: number } change it to ApiResponse<undefined>
+  if (!response.error && response.data) {
+    response = response.data;
+  }
   return response?.error?.message?.[lang] || defaultMessage;
 };
 
@@ -33,7 +36,6 @@ export const baseQuery = fetchBaseQuery({
     headers.set("Content-Type", "application/json");
     return headers;
   },
-  // credentials: "include",
 });
 
 // SSR-only

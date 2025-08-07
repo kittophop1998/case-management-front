@@ -4,7 +4,6 @@ import { SearchSection } from "./_components/search-section";
 import { getItems } from '@/lib/getItems';
 
 
-
 export default async function CostomerSearchPage({
     params,
     searchParams

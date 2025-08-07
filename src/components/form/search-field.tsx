@@ -14,11 +14,13 @@ interface SearchFieldInputProps {
   // }; // Replace 'any' with the correct field type, e.g., UseFormReturn<any> if using react-hook-form
   field: React.ComponentProps<typeof TextFieldInput>['field'];
   clearABle?: boolean;
+  loading?: boolean
 }
 export const SearchFieldInput = ({
   placeholder,
   readonly = false,
-  field
+  field,
+  loading = false
 }: SearchFieldInputProps) => {
   return (
     <TextFieldInput
@@ -27,6 +29,7 @@ export const SearchFieldInput = ({
       placeholder={placeholder || 'Search'}
       readonly={readonly}
       clearABle
+      loading={loading}
     />
   )
 }
