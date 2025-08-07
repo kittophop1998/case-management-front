@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Typography } from "@/components/common/typography";
 import { useRouter } from 'next/navigation'
-import { useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { FloatingWidget } from "@/components/common/floating-widget";
 import { FormNewCase } from "@/components/case/form-new-case";
 import { cn } from "@/lib/utils";
@@ -19,6 +19,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BtnNew from "@/components/button/btn-new";
 import { CreateNewNoteTemplate } from "@/components/note/form-create-note";
 import { DialogSelectCaseType } from "@/components/case/dialog-select-case-type";
+import { useLazySearchCustomerQuery } from "@/features/customers/customersApiSlice";
+import { Customer } from "@/types/customer.type";
 
 const DisplayDerivedValue = ({ title, value, className, classNameValue }: { title: string, value: any, className?: string, classNameValue?: string }) => {
     if (typeof value === 'string') {
@@ -56,24 +58,14 @@ const DataWithCopy = ({ title, value, showCopy = false }: { value: string, title
     );
 }
 const CustomerDashboard = () => {
+    const [searchCustomer, { data, isFetching, isError, error }] = useLazySearchCustomerQuery();
+    const customer: Customer | undefined = useMemo(() => data?.data, [data]);
     const router = useRouter()
-    const costumerType = "Individual";
-    const customerSince = "2023-10-01";
-    const customer = {
-        phone: "+66 0656506331",
-        email: "surapong.Lert@gmail.com",
-        status: "Normal",
-        type: "VP",
-        group: "Nomal-VIP",
-        'paymentStatus': 'On-Time',
-        segment: 'Existing Customer - Active',
-        mobileAppStatus: 'Active',
-        gender: 'Men',
-        note: {
-            count: 3,
-        }
-
-    }
+    useEffect(() => {
+        searchCustomer({
+            id: 'aaaaaa'
+        })
+    }, []);
     const customerName = "Surapong Lertprayapat";
     const [openSelectCase, setOpenSelectCase] = useState<boolean>(false);
     const [status, setStatus] = useState<boolean>(false);
@@ -88,6 +80,8 @@ const CustomerDashboard = () => {
         setStatus(false);
         setStatusNote(false);
     }
+    if (isFetching) return <>Loading</>
+    if (!customer) return <>ERROR</>
     return (
         <>
             <Tabs defaultValue="account">
@@ -163,42 +157,42 @@ const CustomerDashboard = () => {
                             </SectionCard>
                             <SectionCard title="Customer Profile" TopRight={null} className="col-span-4">
                                 <>
-                                    <Typography >Customer Since: {customerSince}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
+                                    <Typography >Customer Since: {customer.since}</Typography>
+                                    <Typography >{""}</Typography>
+                                    <Typography >{""}</Typography>
+                                    <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
                             <SectionCard title="Customer Profile" TopRight={null} className="col-span-4">
                                 <>
-                                    <Typography >Customer Since: {customerSince}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
+                                    <Typography >Customer Since: {customer.since}</Typography>
+                                    <Typography >{""}</Typography>
+                                    <Typography >{""}</Typography>
+                                    <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
                             <SectionCard title="Customer Profile" TopRight={null} className="col-span-4">
                                 <>
-                                    <Typography >Customer Since: {customerSince}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
+                                    <Typography >Customer Since: {customer.since}</Typography>
+                                    <Typography >{""}</Typography>
+                                    <Typography >{""}</Typography>
+                                    <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
                             <SectionCard title="Customer Profile" TopRight={null} className="col-span-3" >
                                 <>
-                                    <Typography >Customer Since: {customerSince}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
+                                    <Typography >Customer Since: {customer.since}</Typography>
+                                    <Typography >{""}</Typography>
+                                    <Typography >{""}</Typography>
+                                    <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
                             <SectionCard title="Customer Profile" TopRight={null} className="col-span-5" >
                                 <>
-                                    <Typography >Customer Since: {customerSince}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
-                                    <Typography >Customer Type: {costumerType}</Typography>
+                                    <Typography >Customer Since: {customer.since}</Typography>
+                                    <Typography >{""}</Typography>
+                                    <Typography >{""}</Typography>
+                                    <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
 

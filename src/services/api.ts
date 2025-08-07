@@ -1,7 +1,8 @@
 import { ApiResponse } from "@/types/api.type";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "https://case-management-backend.railway.internal/api/v1";
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  "https://case-management-backend.railway.internal/api/v1";
 
 export let lang: "th" | "en" = "th";
 let accessToken: string | null = null;
@@ -47,6 +48,7 @@ export async function api<T>(
   try {
     // console.log("[api-service]-1111111111");
     // const isServer = typeof window === "undefined";
+    console.log(`apiSSR.call()${BASE_URL}${url}`);
     res = await fetch(`${BASE_URL}${url}`, {
       ...options,
       headers: {
@@ -55,9 +57,14 @@ export async function api<T>(
         ...(options?.headers ?? {}),
       },
     });
+    console.log(`apiSSR.res()${BASE_URL}${url}`, res);
+
     // console.log("[api-service] api response", res);
   } catch (error) {
-    throw new Error("Network error or invalid URL");
+    throw new Error(
+      `apiSSR.catch() Network error or invalid URL ${BASE_URL}${url}`,
+      error
+    );
   }
   const text: string = await res.text();
   // console.log("[api-service] api response text", text);

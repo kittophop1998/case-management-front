@@ -18,7 +18,20 @@ export const customersApiSlice = createApi({
           datamock: JSON.stringify({
             id: id,
             name: `name-${id}`,
+            since: "2020-01-01",
             img: "",
+            phone: "+66 0656506331",
+            email: "surapong.Lert@gmail.com",
+            status: "Normal",
+            type: "VP",
+            group: "Nomal-VIP",
+            paymentStatus: "On-Time",
+            segment: "Existing Customer - Active",
+            mobileAppStatus: "Active",
+            gender: "Men",
+            note: {
+              count: 3,
+            },
           }),
           // isError: "true",
         };
