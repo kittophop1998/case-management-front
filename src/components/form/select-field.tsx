@@ -71,7 +71,7 @@ const SelectField = ({
             }}
           >
             <FormControl>
-              <SelectTrigger className='w-full'>
+              <SelectTrigger className='w-full overflow-hidden'>
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
             </FormControl>
