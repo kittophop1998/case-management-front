@@ -2,7 +2,7 @@ import {
   useGetUsersMutation,
   GetUsersRequest,
 } from "@/features/users/usersApiSlice";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTable } from "../use-table";
 
 export const useUsers = ({ columns = [] }: { columns: any[] }) => {
@@ -14,6 +14,8 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
   const [numberTrickerFetch, setNumberTrickerFetch] = useState<number>(1);
   const [fetchUsers, { data, isLoading, isError, error, isSuccess }] =
     useGetUsersMutation();
+  const dataList: any[] = useMemo(() => data?.data || [], [data]);
+
   const getUsers = async (params: GetUsersRequest) => {
     console.log("getUsers.call()", params);
     try {
@@ -26,7 +28,7 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
     }
   };
   const { table, sort, page, limit, setPage, setLimit } = useTable({
-    data: data?.data || [],
+    data: dataList,
     columns: columns,
     mapSortingName: {
       agentId: "agent_id",

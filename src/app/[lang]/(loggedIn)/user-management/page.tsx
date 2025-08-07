@@ -9,13 +9,10 @@ import {
   DialogDetailsRef
 } from './_components/dialog-user-details'
 import { BtnAddUser } from './_components/btn-add-user'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { ExcelUploadDialog } from './_components/upload-excel-test/excel-upload-dialog'
 import { useUsers } from '@/hooks/user/useUsers'
 import { FilterUsersModal } from './_components/filter-modal'
-import { getErrorMessageAPI } from '@/lib/utils/get-error-message-api'
-import { dialogAlert } from '@/components/common/dialog-alert'
-import { useTable } from '@/hooks/use-table'
 import { DataTable, Header } from '@/components/common/table'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { ChipIsActive } from '@/components/common/chipIsActive'
@@ -79,7 +76,6 @@ export default function UserManagementPage() {
   const {
     table,
     usersTable,
-    getUsers,
     triggerFetch,
     state: { status, role, team, center, searchText },
     setState: {

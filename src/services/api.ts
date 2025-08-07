@@ -46,8 +46,6 @@ export async function api<T>(
 ): Promise<T | null> {
   let res;
   try {
-    // console.log("[api-service]-1111111111");
-    // const isServer = typeof window === "undefined";
     console.log(`apiSSR.call()${BASE_URL}${url}`);
     res = await fetch(`${BASE_URL}${url}`, {
       ...options,
@@ -57,20 +55,11 @@ export async function api<T>(
       },
     });
     console.log(`apiSSR.res()${BASE_URL}${url}`, res);
-
-    // console.log("[api-service] api response", res);
   } catch (error) {
-    // console.error(`apiSSR.catch()${BASE_URL}${url}`, error);
-    // throw new Error(
-    //   `apiSSR.catch() Network error or invalid URL ${BASE_URL}${url}`,
-    //   error
-    // );
     throw new Error("Network error or invalid URL");
   }
   const text: string = await res.text();
-  // console.log("[api-service] api response text", text);
   const data: ApiResponse<T> = text ? JSON.parse(text) : {};
-  // console.log("[api-service] api response data res.ok", res.ok, data);
   if (!res.ok) {
     throw new Error(getErrorText(data as ApiResponse<undefined>));
   }

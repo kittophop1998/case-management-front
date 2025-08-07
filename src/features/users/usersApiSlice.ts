@@ -27,7 +27,7 @@ export const usersApiSlice = createApi({
   baseQuery,
   // tagTypes: ['User'], // สำคัญถ้าคุณใช้ cache tag
   endpoints: (builder) => ({
-    getUsers: builder.mutation<ApiResponse<UsersTable>, GetUsersRequest>({
+    getUsers: builder.mutation<ApiResponse<UserType[]>, GetUsersRequest>({
       query: ({
         page,
         limit,
@@ -103,7 +103,7 @@ export const usersApiSlice = createApi({
       },
       // invalidatesTags: (result, error, { id }) => [{ type: 'User', id }],
     }),
-    createUser: builder.mutation<ApiResponseSuccess, any>({
+    createUser: builder.mutation<ApiResponse<undefined>, any>({
       query: (user) => {
         let body = {
           ...user,
