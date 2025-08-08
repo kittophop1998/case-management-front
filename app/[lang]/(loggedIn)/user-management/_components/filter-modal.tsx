@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
+import { ComboboxField } from '@/components/form/combo-field'
 
 interface FilterModalProps {
   setStatus: (status: boolean | null) => void
@@ -80,9 +81,10 @@ export const FilterUsersModal = ({
       form.reset(defaultValues)
     }
   }, [isOpen, role, team, center, status])
-
+  // const seeData = form.watch()
   return (
     <Modal isOpen={isOpen} title='Filter' className='max-w-[317px]' onClose={() => { setIsOpen(false) }}>
+      {/* {JSON.stringify(seeData)} */}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
           <RadioField
@@ -95,7 +97,7 @@ export const FilterUsersModal = ({
             loading={isPending}
             items={[seeAllObj, ...statuses]}
           />
-          <SelectField
+          <ComboboxField
             form={form}
             name='role'
             label='Role'
