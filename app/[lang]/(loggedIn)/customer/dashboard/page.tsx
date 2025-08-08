@@ -69,7 +69,6 @@ const CustomerDashboard = () => {
             id: 'aaaaaa'
         })
     }, []);
-    const customerName = "Surapong Lertprayapat";
     const [openSelectCase, setOpenSelectCase] = useState<boolean>(false);
     const [status, setStatus] = useState<boolean>(false);
     const [statusNote, setStatusNote] = useState<boolean>(false);
@@ -83,7 +82,7 @@ const CustomerDashboard = () => {
         setStatus(false);
         setStatusNote(false);
     }
-    // if (isFetching) return <SkeletonPage />
+    if (isFetching) return <></>
     // if (!customer) return <>ERROR</>
     return (
         <>
@@ -114,9 +113,8 @@ const CustomerDashboard = () => {
                     </div>
                     <TabsContent value="account" className="max-w-none">
                         <div className="grid grid-cols-12 gap-4">
-                            <SectionCard title={customerName} TopRight={
+                            <SectionCard title={customer?.name} TopRight={
                                 <>
-                                    {/* <Lock />/ */}
                                     <VerifyPass className='size-7' />
                                 </>
                             } className={cn("col-span-4")} >

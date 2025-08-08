@@ -159,7 +159,7 @@ export const FormUserDetails = ({
               disabled={!form.formState.isDirty}
               className={cn(mode === 'create' ? 'w-[100px]' : 'w-full')}
             >
-              {mode === 'create' ? 'Add' : 'Save'}
+              {mode === 'create' ? 'Add' : 'Update'}
             </Button>
           </div>
         </form>
