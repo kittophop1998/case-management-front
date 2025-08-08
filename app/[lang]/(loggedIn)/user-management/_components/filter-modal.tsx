@@ -82,7 +82,7 @@ export const FilterUsersModal = ({
   }, [isOpen, role, team, center, status])
 
   return (
-    <Modal isOpen={isOpen} title='Filter' className='max-w-sm'>
+    <Modal isOpen={isOpen} title='Filter' className='max-w-sm' onClose={() => { setIsOpen(false) }}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
           <RadioField
@@ -125,10 +125,10 @@ export const FilterUsersModal = ({
             loading={isPending}
             items={[seeAllObj, ...(dataDropdown?.data?.centers || [])]}
           />
-          <div className='flex gap-2 justify-end'>
-            <Button onClick={clearFilter} className='bg-transparent border border-primary text-primary hover:text-white'>Clear</Button>
-            <Button type='submit'>Filter</Button>
-          </div>
+          {/* <div className='flex gap-2 justify-end'> */}
+          {/* <Button onClick={clearFilter} className='bg-transparent border border-primary text-primary hover:text-white'>Clear</Button> */}
+          <Button type='submit' className='w-full'>Filter</Button>
+          {/* </div> */}
         </form>
       </Form>
     </Modal>

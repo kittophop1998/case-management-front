@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useCreateUserMutation, useEditUserMutation, useGetUserMutation } from '@/features/users/usersApiSlice'
 import { checkPassword } from '@/components/common/dialog-check-password'
 import { dialogAlert } from '@/components/common/dialog-alert'
+import { cn } from '@/lib/utils'
 
 export type DialogDetailsRef = {
   setDefaultUser: (user: UserType | null) => void
@@ -115,6 +116,8 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
       <Modal
         isOpen={open}
         title={mode === 'create' ? 'Add Individual User' : 'Select Update'}
+        className={cn(mode === 'create' ? '' : 'max-w-[360px]')}
+        onClose={mode === 'create' ? undefined : () => { setOpen(false) }}
       >
         <FormUserDetails
           isLoadingForm={isLoadingForm}
