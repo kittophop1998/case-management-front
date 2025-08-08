@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react"
 import { StatusComplaintLv } from "../customer/status-complaint-lv"
-import { StatusCostomerFeeling } from "../customer/status-customer-feeling"
+import { StatusCustomerFeeling } from "../customer/status-customer-feeling"
 import { SearchFieldInput } from "../form/search-field"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import { Separator } from "../ui/separator"
@@ -49,7 +49,7 @@ export const DialogSelectCaseType = ({ open, setOpen, onSelect }: DialogSelectCa
             <div className="bg-white">
                 <div className="flex gap-3">
                     <StatusComplaintLv lv={1} />
-                    <StatusCostomerFeeling status='Sweetheart' />
+                    <StatusCustomerFeeling status='Sweetheart' />
                 </div>
                 <div>
                     <SearchFieldInput

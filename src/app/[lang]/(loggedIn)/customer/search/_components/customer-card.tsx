@@ -6,11 +6,11 @@ import { Customer } from "@/types/customer.type";
 import { useRouter } from 'next/navigation'
 
 
-export const CostomerCard = ({ code, name, img }: Customer) => {
+export const CustomerCard = ({ code, name, img }: Partial<Customer>) => {
     const router = useRouter()
     return (
         <Card className="p-4 flex items-center gap-4 cursor-pointer"
-            onClick={() => router.push(`/customer/dashboard?costomerId=${code}`)}>
+            onClick={() => router.push(`/customer/dashboard?customerId=${code}`)}>
             <Avatar className='h-[2.5rem] w-[2.5rem]'>
                 <AvatarImage src={img} />
                 <AvatarFallback className='bg-primary/10'>

@@ -1,11 +1,11 @@
-// export const StatusCostomerFeeling = () => {
+// export const StatusCustomerFeeling = () => {
 //     return <Badge>Sweetheart</Badge>
 // }
 import { cva } from "class-variance-authority"
 import { Badge } from "../ui/badge"
 import { cn } from "@/lib/utils"
 
-const statusCostomerFeelingVariants = cva(
+const statusCustomerFeelingVariants = cva(
     "font-bold rounded-sm text-back",
     {
         variants: {
@@ -19,9 +19,9 @@ const statusCostomerFeelingVariants = cva(
     }
 )
 
-export const StatusCostomerFeeling = ({ status }: { status: 'Sweetheart' }) => {
+export const StatusCustomerFeeling = ({ status }: { status: 'Sweetheart' }) => {
     return <Badge
-        className={cn(statusCostomerFeelingVariants({
+        className={cn(statusCustomerFeelingVariants({
             status
         }))}
     >

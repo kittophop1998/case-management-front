@@ -1,6 +1,6 @@
 import { Typography } from "../common/typography"
 
-export const StatusCostomer = ({ status }: {
+export const StatusCustomer = ({ status }: {
     status: string
 }) => {
     // TODO color

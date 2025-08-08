@@ -1,24 +1,20 @@
 'use client';
 import { SearchFieldInput } from "@/components/form/search-field";
-import { CostomerCard } from "./costomer-card";
+import { CustomerCard } from "./customer-card";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/common/Button";
 import { useRouter } from 'next/navigation'
 import { useLazySearchCustomerQuery } from "@/features/customers/customersApiSlice";
 import { getErrorText } from "@/services/api";
-import { Typography } from "@/components/common/typography";
-import { FormError } from "@/components/form/form-error";
 
 export const SearchSection = ({
-    query = '',
     lang = 'en'
 }: {
-    query?: string;
     lang?: 'en' | 'th';
 }) => {
     const router = useRouter()
     const [searchCustomer, { data: costumer, isFetching, isError, error }] = useLazySearchCustomerQuery();
-    const [search, setSearch] = useState<string>(query);
+    const [search, setSearch] = useState<string>('');
     const [isSearhted, setIsSearhted] = useState<boolean>(false);
     const handleSearch = async () => {
         try {
@@ -60,7 +56,7 @@ export const SearchSection = ({
         <div className="mx-auto max-w-md space-y-3">
             {/* <FormError message={isError ? getErrorText(error) : undefined}></FormError> */}
             {costumer?.data ?
-                <CostomerCard code={costumer.data.code} name={costumer.data.name} img={costumer.data.img} />
+                <CustomerCard code={costumer.data.code} name={costumer.data.name} img={costumer.data.img} />
                 :
                 (isSearhted ?
                     <div className="text-center space-y-6">

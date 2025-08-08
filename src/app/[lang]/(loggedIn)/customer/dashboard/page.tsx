@@ -10,9 +10,9 @@ import { FormNewCase } from "@/components/case/form-new-case";
 import { cn } from "@/lib/utils";
 import { ClipboardPlus, Files } from "lucide-react";
 import { NoteButtonNoti } from "@/components/note/note-button-noti";
-import { StatusCostomerFeeling } from "@/components/customer/status-customer-feeling";
+import { StatusCustomerFeeling } from "@/components/customer/status-customer-feeling";
 import { StatusComplaintLv } from "@/components/customer/status-complaint-lv";
-import { StatusCostomer } from "@/components/customer/status-customer";
+import { StatusCustomer } from "@/components/customer/status-customer";
 import { StatusPayment } from "@/components/customer/status-payment";
 import { StatusMobileApp } from "@/components/customer/status-mobile-app";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -123,7 +123,7 @@ const CustomerDashboard = () => {
                                 <>
                                     <div className="flex gap-3  mt-0">
                                         <StatusComplaintLv lv={1} />
-                                        <StatusCostomerFeeling status='Sweetheart' />
+                                        <StatusCustomerFeeling status='Sweetheart' />
                                     </div>
                                     <div className="grid grid-cols-6 gap-4 ">
                                         <DisplayDerivedValue title="Phone" value={
@@ -133,7 +133,7 @@ const CustomerDashboard = () => {
                                             </div>
                                         } className="col-span-3" />
                                         <DisplayDerivedValue title="Email" value={customer?.email} className="col-span-3 " />
-                                        <DisplayDerivedValue title="Status" value={<StatusCostomer status={customer?.status} />} className="col-span-2" />
+                                        <DisplayDerivedValue title="Status" value={<StatusCustomer status={customer?.status} />} className="col-span-2" />
                                         <DisplayDerivedValue title="Type" value={customer?.type} className="col-span-2" />
                                         <DisplayDerivedValue title="Group" value={customer?.group} className="col-span-2" />
                                         <DisplayDerivedValue title="Payment Status" value={<StatusPayment status={customer?.paymentStatus} />} className="col-span-2" />
