@@ -32,6 +32,7 @@ function RadioGroupItem({
         'size-4 aspect-square',
         'rounded-[5.5px]',
         'data-[state=checked]:border-primary',
+        'disabled:bg-gray-400',
         // ? COSTOM-CLASS
         className)}
       {...props}
@@ -41,7 +42,7 @@ function RadioGroupItem({
         className="relative flex items-center justify-center checked:border-primary checked:bg-red-500 bg-red-400"
       >
         <div
-          className="absolute size-3 bg-primary  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[3.5px]"
+          className="absolute size-3 bg-primary top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[3.5px]"
         >
           <Check
             // @ts-expect-error className is valid but TS resolution is wrong

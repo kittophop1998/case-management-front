@@ -136,6 +136,7 @@ export const FormUserDetails = ({
             <div />
             <div className={cn(mode === 'create' ? '' : 'order-first')}>
               <RadioField
+                disableList={mode === 'create' ? [false] : undefined}
                 loading={isPendingSubmit || isLoadingForm}
                 form={form}
                 items={statuses}

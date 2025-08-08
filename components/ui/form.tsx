@@ -89,16 +89,18 @@ function FormItem({ className, ...props }: React.ComponentProps<"div">) {
 
 function FormLabel({
   className,
+  disabled = false,
   ...props
-}: React.ComponentProps<typeof LabelPrimitive.Root>) {
+}: React.ComponentProps<typeof LabelPrimitive.Root> & { disabled?: boolean }) {
   const { error, formItemId } = useFormField()
 
   return (
     <Label
       data-slot="form-label"
       // data-error={!!error}
-      className={cn("data-[error=true]:text-destructive", className)}
+      className={cn("data-[error=true]:text-destructive data-[disabled=true]:text-gray-400 aria-disabled:text-gray-300", className)}
       htmlFor={formItemId}
+      data-disabled={!!disabled}
       {...props}
     />
   )

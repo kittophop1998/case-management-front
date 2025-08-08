@@ -20,6 +20,7 @@ interface RadioFieldProps {
     name: string;
     label: string;
     className?: string; // Optional className for additional styling
+    disableList?: any[]
 
 }
 const RadioFieldVariants = cva(
@@ -44,7 +45,8 @@ const RadioField = (
         form,
         name,
         label,
-        className = ""
+        className = "",
+        disableList
     }: RadioFieldProps) => {
     const valueMap = new Map(
         items.map((item: any) => [String(item[valueName]), item[valueName]])
@@ -59,8 +61,6 @@ const RadioField = (
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
                         <RadioGroup
-
-                            // onChange={onChange ? onChange : field.onChange}
                             defaultValue={field.value}
                             className={cn(RadioFieldVariants({ readonly }), className)}
                             value={String(field.value)}
@@ -76,11 +76,11 @@ const RadioField = (
                         >
                             {
                                 items.map((item: any) => (
-                                    <FormItem className="flex items-center gap-3" key={String(item[valueName])}>
+                                    <FormItem className="flex items-center gap-3" key={String(item[valueName])} >
                                         <FormControl>
-                                            <RadioGroupItem value={String(item[valueName])} id={String(item[valueName])} />
+                                            <RadioGroupItem disabled={disableList && disableList.includes(item[valueName])} value={String(item[valueName])} id={String(item[valueName])} />
                                         </FormControl>
-                                        <FormLabel className="font-normal">{item[labelName]}</FormLabel>
+                                        <FormLabel disabled={disableList && disableList.includes(item[valueName])}>{item[labelName]}</FormLabel>
                                     </FormItem>
                                 ))
                             }
