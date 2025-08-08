@@ -6,7 +6,7 @@ interface ChipIsActiveProps {
 export const ChipIsActive = ({ isActive }: ChipIsActiveProps) => {
     return (
         <Badge className={`${isActive ? 'bg-[#deeee9] text-[#519c66]' : 'bg-[#f5e2e1] text-[#cd5e5e]'}`}>
-            {isActive ? 'Active' : 'Inactive'}
+            {isActive ? 'Active' : 'Disable'}
         </Badge>
     )
 }

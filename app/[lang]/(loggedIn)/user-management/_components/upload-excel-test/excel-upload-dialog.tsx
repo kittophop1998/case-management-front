@@ -199,7 +199,7 @@ export function ExcelUploadDialog({
         Role: 'User',
         Team: 'Sales',
         Center: 'Branch Office',
-        Status: 'Inactive'
+        Status: 'Disable'
       }
     ]
 
