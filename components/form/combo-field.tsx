@@ -230,8 +230,6 @@ export function ComboboxField({
   const valueMap = new Map(
     items.map((item: any) => [String(item[valueName]), item[valueName]])
   )
-  // const findMatch = field.value ? null : items.find(
-  // (item) => item[valueName] === field.value)
   const [popoverOpen, setPopOver] = useState<boolean>(false)
   return (
     <FormField
@@ -270,7 +268,6 @@ export function ComboboxField({
                   } else {
                     field.onChange(val) // fallback to val if not found
                   }
-                  // setPopOver(false)
                 }}
               >
                 <CommandInput
@@ -284,9 +281,7 @@ export function ComboboxField({
                     {items.map((item: any) => (
                       <CommandItem
                         key={item[valueName]}
-                        value={String(item[valueName])}
-                        // value={language.label}
-                        // key={language.value}
+                        value={String(item[labelName])}
                         onSelect={() => {
                           form.setValue(name, item[valueName])
                           setPopOver(false)
