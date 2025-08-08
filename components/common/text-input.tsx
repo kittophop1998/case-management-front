@@ -20,7 +20,7 @@ function Input({
         'w-full h-10 px-4 py-2 text-base md:text-sm rounded-md border transition-all outline-none',
         'bg-white dark:bg-[#1f1f1f] border-gray-300 dark:border-gray-600',
         'placeholder-gray-400 dark:placeholder-gray-500',
-        'focus:border-[#5570f1] focus:ring-[3px] focus:ring-[#5570f1]/30',
+        'base-input-casemm',
         'disabled:opacity-50 disabled:cursor-not-allowed',
         'file:text-gray-700 file:font-medium file:text-sm file:border-0 file:bg-transparent file:h-7',
         'selection:bg-[#5570f1] selection:text-white',
