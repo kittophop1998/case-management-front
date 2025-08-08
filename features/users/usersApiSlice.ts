@@ -59,7 +59,7 @@ export const usersApiSlice = createApi({
 
         if (!page) delete searchObj.page;
         if (!limit) delete searchObj.limit;
-        if (!status) delete searchObj.is_active;
+        if (!status && status !== false) delete searchObj.is_active;
         if (!role) delete searchObj.roleId;
         if (!team) delete searchObj.teamId;
         if (!center) delete searchObj.centerId;
