@@ -4,17 +4,17 @@ import { JSX, ReactNode } from "react";
 
 type TypographyProps = {
   variant?:
-  | "h1"
-  | "h2"
-  | "h3"
-  | "h4"
-  | "h5"
-  | "h6"
-  | "body1"
-  | "body2"
-  | "caption"
-  | "overline"
-  | "button";
+  | "h1"      // ใช้ไม่บ่อยมาก (ส่วนใหญ่ในหน้า landing หรือ section ใหญ่) ~5%
+  | "h2"      // ใช้ปานกลาง (หัวข้อหลักในหน้า) ~10%
+  | "h3"      // ใช้บ่อย (หัวข้อย่อยในเนื้อหา) ~15%
+  | "h4"      // ใช้ปานกลาง (หัวข้อเล็ก, card title) ~10%
+  | "h5"      // ใช้น้อย (subtitle/หัวข้อย่อยมาก) ~5%
+  | "h6"      // ใช้น้อย (subtitle เล็กสุด) ~3%
+  | "body1"   // ใช้บ่อยที่สุด (เนื้อหาหลัก paragraph) ~30% *****
+  | "body2"   // ใช้บ่อย (เนื้อหาขนาดเล็กกว่า, secondary text) ~15%
+  | "caption" // ใช้บ่อยปานกลาง (hint/คำอธิบายใต้ input หรือภาพ) ~10% ***
+  | "overline"// ใช้น้อยมาก (label ด้านบน, section indicator) ~2%
+  | "button"  // ใช้ปานกลาง (label ปุ่มทั้งหมด) ~15%
   children: ReactNode;
   className?: string;
   as?: keyof JSX.IntrinsicElements;

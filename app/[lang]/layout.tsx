@@ -1,17 +1,23 @@
-import { Kanit } from 'next/font/google'
+import { Kanit, Inter } from 'next/font/google'
+
 import { cn } from '@/lib/utils'
 import { StoreProvider } from '@/store/provider'
 import { InitializersData } from './_components/initializers-data'
 import { updateTokenAuth } from '@/actions/updateTokenAuth'
 import { handleError401 } from '@/lib/utils/handleError'
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import getInitPathByRole from '@/lib/utils/get-init-path-by-role'
+// import { redirect } from "next/navigation";
+// import getInitPathByRole from '@/lib/utils/get-init-path-by-role'
 
 const kanit = Kanit({
   weight: '400',
   subsets: ['latin']
 })
+const inter = Inter({
+  weight: '400',
+  subsets: ['latin']
+})
+
 export async function generateStaticParams() {
   return [{ lang: 'en' }, { lang: 'th' }]
 }
@@ -41,7 +47,7 @@ export default async function RootLayout({
       <body
         className={cn(
           'antialiased overflow-y-auto',
-          lang === 'th' ? kanit.className : kanit.className
+          lang === 'th' ? kanit.className : inter.className
         )}
       >
         <StoreProvider>

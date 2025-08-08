@@ -33,7 +33,7 @@ export const Modal: React.FC<ModalProps> = ({
           )}
         >
           <div className='flex items-center justify-between'>
-            <Typography variant='h3' as='h3' className='text-xl font-semibold'>
+            <Typography variant='h4' as='h4' >
               {title}
             </Typography>
             {
