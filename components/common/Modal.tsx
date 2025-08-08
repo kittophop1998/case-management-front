@@ -38,7 +38,7 @@ export const Modal: React.FC<ModalProps> = ({
             </Typography>
             {
               onClose && (
-                <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-200">
+                <button onClick={onClose} className="p-1 hover:bg-[#fff1f0] rounded-md">
                   {/* @ts-expect-error className is valid for lucide icon */}
                   <X className="w-6 h-6" />
                 </button>

@@ -12,6 +12,7 @@ import Lock from '@/public/icons/Lock.svg'
 import { FormError } from '@/components/form/form-error'
 import { FormProvider } from 'react-hook-form'
 import { dialogAlert } from './dialog-alert'
+import { Typography } from './typography'
 
 export function checkPassword(): Promise<string | null> {
     return new Promise((resolve) => {
@@ -80,15 +81,16 @@ export function checkPassword(): Promise<string | null> {
             return (
                 <div className="fixed inset-0 bg-[#A3A3A333]/20 backdrop-blur-xs flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow w-80">
-                        <h2 className="font-bold text-lg mb-2">Confirm Password</h2>
+                        {/* <h2 className="font-bold text-lg mb-2">Confirm Password</h2> */}
+                        <Typography variant='h4'>Confirm Password</Typography>
                         <FormProvider {...form}>
-                            <form onSubmit={form.handleSubmit(handleConfirm)} className='space-y-4'>
+                            <form onSubmit={form.handleSubmit(handleConfirm)} className='space-y-4 mt-4'>
                                 <PasswordField
                                     prependInnerIcon={<Lock />}
                                     // loading={isPending}
                                     form={form}
                                     name='password'
-                                    label=''
+                                    label='Enter Password'
                                     placeholder='Password'
                                 />
                                 {/* <input
