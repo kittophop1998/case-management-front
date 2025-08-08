@@ -150,11 +150,12 @@ export const FormUserDetails = ({
           </div>
           {!!error && <FormError message={getErrorMessageAPI(error)} />}
           <div className='flex justify-end gap-3'>
-            <ButtonCancel onClick={onClose} />
+            <ButtonCancel onClick={onClose} className='w-[100px]' />
             <Button
               type='submit'
               loading={isPendingSubmit || isLoadingForm}
               disabled={!form.formState.isDirty}
+              className='w-[100px]'
             >
               {mode === 'create' ? 'Add' : 'Save'}
             </Button>
