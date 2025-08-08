@@ -8,7 +8,7 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import { FloatingWidget } from "@/components/common/floating-widget";
 import { FormNewCase } from "@/components/case/form-new-case";
 import { cn } from "@/lib/utils";
-import { ClipboardPlus, Files } from "lucide-react";
+import { ClipboardPlus, Files, Phone } from "lucide-react";
 import { NoteButtonNoti } from "@/components/note/note-button-noti";
 import { StatusCustomerFeeling } from "@/components/customer/status-customer-feeling";
 import { StatusComplaintLv } from "@/components/customer/status-complaint-lv";
@@ -109,7 +109,10 @@ const CustomerDashboard = () => {
                             onClick={handleOpenSelectCase}
                         />
 
-                        <Button>End call</Button>
+                        <Button className="bg-[#FA541C]">
+
+                            <Phone />
+                            End call</Button>
                     </div>
                     <TabsContent value="account" className="max-w-none">
                         <div className="grid grid-cols-12 gap-4">
