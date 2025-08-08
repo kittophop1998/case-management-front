@@ -1,8 +1,8 @@
 // 'use client'
 
 // import { FormProvider } from 'react-hook-form'
-// import Lock from '@public/icons/Lock.svg'
-// import Email from '@public/icons/Email.svg'
+// import Lock from '@/public/icons/Lock.svg'
+// import Email from '@/public/icons/Email.svg'
 // import { TextField } from '@/components/form/text-field'
 // import { Button } from '@/components/common/Button'
 // import { PasswordField } from '@/components/form/password-field'
@@ -66,8 +66,8 @@
 'use client'
 
 import { FormProvider } from 'react-hook-form'
-import Lock from '@public/icons/Lock.svg'
-import Email from '@public/icons/Email.svg'
+import Lock from '@/public/icons/Lock.svg'
+import Email from '@/public/icons/Email.svg'
 import { TextField } from '@/components/form/text-field'
 import { Button } from '@/components/common/Button'
 import { PasswordField } from '@/components/form/password-field'

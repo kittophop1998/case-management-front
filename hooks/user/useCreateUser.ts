@@ -1,6 +1,5 @@
-// src/hooks/useCreateUser.ts
-import { useCreateUserMutation } from '@/features/users/usersApiSlice';
-import { UserType } from '@/types/user.type';
+import { useCreateUserMutation } from "@/features/users/usersApiSlice";
+import { UserType } from "@/types/user.type";
 
 export const useCreateUser = () => {
   const [createUser, { isLoading, isSuccess, isError, error }] =
@@ -11,7 +10,7 @@ export const useCreateUser = () => {
       const result = await createUser(user).unwrap();
       return result;
     } catch (err) {
-      console.error('Create user failed:', err);
+      console.error("Create user failed:", err);
       throw err;
     }
   };

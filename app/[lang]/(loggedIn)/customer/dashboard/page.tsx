@@ -21,8 +21,8 @@ import { CreateNewNoteTemplate } from "@/components/note/form-create-note";
 import { DialogSelectCaseType } from "@/components/case/dialog-select-case-type";
 import { useLazySearchCustomerQuery } from "@/features/customers/customersApiSlice";
 import { Customer } from "@/types/customer?.type";
-import Lock from '@public/icons/Lock.svg'
-import VerifyPass from '@public/icons/VerifyPass.svg'
+import Lock from '@/public/icons/Lock.svg'
+import VerifyPass from '@/public/icons/VerifyPass.svg'
 
 
 const DisplayDerivedValue = ({ title, value, className, classNameValue }: { title: string, value: any, className?: string, classNameValue?: string }) => {

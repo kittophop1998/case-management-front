@@ -2,7 +2,7 @@
 import Container from '@/components/common/containter'
 import { Typography } from '@/components/common/typography'
 import { Separator } from '@/components/ui/separator'
-import HomeIcon from '@public/icons/Home.svg'
+import HomeIcon from '@/public/icons/Home.svg'
 import { AppbarUserUI } from './app-bar-user-ui'
 import { SwitchLanguage } from './switch-language'
 import { Notification } from './notification'

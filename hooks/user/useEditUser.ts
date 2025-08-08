@@ -1,6 +1,5 @@
-// src/hooks/useEditUser.ts
-import { useEditUserMutation } from '@/features/users/usersApiSlice';
-import { UserType } from '@/types/user.type';
+import { useEditUserMutation } from "@/features/users/usersApiSlice";
+import { UserType } from "@/types/user.type";
 
 export const useEditUser = () => {
   const [editUser, { isLoading, isSuccess, isError, error }] =
@@ -11,7 +10,7 @@ export const useEditUser = () => {
       const result = await editUser(user).unwrap();
       return result;
     } catch (err) {
-      console.error('Edit user failed:', err);
+      console.error("Edit user failed:", err);
       throw err;
     }
   };
