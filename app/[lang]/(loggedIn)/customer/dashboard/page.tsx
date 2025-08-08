@@ -132,11 +132,13 @@ const CustomerDashboard = () => {
                                         } className="col-span-3" />
                                         <DisplayDerivedValue title="Email" value={customer?.email} className="col-span-3 " />
                                         <DisplayDerivedValue title="Status" value={<StatusCustomer status={customer?.status} />} className="col-span-2" />
-                                        <DisplayDerivedValue title="Type" value={customer?.type} className="col-span-2" />
-                                        <DisplayDerivedValue title="Group" value={customer?.group} className="col-span-2" />
+                                        <DisplayDerivedValue title="Customer Type:" value={customer?.type} className="col-span-2" />
+                                        <DisplayDerivedValue title="Customer Group" value={customer?.group} className="col-span-2" />
                                         <DisplayDerivedValue title="Payment Status" value={<StatusPayment status={customer?.paymentStatus} />} className="col-span-2" />
                                         <DisplayDerivedValue title="Segment" value={customer?.segment} className={cn("col-span-4")} />
                                         <DisplayDerivedValue title="Mobile App Status" value={<StatusMobileApp status={customer?.mobileAppStatus} />} className="col-span-2" />
+                                        <DisplayDerivedValue title="Gender" value={customer?.status ? 'Men' : ''} className="col-span-2" />
+                                        {/* Gender */}
                                         <DisplayDerivedValue title="Notes"
                                             value={
                                                 <div className="flex items-center gap-1">

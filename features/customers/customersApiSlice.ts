@@ -17,7 +17,7 @@ export const customersApiSlice = createApi({
           id: String(id),
           datamock: JSON.stringify({
             id: id,
-            name: `name-${id}`,
+            name: `${id}`,
             since: "2020-01-01",
             img: "",
             phone: "+66 0656506331",
