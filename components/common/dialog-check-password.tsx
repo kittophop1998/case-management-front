@@ -78,7 +78,7 @@ export function checkPassword(): Promise<string | null> {
             }
 
             return (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                <div className="fixed inset-0 bg-[#A3A3A333]/20 backdrop-blur-xs flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow w-80">
                         <h2 className="font-bold text-lg mb-2">Confirm Password</h2>
                         <FormProvider {...form}>

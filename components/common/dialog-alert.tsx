@@ -90,7 +90,7 @@ export function dialogAlert(isSuccess = true, config: DialogAlertProps['config']
             }
 
             return (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                <div className="fixed inset-0 bg-[#A3A3A333]/20 backdrop-blur-xs flex items-center justify-center z-50">
                     <div className="bg-white p-4 rounded-lg shadow w-80">
                         <div className='flex gap-3'>
                             <div>
