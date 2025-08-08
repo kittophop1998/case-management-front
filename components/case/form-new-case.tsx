@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ButtonCancel } from "@/components/button/btn-cancle";
 import { RadioField } from "@/components/form/radio";
+import { dialogAlert } from "../common/dialog-alert";
 
 const SectionCard = ({ title, children, isAccordion }: { title: string, children: React.ReactNode, isAccordion: boolean }) => {
     const [isOpen, setIsOpen] = useState(true);
@@ -59,6 +60,7 @@ interface FormNewCaseProps {
 export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
     const onSubmit = (data: z.infer<typeof NewCaseSchema>) => {
         console.log('Form submitted with data:', data);
+        dialogAlert(true)
         onClose()
     };
     const onClose = () => {

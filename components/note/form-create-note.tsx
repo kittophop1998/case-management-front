@@ -9,6 +9,7 @@ import { ButtonCancel } from "../button/btn-cancle";
 import { Button } from "../common/Button";
 import { cn } from "@/lib/utils";
 import { TextAreaField } from "../form/textarea-field";
+import { dialogAlert } from "../common/dialog-alert";
 
 export const FormCreateNote = ({
     isSmallMod = true,
@@ -24,6 +25,7 @@ export const FormCreateNote = ({
     const onSubmit = (values: z.infer<typeof CreateNoteSchemas>) => {
         console.log('Form submitted with values:', values);
         // Handle form submission logic here
+        dialogAlert(true)
         onClose();
     }
     const onClose = () => {
