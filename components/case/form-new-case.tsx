@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { ButtonCancel } from "@/components/button/btn-cancle";
 import { RadioField } from "@/components/form/radio";
 import { dialogAlert } from "../common/dialog-alert";
+import { InputInquirySelectMain } from "./input-inquiry-select-main";
 
 const SectionCard = ({ title, children, isAccordion }: { title: string, children: React.ReactNode, isAccordion: boolean }) => {
     const [isOpen, setIsOpen] = useState(true);
@@ -88,15 +89,15 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                 <div className={cn("py-3", isSmallMod ? "max-h-[50vh] overflow-y-auto" : "grid grid-cols-2 gap-3")}>
                     <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
                         <SectionCard title="Customer Info" isAccordion={!!isSmallMod}>
-                            <>
+                            <div className="space-y-3">
                                 <h3>Customer Information</h3>
                                 <p>Name: John Doe</p>
                                 <p>Email: john.doe@example.com</p>
                                 <p>Phone: (123) 456-7890</p>
-                            </>
+                            </div>
                         </SectionCard>
                         <SectionCard title="Case Info" isAccordion={!!isSmallMod}>
-                            <>
+                            <div className="space-y-3">
                                 <h3>Case Information</h3>
                                 <p>Case ID: 123456</p>
                                 <p>Status: Open</p>
@@ -107,16 +108,16 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                                     placeholder="Enter Note"
                                     form={form}
                                 />
-                            </>
+                            </div>
                         </SectionCard>
                     </div>
                     <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
                         <SectionCard title="Disposition" isAccordion={!!isSmallMod}>
-                            <>
-                                <SelectField
+                            <div className="space-y-3 mt-3">
+                                {/* <SelectField
                                     form={form}
                                     name="supInquiry"
-                                    label="Select Sup Inquiry"
+                                    label="Main inquiry"
                                     items={[
                                         { value: 'sup1', label: 'SUP001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
                                         { value: 'sup2', label: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
@@ -137,14 +138,37 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                                     name="mainInquiryStamp"
                                     valueName="value"
                                     labelName="label"
+                                />
+                                */}
 
-                                >
-                                </CheckboxField>
-                                <Typography className="mt-3">Sup inquiry</Typography>
-                                <SelectField
+                                <InputInquirySelectMain
+                                    form={form}
+                                    nameMainLabel='Main inquiry'
+                                    nameChildLabel='Select Main inquiry Stamp to Genesys:'
+                                    nameChild='mainInquiry'
+                                    nameMain='mainInquiryStamp'
+                                    items={[
+                                        { value: 'sup1', label: 'SUP001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                        { value: 'sup2', label: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                        { value: 'sup3', label: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                    ]}
+                                />
+                                <InputInquirySelectMain
+                                    nameMainLabel='Sup inquiry'
+                                    nameChildLabel='Select Sup inquiry in select:'
+                                    form={form}
+                                    nameChild='supInquiry'
+                                    nameMain='supInquiryStamp'
+                                    items={[
+                                        { value: 'sup1', label: 'SUP001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                        { value: 'sup2', label: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                        { value: 'sup3', label: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                    ]}
+                                />
+                                {/* <SelectField
                                     form={form}
                                     name="supInquiry"
-                                    label="Select Sup Inquiry"
+                                    label="Sup inquiry"
                                     items={[
                                         { value: 'sup1', label: 'SUP001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
                                         { value: 'sup2', label: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
@@ -154,7 +178,7 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                                     labelName="label"
                                 />
                                 <CheckboxField
-                                    label="Select Main inquiry Stamp to Genesys:"
+                                    label="Sup inquiry in select:"
                                     form={form}
                                     items={[
                                         { value: 'inquiry1', label: 'MIA001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
@@ -165,34 +189,9 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                                     valueName="value"
                                     labelName="label"
 
-                                >
-                                </CheckboxField>
-                            </>
+                                /> */}
+                            </div>
                         </SectionCard>
-                        <Typography>Require Create Case</Typography>
-                        <RadioField
-                            form={form}
-                            items={
-                                [
-                                    {
-                                        label: 'Yes',
-                                        value: true
-                                    },
-                                    {
-                                        label: 'No',
-                                        value: false
-                                    }
-                                ]
-                            }
-                            valueName='value'
-                            labelName='label'
-                            name='isDraft'
-                            label='Create Draft case ?'
-                            className='flex'
-                        >
-
-                        </RadioField>
-                        <Typography>Select Case for Draft</Typography>
 
                     </div>
                 </div>
@@ -204,3 +203,60 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
         </FormProvider>
     );
 };
+
+
+// <SectionCard title="Require Create Case" isAccordion={!!isSmallMod}>
+//     <div className="space-y-3">
+//         <RadioField
+//             form={form}
+//             items={
+//                 [
+//                     {
+//                         label: 'Yes',
+//                         value: true
+//                     },
+//                     {
+//                         label: 'No',
+//                         value: false
+//                     }
+//                 ]
+//             }
+//             valueName='value'
+//             labelName='label'
+//             name='isDraft'
+//             label='Create Draft case ?'
+//             className='flex'
+//         />
+//         <RadioField
+//             form={form}
+//             items={
+//                 [
+//                     {
+//                         label: 'Change Name',
+//                         value: 1
+//                     },
+//                     {
+//                         label: 'Change Passport',
+//                         value: 2
+//                     },
+//                     {
+//                         label: 'Change Birth date',
+//                         value: 3
+//                     },
+//                     {
+//                         label: 'Change mobile number ',
+//                         value: 4
+//                     },
+//                     {
+//                         label: 'Change Birth date',
+//                         value: 5
+//                     }
+//                 ]
+//             }
+//             valueName='value'
+//             labelName='label'
+//             name='isDraft'
+//             label='Select Case for Draft'
+//         />
+//     </div>
+// </SectionCard>

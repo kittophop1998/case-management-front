@@ -26,9 +26,7 @@ export const CheckboxField = ({ isPending, readonly = false, form, items, name, 
         name="items"
         render={() => (
             <FormItem>
-                <Typography variant="caption" className="mt-2">
-                    {label}
-                </Typography>
+                <FormLabel>{label}</FormLabel>
                 {items.map((item) => (
                     <FormField
                         key={item[valueName]}
@@ -41,8 +39,6 @@ export const CheckboxField = ({ isPending, readonly = false, form, items, name, 
                                     className="flex flex-row items-center gap-2"
                                 >
                                     <FormControl>
-
-
                                         <Checkbox
                                             checked={field.value?.includes(item[valueName])}
 
