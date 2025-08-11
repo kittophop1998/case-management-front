@@ -10,17 +10,16 @@ import { Modal } from "../common/Modal"
 const Items = ({ handleSelect }) => {
     return (
         <div className="flex flex-col gap-2 max-h-[40vh] overflow-auto">
-            {
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, index) => (
-                    <>
-                        <div>Head 1</div>
-                        <Item handleSelect={handleSelect} />
-                        <Item handleSelect={handleSelect} />
-                        <Item handleSelect={handleSelect} />
-                        <Separator />
-                    </>
-                ))
-            }
+
+            <div>Inquiry and disposition</div>
+            <Item handleSelect={handleSelect} />
+            <Separator />
+            <div>Change customer info</div>
+            <Item handleSelect={handleSelect} />
+            <Item handleSelect={handleSelect} />
+            <Item handleSelect={handleSelect} />
+            <Separator />
+
 
         </div>
     )
@@ -28,7 +27,7 @@ const Items = ({ handleSelect }) => {
 const Item = ({ handleSelect }) => {
     return (
         <div className="flex items-center justify-between p-2 hover:bg-gray-100 cursor-pointer" onClick={() => handleSelect('Item Name')}>
-            <div className="text-sm">Item Name</div>
+            <div className="text-sm">Inquiry and disposition</div>
             <div className="text-xs text-gray-500">Create</div>
         </div>
     )
@@ -47,11 +46,14 @@ export const DialogSelectCaseType = ({ open, setOpen, onSelect }: DialogSelectCa
     return (
         <Modal isOpen={open} title={'Surapong Lertprayapat'} onClose={() => setOpen(false)} className=" w-[600px] ">
             <div className="bg-white">
+
                 <div className="flex gap-3">
                     <StatusComplaintLv lv={1} />
                     <StatusCustomerFeeling status='Sweetheart' />
                 </div>
-                <div>
+                <div
+                    className='my-3'
+                >
                     <SearchFieldInput
                         field={{
                             value: searchValue,
@@ -69,6 +71,8 @@ export const DialogSelectCaseType = ({ open, setOpen, onSelect }: DialogSelectCa
                             <TabsTrigger value="ChangeInfo">Change Info</TabsTrigger>
                             <TabsTrigger value="Customer">Customer</TabsTrigger>
                         </TabsList>
+                        <Separator />
+
                         <TabsContent value="all">
                             <Items handleSelect={handleSelect} />
                         </TabsContent>

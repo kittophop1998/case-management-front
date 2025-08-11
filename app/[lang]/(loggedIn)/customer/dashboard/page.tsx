@@ -169,17 +169,23 @@ const CustomerDashboard = () => {
                             <SectionCard title="Suggested Promotion" TopRight={null} className={cn("col-span-4")}>
                                 <>
 
-                                    <Typography >{""}</Typography>
-                                    <Typography >{""}</Typography>
-                                    <Typography >{""}</Typography>
+                                    <Typography >BIC CAMERA Coupon with Aeon Credit Card</Typography>
+                                    <Typography variant="caption">Period: 01 Apr 2025 - 30 Dec 2025</Typography>
+                                    <Typography variant="caption">Eligible Card:  BIG C WORLD MASTERCARD</Typography>
+                                    <div className="bg-[#D5A3F926] p-3 rounded-md">
+                                        <Typography>ซื้อสินค้าปลอดภาษี สูงสุด 10% และ รับส่วนลด สูงสุด 7% เมื่อซื้อสินค้า ที่ร้าน BicCamera ประเทศญี่ปุ่น, ร้าน Air BicCamera และ ร้าน KOJIMA ด้วย บัตรเครดิตอิออนทุกประเภท โยกเว้นบัตรเครดิต เพื่อองค์กร ซึ่ง BicCamera เป็นห้างสรรพสินจำหน่ายสินค้าหลากหลายประเภท เช่นเครื่องใช้ไฟฟ้า ยา เครื่องสำอาง และของใช้ใน ชีวิตประจำวัน  โปรดแสดง ภาพบาร์โค้ดบนสื่อ ประชาสัมพันธ์นี้ ที่แคชเชียร์</Typography>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <Typography>1/9 results</Typography>
+                                        <div className="gap-3 flex">
+                                            <Button disabled>Previous</Button>
+                                            <Button>Next</Button>
+                                        </div>
+                                    </div>
                                 </>
                             </SectionCard>
                             <SectionCard title="Case History" TopRight={null} className={cn("col-span-4")}>
                                 <>
-
-                                    <Typography >{""}</Typography>
-                                    <Typography >{""}</Typography>
-                                    <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
                             <SectionCard title="Top Purchased Categories" TopRight={null} className={cn("col-span-4 min-h-[20rem]")}>

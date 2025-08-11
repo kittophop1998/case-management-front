@@ -2,6 +2,7 @@ import { useState } from "react"
 import { CheckboxField } from "../form/checkbox"
 import { SelectField } from "../form/select-field"
 import { Typography } from "../common/typography"
+import { ComboboxMultiField } from "../form/combo-multi-field"
 interface InputInquirySelectMainProps {
     form: any
     nameChild: string
@@ -19,13 +20,13 @@ export const InputInquirySelectMain = ({
     nameChildLabel,
 
 }: InputInquirySelectMainProps) => {
-    const [subLIst, setSublist] = useState<any[]>([])
-    const handleSubmitSelect = (selected: any[]) => {
-        setSublist(selected)
-    }
+    // const handleSubmitSelect = (selected: any[]) => {
+    //     setSublist(selected)
+    // }
+    const itemsChild = form.watch(nameChild)
     return (
         <>
-            <SelectField
+            <ComboboxMultiField
                 form={form}
                 name={nameChild}
                 label={nameMainLabel}
@@ -37,14 +38,13 @@ export const InputInquirySelectMain = ({
             <CheckboxField
                 label={nameChildLabel}
                 form={form}
-                items={subLIst}
+                items={itemsChild}
                 name={nameMain}
                 valueName="value"
                 labelName="label"
 
             />
-            {(!subLIst.length) ? <Typography variant="caption" className="mx-3">have no items</Typography> : null}
-
+            {(!itemsChild.length) ? <Typography variant="caption" className="mx-3">-</Typography> : null}
         </>
     )
 

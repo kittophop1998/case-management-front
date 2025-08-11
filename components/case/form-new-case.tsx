@@ -70,9 +70,10 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
     const form = useForm<z.infer<typeof NewCaseSchema>>({
         resolver: zodResolver(NewCaseSchema),
         defaultValues: {
-            mainInquiry: '',
+            mainInquiry: [],
             mainInquiryStamp: '',
-            supInquiry: '',
+            supInquiry: [],
+            supInquiryStamp: '',
             isDraft: false
         }
     })
@@ -148,9 +149,9 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                                     nameChild='mainInquiry'
                                     nameMain='mainInquiryStamp'
                                     items={[
-                                        { value: 'sup1', label: 'SUP001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'sup2', label: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'sup3', label: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                        { value: 'sup1', label: 'Main001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                        { value: 'sup2', label: 'Main002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                        { value: 'sup3', label: 'Main003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
                                     ]}
                                 />
                                 <InputInquirySelectMain
