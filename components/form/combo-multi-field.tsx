@@ -1,4 +1,5 @@
 "use client"
+
 import { Check, ChevronsUpDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -23,110 +24,104 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { useState } from "react"
+
 interface ComboField {
   loading?: boolean
   readonly?: boolean
   items: any[]
   valueName?: string
   labelName?: string
-  form: any // Replace 'any' with the correct form type, e.g., UseFormReturn<any> if using react-hook-form
+  form: any
   name: string
   label: string
   placeholder?: string
-  onChange?: (value: any) => void // Optional onChange handler
 }
+
 export function ComboboxMultiField({
-  onChange,
   loading = false,
   readonly = false,
   items,
-  valueName = 'value',
-  labelName = 'label',
+  valueName = "value",
+  labelName = "label",
   form,
   name,
   label,
-  placeholder
+  placeholder = "Select..."
 }: ComboField) {
-  const valueMap = new Map(
-    items.map((item: any) => [String(item[valueName]), item[valueName]])
-  )
-  const [popoverOpen, setPopOver] = useState<boolean>(false)
+  const [popoverOpen, setPopoverOpen] = useState(false)
+
   return (
     <FormField
       control={form.control}
       name={name}
-      render={({ field }) => (
-        <FormItem className="flex flex-col">
-          <FormLabel>{label}</FormLabel>
-          <Popover open={popoverOpen} onOpenChange={setPopOver} >
-            <PopoverTrigger asChild>
-              <FormControl>
-                <Button
-                  onClick={() => setPopOver(true)}
-                  variant="outline"
-                  role="combobox"
-                  className={cn(
-                    "justify-between w-full",
-                    !field.value && "text-muted-foreground"
-                  )}
-                >
-                  {field.value
-                    ? items.find(
-                      (item) => item[valueName] === field.value
-                    )?.[labelName]
-                    : placeholder}
-                  <ChevronsUpDown className="opacity-50" />
-                </Button>
-              </FormControl>
-            </PopoverTrigger>
-            <PopoverContent className="w-full p-0">
-              <Command
-                onValueChange={val => {
-                  const actualValue = valueMap.get(val)
-                  if (actualValue !== undefined) {
-                    field.onChange(actualValue) // fallback to val if not found
-                  } else {
-                    field.onChange(val) // fallback to val if not found
-                  }
-                }}
-              >
-                <CommandInput
-                  placeholder="Search"
-                  className="h-9"
-                />
-                <CommandList>
-                  <CommandEmpty>No item found.</CommandEmpty>
-                  <CommandGroup>
-                    {/* {languages.map((language) => ( */}
-                    {items.map((item: any) => (
-                      <CommandItem
-                        key={item[valueName]}
-                        value={String(item[labelName])}
-                        onSelect={() => {
-                          form.setValue(name, item[valueName])
-                          setPopOver(false)
+      render={({ field }) => {
+        // Ensure value is always an array
+        const value: string[] = Array.isArray(field.value) ? field.value : []
 
-                        }}
-                      >
-                        {item[labelName]}
-                        <Check
-                          className={cn(
-                            "ml-auto",
-                            item[valueName] === field.value
-                              ? "opacity-100"
-                              : "opacity-0"
-                          )}
-                        />
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
-          <FormMessage />
-        </FormItem>
-      )}
+        const toggleValue = (val: string) => {
+          const exists = value.includes(val)
+          const newValue = exists
+            ? value.filter((v) => v !== val)
+            : [...value, val]
+          form.setValue(name, newValue, { shouldValidate: true })
+        }
+
+        return (
+          <FormItem className="flex flex-col">
+            <FormLabel>{label}</FormLabel>
+            <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+              <PopoverTrigger asChild>
+                <FormControl>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    className={cn(
+                      "justify-between w-full",
+                      value.length === 0 && "text-muted-foreground"
+                    )}
+                  >
+                    {value.length > 0
+                      ? items
+                        .filter((item) => value.includes(item[valueName]))
+                        .map((item) => item[labelName])
+                        .join(", ")
+                      : placeholder}
+                    <ChevronsUpDown className="opacity-50 ml-2 h-4 w-4 shrink-0" />
+                  </Button>
+                </FormControl>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0">
+                <Command>
+                  <CommandInput placeholder="Search..." className="h-9" />
+                  <CommandList>
+                    <CommandEmpty>No item found.</CommandEmpty>
+                    <CommandGroup>
+                      {items.map((item) => (
+                        <CommandItem
+                          key={item[valueName]}
+                          value={String(item[labelName])}
+                          onSelect={() => toggleValue(item[valueName])}
+                        >
+                          {item[labelName]}
+                          <Check
+                            className={cn(
+                              "ml-auto h-4 w-4",
+                              value.includes(item[valueName])
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+            <FormMessage />
+          </FormItem>
+        )
+      }}
     />
   )
 }

@@ -35,6 +35,9 @@ export const InputInquirySelectMain = ({
                 labelName="label"
 
             />
+            {/* {
+                JSON.stringify(itemsChild)
+            } */}
             <CheckboxField
                 label={nameChildLabel}
                 form={form}

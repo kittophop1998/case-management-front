@@ -104,7 +104,7 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                                 <p>Status: Open</p>
                                 <p>Description: This is a sample case description.</p>
                                 <TextAreaField
-                                    name="mainInquiry"
+                                    name="note"
                                     label="Add Note"
                                     placeholder="Enter Note"
                                     form={form}
@@ -115,33 +115,6 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                     <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
                         <SectionCard title="Disposition" isAccordion={!!isSmallMod}>
                             <div className="space-y-3 mt-3">
-                                {/* <SelectField
-                                    form={form}
-                                    name="supInquiry"
-                                    label="Main inquiry"
-                                    items={[
-                                        { value: 'sup1', label: 'SUP001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'sup2', label: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'sup3', label: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                    ]}
-                                    valueName="value"
-                                    labelName="label"
-
-                                />
-                                <CheckboxField
-                                    label="Select Main inquiry Stamp to Genesys:"
-                                    form={form}
-                                    items={[
-                                        { value: 'inquiry1', label: 'MIA001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'inquiry2', label: 'MIA002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'inquiry3', label: 'MIA003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                    ]}
-                                    name="mainInquiryStamp"
-                                    valueName="value"
-                                    labelName="label"
-                                />
-                                */}
-
                                 <InputInquirySelectMain
                                     form={form}
                                     nameMainLabel='Main inquiry'
@@ -149,9 +122,9 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                                     nameChild='mainInquiry'
                                     nameMain='mainInquiryStamp'
                                     items={[
-                                        { value: 'sup1', label: 'Main001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'sup2', label: 'Main002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'sup3', label: 'Main003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                        { value: 'Main001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'Main001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                        { value: 'Main002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'Main002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                        { value: 'Main003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'Main003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
                                     ]}
                                 />
                                 <InputInquirySelectMain
@@ -161,9 +134,9 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                                     nameChild='supInquiry'
                                     nameMain='supInquiryStamp'
                                     items={[
-                                        { value: 'sup1', label: 'SUP001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'sup2', label: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'sup3', label: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                        { value: 'SUP001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'SUP001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                        { value: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                        { value: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
                                     ]}
                                 />
                                 {/* <SelectField
