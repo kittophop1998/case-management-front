@@ -3,6 +3,7 @@ import { CheckboxField } from "../form/checkbox"
 import { SelectField } from "../form/select-field"
 import { Typography } from "../common/typography"
 import { ComboboxMultiField } from "../form/combo-multi-field"
+import { RadioField } from "../form/radio"
 interface InputInquirySelectMainProps {
     form: any
     nameChild: string
@@ -24,6 +25,11 @@ export const InputInquirySelectMain = ({
     //     setSublist(selected)
     // }
     const itemsChild = form.watch(nameChild)
+    const itemsChildSelect = itemsChild.map((value: string) => ({
+        value: value,
+        label: value,
+    }))
+
     return (
         <>
             <ComboboxMultiField
@@ -38,16 +44,20 @@ export const InputInquirySelectMain = ({
             {/* {
                 JSON.stringify(itemsChild)
             } */}
-            <CheckboxField
+            {/* <div></div> */}
+            {/* {
+                JSON.stringify(form)
+            } */}
+            <RadioField
                 label={nameChildLabel}
                 form={form}
-                items={itemsChild}
+                items={itemsChildSelect}
                 name={nameMain}
                 valueName="value"
                 labelName="label"
 
             />
-            {(!itemsChild.length) ? <Typography variant="caption" className="mx-3">-</Typography> : null}
+            {(!itemsChildSelect.length) ? <Typography variant="caption" className="mx-3">-</Typography> : null}
         </>
     )
 

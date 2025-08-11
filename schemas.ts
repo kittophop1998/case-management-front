@@ -65,22 +65,23 @@ export const NewCaseSchema = z.object({
   note: z.string().optional(),
   mainInquiry: z
     .array(
-      z.object({
-        label: z.string().min(1, "Main Inquiry is required"),
-        value: z.string().min(1, "Main Inquiry is required"),
-      })
+      z.string()
+      // z.object({
+      //   name: z.string().min(1, "Main Inquiry is required"),
+      //   id: z.string().min(1, "Main Inquiry is required"),
+      // })
     )
     .optional(),
   supInquiry: z
     .array(
-      z.object({
-        label: z.string().min(1, "Sup Inquiry is required"),
-        value: z.string().min(1, "Sup Inquiry is required"),
-      })
+      z.string()
+      // z.object({
+      //   name: z.string().min(1, "Sup Inquiry is required"),
+      //   id: z.string().min(1, "Sup Inquiry is required"),
+      // })
     )
     .optional(),
   mainInquiryStamp: z.string().optional(),
-
   supInquiryStamp: z.string().optional(),
   isDraft: z.boolean().optional(),
 });

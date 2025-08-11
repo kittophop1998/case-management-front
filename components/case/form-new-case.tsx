@@ -13,7 +13,7 @@ import { CheckboxField } from "@/components/form/checkbox";
 import { SelectField } from "@/components/form/select-field";
 import { Separator } from "@/components/ui/separator";
 import { Card } from "@/components/ui/card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ButtonCancel } from "@/components/button/btn-cancle";
@@ -84,6 +84,10 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
         caseType: '123456',
         caseId: '123456',
     }
+    useEffect(() => {
+        console.log('All errors:', form.formState.errors)
+        console.log('All errors:', form.getValues())
+    }, [form.formState.errors])
     return (
         <FormProvider {...form} >
             <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>
