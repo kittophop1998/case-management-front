@@ -15,7 +15,7 @@ const CardPageWrapper = ({ children, className }: CardPageWrapperProps) => {
     // 
     // 
     return (
-        <Container className={cn(`mx-auto h-[95%]`, className)}>
+        <Container className={cn(`mx-auto h-[95%] `, className)}>
             <Card className="p-6 h-full">
                 {children}
             </Card>

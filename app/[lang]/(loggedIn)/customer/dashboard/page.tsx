@@ -40,7 +40,7 @@ const SectionCard = ({ title, children, TopRight = null, className }: { title: s
     return (
         <Card className={cn("p-4 shadow-none rounded-sm outline-0 border-0 gap-3", className)}>
             <div className="flex items-center justify-between ">
-                <Typography variant="h4">{title}</Typography>
+                <Typography variant="h4" className="line-clamp-1">{title}</Typography>
                 {TopRight}
             </div>
             {children}
@@ -120,7 +120,7 @@ const CustomerDashboard = () => {
                                 <>
                                     <VerifyPass className='size-7' />
                                 </>
-                            } className={cn("col-span-4")} >
+                            } className={cn("xl:col-span-4 md:col-span-4 col-span-12")} >
                                 <>
                                     <div className="flex gap-3  mt-0">
                                         <StatusComplaintLv lv={1} />
@@ -166,17 +166,18 @@ const CustomerDashboard = () => {
                                     </div>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Suggested Promotion" TopRight={null} className={cn("col-span-4")}>
+                            <SectionCard title="Suggested Promotion" TopRight={null} className={cn("xl:col-span-4 md:col-span-4 col-span-12")}>
                                 <>
-
-                                    <Typography >BIC CAMERA Coupon with Aeon Credit Card</Typography>
-                                    <Typography variant="caption">Period: 01 Apr 2025 - 30 Dec 2025</Typography>
-                                    <Typography variant="caption">Eligible Card:  BIG C WORLD MASTERCARD</Typography>
+                                    <div className="space-y-0">
+                                        <Typography className="line-clamp-1">BIC CAMERA Coupon with Aeon Credit Card</Typography>
+                                        <Typography variant="caption" className="line-clamp-1">Period: 01 Apr 2025 - 30 Dec 2025</Typography>
+                                        <Typography variant="caption" className="line-clamp-1">Eligible Card:  BIG C WORLD MASTERCARD</Typography>
+                                    </div>
                                     <div className="bg-[#D5A3F926] p-3 rounded-md">
-                                        <Typography>ซื้อสินค้าปลอดภาษี สูงสุด 10% และ รับส่วนลด สูงสุด 7% เมื่อซื้อสินค้า ที่ร้าน BicCamera ประเทศญี่ปุ่น, ร้าน Air BicCamera และ ร้าน KOJIMA ด้วย บัตรเครดิตอิออนทุกประเภท โยกเว้นบัตรเครดิต เพื่อองค์กร ซึ่ง BicCamera เป็นห้างสรรพสินจำหน่ายสินค้าหลากหลายประเภท เช่นเครื่องใช้ไฟฟ้า ยา เครื่องสำอาง และของใช้ใน ชีวิตประจำวัน  โปรดแสดง ภาพบาร์โค้ดบนสื่อ ประชาสัมพันธ์นี้ ที่แคชเชียร์</Typography>
+                                        <Typography className="line-clamp-6">ซื้อสินค้าปลอดภาษี สูงสุด 10% และ รับส่วนลด สูงสุด 7% เมื่อซื้อสินค้า ที่ร้าน BicCamera ประเทศญี่ปุ่น, ร้าน Air BicCamera และ ร้าน KOJIMA ด้วย บัตรเครดิตอิออนทุกประเภท โยกเว้นบัตรเครดิต เพื่อองค์กร ซึ่ง BicCamera เป็นห้างสรรพสินจำหน่ายสินค้าหลากหลายประเภท เช่นเครื่องใช้ไฟฟ้า ยา เครื่องสำอาง และของใช้ใน ชีวิตประจำวัน  โปรดแสดง ภาพบาร์โค้ดบนสื่อ ประชาสัมพันธ์นี้ ที่แคชเชียร์</Typography>
                                     </div>
                                     <div className="flex justify-between">
-                                        <Typography>1/9 results</Typography>
+                                        <Typography variant="caption">1/9 results</Typography>
                                         <div className="gap-3 flex">
                                             <Button disabled>Previous</Button>
                                             <Button>Next</Button>
@@ -184,7 +185,7 @@ const CustomerDashboard = () => {
                                     </div>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Case History" TopRight={null} className={cn("col-span-4")}>
+                            <SectionCard title="Case History" TopRight={null} className={cn("xl:col-span-4 md:col-span-4 col-span-12")}>
                                 <>
                                     <div className="grid grid-cols-3 gap-3">
                                         {
@@ -207,7 +208,9 @@ const CustomerDashboard = () => {
                                             ))
                                         }
                                     </div>
-                                    <ChartAreaDefault />
+                                    <div className="max-w-[25rem] w-[100%] min-w-[10rem] mx-auto">
+                                        <ChartAreaDefault />
+                                    </div>
                                     <div className="flex justify-end">
                                         <Typography variant="caption">
                                             See all
@@ -215,7 +218,7 @@ const CustomerDashboard = () => {
                                     </div>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Top Purchased Categories" TopRight={null} className={cn("col-span-4 min-h-[20rem]")}>
+                            <SectionCard title="Top Purchased Categories" TopRight={null} className={cn("xl:col-span-4 md:col-span-4 col-span-12 min-h-[20rem]")}>
                                 <>
 
                                     <Typography >{""}</Typography>
@@ -223,7 +226,7 @@ const CustomerDashboard = () => {
                                     <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Suggested Card" TopRight={null} className={cn("col-span-3")} >
+                            <SectionCard title="Suggested Card" TopRight={null} className={cn("xl:col-span-3 md:col-span-3 col-span-12")} >
                                 <>
 
                                     <Typography >{""}</Typography>
@@ -231,7 +234,7 @@ const CustomerDashboard = () => {
                                     <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Last Activity" TopRight={null} className={cn("col-span-5")}>
+                            <SectionCard title="Last Activity" TopRight={null} className={cn("xl:col-span-5 md:col-span-5 col-span-12")}>
                                 <>
 
                                     <Typography >{""}</Typography>
@@ -252,7 +255,7 @@ const CustomerDashboard = () => {
                                 <div className="flex w-full gap-3">
                                     <div className="bg-white flex-1 h-[200px]"></div>
                                     <div className="bg-white flex-1 h-[200px]"></div>
-                                    <div className="bg-white flex-1  h-[200px]"></div>
+                                    <div className="bg-white flex-1 h-[200px]"></div>
                                 </div>
                                 <div className="bg-white flex-1"></div>
                             </div>

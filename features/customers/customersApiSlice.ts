@@ -39,7 +39,7 @@ export const customersApiSlice = createApi({
         const searchParams = new URLSearchParams(searchObj);
         return {
           // url: `/customers/search/${id}?${searchParams.toString()}`,
-          url: `/mock/customers/search/${id}?${searchParams.toString()}`,
+          url: `/customers/search/${id}?${searchParams.toString()}`,
           method: "GET",
         };
       },
