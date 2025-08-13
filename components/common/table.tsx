@@ -158,7 +158,6 @@ export function DataTable<T>({
       </Table>
       <Separator />
 
-      {/* Pagination controls */}
       <div className='flex items-center justify-between mt-4'>
         <Typography variant='caption'>
           Showing {(page - 1) * limit + 1} -{' '}
@@ -187,8 +186,6 @@ export function DataTable<T>({
             <ChevronRight
               // @ts-expect-error className is valid for lucide icon
               className='h-4 w-4' />
-            {/* <div>page:{page}</div>
-            <div>totalPages:{totalPages}</div> */}
           </Button>
         </div>
       </div>
@@ -202,18 +199,6 @@ interface SearchInputProps {
 }
 
 export const SearchInput = ({ globalFilter, setGlobalFilter }: SearchInputProps) => {
-  // const [globalFilter, setGlobalFilter] = useState("");
-  // const table = useReactTable({
-  //   data,
-  //   columns,
-  //   state: {
-  //     globalFilter,
-  //   },
-  //   onGlobalFilterChange: setGlobalFilter,
-  //   getCoreRowModel: getCoreRowModel(),
-  //   getFilteredRowModel: getFilteredRowModel(),
-  //   globalFilterFn: "includesString", // หรือ custom ได้
-  // });
   return (
     <input
       type='text'
@@ -224,11 +209,3 @@ export const SearchInput = ({ globalFilter, setGlobalFilter }: SearchInputProps)
     />
   )
 }
-// <Input
-//     placeholder="Filter emails..."
-//     value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-//     onChange={(event) =>
-//         table.getColumn("email")?.setFilterValue(event.target.value)
-//     }
-//     className="max-w-sm"
-// />
