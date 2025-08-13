@@ -23,6 +23,7 @@ import { useLazySearchCustomerQuery } from "@/features/customers/customersApiSli
 import { Customer } from "@/types/customer?.type";
 import Lock from '@/public/icons/Lock.svg'
 import VerifyPass from '@/public/icons/VerifyPass.svg'
+import { ChartAreaDefault } from "@/components/chart/mockup";
 
 
 const DisplayDerivedValue = ({ title, value, className, classNameValue }: { title: string, value: any, className?: string, classNameValue?: string }) => {
@@ -186,6 +187,33 @@ const CustomerDashboard = () => {
                             </SectionCard>
                             <SectionCard title="Case History" TopRight={null} className={cn("col-span-4")}>
                                 <>
+                                    <div className="grid grid-cols-3 gap-3">
+                                        {
+                                            [
+                                                {
+                                                    name: 'Open Case',
+                                                    value: 5
+                                                }, {
+                                                    name: 'Open Case',
+                                                    value: 5
+                                                }, {
+                                                    name: 'Open Case',
+                                                    value: 5
+                                                },
+                                            ].map((item, index) => (
+                                                <div key={index} className="">
+                                                    <Typography >{item.name}</Typography>
+                                                    <Typography >{item.value}</Typography>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                    <ChartAreaDefault />
+                                    <div className="flex justify-end">
+                                        <Typography variant="caption">
+                                            See all
+                                        </Typography>
+                                    </div>
                                 </>
                             </SectionCard>
                             <SectionCard title="Top Purchased Categories" TopRight={null} className={cn("col-span-4 min-h-[20rem]")}>
