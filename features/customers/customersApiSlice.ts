@@ -33,15 +33,46 @@ export const customersApiSlice = createApi({
               count: 3,
             },
           }),
-          // isError: "true",
+          isError: "true",
         };
         const searchParams = new URLSearchParams(searchObj);
         return {
-          url: `/mock/customer?${searchParams.toString()}`,
+          url: `/mock/customers/search/${id}?${searchParams.toString()}`,
           method: "GET",
         };
       },
     }),
+    //  searchCustomer: builder.query<ApiResponse<Customer>, ReqSearchCustomer>({
+    //   query: ({ id }) => {
+    // let searchObj = {
+    //   id: String(id),
+    //   datamock: JSON.stringify({
+    //     id: id,
+    //     name: `${id}`,
+    //     since: "2020-01-01",
+    //     img: "",
+    //     phone: "+66 0656506331",
+    //     email: "surapong.Lert@gmail.com",
+    //     status: "Normal",
+    //     type: "VP",
+    //     group: "Nomal-VIP",
+    //     paymentStatus: "On-Time",
+    //     segment: "Existing Customer - Active",
+    //     mobileAppStatus: "Active",
+    //     gender: "Men",
+    //     note: {
+    //       count: 3,
+    //     },
+    //   }),
+    //   // isError: "true",
+    // };
+    //     const searchParams = new URLSearchParams(searchObj);
+    //     return {
+    //       url: `/mock/customer?${searchParams.toString()}`,
+    //       method: "GET",
+    //     };
+    //   },
+    // }),
   }),
 });
 

@@ -6,12 +6,15 @@ import { Button } from "@/components/common/Button";
 import { useRouter } from 'next/navigation'
 import { useLazySearchCustomerQuery } from "@/features/customers/customersApiSlice";
 import { getErrorText } from "@/services/api";
+import { FloatingWidget } from "@/components/common/floating-widget";
+import { FormNewCase } from "@/components/case/form-new-case";
 
 export const SearchSection = ({
     lang = 'en'
 }: {
     lang?: 'en' | 'th';
 }) => {
+    const [status, setStatus] = useState<boolean>(false);
     const router = useRouter()
     const [searchCustomer, { data: costumer, isFetching, isError, error }] = useLazySearchCustomerQuery();
     const [search, setSearch] = useState<string>('');
@@ -64,11 +67,19 @@ export const SearchSection = ({
                         <>{isError ?
                             <div className="space-y-3">
                                 <div>{getErrorText(error) || 'Not Fond'}</div>
-                                <div><Button>Inquiry & Disposition</Button></div>
+                                <div><Button onClick={() => setStatus(true)}>Inquiry & Disposition</Button></div>
                             </div> : undefined}
                         </>
                     </div> : null)
             }
         </div >
+
+        <FloatingWidget
+            title="New Case"
+            status={status}
+            setStatus={setStatus}
+        >
+            <FormNewCase />
+        </FloatingWidget>
     </div >
 }
