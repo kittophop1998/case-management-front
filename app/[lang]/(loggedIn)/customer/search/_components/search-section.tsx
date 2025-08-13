@@ -40,9 +40,9 @@ export const SearchSection = ({
 
     return <div className="space-y-6 mt-6">
         <div className="mx-auto max-w-3xl space-y-6">
-            <div className="flex gap-6 items-center">
+            <div className="block space-y-3 md:space-y-0 md:flex md:gap-6 md:items-center">
                 <div
-                    className="flex-1"
+                    className="md:flex-1"
                 >
                     <SearchFieldInput
                         loading={isFetching}
@@ -54,7 +54,7 @@ export const SearchSection = ({
                     />
                 </div>
                 {/*  */}
-                <Button className="min-w-[10rem]" loading={isFetching} onClick={handleSearch}>
+                <Button className="min-w-full md:min-w-[10rem]" loading={isFetching} onClick={handleSearch}>
                     Search
                 </Button>
                 {/*  */}
