@@ -1,5 +1,6 @@
 // "use server"
 "use client"
+import { cn } from "@/lib/utils";
 import Card from "../common/card";
 import Container from "../common/containter";
 
@@ -14,7 +15,7 @@ const CardPageWrapper = ({ children, className }: CardPageWrapperProps) => {
     // 
     // 
     return (
-        <Container className={`mx-auto sm:px-0 lg:px-0 h-full px-3 ${className}`}>
+        <Container className={cn(`mx-auto h-[95%]`, className)}>
             <Card className="p-6 h-full">
                 {children}
             </Card>
