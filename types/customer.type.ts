@@ -1,4 +1,5 @@
 export type Customer = {
+  id: string;
   code: string;
   name: string;
   img: string;

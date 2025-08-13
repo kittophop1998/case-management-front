@@ -10,23 +10,7 @@ import { useGetMeQuery, useLogoutMutation, authApiSlice } from '@/features/auth/
 import { UserProfileType } from '@/types/user.type'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-
-interface UserAvatarProps {
-  userUrl: string
-  username: string
-}
-
-const UserAvatar = ({ userUrl, username }: UserAvatarProps) => {
-  return (
-    <Avatar className='h-[2.5rem] w-[2.5rem]'>
-      <AvatarImage src={userUrl} />
-      <AvatarFallback className='bg-primary/10'>
-        {username?.[0] ?? ''}
-        {username?.[1] ?? ''}
-      </AvatarFallback>
-    </Avatar>
-  )
-}
+import { AvatarUser } from '@/components/user/avatar'
 
 const PopupUserUI = ({ user }: { user: UserProfileType }) => {
   const dispatch = useDispatch()
@@ -53,7 +37,8 @@ const PopupUserUI = ({ user }: { user: UserProfileType }) => {
     <div>
       <Typography>Profile</Typography>
       <div className='flex gap-3 py-3'>
-        <UserAvatar userUrl={userUrl} username={username} />
+        <AvatarUser img={userUrl} />
+        {/* username={username}  */}
         <div>
           <Typography>{username}</Typography>
           <Typography variant='caption'>{userEmail}</Typography>
@@ -88,13 +73,7 @@ export const AppbarUserUI = () => {
       <PopoverTrigger asChild>
         {/* <Button variant="outline">Open popover</Button> */}
         <div className='flex items-center gap-2'>
-          <Avatar className='h-[2.5rem] w-[2.5rem]'>
-            <AvatarImage src='https://github.com/shadcn.psng' />
-            <AvatarFallback className='bg-primary/10'>
-              {username?.[0] ?? ''}
-              {username?.[1] ?? ''}
-            </AvatarFallback>
-          </Avatar>
+          <AvatarUser size='2' />
           <Typography>{username}</Typography>
         </div>
       </PopoverTrigger>

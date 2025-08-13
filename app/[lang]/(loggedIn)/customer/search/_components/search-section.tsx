@@ -39,41 +39,48 @@ export const SearchSection = ({
     }, [search]);
 
     return <div className="space-y-6 mt-6">
-        <div className="flex gap-6 items-center mx-auto max-w-3xl">
-            <div
-                className="flex-1"
-            >
-                <SearchFieldInput
-                    loading={isFetching}
-                    placeholder="Search Customer ID/AEON ID"
-                    field={{
-                        value: search,
-                        onChange: (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)
-                    }}
-                />
+        <div className="mx-auto max-w-3xl space-y-6">
+            <div className="flex gap-6 items-center">
+                <div
+                    className="flex-1"
+                >
+                    <SearchFieldInput
+                        loading={isFetching}
+                        placeholder="Search Customer ID/AEON ID"
+                        field={{
+                            value: search,
+                            onChange: (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)
+                        }}
+                    />
+                </div>
+                {/*  */}
+                <Button className="min-w-[10rem]" loading={isFetching} onClick={handleSearch}>
+                    Search
+                </Button>
+                {/*  */}
             </div>
-            <Button className="min-w-[10rem]" loading={isFetching} onClick={handleSearch}>
-                Search
-            </Button>
+            <div className="mx-auto max-w-md space-y-3 w-full min-w-full">
+                {/* <FormError message={isError ? getErrorText(error) : undefined}></FormError> */}
+                {costumer?.data ?
+                    <CustomerCard
+                        {...costumer?.data || {}}
+                    />
+                    :
+                    (isSearhted ?
+                        <div className="text-center space-y-6">
+                            <>{isError ?
+                                <div className="space-y-3">
+                                    <div>{getErrorText(error) || 'Not Fond'}</div>
+                                    <div><Button onClick={() => setStatus(true)}>Inquiry & Disposition</Button></div>
+                                </div>
+                                : undefined}
+                            </>
+                        </div> : null)
+                }
+            </div >
         </div>
 
-        <div className="mx-auto max-w-md space-y-3">
-            {/* <FormError message={isError ? getErrorText(error) : undefined}></FormError> */}
-            {costumer?.data ?
-                <CustomerCard code={costumer.data.code} name={costumer.data.name} img={costumer.data.img} />
-                :
-                (isSearhted ?
-                    <div className="text-center space-y-6">
-                        <>{isError ?
-                            <div className="space-y-3">
-                                <div>{getErrorText(error) || 'Not Fond'}</div>
-                                <div><Button onClick={() => setStatus(true)}>Inquiry & Disposition</Button></div>
-                            </div>
-                            : undefined}
-                        </>
-                    </div> : null)
-            }
-        </div >
+
 
         <FloatingWidget
             title="New Case"
