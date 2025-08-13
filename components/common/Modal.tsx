@@ -11,6 +11,7 @@ interface ModalProps {
   title: string
   children: React.ReactNode
   className?: string
+  classNameHeader?: string
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -18,7 +19,9 @@ export const Modal: React.FC<ModalProps> = ({
   onClose,
   title,
   children,
-  className
+  className,
+  classNameHeader,
+
 }) => {
   if (!isOpen) return null
 
@@ -32,7 +35,7 @@ export const Modal: React.FC<ModalProps> = ({
             className
           )}
         >
-          <div className='flex items-center justify-between'>
+          <div className={cn('flex items-center justify-between', classNameHeader)}>
             <Typography variant='h4' as='h4' >
               {title}
             </Typography>

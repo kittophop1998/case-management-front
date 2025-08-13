@@ -6,6 +6,7 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 import { cloneElement } from 'react'
 
@@ -104,7 +105,7 @@ export const TextFieldInput = ({
   field,
   clearABle = false,
   loading = false,
-  className
+  className = ''
 }: TextFieldInputProps) => {
   return (
     <div className='relative'>
@@ -112,8 +113,7 @@ export const TextFieldInput = ({
         {prependInnerIcon}
       </div>
       <Input
-
-        className={textFieldVariants({ readonly: readonly || loading })}
+        className={cn(textFieldVariants({ readonly: readonly || loading }), className)}
         placeholder={placeholder}
         {...field}
         prependInnerIcon={!!prependInnerIcon}

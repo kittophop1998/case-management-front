@@ -15,12 +15,14 @@ interface SearchFieldInputProps {
   field: React.ComponentProps<typeof TextFieldInput>['field'];
   clearABle?: boolean;
   loading?: boolean
+  className?: string
 }
 export const SearchFieldInput = ({
   placeholder,
   readonly = false,
   field,
-  loading = false
+  loading = false,
+  className
 }: SearchFieldInputProps) => {
   return (
     <TextFieldInput
@@ -30,6 +32,7 @@ export const SearchFieldInput = ({
       readonly={readonly}
       clearABle
       loading={loading}
+      className={className}
     />
   )
 }

@@ -137,7 +137,10 @@
 }
 
 .base-input-casemm {
-  @apply focus:border-[#5570f1] focus:ring-[3px] focus:ring-[#5570f1]/30 active:border-[#5570f1] active:ring-[3px] active:ring-[#5570f1]/30;
+  @apply active:border-[#5570f1];
+  @apply focus:border-[#5570f1];
+  @apply focus:ring-[3px] focus:ring-[#5570f1]/30;
+  @apply active:ring-[3px] active:ring-[#5570f1]/30;
 }
 
 /* @theme {
