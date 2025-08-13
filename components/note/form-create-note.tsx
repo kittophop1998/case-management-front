@@ -57,6 +57,7 @@ export const FormCreateNote = ({
                     name='text'
                     label='message'
                     placeholder='message'
+                    className={cn("h-32", isSmallMod ? 'max-h-32' : 'max-h-96')}
                 />
                 <div className="flex gap-3 items-center justify-end">
                     <ButtonCancel onClick={onClose} />

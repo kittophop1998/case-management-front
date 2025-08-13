@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/form'
 import { cva } from 'class-variance-authority'
 import { Textarea } from "@/components/ui/textarea"
+import { cn } from '@/lib/utils'
 
 interface TextFieldProps {
   form: any // Replace 'any' with the correct form type, e.g., UseFormReturn<any> if using react-hook-form
@@ -18,6 +19,7 @@ interface TextFieldProps {
   readonly?: boolean // Optional prop to make the input read-only
   prependInnerIcon?: React.ReactNode // Optional prop for an icon
   appendInnerIcon?: React.ReactNode // Optional prop for an icon
+  className?: string // Optional prop for additional classes
 }
 const textFieldVariants = cva('', {
   variants: {
@@ -35,7 +37,8 @@ const TextAreaField = ({
   label,
   placeholder,
   prependInnerIcon,
-  appendInnerIcon
+  appendInnerIcon,
+  className
 }: TextFieldProps) => {
   return (
     <FormField
@@ -51,7 +54,7 @@ const TextAreaField = ({
                 {prependInnerIcon}
               </div>
               <Textarea
-                className={textFieldVariants({ readonly })}
+                className={cn(textFieldVariants({ readonly }), className)}
                 placeholder={placeholder}
                 {...field}
                 readOnly={readonly}
