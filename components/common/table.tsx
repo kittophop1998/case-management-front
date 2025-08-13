@@ -25,6 +25,7 @@ import { ChevronRight } from 'react-feather'
 import clsx from 'clsx'
 import { cn } from '@/lib/utils'
 import { Separator } from '../ui/separator'
+import { useEffect, useMemo } from 'react'
 
 export interface DataTableProps<T> {
   table: ReactTable<T>;
@@ -98,6 +99,15 @@ export function DataTable<T>({
   setPage,
   setLimit
 }: DataTableProps<T>) {
+  // const rows = useMemo(() => table.getRowModel().rows, [JSON.stringify(table)]);
+  // const rows = useMemo(() => table.getRowModel().rows, [table]);
+  // const rowModel = useMemo(() => table.getRowModel(), [table]);
+  // const rows = rowModel.rows;
+  const rows = table.getRowModel().rows
+  // console.log('rows', rows, table.getRowModel().rows);
+  // useEffect(() => {
+  //   console.log('rows re-rendered', JSON.stringify(rows))
+  // }, [rows]);
   return (
     <>
       <Table>
@@ -125,8 +135,9 @@ export function DataTable<T>({
                 <div className='text-center py-8 text-muted-foreground'>Loading...</div>
               </TableCell>
             </TableRow>
-          ) : table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map(row => (
+          ) : rows?.length ? (
+
+            rows.map(row => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}

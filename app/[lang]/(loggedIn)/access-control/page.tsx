@@ -11,12 +11,12 @@ import { DataTable, Header } from "@/components/common/table";
 import BtnEdit from "@/components/button/btn-edit";
 import { CheckIsActive } from "@/components/common/check-is-active";
 import Container from "@/components/common/containter";
-
-export default function DashboardPage({
+// AccessControlPage.whyDidYouRender = true
+export default function AccessControlPage({
 }: Readonly<{
 }>) {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
-  const { data: ddData, isLoading: isDDLoading } = useGetDropdownQuery();
+  const { data: ddData } = useGetDropdownQuery();
   const columnHelper = createColumnHelper<any>()
   const roles = ddData?.data?.roles || [];
   const columns = useMemo<ColumnDef<any, any>[]>(() => {
@@ -47,12 +47,13 @@ export default function DashboardPage({
       }),
     ]
   }, [roles])
-  // 
-  const [getTable, { data: dataTable, isLoading: isPermissionTableLoading }] = useLazyGetTableQuery();
+  const [getTable, { data: dataTable }] = useLazyGetTableQuery();
+  const memoizedData = useMemo(() => dataTable?.data || [], [dataTable]);
   const { table, sort, page, limit, setPage, setLimit } = useTable({
-    data: dataTable?.data || [],
+    data: memoizedData,
     columns,
   })
+
   useEffect(() => {
     getTable({
       page,
@@ -60,6 +61,7 @@ export default function DashboardPage({
       sort,
     })
   }, [page, limit, sort])
+
 
   const dialogRef = useRef<any>(null)
   const setObjEdit = (obj: any) => {
@@ -69,6 +71,7 @@ export default function DashboardPage({
       roles: obj.roles || [],
     })
   }
+  console.count(`rerender`)
   return (
     <>
       <Container>

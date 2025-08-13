@@ -7,6 +7,16 @@ import { useDispatch } from 'react-redux'
 import { useGetDropdownQuery } from "@/features/system/systemApiSlice";
 import { authApiSlice } from '@/features/auth/authApiSlice'
 import { setAccessToken, setRefreshToken } from "@/services/api";
+import * as React from 'react'
+// * DONOT DELETE THIS [DEBUG] - This is used to debug re-rendering issues
+// if (process.env.NODE_ENV === 'development') {
+//     // eslint-disable-next-line @typescript-eslint/no-var-requires
+//     const whyDidYouRender = require('@welldone-software/why-did-you-render')
+//     // @ts-ignore
+//     whyDidYouRender(React, { trackAllPureComponents: true })
+// }
+
+
 export const InitializersData = ({ user, refreshToken, accessToken }: {
     user: ApiResponse<UserProfileType> | null,
     refreshToken: string | null,

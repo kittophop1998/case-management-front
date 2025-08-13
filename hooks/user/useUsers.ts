@@ -43,7 +43,7 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
   const triggerFetch = () => {
     console.log("triggerFetch called");
     // TODO:change this to lazy
-    setNumberTrickerFetch((prev) => prev + 1);
+    setNumberTrickerFetch((current) => current + 1);
   };
 
   const defaultData = {

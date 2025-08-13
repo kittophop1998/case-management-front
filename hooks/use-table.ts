@@ -38,7 +38,6 @@ export function useTable({
       console.error("Error updating sorting state:", error);
     }
   }, [sorting]);
-  console.log(`data`, data);
   const memoizedData = useMemo(() => data, [data]);
   const memoizedColumns = useMemo(() => columns, [columns]);
   const table = useReactTable({
