@@ -24,6 +24,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { useState } from "react"
+import { Checkbox } from "../ui/checkbox"
 
 interface ComboField {
   loading?: boolean
@@ -107,15 +108,10 @@ export function ComboboxMultiField({
                           value={String(item[labelName])}
                           onSelect={() => toggleValue(item[valueName])}
                         >
-                          {item[labelName]}
-                          <Check
-                            className={cn(
-                              "ml-auto h-4 w-4",
-                              value.includes(item[valueName])
-                                ? "opacity-100"
-                                : "opacity-0"
-                            )}
+                          <Checkbox
+                            checked={value.includes(item[valueName])}
                           />
+                          {item[labelName]}
                         </CommandItem>
                       ))}
                     </CommandGroup>

@@ -8,9 +8,10 @@ interface AvatarUserProps {
 }
 export const AvatarUser = ({ img, size = '2.5' }: AvatarUserProps) => {
     return (
-        <Avatar className={cn(`h-[${size}rem] w-[${size}rem]`)}>
+        // <Avatar className={cn(`h-[${size}rem] w-[${size}rem]`)}>
+        <Avatar className={cn(`size-[${size}rem] w-[${size}rem]`)}>
             <AvatarImage src={img} />
-            <AvatarFallback className="bg-white">
+            <AvatarFallback className="bg-transparent">
                 {/* {name?.[0] ?? ''}
                 {name?.[1] ?? ''} */}
                 <CircleUserRound size={cn(`${size}rem`)} />
