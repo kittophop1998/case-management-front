@@ -12,6 +12,7 @@ type GetDropdownResponse = ApiResponse<{
     permissions: JsonJoinDetails[];
     roles: JsonJoinDetails[];
     teams: JsonJoinDetails[];
+    departments: JsonJoinDetails[];
   };
 }>;
 export const systemApiSlice = createApi({

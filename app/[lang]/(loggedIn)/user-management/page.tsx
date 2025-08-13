@@ -30,11 +30,11 @@ export default function UserManagementPage() {
   }
   const columns = useMemo<ColumnDef<UserType, any>[]>(() => [
     columnHelper.accessor('agentId', {
-      header: ({ column }) => <Header label='Id' sortAble column={column} />,
+      header: ({ column }) => <Header label='Agent ID' sortAble column={column} />,
       cell: info => <div>{info.getValue()}</div>
     }),
     columnHelper.accessor('username', {
-      header: ({ column }) => <Header label='Name' sortAble column={column} />,
+      header: ({ column }) => <Header label='Agent Name' sortAble column={column} />,
       cell: info => <div>{info.getValue()}</div>
     }),
     columnHelper.accessor('email', {
@@ -48,6 +48,10 @@ export default function UserManagementPage() {
     columnHelper.accessor('team.name', {
       header: ({ column }) => <Header label='Team' sortAble column={column} />,
       cell: info => <div>{info.getValue()}</div>
+    }),
+    columnHelper.accessor('department.name', {
+      header: ({ column }) => <Header label='Department' sortAble column={column} />,
+      cell: info => <div>{info.getValue()}</div>,
     }),
     columnHelper.accessor('center.name', {
       header: ({ column }) => <Header label='Center' sortAble column={column} />,
@@ -77,7 +81,9 @@ export default function UserManagementPage() {
     table,
     usersTable,
     triggerFetch,
-    state: { status, role, team, center, searchText },
+    state: { status, role, team, center, searchText,
+      department
+    },
     setState: {
       setPage,
       setLimit,
@@ -85,7 +91,8 @@ export default function UserManagementPage() {
       setRole,
       setTeam,
       setCenter,
-      setSearchText
+      setSearchText,
+      setDepartment
     }
   } = useUsers({
     columns
@@ -133,6 +140,8 @@ export default function UserManagementPage() {
 
       <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
       <FilterUsersModal
+        department={department}
+        setDepartment={setDepartment}
         isOpen={isOpenFilter}
         setIsOpen={setIsOpenFilter}
         setRole={setRole}

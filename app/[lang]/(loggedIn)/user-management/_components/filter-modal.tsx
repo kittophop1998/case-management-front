@@ -19,6 +19,8 @@ interface FilterModalProps {
   setRole: (role: string | null) => void
   setTeam: (team: string | null) => void
   setCenter: (center: string | null) => void
+  setDepartment: (department: string | null) => void
+  department: string | null
   status: boolean | null
   role: string | null
   team: string | null
@@ -38,6 +40,8 @@ export const FilterUsersModal = ({
   setRole,
   setTeam,
   setCenter,
+  setDepartment,
+  department,
   status,
   role,
   team,
@@ -50,7 +54,8 @@ export const FilterUsersModal = ({
     role,
     team,
     center,
-    status
+    status,
+    department
   }
 
   const form = useForm<z.infer<typeof FilterUsersDialogSchemas>>({
@@ -65,6 +70,7 @@ export const FilterUsersModal = ({
     setRole(values.role)
     setTeam(values.team)
     setCenter(values.center)
+    setDepartment(values.department)
     setIsOpen(false)
   }
 
@@ -73,6 +79,7 @@ export const FilterUsersModal = ({
     setRole(null)
     setTeam(null)
     setCenter(null)
+    setDepartment(null)
     form.reset(defaultValues)
   }
 
@@ -116,6 +123,16 @@ export const FilterUsersModal = ({
             labelName='name'
             loading={isPending}
             items={[seeAllObj, ...(dataDropdown?.data?.teams || [])]}
+          />
+          <SelectField
+            form={form}
+            name='department'
+            label='Department'
+            placeholder='All'
+            valueName='id'
+            labelName='name'
+            loading={isPending}
+            items={[seeAllObj, ...(dataDropdown?.data?.departments || [])]}
           />
           <SelectField
             form={form}

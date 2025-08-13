@@ -14,6 +14,7 @@ export const FilterUsersDialogSchemas = z.object({
   team: z.string().nullable(),
   center: z.string().nullable(),
   status: z.boolean().nullable(),
+  department: z.string().nullable(),
 });
 
 export const UserSchema = z.object({

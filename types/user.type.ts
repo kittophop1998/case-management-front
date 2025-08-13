@@ -13,6 +13,7 @@ export type JsonJoinDetails = {
 };
 //date '2025-07-24T02:16:42.171159Z'
 export type UserType = {
+  department: JsonJoinDetails;
   id: number;
   operatorId: number;
   agentId: number;

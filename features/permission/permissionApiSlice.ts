@@ -1,18 +1,9 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { JsonJoinDetails, UserProfileType, UserType } from "@/types/user.type";
 import { baseQuery } from "@/services/api";
-import { ApiResponse } from "@/types/api.type";
 import { SettingAccessControlSchema } from "@/schemas";
 import { DefaultReqTableType, TableType } from "@/types/table.type";
 import z from "zod";
-type GetDropdownResponse = ApiResponse<{
-  data: {
-    centers: JsonJoinDetails[];
-    permissions: JsonJoinDetails[];
-    roles: JsonJoinDetails[];
-    teams: JsonJoinDetails[];
-  };
-}>;
+
 export const permissionApiSlice = createApi({
   reducerPath: "permissionApi",
   baseQuery,

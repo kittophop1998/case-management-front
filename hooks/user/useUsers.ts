@@ -8,6 +8,7 @@ import { useTable } from "../use-table";
 export const useUsers = ({ columns = [] }: { columns: any[] }) => {
   const [status, setStatus] = useState<boolean | null>(null);
   const [role, setRole] = useState<string | null>(null);
+  const [department, setDepartment] = useState<string | null>(null);
   const [team, setTeam] = useState<string | null>(null);
   const [center, setCenter] = useState<string | null>(null);
   const [searchText, setSearchText] = useState("");
@@ -34,6 +35,7 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
       agentId: "agent_id",
       role_name: "role",
       team_name: "team",
+      department_name: "department",
       center_name: "center",
       isActive: "is_active",
     },
@@ -62,6 +64,7 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
       center,
       sort,
       searchText,
+      department,
     });
   }, [
     page,
@@ -73,6 +76,7 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
     sort,
     searchText,
     numberTrickerFetch,
+    department,
   ]);
 
   return {
@@ -93,6 +97,7 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
       center,
       sort,
       searchText,
+      department,
     },
     setState: {
       setPage,
@@ -102,6 +107,7 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
       setTeam,
       setCenter,
       setSearchText,
+      setDepartment,
     },
   };
 };

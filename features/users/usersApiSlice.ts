@@ -10,6 +10,7 @@ export interface GetUsersRequest extends DefaultReqTableType {
   team: string | null;
   center: string | null;
   searchText: string;
+  department: string | null;
 }
 type EditUserBody = {
   username: string;
@@ -36,6 +37,7 @@ export const usersApiSlice = createApi({
         center = null,
         sort = null,
         searchText = "",
+        department = null,
       }) => {
         let searchObj: {
           page?: string;
@@ -46,6 +48,7 @@ export const usersApiSlice = createApi({
           centerId?: string;
           keyword?: string;
           sort?: string;
+          departmentId?: string;
         } = {
           page: String(page),
           limit: String(limit),
@@ -54,6 +57,7 @@ export const usersApiSlice = createApi({
           teamId: String(team || ""),
           centerId: String(center || ""),
           keyword: String(searchText || ""),
+          departmentId: String(department || ""),
           sort: String(sort),
         };
 
@@ -65,6 +69,7 @@ export const usersApiSlice = createApi({
         if (!center) delete searchObj.centerId;
         if (!sort) delete searchObj.sort;
         if (!searchText) delete searchObj.keyword;
+        if (!department) delete searchObj.departmentId;
 
         const searchParams = new URLSearchParams(searchObj);
 
