@@ -93,7 +93,7 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
     return (
         <FormProvider {...form} >
             <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>
-                <div className={cn("py-3", isSmallMod ? "max-h-[50vh] overflow-y-auto" : " min-w-[60vw] grid grid-cols-2 gap-3")}>
+                <div className={cn("py-3", isSmallMod ? "max-h-[50vh] overflow-y-auto" : "w-[70vw] grid grid-cols-2 gap-3")}>
                     <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
                         <SectionCard title="Customer Information" isAccordion={!!isSmallMod}>
                             <div className="space-y-3 pt-2">

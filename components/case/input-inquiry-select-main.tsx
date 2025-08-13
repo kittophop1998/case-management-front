@@ -33,6 +33,7 @@ export const InputInquirySelectMain = ({
     return (
         <>
             <ComboboxMultiField
+                forceDisplayValue='Multiple select'
                 form={form}
                 name={nameChild}
                 label={nameMainLabel}

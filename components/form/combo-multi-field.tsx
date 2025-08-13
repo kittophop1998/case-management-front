@@ -35,6 +35,7 @@ interface ComboField {
   name: string
   label: string
   placeholder?: string
+  forceDisplayValue?: string
 }
 
 export function ComboboxMultiField({
@@ -46,7 +47,9 @@ export function ComboboxMultiField({
   form,
   name,
   label,
-  placeholder = "Select..."
+  placeholder = "Select...",
+  forceDisplayValue,
+
 }: ComboField) {
   const [popoverOpen, setPopoverOpen] = useState(false)
 
@@ -80,12 +83,14 @@ export function ComboboxMultiField({
                       value.length === 0 && "text-muted-foreground"
                     )}
                   >
-                    {value.length > 0
-                      ? items
-                        .filter((item) => value.includes(item[valueName]))
-                        .map((item) => item[labelName])
-                        .join(", ")
-                      : placeholder}
+                    {!!forceDisplayValue ? forceDisplayValue :
+                      (value.length > 0
+                        ? items
+                          .filter((item) => value.includes(item[valueName]))
+                          .map((item) => item[labelName])
+                          .join(", ")
+                        : placeholder)
+                    }
                     <ChevronsUpDown className="opacity-50 ml-2 h-4 w-4 shrink-0" />
                   </Button>
                 </FormControl>
