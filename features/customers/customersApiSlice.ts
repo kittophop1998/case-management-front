@@ -33,7 +33,7 @@ export const customersApiSlice = createApi({
               count: 3,
             },
           }),
-          isError: "true",
+          // isError: "true",
         };
         const searchParams = new URLSearchParams(searchObj);
         return {
