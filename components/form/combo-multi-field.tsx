@@ -37,9 +37,11 @@ interface ComboField {
   label: string
   placeholder?: string
   forceDisplayValue?: string
+  onChange?: (value: any[]) => void
 }
 
 export function ComboboxMultiField({
+  onChange,
   loading = false,
   readonly = false,
   items,
@@ -67,7 +69,8 @@ export function ComboboxMultiField({
           const newValue = exists
             ? value.filter((v) => v !== val)
             : [...value, val]
-          form.setValue(name, newValue, { shouldValidate: true })
+          form.setValue(name, newValue, { shouldValidate: true });
+          onChange?.(newValue)
         }
 
         return (

@@ -69,6 +69,7 @@ const RadioField = (
                                 console.log('RadioField onValueChange', val, actualValue)
                                 if (actualValue !== undefined) {
                                     field.onChange(actualValue) // fallback to val if not found
+                                    onChange?.(actualValue) // Call onChange if provided
                                 } else {
                                     field.onChange(val) // fallback to val if not found
                                 }

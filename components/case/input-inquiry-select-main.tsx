@@ -11,6 +11,8 @@ interface InputInquirySelectMainProps {
     items: any[]
     nameMainLabel: string,
     nameChildLabel: string,
+    onChangeMain: (value: any[]) => void,
+    onChangeChild: (value: any) => void
 }
 export const InputInquirySelectMain = ({
     form,
@@ -19,7 +21,8 @@ export const InputInquirySelectMain = ({
     items,
     nameMainLabel,
     nameChildLabel,
-
+    onChangeMain,
+    onChangeChild
 }: InputInquirySelectMainProps) => {
     // const handleSubmitSelect = (selected: any[]) => {
     //     setSublist(selected)
@@ -33,6 +36,9 @@ export const InputInquirySelectMain = ({
     return (
         <>
             <ComboboxMultiField
+                onChange={(newV) => {
+                    onChangeChild(newV)
+                }}
                 forceDisplayValue='Multiple select'
                 form={form}
                 name={nameChild}
@@ -42,14 +48,11 @@ export const InputInquirySelectMain = ({
                 labelName="label"
 
             />
-            {/* {
-                JSON.stringify(itemsChild)
-            } */}
-            {/* <div></div> */}
-            {/* {
-                JSON.stringify(form)
-            } */}
             <RadioField
+                onChange={(newV) => {
+                    onChangeMain(newV)
+
+                }}
                 label={nameChildLabel}
                 form={form}
                 items={itemsChildSelect}

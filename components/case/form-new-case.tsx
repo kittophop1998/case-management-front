@@ -130,6 +130,12 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                         <SectionCard title="Disposition" isAccordion={!!isSmallMod}>
                             <div className="space-y-3 mt-3">
                                 <InputInquirySelectMain
+                                    onChangeChild={() => {
+                                        form.setValue('mainInquiryStamp', ''); // Reset mainInquiryStamp when mainInquiry changes
+                                        form.setValue('supInquiry', []); // Reset supInquiryStamp when supInquiry changes
+                                        form.setValue('supInquiryStamp', ''); // Reset supInquiryStamp when supInquiry changes
+                                    }}
+                                    onChangeMain={() => { }}
                                     form={form}
                                     nameMainLabel='Main inquiry'
                                     nameChildLabel='Select Main inquiry Stamp to Genesys:'
@@ -142,6 +148,10 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                                     ]}
                                 />
                                 <InputInquirySelectMain
+                                    onChangeMain={() => { }}
+                                    onChangeChild={() => {
+                                        form.setValue('supInquiryStamp', ''); // Reset supInquiryStamp when supInquiry changes
+                                    }}
                                     nameMainLabel='Sup inquiry'
                                     nameChildLabel='Select Sup inquiry in select:'
                                     form={form}
