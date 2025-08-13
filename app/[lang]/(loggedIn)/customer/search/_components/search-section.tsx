@@ -39,19 +39,20 @@ export const SearchSection = ({
     }, [search]);
 
     return <div className="space-y-6 mt-6">
-        <div className="mx-auto max-w-xl">
-            <SearchFieldInput
-                loading={isFetching}
-                placeholder="Search Customer ID/AEON ID"
-                field={{
-                    value: search,
-                    onChange: (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)
-                }}
-            />
-
-        </div>
-        <div className="flex justify-center">
-            <Button className="min-w-[15rem]" loading={isFetching} onClick={handleSearch}>
+        <div className="flex gap-6 items-center mx-auto max-w-3xl">
+            <div
+                className="flex-1"
+            >
+                <SearchFieldInput
+                    loading={isFetching}
+                    placeholder="Search Customer ID/AEON ID"
+                    field={{
+                        value: search,
+                        onChange: (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)
+                    }}
+                />
+            </div>
+            <Button className="min-w-[10rem]" loading={isFetching} onClick={handleSearch}>
                 Search
             </Button>
         </div>
@@ -63,12 +64,12 @@ export const SearchSection = ({
                 :
                 (isSearhted ?
                     <div className="text-center space-y-6">
-                        {/* <div > Not Fond</div> */}
                         <>{isError ?
                             <div className="space-y-3">
                                 <div>{getErrorText(error) || 'Not Fond'}</div>
                                 <div><Button onClick={() => setStatus(true)}>Inquiry & Disposition</Button></div>
-                            </div> : undefined}
+                            </div>
+                            : undefined}
                         </>
                     </div> : null)
             }
