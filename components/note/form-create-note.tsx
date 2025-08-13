@@ -46,7 +46,7 @@ export const FormCreateNote = ({
                     labelName='name'
                     loading={isFormPending}
                     items={[
-                        { id: 'type1', name: 'Type 1' },
+                        { id: 'type1', name: 'การติดต่อจากลูกค้า' },
                         { id: 'type2', name: 'Type 2' },
                         { id: 'type3', name: 'Type 3' }
                     ]}

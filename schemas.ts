@@ -63,6 +63,7 @@ export const SettingAccessControlSchema = z.object({
 
 export const NewCaseSchema = z.object({
   note: z.string().optional(),
+  caseDescription: z.string().optional(),
   mainInquiry: z
     .array(
       z.string()

@@ -74,7 +74,9 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
             mainInquiryStamp: '',
             supInquiry: [],
             supInquiryStamp: '',
-            isDraft: false
+            isDraft: false,
+            note: '',
+            caseDescription: ''
         }
     })
     const customer = {
@@ -91,22 +93,30 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
     return (
         <FormProvider {...form} >
             <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>
-                <div className={cn("py-3", isSmallMod ? "max-h-[50vh] overflow-y-auto" : "grid grid-cols-2 gap-3")}>
+                <div className={cn("py-3", isSmallMod ? "max-h-[50vh] overflow-y-auto" : " min-w-[60vw] grid grid-cols-2 gap-3")}>
                     <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
-                        <SectionCard title="Customer Info" isAccordion={!!isSmallMod}>
-                            <div className="space-y-3">
-                                <h3>Customer Information</h3>
-                                <p>Name: John Doe</p>
-                                <p>Email: john.doe@example.com</p>
-                                <p>Phone: (123) 456-7890</p>
+                        <SectionCard title="Customer Information" isAccordion={!!isSmallMod}>
+                            <div className="space-y-3 pt-2">
+                                <Typography variant="caption">Customer ID/Passport :  9712333456234</Typography>
+                                <Typography variant="caption">Name: John Doe</Typography>
+                                <Typography variant="caption">Email: john.doe@example.com</Typography>
+                                <Typography variant="caption">Phone: (123) 456-7890</Typography>
                             </div>
                         </SectionCard>
-                        <SectionCard title="Case Info" isAccordion={!!isSmallMod}>
-                            <div className="space-y-3">
-                                <h3>Case Information</h3>
-                                <p>Case ID: 123456</p>
-                                <p>Status: Open</p>
-                                <p>Description: This is a sample case description.</p>
+                        <SectionCard title="Case Information" isAccordion={!!isSmallMod}>
+                            <div className="space-y-3 pt-2">
+                                <Typography variant="caption">Case Type:  Inquiry</Typography>
+                                <Typography variant="caption">Case ID:  AC1029384B</Typography>
+                                <TextAreaField
+                                    name="caseDescription"
+                                    label="Case Description"
+                                    placeholder="Enter Case Description"
+                                    form={form}
+                                />
+                            </div>
+                        </SectionCard>
+                        <SectionCard title="Case Note" isAccordion={!!isSmallMod}>
+                            <div className="space-y-3 pt-2">
                                 <TextAreaField
                                     name="note"
                                     label="Add Note"
@@ -184,7 +194,7 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
 
 
 // <SectionCard title="Require Create Case" isAccordion={!!isSmallMod}>
-//     <div className="space-y-3">
+//     <div className="space-y-3 pt-2">
 //         <RadioField
 //             form={form}
 //             items={
