@@ -40,7 +40,7 @@ const SectionCard = ({ title, children, TopRight = null, className }: { title: s
     return (
         <Card className={cn("p-4 shadow-none rounded-sm outline-0 border-0 gap-3", className)}>
             <div className="flex items-center justify-between ">
-                <Typography variant="h4" className="line-clamp-1">{title}</Typography>
+                <Typography className="line-clamp-1 font-medium">{title}</Typography>
                 {TopRight}
             </div>
             {children}
