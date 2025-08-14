@@ -128,8 +128,7 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
       <Modal
         isOpen={open}
         title={mode === 'create' ? 'Add Individual User' : 'Select Update'}
-        className={cn(mode === 'create' ? '' : 'max-w-[360px]')}
-        onClose={mode === 'create' ? undefined : () => { setOpen(false) }}
+        className='w-[clamp(300px,80%,608px)]'
       >
         <FormUserDetails
           isLoadingForm={isLoadingForm}

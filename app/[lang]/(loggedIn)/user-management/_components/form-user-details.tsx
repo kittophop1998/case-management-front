@@ -68,13 +68,15 @@ export const FormUserDetails = ({
               label='Agent Name'
               placeholder='Name'
             />
+
             <TextField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
               name='email'
-              label='Domain Name'
+              label='Email'
               placeholder='Domain Name'
             />
+
             <TextField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
