@@ -18,7 +18,7 @@ export type Customer = {
   nationalId: string;
   customerNameEng: string;
   customerNameTh: string;
-  mobileNo: string;
+  mobileNO: string;
   mailToAddress: string;
   mailTo: string;
   // nationalId: "1102001313257";

@@ -63,9 +63,12 @@ const DataWithCopy = ({ title, value, showCopy = false, loading }: { value: stri
 const CustomerDashboard = () => {
     const [searchCustomer, { data, isFetching, isError, error }] = useLazySearchCustomerQuery();
     const customer: Customer | undefined = useMemo(() => {
+        if (data?.data === undefined) {
+            return undefined
+        }
         let value = { ...(data?.data || {}) }
         if (value?.email === undefined) {
-            value.email = ''
+            value.email = 'Arunee@example.com'
         }
         if (value?.status === undefined) {
             value.status = 'Active'
@@ -160,8 +163,8 @@ const CustomerDashboard = () => {
                                     <div className="grid grid-cols-6 gap-4 ">
                                         <DisplayDerivedValue title="Phone" value={
                                             <div className="flex gap-1">
-                                                <Typography variant="body2">{customer?.mobileNo ? '+66' : ''}</Typography>
-                                                <Typography variant="body2" className="text-[#FA541C]">{customer.mobileNo}</Typography>
+                                                <Typography variant="body2">{customer?.mobileNO ? '+66' : ''}</Typography>
+                                                <Typography variant="body2" className="text-[#FA541C]">{customer.mobileNO}</Typography>
                                             </div>
                                         } className="col-span-3" />
                                         <DisplayDerivedValue title="Email" value={customer?.email} className="col-span-3 " />
