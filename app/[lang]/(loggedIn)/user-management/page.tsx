@@ -120,8 +120,8 @@ export default function UserManagementPage() {
           />
         </div>
       </Container>
-      <CardPageWrapper>
-        <div className='flex items-center gap-3 mb-3'>
+      <CardPageWrapper className=''>
+        <div className='flex items-center gap-3 mb-4'>
           <Typography >
             User Lists
           </Typography>

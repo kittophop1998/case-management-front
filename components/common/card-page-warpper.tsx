@@ -16,7 +16,7 @@ const CardPageWrapper = ({ children, className }: CardPageWrapperProps) => {
     // 
     return (
         <Container className={cn(`mx-auto h-[95%] `, className)}>
-            <Card className="p-6 h-full">
+            <Card className="p-5 h-full shadow-none">
                 {children}
             </Card>
         </Container>
