@@ -47,7 +47,7 @@ export const Modal: React.FC<ModalProps> = ({
               )
             }
           </div>
-          <div className='mt-4'>{children}</div>
+          <div className='mt-2'>{children}</div>
         </Card>
       </div>
     </>

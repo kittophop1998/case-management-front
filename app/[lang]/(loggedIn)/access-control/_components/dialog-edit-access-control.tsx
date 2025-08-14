@@ -72,17 +72,17 @@ export const DialogEditAccessControl = forwardRef<DialogRef, DialogEditAccessCon
         return (
             <Modal
                 isOpen={isOpen} title={'Permission'}
-                className="max-w-md"
+                className='w-[clamp(300px,100%,342px)]'
                 onClose={onClose}
             >
                 <FormProvider {...form} >
                     <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4' method='post'>
-                        <Typography className="mb-4">{label}</Typography>
+                        <Typography className="mb-0">{label}</Typography>
                         <CheckboxField
                             form={form}
                             items={roles}
                             name="roles"
-                            label="Select Roles"
+                            // label="Select Roles"
                             // valueName="id"
                             valueName="name"
                             labelName="name"

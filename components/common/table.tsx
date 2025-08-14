@@ -169,11 +169,11 @@ export function DataTable<T>({
       </Table>
       <Separator />
 
-      <div className='flex items-center justify-between mt-4'>
-        <Typography variant='caption'>
+      <div className='flex items-center justify-end mt-4'>
+        {/* <Typography variant='caption'>
           Showing {(page - 1) * limit + 1} -{' '}
           {Math.min(page * limit, total)} of {total} records
-        </Typography>
+        </Typography> */}
         <div className='flex items-center space-x-2'>
           <Typography variant='caption'>
             Page {page} of {totalPages}
