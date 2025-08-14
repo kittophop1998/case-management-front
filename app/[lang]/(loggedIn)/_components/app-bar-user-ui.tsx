@@ -81,7 +81,14 @@ export const AppbarUserUI = () => {
     <Popover open={openPopup} onOpenChange={setOpenPopup} modal>
       <PopoverTrigger asChild>
         <div className='flex items-center gap-2'>
-          <AvatarUser size='2' />
+          {/* <AvatarUser size='2' /> */}
+          <Image
+            src="/placeholder-user-img-colorfull.png"
+            alt="placeholder-user-img-colorfull.png"
+            className="object-cover mx-auto"
+            width={32}
+            height={32}
+          />
           <Typography>{name}</Typography>
         </div>
       </PopoverTrigger>

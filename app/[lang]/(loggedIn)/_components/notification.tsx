@@ -1,4 +1,6 @@
-import { Bell } from 'lucide-react'
+// import { Bell } from 'lucide-react'
+import Notifi from '@/public/icons/Notification.svg'
+
 export const Notification = () => {
-  return <Bell size={'1rem'} />
+  return <Notifi />
 }

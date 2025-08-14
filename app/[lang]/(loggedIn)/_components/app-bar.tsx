@@ -32,9 +32,11 @@ export function AppBar() {
         <Typography variant='h3' as='p'>
           {title}
         </Typography>
-        <div className='flex items-center gap-4 py-3'>
-          <SwitchLanguage />
-          <Notification />
+        <div className='flex items-center gap-6 py-3'>
+          <div className='flex items-center gap-2'>
+            <SwitchLanguage />
+            <Notification />
+          </div>
           <AppbarUserUI />
         </div>
       </Container>

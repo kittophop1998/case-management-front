@@ -37,7 +37,7 @@ import {
 } from '@/components/ui/popover'
 import { Check } from 'react-feather'
 
-export function SwitchLanguage () {
+export function SwitchLanguage() {
   const lang = 'en' // This would typically come from your app's state or context
   const languages = ['en', 'th'] // List of supported languages
   return (
@@ -45,10 +45,12 @@ export function SwitchLanguage () {
       <PopoverTrigger asChild>
         <Button
           variant='ghost'
-          className='bg-black hover:bg-black/70 hover:text-white text-white p-2 rounded-sm w-[1.5rem] h-[1.5rem]'
+          className='bg-black hover:bg-black/70 hover:text-white text-white rounded-[3px] w-[1.25rem] h-[1.25rem] text-[0.70rem] font-extrabold tracking-widest text-center flex items-center justify-center p-0 pl-[1px]'
           size='sm'
         >
-          {lang}
+          <div className=''>
+            {lang.toUpperCase()}
+          </div>
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-80'>
