@@ -29,21 +29,25 @@ export default function UserManagementPage() {
     dialogDetailsRef.current?.setDefaultUser(user)
   }
   const columns = useMemo<ColumnDef<UserType, any>[]>(() => [
-    columnHelper.accessor('staffId', {
-      header: ({ column }) => <Header label='Staff ID' sortAble column={column} />,
+    // columnHelper.accessor('staffId', {
+    //   header: ({ column }) => <Header label='Staff ID' sortAble column={column} />,
+    //   cell: info => <div>{info.getValue()}</div>
+    // }),
+    // columnHelper.accessor('email', {
+    //   header: ({ column }) => <Header label='Domain Name' sortAble column={column} />,
+    //   cell: info => {
+    //     const email = info.getValue()
+    //     const domain = email.split('@')[0] || ''
+    //     return <div>{domain}</div>
+    //   }
+    // }),
+    columnHelper.accessor('username', {
+      header: ({ column }) => <Header label='Username' sortAble column={column} />,
       cell: info => <div>{info.getValue()}</div>
     }),
     columnHelper.accessor('name', {
       header: ({ column }) => <Header label='Name' sortAble column={column} />,
       cell: info => <div>{info.getValue()}</div>
-    }),
-    columnHelper.accessor('email', {
-      header: ({ column }) => <Header label='Domain Name' sortAble column={column} />,
-      cell: info => {
-        const email = info.getValue()
-        const domain = email.split('@')[0] || ''
-        return <div>{domain}</div>
-      }
     }),
     columnHelper.accessor('role.name', {
       header: ({ column }) => <Header label='Role' sortAble column={column} />,
@@ -117,12 +121,12 @@ export default function UserManagementPage() {
         </div>
       </Container>
       <CardPageWrapper>
-        <div className='flex gap-3 mb-3'>
+        <div className='flex items-center gap-3 mb-3'>
           <Typography variant='h3' as='p'>
             User Lists
           </Typography>
           <div className='flex-1' />
-          <InputFilter setValue={setSearchText} value={searchText} />
+          <InputFilter setValue={setSearchText} value={searchText} placeholder='Search by Username, Name' className='w-[243px]' />
           <BtnFilter onClick={() => setIsOpenFilter(true)} />
         </div>
         <DataTable
