@@ -9,7 +9,7 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
   const [status, setStatus] = useState<boolean | null>(null);
   const [role, setRole] = useState<string | null>(null);
   const [department, setDepartment] = useState<string | null>(null);
-  const [team, setTeam] = useState<string | null>(null);
+  const [section, setSection] = useState<string | null>(null);
   const [center, setCenter] = useState<string | null>(null);
   const [searchText, setSearchText] = useState("");
   const [numberTrickerFetch, setNumberTrickerFetch] = useState<number>(1);
@@ -34,7 +34,7 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
     mapSortingName: {
       agentId: "agent_id",
       role_name: "role",
-      team_name: "team",
+      section_name: "section",
       department_name: "department",
       center_name: "center",
       isActive: "is_active",
@@ -60,7 +60,7 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
       limit,
       status,
       role,
-      team,
+      section,
       center,
       sort,
       searchText,
@@ -71,7 +71,7 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
     limit,
     status,
     role,
-    team,
+    section,
     center,
     sort,
     searchText,
@@ -93,7 +93,7 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
       limit,
       status,
       role,
-      team,
+      section,
       center,
       sort,
       searchText,
@@ -104,7 +104,7 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
       setLimit,
       setStatus,
       setRole,
-      setTeam,
+      setSection,
       setCenter,
       setSearchText,
       setDepartment,

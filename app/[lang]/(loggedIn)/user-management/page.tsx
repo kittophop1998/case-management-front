@@ -33,7 +33,7 @@ export default function UserManagementPage() {
       header: ({ column }) => <Header label='Agent ID' sortAble column={column} />,
       cell: info => <div>{info.getValue()}</div>
     }),
-    columnHelper.accessor('username', {
+    columnHelper.accessor('name', {
       header: ({ column }) => <Header label='Agent Name' sortAble column={column} />,
       cell: info => <div>{info.getValue()}</div>
     }),
@@ -45,7 +45,7 @@ export default function UserManagementPage() {
       header: ({ column }) => <Header label='Role' sortAble column={column} />,
       cell: info => <div>{info.getValue()}</div>
     }),
-    columnHelper.accessor('team.name', {
+    columnHelper.accessor('section.name', {
       header: ({ column }) => <Header label='Team' sortAble column={column} />,
       cell: info => <div>{info.getValue()}</div>
     }),
@@ -81,7 +81,7 @@ export default function UserManagementPage() {
     table,
     usersTable,
     triggerFetch,
-    state: { status, role, team, center, searchText,
+    state: { status, role, section, center, searchText,
       department
     },
     setState: {
@@ -89,7 +89,7 @@ export default function UserManagementPage() {
       setLimit,
       setStatus,
       setRole,
-      setTeam,
+      setSection,
       setCenter,
       setSearchText,
       setDepartment
@@ -146,11 +146,11 @@ export default function UserManagementPage() {
         setIsOpen={setIsOpenFilter}
         setRole={setRole}
         setStatus={setStatus}
-        setTeam={setTeam}
+        setSection={setSection}
         setCenter={setCenter}
         status={status}
         role={role}
-        team={team}
+        section={section}
         center={center}
       />
     </div>

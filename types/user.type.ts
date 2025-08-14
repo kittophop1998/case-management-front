@@ -14,7 +14,7 @@ export type JsonJoinDetails = {
 //date '2025-07-24T02:16:42.171159Z'
 export type UserType = {
   department: JsonJoinDetails;
-  id: number;
+  id: string;
   operatorId: number;
   agentId: number;
   createdAt: string;
@@ -23,7 +23,7 @@ export type UserType = {
   username: string;
   name: string;
   email: string;
-  team: JsonJoinDetails;
+  section: JsonJoinDetails;
   isActive: boolean;
   center: JsonJoinDetails;
   role: JsonJoinDetails;
@@ -38,7 +38,7 @@ export type UserProfileType = {
   isActive: boolean;
   name: string;
   role: JsonJoinDetails & { Permissions: any[] };
-  team: JsonJoinDetails;
+  section: JsonJoinDetails;
   updatedAt: string;
   username: string;
 };

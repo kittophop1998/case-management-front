@@ -23,15 +23,16 @@ interface DialogDetailsProps {
 }
 const emptyUser: z.infer<typeof CreateEditUserSchema> = {
   "id": "",// Agent ID
-  "username": "",// Agent Name
+  "name": "",// Agent Name
   "email": "",// Domain Name
-  "teamId": "",// Team
+  "sectionId": "",// Team
   "operatorId": '',// Operator ID
   "agentId": "",// Agent ID
   "centerId": "",// Center
   "roleId": "",// Role
-  "queueId": "",// Queue ID
-  "isActive": true// Status
+  "isActive": true,// Status
+  "departmentId": '',// Department
+  // "queueId": "",// Queue ID
 
 }
 
@@ -87,21 +88,32 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
           form.reset(emptyUser)
           const userDetails = await fetchUser(user.id).unwrap()
           console.log('Fetched user details:', userDetails)
+          if (!userDetails?.data) return
           const userAPI = userDetails.data
+          console.log('userAPI :', userAPI)
+          console.log('userAPI.id :', userAPI.id)
+          console.log('userAPI.name :', userAPI.name)
+          console.log('userAPI.email :', userAPI.email)
+          console.log('userAPI.section.id :', userAPI.section.id)
+          console.log('userAPI.agentId :', userAPI.agentId)
+          console.log('userAPI.operatorId :', userAPI.operatorId)
+          console.log('userAPI.center.id :', userAPI.center.id)
+          console.log('userAPI.role.id :', userAPI.role.id)
+          console.log('userAPI.department.id :', userAPI.department.id)
           const updateForm = {
             id: userAPI.id,
-            username: userAPI.username,
+            name: userAPI.name,//?
             email: userAPI.email,
-            teamId: userAPI.team.id,
+            sectionId: userAPI.section.id,
             agentId: `${userAPI.agentId}`,
             operatorId: `${userAPI.operatorId}`,
             centerId: userAPI.center.id,
             roleId: userAPI.role.id, // Assuming role is an object with an id
-            queueId: userAPI.queue.id,
-            departmentId: userAPI.department.id,
+            departmentId: `${userAPI.department.id}`,
             isActive: userAPI.isActive
           }
-          console.log('updateForm :', updateForm)
+
+          // console.log('updateForm :', updateForm)
           form.reset(updateForm)
         } else {
           setMode('create')

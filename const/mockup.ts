@@ -1,4 +1,4 @@
-export const teams = [
+export const sections = [
   { id: "1", name: "Team A" },
   { id: "2", name: "Team B" },
   { id: "3", name: "Team C" },

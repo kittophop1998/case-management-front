@@ -11,7 +11,7 @@ export const ConfirmPasswordSchemas = z.object({
 
 export const FilterUsersDialogSchemas = z.object({
   role: z.string().nullable(),
-  team: z.string().nullable(),
+  section: z.string().nullable(),
   center: z.string().nullable(),
   status: z.boolean().nullable(),
   department: z.string().nullable(),
@@ -19,12 +19,12 @@ export const FilterUsersDialogSchemas = z.object({
 
 export const UserSchema = z.object({
   id: z.string().min(1, "Agent ID is required"),
-  username: z.string().min(1, "Agent Name is required"),
+  name: z.string().min(1, "Agent Name is required"),
   email: z
     .string()
     .min(1, "Domain Name is required")
     .email("Invalid email format"),
-  team: z.string().min(1, "Team is required"),
+  section: z.string().min(1, "Team is required"),
   operatorId: z.string().min(1, "Operator ID is required"),
   centerId: z.string().min(1, "Center is required"),
   roleId: z.string().min(1, "Role is required"),
@@ -33,12 +33,12 @@ export const UserSchema = z.object({
 
 export const CreateEditUserSchema = z.object({
   id: z.string().nullable(),
-  username: z.string().min(1, "Agent Name is required"),
+  name: z.string().min(1, "Agent Name is required"),
   email: z
     .string()
     .min(1, "Domain Name is required")
     .email("Invalid email format"),
-  teamId: z.string().min(1, "Team is required"),
+  sectionId: z.string().min(1, "Team is required"),
   centerId: z.string().min(1, "Center is required"),
   roleId: z.string().min(1, "Role is required"),
   isActive: z.boolean("Status is required"),
@@ -51,7 +51,7 @@ export const CreateEditUserSchema = z.object({
     .string()
     .min(1, "Operator ID is required")
     .regex(/^\d+$/, "Operator ID must contain only numbers"),
-  queueId: z.string().min(1, "Queue is required"),
+  // queueId: z.string().min(1, "Queue is required"),
   departmentId: z.string().min(1, "Queue is required"),
 });
 

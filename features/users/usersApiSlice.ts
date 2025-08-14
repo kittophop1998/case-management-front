@@ -7,18 +7,18 @@ import { DefaultReqTableType } from "@/types/table.type";
 export interface GetUsersRequest extends DefaultReqTableType {
   status: boolean | null;
   role: string | null;
-  team: string | null;
+  section: string | null;
   center: string | null;
   searchText: string;
   department: string | null;
 }
 type EditUserBody = {
-  username: string;
+  name: string;
   roleId: number;
   centerId: number;
-  teamId: number;
+  sectionId: number;
   isActive: boolean;
-  queueId: string;
+  // queueId: string;
   departmentId: string;
 };
 
@@ -33,7 +33,7 @@ export const usersApiSlice = createApi({
         limit,
         status = true,
         role = null,
-        team = null,
+        section = null,
         center = null,
         sort = null,
         searchText = "",
@@ -44,7 +44,7 @@ export const usersApiSlice = createApi({
           limit?: string;
           is_active?: string;
           roleId?: string;
-          teamId?: string;
+          sectionId?: string;
           centerId?: string;
           keyword?: string;
           sort?: string;
@@ -54,7 +54,7 @@ export const usersApiSlice = createApi({
           limit: String(limit),
           is_active: String(status),
           roleId: String(role || ""),
-          teamId: String(team || ""),
+          sectionId: String(section || ""),
           centerId: String(center || ""),
           keyword: String(searchText || ""),
           departmentId: String(department || ""),
@@ -65,7 +65,7 @@ export const usersApiSlice = createApi({
         if (!limit) delete searchObj.limit;
         if (!status && status !== false) delete searchObj.is_active;
         if (!role) delete searchObj.roleId;
-        if (!team) delete searchObj.teamId;
+        if (!section) delete searchObj.sectionId;
         if (!center) delete searchObj.centerId;
         if (!sort) delete searchObj.sort;
         if (!searchText) delete searchObj.keyword;
@@ -79,7 +79,7 @@ export const usersApiSlice = createApi({
         };
       },
     }),
-    getUser: builder.mutation<ApiResponse<{ data: UserType }>, number>({
+    getUser: builder.mutation<ApiResponse<UserType>, number>({
       query: (uID) => ({
         url: `/users/${uID}`,
         method: "GET",
@@ -91,11 +91,11 @@ export const usersApiSlice = createApi({
     >({
       query: ({ id, data }) => {
         let body = {
-          name: data.username,
+          name: data.name,
           roleId: data.roleId,
           centerId: data.centerId,
-          queueId: data.queueId,
-          teamId: data.teamId,
+          // queueId: data.queueId,
+          sectionId: data.sectionId,
           departmentId: data.departmentId,
           isActive: data.isActive,
         };

@@ -16,7 +16,7 @@ const PopupUserUI = ({ user }: { user: UserProfileType }) => {
   const dispatch = useDispatch()
   const [logoutMutation, { isLoading: isLoadingLogout, isError: isLogoutError, error: logoutError }] = useLogoutMutation();
   const router = useRouter()
-  const username = user.name ?? 'Unknown User'
+  const name = user.name ?? 'Unknown User'
   const userEmail = user.email ?? 'Unknown Email'
   const userUrl = ''
   const userRole = user.role?.name ?? 'Unknown Role'
@@ -38,9 +38,8 @@ const PopupUserUI = ({ user }: { user: UserProfileType }) => {
       <Typography>Profile</Typography>
       <div className='flex gap-3 py-3'>
         <AvatarUser img={userUrl} />
-        {/* username={username}  */}
         <div>
-          <Typography>{username}</Typography>
+          <Typography>{name}</Typography>
           <Typography variant='caption'>{userEmail}</Typography>
         </div>
         <div className='flex-1'></div>
@@ -49,9 +48,6 @@ const PopupUserUI = ({ user }: { user: UserProfileType }) => {
         </Typography>
       </div>
       <div className='flex justify-between'>
-        {/* <Button variant='link' className='px-0'>
-          Reset Password
-        </Button> */}
         <div></div>
         <Button variant='outline' onClick={handleLogout} disabled={isLoadingLogout}>
           Logout
@@ -65,16 +61,14 @@ export const AppbarUserUI = () => {
   const { data: me, isLoading: isLoadingGetMe, refetch: refetchMe, isError: isGetMeError } = useGetMeQuery()
 
   if (!me) return null
-  // const me: UserProfileType = data
-  const username = me?.name ?? 'Unknown User'
-  //   return <PopupUserUI />
+  const name = me?.name ?? 'Unknown User'
   return (
     <Popover>
       <PopoverTrigger asChild>
         {/* <Button variant="outline">Open popover</Button> */}
         <div className='flex items-center gap-2'>
           <AvatarUser size='2' />
-          <Typography>{username}</Typography>
+          <Typography>{name}</Typography>
         </div>
       </PopoverTrigger>
       <PopoverContent className='w-[23rem] mx-2'>

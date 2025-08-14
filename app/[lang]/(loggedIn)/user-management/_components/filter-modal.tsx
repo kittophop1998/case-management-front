@@ -17,13 +17,13 @@ import { ComboboxField } from '@/components/form/combo-field'
 interface FilterModalProps {
   setStatus: (status: boolean | null) => void
   setRole: (role: string | null) => void
-  setTeam: (team: string | null) => void
+  setSection: (section: string | null) => void
   setCenter: (center: string | null) => void
   setDepartment: (department: string | null) => void
   department: string | null
   status: boolean | null
   role: string | null
-  team: string | null
+  section: string | null
   center: string | null
   isPending?: boolean
   isOpen: boolean
@@ -38,13 +38,13 @@ const seeAllObj = {
 export const FilterUsersModal = ({
   setStatus,
   setRole,
-  setTeam,
+  setSection,
   setCenter,
   setDepartment,
   department,
   status,
   role,
-  team,
+  section,
   center,
   isPending = false,
   isOpen,
@@ -52,7 +52,7 @@ export const FilterUsersModal = ({
 }: FilterModalProps) => {
   const defaultValues: z.infer<typeof FilterUsersDialogSchemas> = {
     role,
-    team,
+    section,
     center,
     status,
     department
@@ -68,7 +68,7 @@ export const FilterUsersModal = ({
   const onSubmit = (values: z.infer<typeof FilterUsersDialogSchemas>) => {
     setStatus(values.status)
     setRole(values.role)
-    setTeam(values.team)
+    setSection(values.section)
     setCenter(values.center)
     setDepartment(values.department)
     setIsOpen(false)
@@ -77,7 +77,7 @@ export const FilterUsersModal = ({
   const clearFilter = () => {
     setStatus(null)
     setRole(null)
-    setTeam(null)
+    setSection(null)
     setCenter(null)
     setDepartment(null)
     form.reset(defaultValues)
@@ -87,7 +87,7 @@ export const FilterUsersModal = ({
     if (isOpen) {
       form.reset(defaultValues)
     }
-  }, [isOpen, role, team, center, status])
+  }, [isOpen, role, section, center, status])
   // const seeData = form.watch()
   return (
     <Modal isOpen={isOpen} title='Filter' className='max-w-[317px]' onClose={() => { setIsOpen(false) }}>
@@ -116,13 +116,13 @@ export const FilterUsersModal = ({
           />
           <SelectField
             form={form}
-            name='team'
+            name='section'
             label='Team'
             placeholder='All'
             valueName='id'
             labelName='name'
             loading={isPending}
-            items={[seeAllObj, ...(dataDropdown?.data?.teams || [])]}
+            items={[seeAllObj, ...(dataDropdown?.data?.sections || [])]}
           />
           <SelectField
             form={form}

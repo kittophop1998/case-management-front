@@ -19,7 +19,6 @@ export async function loginUser({
   password,
 }: z.infer<typeof LoginSchemas>): Promise<ResponseLogin> {
   try {
-    console.log("loginUser", username, password);
     const res = await api<SignInAPIResponse>(`/auth/login`, {
       method: "POST",
       body: JSON.stringify({ username, password }),

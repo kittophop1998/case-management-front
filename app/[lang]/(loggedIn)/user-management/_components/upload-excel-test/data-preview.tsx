@@ -21,7 +21,7 @@ interface DataPreviewProps {
   sheetName: string
 }
 
-export function DataPreview ({ data, sheetName }: DataPreviewProps) {
+export function DataPreview({ data, sheetName }: DataPreviewProps) {
   if (!data || data.length === 0) {
     return (
       <Card>
@@ -40,7 +40,7 @@ export function DataPreview ({ data, sheetName }: DataPreviewProps) {
   // Domain Name domainName
   // Operator ID  operatorID
   // Role role
-  // Team team
+  // Team section
   // Center center
   // Status status
   const requiredColumns = [

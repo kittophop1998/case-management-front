@@ -5,13 +5,13 @@ import { ApiResponse } from "@/types/api.type";
 // centers
 // permissions
 // roles
-// teams
+// sections
 type GetDropdownResponse = ApiResponse<{
   data: {
     centers: JsonJoinDetails[];
     permissions: JsonJoinDetails[];
     roles: JsonJoinDetails[];
-    teams: JsonJoinDetails[];
+    sections: JsonJoinDetails[];
     departments: JsonJoinDetails[];
   };
 }>;

@@ -27,8 +27,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <>
-      <div className='fixed inset-0 z-50 flex items-center justify-center bg-[#A3A3A333]/20 backdrop-blur-xs'>
-        {/* <div className='fixed inset-0 w-screen h-screen  bg-[#A3A3A333]'>1asdasd</div> */}
+      <div className='fixed inset-0 z-50 flex items-center justify-center bg-[#A3A3A3]/20 backdrop-blur-xs'>
         <Card
           className={cn(
             'relative w-full max-w-lg p-6 rounded-lg shadow-xl',
