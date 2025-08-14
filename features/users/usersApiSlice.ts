@@ -42,7 +42,7 @@ export const usersApiSlice = createApi({
         let searchObj: {
           page?: string;
           limit?: string;
-          is_active?: string;
+          isActive?: string;
           roleId?: string;
           sectionId?: string;
           centerId?: string;
@@ -52,7 +52,7 @@ export const usersApiSlice = createApi({
         } = {
           page: String(page),
           limit: String(limit),
-          is_active: String(status),
+          isActive: String(status),
           roleId: String(role || ""),
           sectionId: String(section || ""),
           centerId: String(center || ""),
@@ -63,7 +63,7 @@ export const usersApiSlice = createApi({
 
         if (!page) delete searchObj.page;
         if (!limit) delete searchObj.limit;
-        if (!status && status !== false) delete searchObj.is_active;
+        if (!status && status !== false) delete searchObj.isActive;
         if (!role) delete searchObj.roleId;
         if (!section) delete searchObj.sectionId;
         if (!center) delete searchObj.centerId;

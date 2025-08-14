@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTable } from "../use-table";
 
 export const useUsers = ({ columns = [] }: { columns: any[] }) => {
-  const [status, setStatus] = useState<boolean | null>(null);
+  const [status, setStatus] = useState<boolean | null>(true);
   const [role, setRole] = useState<string | null>(null);
   const [department, setDepartment] = useState<string | null>(null);
   const [section, setSection] = useState<string | null>(null);
@@ -37,7 +37,6 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
       section_name: "section",
       department_name: "department",
       center_name: "center",
-      isActive: "is_active",
     },
   });
   const triggerFetch = () => {
