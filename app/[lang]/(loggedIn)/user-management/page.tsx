@@ -29,12 +29,12 @@ export default function UserManagementPage() {
     dialogDetailsRef.current?.setDefaultUser(user)
   }
   const columns = useMemo<ColumnDef<UserType, any>[]>(() => [
-    columnHelper.accessor('agentId', {
-      header: ({ column }) => <Header label='Agent ID' sortAble column={column} />,
+    columnHelper.accessor('staffId', {
+      header: ({ column }) => <Header label='Staff ID' sortAble column={column} />,
       cell: info => <div>{info.getValue()}</div>
     }),
     columnHelper.accessor('name', {
-      header: ({ column }) => <Header label='Agent Name' sortAble column={column} />,
+      header: ({ column }) => <Header label='Name' sortAble column={column} />,
       cell: info => <div>{info.getValue()}</div>
     }),
     columnHelper.accessor('email', {
@@ -50,7 +50,7 @@ export default function UserManagementPage() {
       cell: info => <div>{info.getValue()}</div>
     }),
     columnHelper.accessor('section.name', {
-      header: ({ column }) => <Header label='Team' sortAble column={column} />,
+      header: ({ column }) => <Header label='Section' sortAble column={column} />,
       cell: info => <div>{info.getValue()}</div>
     }),
     columnHelper.accessor('department.name', {

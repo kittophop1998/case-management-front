@@ -1,7 +1,7 @@
 export const sections = [
-  { id: "1", name: "Team A" },
-  { id: "2", name: "Team B" },
-  { id: "3", name: "Team C" },
+  { id: "1", name: "Section A" },
+  { id: "2", name: "Section B" },
+  { id: "3", name: "Section C" },
 ];
 
 export const centers = [
@@ -11,7 +11,7 @@ export const centers = [
 ];
 
 export const roles = [
-  { id: "AGENT", name: "Agent" },
+  { id: "STAFF", name: "Staff" },
   { id: "SUPERVISOR", name: "Supervisor" },
   { id: "ADMIN", name: "Admin" },
 ];

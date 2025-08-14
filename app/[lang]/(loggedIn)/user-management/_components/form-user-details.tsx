@@ -40,7 +40,7 @@ export const FormUserDetails = ({
   return (
     <div>
       <Typography variant='body2' className='mb-4'>
-        {mode === 'create' ? 'Agent Information' : name}
+        {mode === 'create' ? 'Staff Information' : name}
       </Typography>
       {isLoadingForm ? 'Loading...' : ''}
       <Form {...form}>
@@ -57,24 +57,34 @@ export const FormUserDetails = ({
             <TextField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
-              name='agentId'
-              label='Agent ID'
-              placeholder='Agent ID'
+              name='username'
+              label='Username'
+              placeholder='Staff ID'
+              reqired
             />
             <TextField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
               name='name'
-              label='Agent Name'
+              label='Name'
               placeholder='Name'
+              reqired
             />
+            <TextField
+              loading={isPendingSubmit || isLoadingForm}
+              form={form}
+              name='staffId'
+              label='Staff ID'
+              placeholder='Staff ID'
 
+            />
             <TextField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
               name='email'
               label='Email'
               placeholder='Domain Name'
+              reqired
             />
 
             <TextField
@@ -83,6 +93,7 @@ export const FormUserDetails = ({
               name='operatorId'
               label='Operator ID'
               placeholder='Operator ID'
+              reqired
             />
             {/* </> */}
             {/* )} */}
@@ -95,15 +106,28 @@ export const FormUserDetails = ({
               placeholder='Select'
               valueName='id'
               labelName='name'
+              reqired
             />
             <SelectField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
               items={dataDropdown?.data?.sections || []}
               name='sectionId'
-              label='Team'
+              label='Section'
               placeholder='Select'
               valueName='id'
+              labelName='name'
+              reqired
+            />
+            <SelectField
+              loading={isPendingSubmit || isLoadingForm}
+              form={form}
+              items={dataDropdown?.data?.departments || []}
+              name='departmentId'
+              label='Department'
+              placeholder='Select'
+              valueName='id'
+              reqired
               labelName='name'
             />
             <SelectField
@@ -115,26 +139,7 @@ export const FormUserDetails = ({
               placeholder='Select'
               valueName='id'
               labelName='name'
-            />
-            {/* <SelectField
-              loading={isPendingSubmit || isLoadingForm}
-              form={form}
-              items={dataDropdown?.data?.queues || []}
-              name='queueId'
-              label='Queue'
-              placeholder='Select'
-              valueName='id'
-              labelName='name'
-            /> */}
-            <SelectField
-              loading={isPendingSubmit || isLoadingForm}
-              form={form}
-              items={dataDropdown?.data?.departments || []}
-              name='departmentId'
-              label='Department'
-              placeholder='Select'
-              valueName='id'
-              labelName='name'
+              reqired
             />
             <div />
             {/* <div className={cn(mode === 'create' ? '' : 'order-first')}> */}
@@ -148,6 +153,7 @@ export const FormUserDetails = ({
               className='flex'
               valueName='id'
               labelName='name'
+              reqired
             />
             {/* </div> */}
           </div>

@@ -15,7 +15,7 @@ export const path2name: Record<string, string> = {
   "/inquiry-log": "Inquiry Log",
   // 2nd level
   "/case/management": "Case Management",
-  "/customer/search": "Customer Search",
+  "/customer/search": "Search Customer",
   "/customer/dashboard": "Customer Dashboard",
 };
 

@@ -3,6 +3,8 @@ import { UserType } from "@/types/user.type";
 import { baseQuery } from "@/services/api";
 import { ApiResponse } from "@/types/api.type";
 import { DefaultReqTableType } from "@/types/table.type";
+import { CreateEditUserSchema } from "@/schemas";
+import z from "zod";
 
 export interface GetUsersRequest extends DefaultReqTableType {
   status: boolean | null;
@@ -87,17 +89,13 @@ export const usersApiSlice = createApi({
     }),
     editUser: builder.mutation<
       ApiResponse<{}>,
-      { id: string; data: EditUserBody }
+      { id: string; data: z.infer<typeof CreateEditUserSchema> }
     >({
       query: ({ id, data }) => {
         let body = {
-          name: data.name,
-          roleId: data.roleId,
-          centerId: data.centerId,
-          // queueId: data.queueId,
-          sectionId: data.sectionId,
-          departmentId: data.departmentId,
-          isActive: data.isActive,
+          ...data,
+          staffId: Number(data.staffId),
+          operatorId: Number(data.operatorId),
         };
         return {
           url: `/users/${id}`,
@@ -107,15 +105,17 @@ export const usersApiSlice = createApi({
       },
       // invalidatesTags: (result, error, { id }) => [{ type: 'User', id }],
     }),
-    createUser: builder.mutation<ApiResponse<undefined>, any>({
+    createUser: builder.mutation<
+      ApiResponse<undefined>,
+      z.infer<typeof CreateEditUserSchema>
+    >({
       query: (user) => {
         let body = {
           ...user,
-          agentId: Number(user.agentId),
+          staffId: Number(user.staffId),
           operatorId: Number(user.operatorId),
         };
-        delete body.id; // Ensure id is not sent in the request
-        // }
+        delete body.id;
         return {
           url: "/users",
           method: "POST",

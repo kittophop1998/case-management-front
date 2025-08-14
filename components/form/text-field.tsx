@@ -19,6 +19,7 @@ interface TextFieldProps {
   readonly?: boolean // Optional prop to make the input read-only
   prependInnerIcon?: React.ReactNode // Optional prop for an icon
   appendInnerIcon?: React.ReactNode // Optional prop for an icon
+  reqired?: boolean // Optional prop to indicate if the field is required
 }
 const textFieldVariants = cva('', {
   variants: {
@@ -37,7 +38,8 @@ export const TextField = ({
   label,
   placeholder,
   prependInnerIcon,
-  appendInnerIcon
+  appendInnerIcon,
+  reqired = false
 }: TextFieldProps) => {
   return (
     <TextFieldWarpper
@@ -45,6 +47,7 @@ export const TextField = ({
       form={form}
       name={name}
       label={label}
+      reqired={reqired}
     >
       <TextFieldInput
         prependInnerIcon={prependInnerIcon}
@@ -62,13 +65,15 @@ interface TextFieldWarpperProps {
   form: any // Replace 'any' with the correct form type, e.g., UseFormReturn<any> if using react-hook-form
   name: string
   label: string
+  reqired?: boolean // Optional prop to indicate if the field is required
 }
 export const TextFieldWarpper = ({
   children,
   loading,
   form,
   name,
-  label
+  label,
+  reqired = false
 }: TextFieldWarpperProps) => {
   return (
     <FormField
@@ -77,7 +82,7 @@ export const TextFieldWarpper = ({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel>{label}{reqired && (<span className='text-red-500'>*</span>)}</FormLabel>
           {cloneElement(children, { field })}
           <FormMessage />
         </FormItem>

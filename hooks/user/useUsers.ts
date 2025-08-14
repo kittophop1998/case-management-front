@@ -32,7 +32,6 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
     data: dataList,
     columns: columns,
     mapSortingName: {
-      agentId: "agent_id",
       role_name: "role",
       section_name: "section",
       department_name: "department",

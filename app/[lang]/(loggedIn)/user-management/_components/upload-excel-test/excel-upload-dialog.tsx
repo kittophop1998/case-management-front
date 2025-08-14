@@ -182,22 +182,22 @@ export function ExcelUploadDialog({
     // Create sample data with the required columns
     const templateData = [
       {
-        'Agent ID': 'A001',
-        'Agent Name': 'John Doe',
+        'Staff ID': 'A001',
+        'Name': 'John Doe',
         'Domain Name': 'example.com',
         'Operator ID': 'O001',
         Role: 'Admin',
-        Team: 'Support',
+        Section: 'Support',
         Center: 'Main Center',
         Status: 'Active'
       },
       {
-        'Agent ID': 'A002',
-        'Agent Name': 'Jane Smith',
+        'Staff ID': 'A002',
+        'Name': 'Jane Smith',
         'Domain Name': 'example.org',
         'Operator ID': 'O002',
         Role: 'User',
-        Team: 'Sales',
+        Section: 'Sales',
         Center: 'Branch Office',
         Status: 'Disable'
       }

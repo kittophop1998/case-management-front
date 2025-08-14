@@ -16,7 +16,7 @@ export type UserType = {
   department: JsonJoinDetails;
   id: string;
   operatorId: number;
-  agentId: number;
+  staffId: number;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;

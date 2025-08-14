@@ -117,7 +117,7 @@ export const FilterUsersModal = ({
           <SelectField
             form={form}
             name='section'
-            label='Team'
+            label='Section'
             placeholder='All'
             valueName='id'
             labelName='name'

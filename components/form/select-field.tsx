@@ -25,6 +25,7 @@ interface SelectFieldProps {
   label: string
   placeholder?: string
   onChange?: (value: any) => void // Optional onChange handler
+  reqired?: boolean // Optional prop to indicate if the field is required
 }
 const selectFieldVariants = cva('w-full', {
   variants: {
@@ -45,7 +46,8 @@ const SelectField = ({
   form,
   name,
   label,
-  placeholder
+  placeholder,
+  reqired = false
 }: SelectFieldProps) => {
   const valueMap = new Map(
     items.map((item: any) => [String(item[valueName]), item[valueName]])
@@ -57,7 +59,9 @@ const SelectField = ({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel>{label}{
+            reqired && <span className='text-red-500'>*</span>
+          }</FormLabel>
           <Select
             {...field}
             value={String(field.value)}

@@ -22,12 +22,12 @@ interface DialogDetailsProps {
 
 }
 const emptyUser: z.infer<typeof CreateEditUserSchema> = {
-  "id": "",// Agent ID
-  "name": "",// Agent Name
+  "id": "",// Staff ID
+  "name": "",// Name
   "email": "",// Domain Name
-  "sectionId": "",// Team
+  "sectionId": "",// Section
   "operatorId": '',// Operator ID
-  "agentId": "",// Agent ID
+  "staffId": "",// Staff ID
   "centerId": "",// Center
   "roleId": "",// Role
   "isActive": true,// Status
@@ -90,30 +90,19 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
           console.log('Fetched user details:', userDetails)
           if (!userDetails?.data) return
           const userAPI = userDetails.data
-          console.log('userAPI :', userAPI)
-          console.log('userAPI.id :', userAPI.id)
-          console.log('userAPI.name :', userAPI.name)
-          console.log('userAPI.email :', userAPI.email)
-          console.log('userAPI.section.id :', userAPI.section.id)
-          console.log('userAPI.agentId :', userAPI.agentId)
-          console.log('userAPI.operatorId :', userAPI.operatorId)
-          console.log('userAPI.center.id :', userAPI.center.id)
-          console.log('userAPI.role.id :', userAPI.role.id)
-          console.log('userAPI.department.id :', userAPI.department.id)
           const updateForm = {
             id: userAPI.id,
-            name: userAPI.name,//?
+            username: userAPI.username,
+            name: userAPI.name,
             email: userAPI.email,
             sectionId: userAPI.section.id,
-            agentId: `${userAPI.agentId}`,
+            staffId: userAPI.staffId === null ? '' : `${userAPI.staffId}`,
             operatorId: `${userAPI.operatorId}`,
             centerId: userAPI.center.id,
             roleId: userAPI.role.id, // Assuming role is an object with an id
             departmentId: `${userAPI.department.id}`,
             isActive: userAPI.isActive
           }
-
-          // console.log('updateForm :', updateForm)
           form.reset(updateForm)
         } else {
           setMode('create')

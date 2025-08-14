@@ -35,21 +35,13 @@ export function DataPreview({ data, sheetName }: DataPreviewProps) {
 
   const headers = Object.keys(data[0])
 
-  // Agent ID agentID
-  // Agent Name agentName
-  // Domain Name domainName
-  // Operator ID  operatorID
-  // Role role
-  // Team section
-  // Center center
-  // Status status
   const requiredColumns = [
-    'Agent ID',
-    'Agent Name',
+    'Staff ID',
+    'Name',
     'Domain Name',
     'Operator ID',
     'Role',
-    'Team',
+    'Section',
     'Center',
     'Status'
   ]

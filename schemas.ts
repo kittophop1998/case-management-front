@@ -18,10 +18,10 @@ export const FilterUsersDialogSchemas = z.object({
 });
 
 export const UserSchema = z.object({
-  id: z.string().min(1, "Agent ID is required"),
-  name: z.string().min(1, "Agent Name is required"),
+  id: z.string().min(1, "Staff ID is required"),
+  name: z.string().min(1, "Name is required"),
   email: z.string().min(1, "Email is required").email("Invalid email format"),
-  section: z.string().min(1, "Team is required"),
+  section: z.string().min(1, "Section is required"),
   operatorId: z.string().min(1, "Operator ID is required"),
   centerId: z.string().min(1, "Center is required"),
   roleId: z.string().min(1, "Role is required"),
@@ -30,17 +30,17 @@ export const UserSchema = z.object({
 
 export const CreateEditUserSchema = z.object({
   id: z.string().nullable(),
-  name: z.string().min(1, "Agent Name is required"),
+  username: z.string().min(1, "Username is required"),
+  name: z.string().min(1, "Name is required"),
   email: z.string().min(1, "Email is required").email("Invalid email format"),
-  sectionId: z.string().min(1, "Team is required"),
+  sectionId: z.string().min(1, "Section is required"),
   centerId: z.string().min(1, "Center is required"),
   roleId: z.string().min(1, "Role is required"),
   isActive: z.boolean("Status is required"),
-  //
-  agentId: z
-    .string()
-    .min(1, "Agent ID is required")
-    .regex(/^\d+$/, "Agent ID must contain only numbers"),
+  staffId: z.union([
+    z.string().regex(/^\d+$/, "Staff ID must contain only numbers"), // digits only
+    z.literal(""), // allow empty string
+  ]),
   operatorId: z
     .string()
     .min(1, "Operator ID is required")
