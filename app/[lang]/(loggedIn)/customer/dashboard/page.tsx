@@ -62,7 +62,37 @@ const DataWithCopy = ({ title, value, showCopy = false, loading }: { value: stri
 }
 const CustomerDashboard = () => {
     const [searchCustomer, { data, isFetching, isError, error }] = useLazySearchCustomerQuery();
-    const customer: Customer | undefined = useMemo(() => data?.data, [data]);
+    const customer: Customer | undefined = useMemo(() => {
+        let value = { ...(data?.data || {}) }
+        if (value?.email === undefined) {
+            value.email = ''
+        }
+        if (value?.status === undefined) {
+            value.status = 'Active'
+        }
+        if (value?.type === undefined) {
+            value.type = 'Individual'
+        }
+        if (value?.group === undefined) {
+            value.group = 'Regular'
+        }
+        if (value?.paymentStatus === undefined) {
+            value.paymentStatus = 'Paid'
+        }
+        if (value?.segment === undefined) {
+            value.segment = 'General'
+        }
+        if (value?.mobileAppStatus === undefined) {
+            value.mobileAppStatus = 'Active'
+        }
+        if (value?.gender === undefined) {
+            value.gender = ''
+        }
+        if (value?.note === undefined) {
+            value.note = { count: 0 };
+        }
+        return value
+    }, [data]);
     const router = useRouter()
     useEffect(() => {
         searchCustomer({
@@ -83,7 +113,8 @@ const CustomerDashboard = () => {
         setStatusNote(false);
     }
     if (isFetching) return <></>
-    // if (!customer) return <>ERROR</>
+    if (!customer) return <></>
+
     return (
         <>
             <Tabs defaultValue="account">
@@ -116,7 +147,7 @@ const CustomerDashboard = () => {
                     </div>
                     <TabsContent value="account" className="max-w-none">
                         <div className="grid grid-cols-12 gap-4">
-                            <SectionCard title={customer?.name} TopRight={
+                            <SectionCard title={customer.customerNameEng} TopRight={
                                 <>
                                     <VerifyPass className='size-7' />
                                 </>
@@ -129,8 +160,8 @@ const CustomerDashboard = () => {
                                     <div className="grid grid-cols-6 gap-4 ">
                                         <DisplayDerivedValue title="Phone" value={
                                             <div className="flex gap-1">
-                                                <Typography variant="body2">{customer?.status ? '+66' : ''}</Typography>
-                                                <Typography variant="body2" className="text-[#FA541C]">{customer?.status ? '0656506331' : ''}</Typography>
+                                                <Typography variant="body2">{customer?.mobileNo ? '+66' : ''}</Typography>
+                                                <Typography variant="body2" className="text-[#FA541C]">{customer.mobileNo}</Typography>
                                             </div>
                                         } className="col-span-3" />
                                         <DisplayDerivedValue title="Email" value={customer?.email} className="col-span-3 " />
