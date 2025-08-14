@@ -12,8 +12,8 @@ import { cn } from '@/lib/utils'
 import { CreateEditUserSchema } from '@/schemas'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
-import { getErrorMessageAPI } from '@/lib/utils/get-error-message-api'
 import { Button } from '@/components/common/Button'
+import { getErrorText } from '@/services/api'
 
 interface FormUserDetailsProps {
   form: ReturnType<typeof useForm<z.infer<typeof CreateEditUserSchema>>>
@@ -157,7 +157,9 @@ export const FormUserDetails = ({
             />
             {/* </div> */}
           </div>
-          {!!error && <FormError message={getErrorMessageAPI(error)} />}
+          {JSON.stringify(form.error)}
+          {!!error && <FormError message={getErrorText(error)} />}
+
           <div className='flex justify-end gap-3'>
             {/* { */}
             {/* // mode === 'create' && */}
