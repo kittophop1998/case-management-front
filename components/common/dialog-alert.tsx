@@ -1,21 +1,13 @@
 'use client'
-import { useState } from 'react'
-import { createPortal } from 'react-dom'
 import * as ReactDOM from 'react-dom/client'
-import { ButtonCancel } from '../button/btn-cancle'
 import { Button } from '../ui/button'
-import { Form, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ConfirmPasswordSchemas } from '@/schemas'
 import z from 'zod'
-import { PasswordField } from '@/components/form/password-field'
-import Lock from '@/public/icons/Lock.svg'
-import { FormError } from '@/components/form/form-error'
-import { FormProvider } from 'react-hook-form'
 import { Typography } from './typography'
 import { CircleCheck, CircleX } from 'lucide-react'
 
-const ConfigDialog = {}
 
 interface DialogAlertProps {
     isSuccess: boolean;

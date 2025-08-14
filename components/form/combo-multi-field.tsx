@@ -101,7 +101,7 @@ export function ComboboxMultiField({
               </PopoverTrigger>
               <PopoverContent className="w-full p-0">
                 <Command>
-                  <CommandInput placeholder="Search..." className="h-9" />
+                  <CommandInput placeholder="Search" className="h-9" />
                   <CommandList>
                     <CommandEmpty>No item found.</CommandEmpty>
                     <CommandGroup>

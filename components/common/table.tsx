@@ -213,7 +213,7 @@ export const SearchInput = ({ globalFilter, setGlobalFilter }: SearchInputProps)
   return (
     <input
       type='text'
-      placeholder='Search...'
+      placeholder='Search'
       value={globalFilter}
       onChange={e => setGlobalFilter(e.target.value)}
       className='max-w-sm border p-2 rounded'

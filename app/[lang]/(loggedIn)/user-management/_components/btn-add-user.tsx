@@ -1,9 +1,10 @@
 import { Typography } from "@/components/common/typography";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/common/Button";
 import { Popover, PopoverContent } from "@/components/ui/popover";
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import { UserPlus } from "lucide-react";
 import { useState } from "react";
+import AddUserSvg from '@/public/icons/Add User.svg'
 
 interface BtnAddUserProps {
     onOpenDialogCreateUser: () => void;
@@ -22,9 +23,10 @@ export const BtnAddUser = ({
         <div className="flex justify-end mb-3 mt-3">
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
-                    <Button className="bg-black text-white">
-                        <UserPlus />
-                        Add User
+                    <Button variant='black' className="rounded-xl">
+                        {/* <UserPlus /> */}
+                        <AddUserSvg size={20} className='size-[1.25rem]' />
+                        Add user
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-80">

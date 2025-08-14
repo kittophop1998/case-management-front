@@ -4,7 +4,7 @@ import { Input } from '../common/text-input'
 const InputFilter = ({
   setValue,
   value,
-  placeholder = 'Search...',
+  placeholder = 'Search',
   readonly = false
 }: {
   placeholder?: string
@@ -14,9 +14,10 @@ const InputFilter = ({
 }) => {
   return (
     <div className='relative flex'>
-      <div className='absolute flex items-center justify-center h-full w-[2rem]'>
+      <div className='absolute flex items-center justify-center h-full w-[2.5rem]'>
         {/* @ts-expect-error className is valid for lucide icon */}
-        <Search size={15} className='cursor-pointer' />
+        <Search size={20} className='cursor-pointer' />
+        {/* size-[0.936rem] */}
       </div>
       <Input
         prependInnerIcon

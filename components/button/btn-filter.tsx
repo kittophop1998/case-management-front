@@ -1,12 +1,12 @@
 import { Funnel } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../common/Button";
 
 interface BtnFilterProps {
     onClick: () => void;
 }
 const BtnFilter = ({ onClick }: BtnFilterProps) => {
     return (
-        <Button variant='outline' onClick={onClick} >
+        <Button variant='outline-black' onClick={onClick} >
             <Funnel />  Filter
         </Button >
     );

@@ -32,7 +32,7 @@ export const path2clientpath: Record<string, { name: string; goto: string }[]> =
     ],
     "/user-management": [
       {
-        name: "user-management",
+        name: "User",
         goto: "",
       },
     ],
