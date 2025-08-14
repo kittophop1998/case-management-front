@@ -116,6 +116,7 @@ export const usersApiSlice = createApi({
           operatorId: Number(user.operatorId),
         };
         delete body.id;
+        delete body.isActive;
         return {
           url: "/users",
           method: "POST",

@@ -143,28 +143,30 @@ export const FormUserDetails = ({
             />
             <div />
             {/* <div className={cn(mode === 'create' ? '' : 'order-first')}> */}
-            <RadioField
-              disableList={mode === 'create' ? [false] : undefined}
-              loading={isPendingSubmit || isLoadingForm}
-              form={form}
-              items={statuses}
-              name='isActive'
-              label='Status'
-              className='flex'
-              valueName='id'
-              labelName='name'
-              reqired
-            />
+            {
+              mode === 'create' ? null : <>
+                <RadioField
+                  // disableList={mode === 'create' ? [false] : undefined}
+                  loading={isPendingSubmit || isLoadingForm}
+                  form={form}
+                  items={statuses}
+                  name='isActive'
+                  label='Status'
+                  className='flex'
+                  valueName='id'
+                  labelName='name'
+                  reqired
+                />
+              </>
+            }
+
             {/* </div> */}
           </div>
           {JSON.stringify(form.error)}
           {!!error && <FormError message={getErrorText(error)} />}
 
           <div className='flex justify-end gap-3'>
-            {/* { */}
-            {/* // mode === 'create' && */}
             <ButtonCancel onClick={onClose} className='w-[100px]' />
-            {/* } */}
             <Button
               type='submit'
               loading={isPendingSubmit || isLoadingForm}
