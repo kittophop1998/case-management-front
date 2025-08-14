@@ -9,13 +9,13 @@ import { useRouter } from 'next/navigation'
 import { useGetMeQuery, useLogoutMutation, authApiSlice } from '@/features/auth/authApiSlice'
 import { UserProfileType } from '@/types/user.type'
 import { useDispatch } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { AvatarUser } from '@/components/user/avatar'
 import { Separator } from '@/components/ui/separator'
 import { BtnClose } from '@/components/button/btn-close'
 import Image from 'next/image'
 
-const PopupUserUI = ({ user }: { user: UserProfileType }) => {
+const PopupUserUI = ({ user, onClose }: { user: UserProfileType }) => {
   const dispatch = useDispatch()
   const [logoutMutation, { isLoading: isLoadingLogout, isError: isLogoutError, error: logoutError }] = useLogoutMutation();
   const router = useRouter()
@@ -40,7 +40,7 @@ const PopupUserUI = ({ user }: { user: UserProfileType }) => {
     <div className='w-[clamp(300px,100%,423px)]'>
       <div className='flex justify-between'>
         <Typography variant='subH3Medium'>Profile</Typography>
-        <BtnClose onClick={() => { }} />
+        <BtnClose onClick={onClose} />
       </div>
       <div className='flex gap-3 py-3'>
         {/* <AvatarUser img={userUrl} /> */}
@@ -74,19 +74,21 @@ const PopupUserUI = ({ user }: { user: UserProfileType }) => {
 export const AppbarUserUI = () => {
   const { data: me, isLoading: isLoadingGetMe, refetch: refetchMe, isError: isGetMeError } = useGetMeQuery()
 
+  const [openPopup, setOpenPopup] = useState(false)
   if (!me) return null
   const name = me?.name ?? 'Unknown User'
   return (
-    <Popover>
+    <Popover open={openPopup} onOpenChange={setOpenPopup} modal>
       <PopoverTrigger asChild>
-        {/* <Button variant="outline">Open popover</Button> */}
         <div className='flex items-center gap-2'>
           <AvatarUser size='2' />
           <Typography>{name}</Typography>
         </div>
       </PopoverTrigger>
-      <PopoverContent className='w-[23rem] mx-2'>
-        <PopupUserUI user={me} />
+      <PopoverContent className='w-[23rem] mx-2' onPointerDownOutside={(e) => {
+        e.preventDefault() // prevent closing
+      }}>
+        <PopupUserUI user={me} onClose={() => setOpenPopup(false)} />
       </PopoverContent>
     </Popover>
   )
