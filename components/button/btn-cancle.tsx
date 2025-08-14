@@ -11,7 +11,7 @@ export const ButtonCancel = (
   }
 ) => {
   return (
-    <Button variant='outline' type='button' {...props} className={cn('border-primary text-primary hover:text-primary', className)}>
+    <Button variant='outline-primary' type='button' {...props} className={cn('', className)}>
       Cancel
     </Button>
   )

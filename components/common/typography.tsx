@@ -1,6 +1,12 @@
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import { JSX, ReactNode } from "react";
+import { Poppins } from 'next/font/google'
+
+const poppins = Poppins({
+  weight: ['400', '500', '600', '700'], // pick the weights you need
+  subsets: ['latin']
+});
 
 type TypographyProps = {
   variant?:
@@ -15,6 +21,9 @@ type TypographyProps = {
   | "caption" // ใช้บ่อยปานกลาง (hint/คำอธิบายใต้ input หรือภาพ) ~10% ***
   | "overline"// ใช้น้อยมาก (label ด้านบน, section indicator) ~2%
   | "button"  // ใช้ปานกลาง (label ปุ่มทั้งหมด) ~15%
+  // * DELETE UNDER THIS
+  | "subH3Medium" // ใช้บ่อย (subtitle ขนาดกลาง, ใช้ font Poppins) ~20%
+  | 'body2grey'
   children: ReactNode;
   className?: string;
   as?: keyof JSX.IntrinsicElements;
@@ -36,6 +45,8 @@ const typographyVariants = cva(
         caption: "text-xs text-muted-foreground",
         overline: "text-xs uppercase tracking-widest text-muted-foreground",
         button: "text-sm font-medium uppercase tracking-wide",
+        body2grey: "text-sm text-muted-foreground",
+        subH3Medium: cn(poppins.className, "font-medium text-[1.25rem]"),//use font Poppins
       },
     },
   }
