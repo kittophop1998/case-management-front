@@ -29,7 +29,7 @@ export function AppBar() {
   return (
     <header className='bg-white shrink-0 items-center gap-2 transition-[width,height] ease-linear '>
       <Container className='flex justify-between items-center'>
-        <Typography variant='h3' as='p'>
+        <Typography variant='subH3Medium' as='p'>
           {title}
         </Typography>
         <div className='flex items-center gap-6 py-3'>
