@@ -59,7 +59,7 @@ export const FormUserDetails = ({
               form={form}
               name='username'
               label='Username'
-              placeholder='Staff ID'
+              placeholder='Enter Username'
               reqired
             />
             <TextField
@@ -67,7 +67,7 @@ export const FormUserDetails = ({
               form={form}
               name='name'
               label='Name'
-              placeholder='Name'
+              placeholder='Enter Name'
               reqired
             />
             <TextField
@@ -75,7 +75,7 @@ export const FormUserDetails = ({
               form={form}
               name='staffId'
               label='Staff ID'
-              placeholder='Staff ID'
+              placeholder='Enter Staff ID'
 
             />
             <TextField
@@ -83,7 +83,7 @@ export const FormUserDetails = ({
               form={form}
               name='email'
               label='Email'
-              placeholder='Domain Name'
+              placeholder='Enter Email'
               reqired
             />
 
@@ -92,7 +92,7 @@ export const FormUserDetails = ({
               form={form}
               name='operatorId'
               label='Operator ID'
-              placeholder='Operator ID'
+              placeholder='Enter Operator ID'
               reqired
             />
             {/* </> */}
@@ -103,7 +103,7 @@ export const FormUserDetails = ({
               items={dataDropdown?.data?.roles || []}
               name='roleId'
               label='Role'
-              placeholder='Select'
+              placeholder='Enter Role'
               valueName='id'
               labelName='name'
               reqired
@@ -114,7 +114,7 @@ export const FormUserDetails = ({
               items={dataDropdown?.data?.sections || []}
               name='sectionId'
               label='Section'
-              placeholder='Select'
+              placeholder='Enter Section'
               valueName='id'
               labelName='name'
               reqired
@@ -125,7 +125,7 @@ export const FormUserDetails = ({
               items={dataDropdown?.data?.departments || []}
               name='departmentId'
               label='Department'
-              placeholder='Select'
+              placeholder='Enter Department'
               valueName='id'
               reqired
               labelName='name'
@@ -136,7 +136,7 @@ export const FormUserDetails = ({
               items={dataDropdown?.data?.centers || []}
               name='centerId'
               label='Center'
-              placeholder='Select'
+              placeholder='Enter Center'
               valueName='id'
               labelName='name'
               reqired

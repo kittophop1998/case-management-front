@@ -12,11 +12,9 @@ export type ApiResponseError = {
 export type ApiResponse<T> = {
   data?: T;
   error?: ApiResponseError;
-  //
   page?: number;
   limit?: number;
   total?: number;
   totalPages?: number;
-  //
   count?: number;
 };
