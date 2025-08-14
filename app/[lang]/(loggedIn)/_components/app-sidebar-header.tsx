@@ -29,7 +29,7 @@ export function AppSidebarHeader() {
             alt='Case Management Icon'
             width={55}
             height={55}
-            className='size-10 object-cover rounded-sm cursor-pointer pointer-events-auto '
+            className='size-10 object-cover rounded-sm cursor-pointer pointer-events-auto hover:opacity-80 hover:grayscale-40 grey'
             onClick={() => {
               // if (isMobile) {
               toggleSidebar()
