@@ -39,7 +39,11 @@ export default function UserManagementPage() {
     }),
     columnHelper.accessor('email', {
       header: ({ column }) => <Header label='Domain Name' sortAble column={column} />,
-      cell: info => <div>{info.getValue()}</div>
+      cell: info => {
+        const email = info.getValue()
+        const domain = email.split('@')[0] || ''
+        return <div>{domain}</div>
+      }
     }),
     columnHelper.accessor('role.name', {
       header: ({ column }) => <Header label='Role' sortAble column={column} />,

@@ -20,10 +20,7 @@ export const FilterUsersDialogSchemas = z.object({
 export const UserSchema = z.object({
   id: z.string().min(1, "Agent ID is required"),
   name: z.string().min(1, "Agent Name is required"),
-  email: z
-    .string()
-    .min(1, "Domain Name is required")
-    .email("Invalid email format"),
+  email: z.string().min(1, "Email is required").email("Invalid email format"),
   section: z.string().min(1, "Team is required"),
   operatorId: z.string().min(1, "Operator ID is required"),
   centerId: z.string().min(1, "Center is required"),
@@ -34,10 +31,7 @@ export const UserSchema = z.object({
 export const CreateEditUserSchema = z.object({
   id: z.string().nullable(),
   name: z.string().min(1, "Agent Name is required"),
-  email: z
-    .string()
-    .min(1, "Domain Name is required")
-    .email("Invalid email format"),
+  email: z.string().min(1, "Email is required").email("Invalid email format"),
   sectionId: z.string().min(1, "Team is required"),
   centerId: z.string().min(1, "Center is required"),
   roleId: z.string().min(1, "Role is required"),
