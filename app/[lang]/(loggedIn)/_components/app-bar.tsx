@@ -11,6 +11,7 @@ import { Notification } from './notification'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { path2clientpath, path2name } from '@/const/title-path'
+import { SidebarTrigger } from '@/components/ui/sidebar'
 
 
 const getTitle = (pathArr: string[]) => {
@@ -28,10 +29,12 @@ export function AppBar() {
 
   return (
     <header className='bg-white shrink-0 items-center gap-2 transition-[width,height] ease-linear '>
-      <Container className='flex justify-between items-center'>
+      <Container className='flex items-center'>
+        <SidebarTrigger className='block md:hidden' />
         <Typography variant='subH3Medium' as='p'>
           {title}
         </Typography>
+        <div className='flex-1' />
         <div className='flex items-center gap-6 py-3'>
           <div className='flex items-center gap-2'>
             <SwitchLanguage />
