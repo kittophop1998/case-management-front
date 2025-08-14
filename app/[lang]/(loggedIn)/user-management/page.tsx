@@ -122,7 +122,7 @@ export default function UserManagementPage() {
       </Container>
       <CardPageWrapper>
         <div className='flex items-center gap-3 mb-3'>
-          <Typography variant='h3' as='p'>
+          <Typography >
             User Lists
           </Typography>
           <div className='flex-1' />
