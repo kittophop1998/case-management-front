@@ -39,7 +39,7 @@ export const FormUserDetails = ({
   return (
     <div>
       <Typography variant='body2' className='mb-4'>
-        {mode === 'create' ? 'Staff Information' : name}
+        {mode === 'create' ? 'User Information' : name}
       </Typography>
       {isLoadingForm ? 'Loading...' : ''}
       <Form {...form}>

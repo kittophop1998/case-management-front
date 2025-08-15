@@ -19,7 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BtnNew from "@/components/button/btn-new";
 import { CreateNewNoteTemplate } from "@/components/note/form-create-note";
 import { DialogSelectCaseType } from "@/components/case/dialog-select-case-type";
-import { useLazyCustomerDashboardQuery, useLazySearchCustomerQuery } from "@/features/customers/customersApiSlice";
+import { useLazyCustomerDashboardQuery } from "@/features/customers/customersApiSlice";
 import { Customer } from "@/types/customer.type";
 import VerifyPass from '@/public/icons/VerifyPass.svg'
 import { ChartAreaDefault } from "@/components/chart/mockup";
