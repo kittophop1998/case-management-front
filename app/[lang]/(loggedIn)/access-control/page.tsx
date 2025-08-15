@@ -9,8 +9,8 @@ import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { DataTable, Header } from "@/components/common/table";
 import BtnEdit from "@/components/button/btn-edit";
 import { CheckIsActive } from "@/components/common/check-is-active";
-import { SearchFieldInput } from "@/components/form/search-field";
 import { SearchSection } from "./_components/search-section";
+import { Button } from "@/components/common/Button";
 // AccessControlPage.whyDidYouRender = true
 
 
@@ -86,8 +86,6 @@ export default function AccessControlPage({
       <SearchSection
         search={search}
         setSearch={setSearch}
-        departments={[]}
-        sections={[]}
       />
       <div className="flex">
         <div className="w-[clamp(300px,100%,342px)]">
@@ -97,7 +95,18 @@ export default function AccessControlPage({
           <Typography>Section:  -</Typography>
         </div>
         <div className="flex-1" />
-        <BtnEdit onClick={() => { setIsEdit((current => !current)) }} variant="black" text='Edit' className={isEdit ? 'bg-primary' : ''} />
+        {
+          isEdit ?
+            <>
+              <Button variant='black'>
+                Save
+              </Button>
+            </> :
+            <>
+              <BtnEdit onClick={() => { setIsEdit((current => !current)) }} variant="black" text='Edit' className={isEdit ? 'bg-primary' : ''} />
+            </>
+        }
+
       </div>
 
       <Typography variant="body2">

@@ -13,6 +13,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { cva } from 'class-variance-authority'
+import { TextFieldWarpper } from './text-field'
 
 interface SelectFieldProps {
   loading?: boolean
@@ -49,52 +50,83 @@ const SelectField = ({
   placeholder,
   reqired = false
 }: SelectFieldProps) => {
+  return (
+    <TextFieldWarpper
+      loading={loading}
+      form={form}
+      name={name}
+      label={label}
+      reqired={reqired}
+    >
+      <SelectFieldInput
+        placeholder={placeholder}
+        readonly={readonly}
+        items={items}
+        valueName={valueName}
+        labelName={labelName}
+        onChange={onChange}
+      />
+    </TextFieldWarpper>
+  )
+}
+
+interface SelectFieldInputProps {
+  placeholder?: string
+  readonly?: boolean
+  field?: any // Replace 'any' with the correct field type, e.g., UseFormReturn<any> if using react-hook-form
+  clearABle?: boolean
+  loading?: boolean,
+  className?: string
+  items?: any[]
+  valueName?: string
+  labelName?: string
+}
+export const SelectFieldInput = ({
+  placeholder,
+  readonly = false,
+  field,
+  clearABle = false,
+  loading = false,
+  className = '',
+  items = [],
+  valueName = 'value',
+  labelName = 'label',
+}: SelectFieldInputProps) => {
   const valueMap = new Map(
     items.map((item: any) => [String(item[valueName]), item[valueName]])
   )
   return (
-    <FormField
-      disabled={loading}
-      control={form.control}
-      name={name}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>{label}{
-            reqired && <span className='text-red-500'>*</span>
-          }</FormLabel>
-          <Select
-            {...field}
-            value={String(field.value)}
-            onValueChange={val => {
-              const actualValue = valueMap.get(val)
-              if (actualValue !== undefined) {
-                field.onChange(actualValue) // fallback to val if not found
-              } else {
-                field.onChange(val) // fallback to val if not found
-              }
-            }}
+    <Select
+      className={className}
+      {...field}
+      value={String(field.value)}
+      onValueChange={val => {
+        const actualValue = valueMap.get(val)
+        if (actualValue !== undefined) {
+          console.log('SelectFieldInput onValueChange', actualValue)
+          field?.onChange && field?.onChange(actualValue)
+          // onChange && onChange?.(actualValue)
+        } else {
+          field?.onChange & field?.onChange(val)
+        }
+      }}
+    >
+      {/* <FormControl> */}
+      <SelectTrigger className='w-full overflow-hidden shadow-none base-input-casemm'>
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+      {/* </FormControl> */}
+      <SelectContent>
+        {items.map((item: any) => (
+          <SelectItem
+            key={item[valueName]}
+            value={String(item[valueName])}
           >
-            <FormControl>
-              <SelectTrigger className='w-full overflow-hidden shadow-none base-input-casemm'>
-                <SelectValue placeholder={placeholder} />
-              </SelectTrigger>
-            </FormControl>
-            <SelectContent>
-              {items.map((item: any) => (
-                <SelectItem
-                  key={item[valueName]}
-                  value={String(item[valueName])}
-                >
-                  {item[labelName]}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+            {item[labelName]}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   )
 }
-
 export { SelectField }
