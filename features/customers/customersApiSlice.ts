@@ -13,34 +13,46 @@ export const customersApiSlice = createApi({
   endpoints: (builder) => ({
     searchCustomer: builder.query<ApiResponse<Customer>, ReqSearchCustomer>({
       query: ({ id }) => {
-        let searchObj = {
+        return {
+          url: `/dashboard/custinfo/${id}`,
+          method: "GET",
+        };
+      },
+    }),
+    customerDashboard: builder.query<ApiResponse<Customer>, ReqSearchCustomer>({
+      query: ({ id }) => {
+        let query = {
           id: String(id),
           datamock: JSON.stringify({
-            id: id,
-            code: id,
-            name: `${id}`,
-            since: "2020-01-01",
-            img: "",
-            phone: "+66 0656506331",
-            email: "surapong.Lert@gmail.com",
-            status: "Normal",
-            type: "VP",
-            group: "Nomal-VIP",
-            paymentStatus: "On-Time",
-            segment: "Existing Customer - Active",
-            mobileAppStatus: "Active",
-            gender: "Men",
-            note: {
-              count: 3,
-            },
+            lastCardApplyDate: "25 Aug 2023",
+            customerSentiment: "",
+            phoneNoLastUpdateDate: "01 Aug 2024",
+            lastIncreaseCreditLimitUpdate: "",
+            lastReduceCreditLimitUpdate: "",
+            lastIncomeUpdate: "29 Aug 2023",
+            suggestedAction: "Update salary slip",
+            typeOfJob: "PRIVATE COMPANY",
+            maritalStatus: "Single",
+            gender: "Female",
+            lastEStatementSentDate: "",
+            eStatementSentStatus: "",
+            statementChannel: "Paper",
+            consentForDisclose: "Incomplete",
+            blockMedia: "No blocked",
+            consentForCollectUse: "Incomplete",
+            //
+            nationalId: "1102001313257",
+            customerNameEng: "ARUNEE TESTCDP",
+            customerNameTh: "อรุณี TESTCDP",
+            mobileNO: "00913589211",
+            mailToAddress: "40 ม.1 ต.สวนแตง อ.ละแม จ.ชุมพร 86170",
+            mailTo: "Home",
           }),
           // isError: "true",
         };
-        const searchParams = new URLSearchParams(searchObj);
+        const searchParams = new URLSearchParams(query);
         return {
-          // url: `/customers/search/${id}?${searchParams.toString()}`,
-          // url: `/customers/search/${id}?${searchParams.toString()}`,
-          url: `/dashboard/custinfo/${id}`,
+          url: `/mock/dashboard/custprofile/${id}?${searchParams.toString()}`,
           method: "GET",
         };
       },
@@ -79,4 +91,5 @@ export const customersApiSlice = createApi({
   }),
 });
 
-export const { useLazySearchCustomerQuery } = customersApiSlice;
+export const { useLazySearchCustomerQuery, useLazyCustomerDashboardQuery } =
+  customersApiSlice;

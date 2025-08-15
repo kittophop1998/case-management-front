@@ -19,10 +19,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BtnNew from "@/components/button/btn-new";
 import { CreateNewNoteTemplate } from "@/components/note/form-create-note";
 import { DialogSelectCaseType } from "@/components/case/dialog-select-case-type";
-import { useLazySearchCustomerQuery } from "@/features/customers/customersApiSlice";
+import { useLazyCustomerDashboardQuery, useLazySearchCustomerQuery } from "@/features/customers/customersApiSlice";
 import { Customer } from "@/types/customer.type";
 import VerifyPass from '@/public/icons/VerifyPass.svg'
 import { ChartAreaDefault } from "@/components/chart/mockup";
+import { useSearchParams } from 'next/navigation'
+import { getErrorText } from "@/services/api";
 
 
 const DisplayDerivedValue = ({ title, value, className, classNameValue }: { title: string, value: any, className?: string, classNameValue?: string }) => {
@@ -61,7 +63,9 @@ const DataWithCopy = ({ title, value, showCopy = false, loading }: { value: stri
     );
 }
 const CustomerDashboard = () => {
-    const [searchCustomer, { data, isFetching, isError, error }] = useLazySearchCustomerQuery();
+    const searchParams = useSearchParams()
+    const customerId = searchParams.get('customerId')
+    const [searchCustomer, { data, isFetching, isError, error }] = useLazyCustomerDashboardQuery();
     const customer: Customer | undefined = useMemo(() => {
         if (data?.data === undefined) {
             return undefined
@@ -99,9 +103,9 @@ const CustomerDashboard = () => {
     const router = useRouter()
     useEffect(() => {
         searchCustomer({
-            id: 'aaaaaa'
+            id: customerId
         })
-    }, []);
+    }, [customerId]);
     const [openSelectCase, setOpenSelectCase] = useState<boolean>(false);
     const [status, setStatus] = useState<boolean>(false);
     const [statusNote, setStatusNote] = useState<boolean>(false);
@@ -115,6 +119,7 @@ const CustomerDashboard = () => {
         setStatus(false);
         setStatusNote(false);
     }
+    if (isError) return <>{getErrorText(error)}</>
     if (isFetching) return <></>
     if (!customer) return <></>
 
