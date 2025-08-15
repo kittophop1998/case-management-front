@@ -11,6 +11,7 @@ import BtnEdit from "@/components/button/btn-edit";
 import { CheckIsActive } from "@/components/common/check-is-active";
 import { SearchSection } from "./_components/search-section";
 import { Button } from "@/components/common/Button";
+import { Undo2 } from "lucide-react";
 // AccessControlPage.whyDidYouRender = true
 
 
@@ -20,7 +21,9 @@ export default function AccessControlPage({
 }: Readonly<{
 }>) {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
+  const [form, setForm] = useState<Record<string, Boolean>>({})
   const [isEdit, setIsEdit] = useState<boolean>(false)
+  const [isFormDirty, setIsFormDirty] = useState<boolean>(false)
   const [search, setSearch] = useState({
     department: '',
     section: '',
@@ -40,23 +43,34 @@ export default function AccessControlPage({
           header: ({ column }) => <Header column={column} label={role.name} sortAble />,
           cell: info => {
             const isActive = (info?.row?.original?.roles || []).includes(role.name)
+            const isFormActive = !!form[`${role.name}$$$${info.row.original.name}`]
+            const realActive = isActive || isFormActive
             return (
-              <div>
-                <CheckIsActive isActive={isActive} />
+              <div onClick={() => handleClickChange(role.name, info.row.original.name, !realActive)} >
+                <CheckIsActive isActive={realActive} className={realActive ? 'cursor-pointer' : ''} />
               </div>
             )
           }
         })
       )),
     ]
-  }, [roles])
+  }, [roles, form])
   const [getTable, { data: dataTable }] = useLazyGetTableQuery();
   const memoizedData = useMemo(() => dataTable?.data || [], [dataTable]);
   const { table, sort, page, limit, setPage, setLimit } = useTable({
     data: memoizedData,
     columns,
   })
-
+  const handleClickChange = (role, action, value) => {
+    setIsFormDirty(true)
+    console.log(`handleClickChange`, role, action, value)
+    setForm((current) => {
+      return {
+        ...current,
+        [`${role}$$$${action}`]: value
+      }
+    })
+  }
   useEffect(() => {
     getTable({
       page,
@@ -64,7 +78,6 @@ export default function AccessControlPage({
       sort,
     })
   }, [page, limit, sort])
-
 
   const dialogRef = useRef<any>(null)
   const setObjEdit = (obj: any) => {
@@ -98,20 +111,27 @@ export default function AccessControlPage({
         {
           isEdit ?
             <>
-              <Button variant='black'>
+              {isFormDirty ? <Button variant='black'>
                 Save
-              </Button>
+              </Button> :
+                <Button variant='black' onClick={() => { setIsEdit((current => !current)) }}>
+                  <Undo2 />
+                  Back
+                </Button>
+              }
+
+
             </> :
             <>
               <BtnEdit onClick={() => { setIsEdit((current => !current)) }} variant="black" text='Edit' className={isEdit ? 'bg-primary' : ''} />
             </>
         }
-
       </div>
 
       <Typography variant="body2">
         Function: {dataTable?.total || 0}
       </Typography>
+
       <DataTable
         loading={false}
         table={table}

@@ -117,6 +117,7 @@ export const navMain: {
   {
     title: "Report",
     url: "/report",
+    permission: ["case.standardreport"],
   },
   {
     title: "Settings",
@@ -125,9 +126,11 @@ export const navMain: {
   {
     title: "User Management",
     url: "/user-management",
+    permission: ["user.management"],
   },
   {
     title: "Access Control",
     url: "/access-control",
+    permission: ["user.accesscontrol"],
   },
 ];
