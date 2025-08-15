@@ -76,7 +76,7 @@ export const FilterUsersModal = ({
 
   const clearFilter = () => {
     form.reset({
-      status: null,
+      status: true,
       role: null,
       section: null,
       center: null,
