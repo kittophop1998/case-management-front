@@ -7,13 +7,11 @@ import { ApiResponse } from "@/types/api.type";
 // roles
 // sections
 type GetDropdownResponse = ApiResponse<{
-  data: {
-    centers: JsonJoinDetails[];
-    permissions: JsonJoinDetails[];
-    roles: JsonJoinDetails[];
-    sections: JsonJoinDetails[];
-    departments: JsonJoinDetails[];
-  };
+  centers: JsonJoinDetails[];
+  permissions: JsonJoinDetails[];
+  roles: JsonJoinDetails[];
+  sections: JsonJoinDetails[];
+  departments: JsonJoinDetails[];
 }>;
 export const systemApiSlice = createApi({
   reducerPath: "systemApi",
