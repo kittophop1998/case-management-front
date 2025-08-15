@@ -12,6 +12,7 @@ import { useCreateUserMutation, useEditUserMutation, useGetUserMutation } from '
 import { checkPassword } from '@/components/common/dialog-check-password'
 import { dialogAlert } from '@/components/common/dialog-alert'
 import { cn } from '@/lib/utils'
+import { getErrorText } from '@/services/api'
 
 export type DialogDetailsRef = {
   setDefaultUser: (user: UserType | null) => void
@@ -42,20 +43,30 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
   }, ref) => {
     const [fetchUser, { isLoading: isLoadingForm, error: errorGet, isSuccess }] =
       useGetUserMutation()
-    const [open, setOpen] = useState(false)
+    const [createUser, { error: errorCreate, isLoading: isLoadingCreate }] = useCreateUserMutation()
+    const [editUser, { error: errorEdit, isLoading: isLoadingEdit }] = useEditUserMutation()
 
+    const [displayError, setDisplayError] = useState<string | null>(null)
+
+    useEffect(() => {
+      const err = errorCreate || errorEdit || errorGet
+      if (err) {
+        const message = getErrorText(err)
+        setDisplayError(message)
+      }
+    }, [errorCreate, errorEdit, errorGet])
+
+    const [open, setOpen] = useState(false)
     const [mode, setMode] = useState<'create' | 'edit'>('create')
     const form = useForm<z.infer<typeof CreateEditUserSchema>>({
       resolver: zodResolver(CreateEditUserSchema)
     })
-
     useEffect(() => {
       console.log('All errors:', form.formState.errors)
       console.log('All errors:', form.getValues())
     }, [form.formState.errors])
 
-    const [createUser, { error: errorCreate, isLoading: isLoadingCreate }] = useCreateUserMutation()
-    const [editUser, { error: errorEdit, isLoading: isLoadingEdit }] = useEditUserMutation()
+
     const onSubmit = async (userData: z.infer<typeof CreateEditUserSchema>) => {
       console.log('Form submitted with values:', mode, userData)
       try {
@@ -108,6 +119,7 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
           setMode('create')
           form.reset(emptyUser)
         }
+        setDisplayError(null)
         setOpen(true)
 
       }
@@ -126,8 +138,7 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
           form={form}
           onSubmit={onSubmit}
           isPendingSubmit={isLoadingCreate || isLoadingEdit}
-          error={errorCreate || errorEdit || errorGet || undefined}
-
+          error={displayError}
         />
       </Modal>
     )

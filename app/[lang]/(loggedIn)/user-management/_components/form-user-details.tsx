@@ -22,7 +22,7 @@ interface FormUserDetailsProps {
   isLoadingForm: boolean
   onSubmit: (value: z.infer<typeof CreateEditUserSchema>) => void
   isPendingSubmit?: boolean
-  error?: string
+  error: string | null
 }
 
 export const FormUserDetails = ({
@@ -32,11 +32,10 @@ export const FormUserDetails = ({
   isLoadingForm,
   onSubmit,
   isPendingSubmit = false,
-  error = undefined
+  error = null
 }: FormUserDetailsProps) => {
   const name = form.watch('name')
   const { data: dataDropdown, isLoading: isLoadingDropdown } = useGetDropdownQuery()
-
   return (
     <div>
       <Typography variant='body2' className='mb-4'>
@@ -86,7 +85,6 @@ export const FormUserDetails = ({
               placeholder='Enter Email'
               reqired
             />
-
             <TextField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
@@ -162,7 +160,7 @@ export const FormUserDetails = ({
 
             {/* </div> */}
           </div>
-          {JSON.stringify(form.error)}
+          {/* {JSON.stringify(form.error)} */}
           {!!error && <FormError message={getErrorText(error)} />}
 
           <div className='flex justify-end gap-3'>
