@@ -36,6 +36,7 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
       section_name: "section",
       department_name: "department",
       center_name: "center",
+      isActive: "is_active",
     },
   });
   const triggerFetch = () => {
