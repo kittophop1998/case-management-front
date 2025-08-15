@@ -75,20 +75,20 @@ export const FilterUsersModal = ({
   }
 
   const clearFilter = () => {
-    setStatus(null)
-    setRole(null)
-    setSection(null)
-    setCenter(null)
-    setDepartment(null)
-    form.reset(defaultValues)
+    form.reset({
+      status: null,
+      role: null,
+      section: null,
+      center: null,
+      department: null
+    })
   }
 
   useEffect(() => {
     if (isOpen) {
       form.reset(defaultValues)
     }
-  }, [isOpen, role, section, center, status])
-  // const seeData = form.watch()
+  }, [isOpen])
   return (
     <Modal isOpen={isOpen} title='Filter' className='max-w-[317px]' onClose={() => { setIsOpen(false) }}>
       {/* {JSON.stringify(seeData)} */}
@@ -145,7 +145,7 @@ export const FilterUsersModal = ({
             items={[seeAllObj, ...(dataDropdown?.data?.centers || [])]}
           />
           <div className='flex gap-2 justify-end'>
-            <Button onClick={clearFilter} className='bg-transparent border border-primary text-primary'>Clear</Button>
+            <Button type='button' onClick={clearFilter} className='bg-transparent border border-primary text-primary'>Clear</Button>
             <Button type='submit' >Filter</Button>
           </div>
         </form>
