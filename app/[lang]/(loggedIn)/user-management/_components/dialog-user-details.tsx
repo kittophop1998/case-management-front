@@ -75,11 +75,11 @@ export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
             const password = await checkPassword()
             if (!password) return // กดยกเลิก หรือกรอกผิด
             await editUser({ id: userData.id, data: userData }).unwrap()
+            dialogAlert(true)
             break;
           case 'create':
             await createUser(userData).unwrap()
             dialogAlert(true)
-
             break;
           default:
             throw new Error('Invalid mode')

@@ -1,13 +1,16 @@
 import { Funnel, SquarePen } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../common/Button";
 
 interface BtnFilterProps {
     onClick: () => void;
+    variant?: 'ghost' | 'black';
+    text?: string | null;
+    className?: string;
 }
-const BtnEdit = ({ onClick }: BtnFilterProps) => {
+const BtnEdit = ({ onClick, variant = 'ghost', text = null, className }: BtnFilterProps) => {
     return (
-        <Button variant='ghost' onClick={onClick} >
-            <SquarePen />
+        <Button variant={variant} onClick={onClick} className={className} >
+            <SquarePen />{text}
         </Button >
     );
 };

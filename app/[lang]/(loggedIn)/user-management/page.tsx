@@ -29,18 +29,6 @@ export default function UserManagementPage() {
     dialogDetailsRef.current?.setDefaultUser(user)
   }
   const columns = useMemo<ColumnDef<UserType, any>[]>(() => [
-    // columnHelper.accessor('staffId', {
-    //   header: ({ column }) => <Header label='Staff ID' sortAble column={column} />,
-    //   cell: info => <div>{info.getValue()}</div>
-    // }),
-    // columnHelper.accessor('email', {
-    //   header: ({ column }) => <Header label='Domain Name' sortAble column={column} />,
-    //   cell: info => {
-    //     const email = info.getValue()
-    //     const domain = email.split('@')[0] || ''
-    //     return <div>{domain}</div>
-    //   }
-    // }),
     columnHelper.accessor('username', {
       header: ({ column }) => <Header label='Username' sortAble column={column} />,
       cell: info => <div>{info.getValue()}</div>
@@ -105,11 +93,9 @@ export default function UserManagementPage() {
   } = useUsers({
     columns
   })
-
   const openDialogCreateUser = () => {
     dialogDetailsRef.current?.setDefaultUser(null)
   }
-
   return (
     <div>
       <Container>

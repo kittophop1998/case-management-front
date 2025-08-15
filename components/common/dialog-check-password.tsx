@@ -53,7 +53,6 @@ export function checkPassword(): Promise<string | null> {
                 isLoading = true
                 console.log('!!!!!!1')
                 if (value.password === 'admin') {
-                    await dialogAlert(true)
                     resolve(value.password)
                     setTimeout(() => {
                         root.unmount()

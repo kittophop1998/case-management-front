@@ -7,16 +7,17 @@ import Container from "../common/containter";
 interface CardPageWrapperProps {
     children: React.ReactNode;
     className?: string;
+    classNameCard?: string;
 }
 
-const CardPageWrapper = ({ children, className }: CardPageWrapperProps) => {
+const CardPageWrapper = ({ children, className, classNameCard }: CardPageWrapperProps) => {
     // 
     // 
     // 
     // 
     return (
         <Container className={cn(`mx-auto h-[95%] `, className)}>
-            <Card className="p-5 h-full shadow-none">
+            <Card className={cn("p-5 h-full shadow-none", classNameCard)}>
                 {children}
             </Card>
         </Container>
