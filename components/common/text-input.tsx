@@ -17,7 +17,7 @@ function Input({
       type={type}
       data-slot="input"
       className={cn(
-        'w-full h-10 px-4 py-2 text-base md:text-sm rounded-md border transition-all outline-none',
+        'w-full h-9 px-4 py-2 text-base md:text-sm rounded-md border transition-all outline-none',
         'bg-white dark:bg-[#1f1f1f] border-gray-300 dark:border-gray-600',
         'placeholder-gray-400 dark:placeholder-gray-500',
         'base-input-casemm',
