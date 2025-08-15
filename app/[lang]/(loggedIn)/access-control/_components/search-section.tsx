@@ -62,8 +62,9 @@ export const SearchSection = ({
                 <SearchFieldInput field={
                     {
                         value: search.text,
-                        onChange: (v: any) => {
-                            setSearch((e) => ({ ...current, text: e.target.value }))
+                        onChange: (e: any) => {
+
+                            setSearch((current) => ({ ...current, text: e?.target?.value || '' }))
                         }
                     }
                 } />
