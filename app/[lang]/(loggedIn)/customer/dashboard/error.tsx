@@ -1,3 +1,4 @@
+
 'use client' // Error boundaries must be Client Components
 
 import { Button } from '@/components/common/Button'
@@ -11,14 +12,15 @@ export default function Error({
     error: Error & { digest?: string }
     reset: () => void
 }) {
-    useEffect(() => {
-        console.error(error)
-    }, [error])
+    // useEffect(() => {
+    //     console.error(error)
+    // }, [error])
 
     return (
         <Container>
             <div>
-                <h2>Something went wrong!</h2>
+                {/* <h2>Something went wrong!</h2> */}
+                <div>{JSON.stringify(error)}</div>
                 <Button
                     onClick={
                         () => reset()
