@@ -149,6 +149,10 @@ export default function AccessControlPage({
   }, [page, limit, sort, search])
 
   const fetchTable = () => {
+    if (!search.department || !search.section) {
+      return
+
+    }
     getTable({
       page,
       limit,

@@ -67,7 +67,7 @@ export const permissionApiSlice = createApi({
       }
     >({
       query: ({ body, department, section }) => ({
-        url: `/permissions/update?departmnetId=${department}&sectionId=${section}`,
+        url: `/permissions/update?departmentId=${department}&sectionId=${section}`,
         method: "PATCH",
         body,
       }),
