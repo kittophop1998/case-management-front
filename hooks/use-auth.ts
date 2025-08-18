@@ -60,6 +60,7 @@ export default function useAuth() {
       }
       await setAccessToken(accessToken);
       await setRefreshToken(refreshToken);
+      const pathname = usePathname();
       getMe()
         .unwrap()
         .then(async (resMe) => {
@@ -72,8 +73,7 @@ export default function useAuth() {
             }
             const initPath = await getInitPathByRole(
               pathname,
-              currentMe.role.name,
-              "eeeeeeeeeeeeeee"
+              currentMe.role.name
             );
             console.log(
               "useAuth-getInitPathByRole",
@@ -104,34 +104,6 @@ export default function useAuth() {
       }
     }
   };
-  const isMutted = useRef(false);
-  const pathname = usePathname();
-
-  // useEffect(() => {
-  //   if (!isMutted.current) {
-  //     isMutted.current = true;
-  //     return;
-  //   }
-  //   if (me) {
-  //     const cloneGetInitPathByRole = async () => {
-  // try {
-  //   const initPath = await getInitPathByRole(
-  //     pathname,
-  //     me?.role?.name,
-  //     "eeeeeeeeeeeeeee"
-  //   );
-  //   console.log("useAuth-getInitPathByRole", initPath, me?.role?.name);
-  //   if (initPath) {
-  //     router.push(initPath);
-  //   }
-  // } catch (error) {
-  //   setLoginError(error.message);
-  // }
-  //     };
-  //     cloneGetInitPathByRole();
-  //   }
-  // }, [me?.role?.name]);
-
   return {
     login: {
       login,

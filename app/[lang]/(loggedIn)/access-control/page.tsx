@@ -52,15 +52,9 @@ export default function AccessControlPage({
             const isActive = (info?.row?.original?.roles || []).includes(role.name)
             const formEditPermission = form[`${info.row.original.name}`]
             const isFormEditActive = (formEditPermission?.roles || []).includes(role.name)
-            // const isFormActive = formPermission ? formPermission[role.name] : undefined;
-            // const isFormActive = form[`${info.row.original.name}`]
             const realActive = formEditPermission === undefined ? isActive : isFormEditActive
             return (
               <div onClick={() => isEdit && handleClickChange(
-                // role.name, info.row.original.name, !realActive, {
-                // isFormActive,
-                // isActive,
-                // }
                 {
                   original: info.row.original,
                   role: role.name,

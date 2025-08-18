@@ -1,17 +1,17 @@
 import { redirectAfterLoginByRole, userRoles } from "@/const/user-config";
 import { UserRolesType } from "@/types/user.type";
-
+interface GetInitPathByRoleOptionProps {
+  forceGo?: boolean;
+}
 function getInitPathByRole(
   currentPath: string,
   currentRole: UserRolesType,
-  tagDebug = ""
+  option: GetInitPathByRoleOptionProps = {}
 ): string {
-  // return "";
-  console.log("getInitPathByRole.call()", tagDebug, currentPath, currentRole);
-  if (currentPath.includes("/login")) {
+  if (currentPath.includes("/login") || !!option?.forceGo) {
     let path = redirectAfterLoginByRole[currentRole];
     if (!path) {
-      throw new Error(`No redirect path defined for role ${currentRole}`);
+      throw new Error(`No redirect path defined for role '${currentRole}'`);
     }
     return path;
   } else {
@@ -20,7 +20,7 @@ function getInitPathByRole(
     }
   }
   throw new Error(
-    `No redirect path defined for role ${currentRole} in current path ${currentPath}`
+    `No redirect path defined for role '${currentRole}' in current path '${currentPath}'`
   );
 }
 export default getInitPathByRole;

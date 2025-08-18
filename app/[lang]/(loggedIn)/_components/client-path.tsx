@@ -17,35 +17,25 @@ export function ClientPath() {
     const router = useRouter();
     const pathArr = pathname.split('/')
     const clientPath = getClientPath(pathArr)
-    // 
-    // const [
-    //     getMe,
-    //     {
-    //         data: meApi,
-    //         currentData: currentMe,
-    //         isLoading: isLoadingGetMe,
-    //         isError: isGetMeError,
-    //     },
-    // ] = useLazyGetMeQuery();
     const { data: meApi } = useGetMeQuery()
-
-    // const me = useMemo(() => meApi?.data || {}, [meApi]);
-
     const goToHome = () => {
-        console.log(`me?.role?.name`, meApi)
+        if (!meApi?.data?.role?.name) return
         const initPath = getInitPathByRole(
             pathname,
             meApi?.data?.role?.name,
+            {
+                forceGo: true
+            }
         );
         console.log(`initPath`, initPath)
         router.push(initPath)
     }
     return <>
-        <span onClick={goToHome} >
-            <HomeIcon className='inline-block w-4 h-4' />
+        <span onClick={goToHome} className="flex items-center">
+            <HomeIcon className='inline-block w-4 h-4 cursor-pointer hover:opacity-75' />
         </span>
         {clientPath?.map((item, index) => (
-            <div className='flex gap-2' key={index}>
+            <div className='flex gap-2 items-center ' key={index}>
                 <Typography variant='caption' as='p'>
                     /
                 </Typography>

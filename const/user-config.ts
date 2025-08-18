@@ -6,7 +6,6 @@ export const userRoles: UserRolesType[] = [
   "Supervisor",
   "AsstManager Up",
   "System",
-  "System",
   "CMS Admin",
 ];
 
