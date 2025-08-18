@@ -11,7 +11,7 @@ import BtnEdit from "@/components/button/btn-edit";
 import { CheckIsActive } from "@/components/common/check-is-active";
 import { SearchSection } from "./_components/search-section";
 import { Button } from "@/components/common/Button";
-import { Undo2 } from "lucide-react";
+import { Search, Undo2 } from "lucide-react";
 import { AccessControlPermissionType, RolesType } from "@/types/access-control.type";
 import { isDirty } from "zod/v3";
 import { FormError } from "@/components/form/form-error";
@@ -149,7 +149,6 @@ export default function AccessControlPage({
   const fetchTable = () => {
     if (!search.department || !search.section) {
       return
-
     }
     getTable({
       page,
@@ -227,10 +226,10 @@ export default function AccessControlPage({
       {!!error && <FormError message={getErrorText(error)} />}
       {
 
-        (!!search.department && !!search.section) &&
-        <>
-          {
-            isFetching ? <Typography variant="body2">Loading...</Typography> :
+        (!!search.department && !!search.section) ?
+          <>
+            {
+              // isFetching ? <Typography variant="body2">Loading...</Typography> :
               <>
                 <div className="flex">
                   <div className="w-[clamp(300px,100%,342px)]">
@@ -264,7 +263,7 @@ export default function AccessControlPage({
                   Function: {dataTable?.total || 0}
                 </Typography>
                 <DataTable
-                  loading={false}
+                  loading={isFetching}
                   table={table}
                   page={dataTable?.page ?? 1}
                   limit={dataTable?.limit ?? 10}
@@ -274,10 +273,21 @@ export default function AccessControlPage({
                   setLimit={setLimit}
                 />
               </>
-          }
+            }
 
 
-        </>
+          </> : <>
+            <div className="w-full h-[60%] flex items-center justify-center  opacity-70">
+              <div className="space-y-4">
+                <div className="flex justify-center ">
+                  <Search color="#737373" size={60} />
+                </div>
+                <Typography className="text-center  text-[#737373]">
+                  Please select both Department and Section to view details
+                </Typography>
+              </div>
+            </div>
+          </>
       }
 
     </CardPageWrapper>
