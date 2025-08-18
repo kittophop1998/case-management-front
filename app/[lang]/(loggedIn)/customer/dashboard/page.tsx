@@ -25,6 +25,7 @@ import VerifyPass from '@/public/icons/VerifyPass.svg'
 import { ChartAreaDefault } from "@/components/chart/mockup";
 import { useSearchParams } from 'next/navigation'
 import { getErrorText } from "@/services/api";
+import usePermission from "@/hooks/use-permission";
 
 
 const DisplayDerivedValue = ({ title, value, className, classNameValue }: { title: string, value: any, className?: string, classNameValue?: string }) => {
@@ -63,6 +64,7 @@ const DataWithCopy = ({ title, value, showCopy = false, loading }: { value: stri
     );
 }
 const CustomerDashboard = () => {
+    const { myPermission } = usePermission()
     const searchParams = useSearchParams()
     const customerId = searchParams.get('customerId')
     const [searchCustomer, { data, isFetching, isError, error }] = useLazyCustomerDashboardQuery();
@@ -143,10 +145,15 @@ const CustomerDashboard = () => {
                         <DataWithCopy title='Customer ID/Passport' value='9712333456234' showCopy />
                         <DataWithCopy title='Customer Since' value='2024-02-02' />
                         <div className="flex-1" />
-                        <BtnNew
-                            // onClick={() => setStatus((v) => !v)}
-                            onClick={handleOpenSelectCase}
-                        />
+
+                        {
+                            myPermission?.["add.case"] &&
+                            <BtnNew
+                                // onClick={() => setStatus((v) => !v)}
+                                onClick={handleOpenSelectCase}
+                            />
+                        }
+
 
                         <Button className="bg-[#FA541C]">
 
@@ -181,27 +188,37 @@ const CustomerDashboard = () => {
                                         <DisplayDerivedValue title="Mobile App Status" value={<StatusMobileApp status={customer?.mobileAppStatus} />} className="col-span-2" />
                                         <DisplayDerivedValue title="Gender" value={customer?.status ? 'Men' : ''} className="col-span-2" />
                                         {/* Gender */}
-                                        <DisplayDerivedValue title="Notes"
-                                            value={
-                                                <div className="flex items-center gap-1">
-                                                    <NoteButtonNoti
-                                                        onClick={() => router.push('/customer/dashboard/note/list?')}
-                                                        count={customer?.note.count}
-                                                        size='sm'
-                                                    />
-                                                    <Button variant='ghost' size='sm' >
-                                                        <ClipboardPlus />
-                                                    </Button>
-                                                    <Button className=" bg-black white-text" size='sm'
-                                                        onClick={() => {
-                                                            setStatus(false)
-                                                            setStatusNote(true)
-                                                        }
 
+                                        {
+                                            (myPermission?.["view.custnote"] || myPermission?.["add.custnote"]) &&
+                                            <DisplayDerivedValue title="Notes"
+                                                value={
+                                                    <div className="flex items-center gap-1">
+                                                        {
+                                                            myPermission?.["view.custnote"] &&
+                                                            <NoteButtonNoti
+                                                                onClick={() => router.push('/customer/dashboard/note/list?')}
+                                                                count={customer?.note.count}
+                                                                size='sm'
+                                                            />}
+                                                        {
+                                                            myPermission?.["add.custnote"] &&
+                                                            <>
+                                                                <Button variant='ghost' size='sm' >
+                                                                    <ClipboardPlus />
+                                                                </Button>
+                                                                <Button className=" bg-black white-text" size='sm'
+                                                                    onClick={() => {
+                                                                        setStatus(false)
+                                                                        setStatusNote(true)
+                                                                    }
+
+                                                                    }
+                                                                >New Note</Button>
+                                                            </>
                                                         }
-                                                    >New Note</Button>
-                                                </div>
-                                            } className="col-span-6 flex items-center gap-3" classNameValue='flex-1' />
+                                                    </div>
+                                                } className="col-span-6 flex items-center gap-3" classNameValue='flex-1' />}
                                     </div>
                                 </>
                             </SectionCard>
@@ -302,7 +319,7 @@ const CustomerDashboard = () => {
                     </TabsContent>
                 </Container>
 
-            </Tabs>
+            </Tabs >
             <FloatingWidget
                 title="New Case"
                 status={status}

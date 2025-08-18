@@ -19,8 +19,10 @@ import { ChipIsActive } from '@/components/common/chipIsActive'
 import { Button } from '@/components/ui/button'
 import { SquarePen } from 'lucide-react'
 import Container from '@/components/common/containter'
+import usePermission from '@/hooks/use-permission'
 
 export default function UserManagementPage() {
+  const { myPermission } = usePermission()
   const [isOpenFilter, setIsOpenFilter] = useState(false)
   const dialogDetailsRef = useRef<DialogDetailsRef>(null)
   const [modalImportUser, setModalImportUser] = useState(false)
@@ -57,7 +59,8 @@ export default function UserManagementPage() {
       header: ({ column }) => <Header label='Status' sortAble column={column} />,
       cell: info => <ChipIsActive isActive={info.getValue()} />
     }),
-    columnHelper.display({
+
+    ...(myPermission?.["edit.user"] ? [columnHelper.display({
       id: 'actions',
       enableHiding: false,
       size: 10,
@@ -71,8 +74,9 @@ export default function UserManagementPage() {
           </div>
         )
       }
-    }),
-  ], [openDialogEditUser])
+    }),] : [])
+
+  ], [openDialogEditUser, myPermission])
   const {
     table,
     usersTable,
@@ -96,15 +100,19 @@ export default function UserManagementPage() {
   const openDialogCreateUser = () => {
     dialogDetailsRef.current?.setDefaultUser(null)
   }
+  // 
+  // 
+  // 
+  // 
   return (
     <div>
       <Container>
-        <div className='flex justify-end mb-3 mt-3'>
+        {myPermission?.["add.user"] && <div className='flex justify-end mb-3 mt-3'>
           <BtnAddUser
             onOpenDialogCreateUser={() => openDialogCreateUser()}
             onOpenDialogImportUser={() => setModalImportUser(true)}
           />
-        </div>
+        </div>}
       </Container>
       <CardPageWrapper className=''>
         <div className='flex items-center gap-3 mb-4'>

@@ -3,11 +3,6 @@ function getTextByValueDropdown(
     value: string,
     list: JsonJoinDetails[]
 ): string | null {
-    console.log('--------------')
-    console.log(`list`, list)
-    console.log(`value`, value)
-    console.log('--------------')
-
     if (!list?.length) {
         return null
     }

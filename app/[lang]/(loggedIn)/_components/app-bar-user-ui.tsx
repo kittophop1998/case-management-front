@@ -1,27 +1,23 @@
-import Card from '@/components/common/card'
 import { Typography } from '@/components/common/typography'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/common/Button'
 import { Popover, PopoverContent } from '@/components/ui/popover'
 import { PopoverTrigger } from '@radix-ui/react-popover'
-import { Type } from 'react-feather'
 import { useRouter } from 'next/navigation'
 import { useGetMeQuery, useLogoutMutation, authApiSlice } from '@/features/auth/authApiSlice'
 import { UserProfileType } from '@/types/user.type'
 import { useDispatch } from 'react-redux'
-import { useEffect, useMemo, useState } from 'react'
-import { AvatarUser } from '@/components/user/avatar'
+import { useMemo, useState } from 'react'
 import { Separator } from '@/components/ui/separator'
 import { BtnClose } from '@/components/button/btn-close'
 import Image from 'next/image'
+import usePermission from '@/hooks/use-permission'
 
-const PopupUserUI = ({ user, onClose }: { user: UserProfileType }) => {
+const PopupUserUI = ({ user, onClose }: { user: UserProfileType, onClose: () => void }) => {
   const dispatch = useDispatch()
   const [logoutMutation, { isLoading: isLoadingLogout, isError: isLogoutError, error: logoutError }] = useLogoutMutation();
   const router = useRouter()
   const name = user.name ?? 'Unknown User'
   const userEmail = user.email ?? 'Unknown Email'
-  const userUrl = ''
   const userRole = user.role?.name ?? 'Unknown Role'
   const userCenter = user.center?.name ?? 'Unknown Center'
 
@@ -71,14 +67,14 @@ const PopupUserUI = ({ user, onClose }: { user: UserProfileType }) => {
   )
 }
 
-export const AppbarUserUI = () => {
+export const AppBarUserUI = () => {
   const { data: meApi, isLoading: isLoadingGetMe, refetch: refetchMe, isError: isGetMeError } = useGetMeQuery()
   const me = useMemo(() => meApi?.data || null, [meApi]);
-
-
+  const { myPermission } = usePermission()
   const [openPopup, setOpenPopup] = useState(false)
   if (!me) return null
   const name = me?.name ?? 'Unknown User'
+  if (!myPermission?.['view.profile']) return null
   return (
     <Popover open={openPopup} onOpenChange={setOpenPopup} modal>
       <PopoverTrigger asChild>

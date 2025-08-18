@@ -1,21 +1,4 @@
 export type PermissionKeyType =
-  // // USER
-  // | "user.login"
-  // | "user.logout"
-  // | "user.profile"
-  // // CUSTOMER
-  // | "user.assess"
-  // | "user.customersearch"
-  // | "user.verifycustomer"
-  // | "user.customerdashboard"
-  // // CASE
-  // | "case.management"
-  // | "case.standardreport"
-  // //
-  // | "user.management"
-  // | "user.accesscontrol"
-
-  // //
   | "add.user"
   | "view.profile"
   | "view.case"
@@ -29,3 +12,9 @@ export type PermissionKeyType =
   | "edit.case"
   | "edit.user"
   | "add.case";
+
+export type ObjPermission = {
+  id: string;
+  key: PermissionKeyType;
+  name: string;
+};

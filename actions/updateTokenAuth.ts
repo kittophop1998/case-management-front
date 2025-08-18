@@ -19,6 +19,11 @@ export const updateTokenAuth = async () => {
     setRefreshToken(refreshToken);
     try {
       user = await api<UserProfileType>(`/auth/profile`);
+      // const permissionObj: Record<string, boolean> = {};
+      // for (const { key } of user?.data?.permissions || []) {
+      //   permissionObj[key] = true;
+      // }
+      // cookieStore.set("permissions", JSON.stringify(permissionObj));
     } catch (error) {
       console.error("Error RootLayout.user", error);
     }

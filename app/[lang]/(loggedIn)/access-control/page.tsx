@@ -18,6 +18,7 @@ import { getErrorText } from "@/services/api";
 import { checkPassword } from "@/components/common/dialog-check-password";
 import { dialogAlert } from "@/components/common/dialog-alert";
 import getTextByValueDropdown from "@/lib/utils/get-text-by-value-dropdown";
+import usePermission from "@/hooks/use-permission";
 // AccessControlPage.whyDidYouRender = true
 export type DataAccessControl = {
   permission: AccessControlPermissionType;
@@ -26,6 +27,7 @@ export type DataAccessControl = {
 export default function AccessControlPage({
 }: Readonly<{
 }>) {
+  const { myPermission } = usePermission()
   const [form, setForm] = useState<Record<AccessControlPermissionType, DataAccessControl>>({})
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [isFormDirty, setIsFormDirty] = useState<boolean>(false)
@@ -251,26 +253,32 @@ export default function AccessControlPage({
                   <div className="w-[clamp(300px,100%,342px)]">
                     <Typography>Section:   {displaySearch.section || '-'}</Typography>
                   </div>
-                  <div className="flex-1" />
+
                   {
-                    isEdit ?
-                      <>
-                        {isFormDirty ? <Button loading={isLoadingEdit} variant='black' onClick={handleSave}>
-                          Save
-                        </Button> :
-                          <Button variant='black' onClick={() => { setIsEdit((current => !current)) }}>
-                            <Undo2 />
-                            Back
-                          </Button>
-                        }
+                    myPermission?.["edit.accesscontrol"] && <>
+                      <div className="flex-1" />
+                      {
+                        isEdit ?
+                          <>
+                            {isFormDirty ? <Button loading={isLoadingEdit} variant='black' onClick={handleSave}>
+                              Save
+                            </Button> :
+                              <Button variant='black' onClick={() => { setIsEdit((current => !current)) }}>
+                                <Undo2 />
+                                Back
+                              </Button>
+                            }
 
 
-                      </> :
-                      <>
-                        <BtnEdit onClick={() => { setIsEdit((current => !current)) }} variant="black" text='Edit' className={isEdit ? 'bg-primary' : ''} />
-                      </>
+                          </> :
+                          <>
+                            <BtnEdit onClick={() => { setIsEdit((current => !current)) }} variant="black" text='Edit' className={isEdit ? 'bg-primary' : ''} />
+                          </>
+                      }
+                    </>
                   }
                 </div>
+
 
                 <Typography variant="body2">
                   Function: {dataTable?.total || 0}

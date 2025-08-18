@@ -1,6 +1,6 @@
 import Container from '@/components/common/containter'
 import { Separator } from '@/components/ui/separator'
-import { AppbarUserUI } from './app-bar-user-ui'
+import { AppBarUserUI } from './app-bar-user-ui'
 import { SwitchLanguage } from './switch-language'
 import { Notification } from './notification'
 import { SidebarTrigger } from '@/components/ui/sidebar'
@@ -19,7 +19,7 @@ export function AppBar() {
             <SwitchLanguage />
             <Notification />
           </div>
-          <AppbarUserUI />
+          <AppBarUserUI />
         </div>
       </Container>
       <Separator />
