@@ -1,14 +1,8 @@
 "use server";
-// import { getMe } from "@/lib/auth-api";
 import { api, setAccessToken, setRefreshToken } from "@/services/api";
 import { ApiResponse } from "@/types/api.type";
-import { UserProfileType, UserType } from "@/types/user.type";
-// import { ActiveUser } from "@/types/user";
+import { UserProfileType } from "@/types/user.type";
 import { cookies } from "next/headers";
-// import useUserStore from "@/stores/useUserStore";
-// set/clear accessToken and refreshToken ssr Memory
-// set/clear store.user.id ,store.user.charId ,...
-// set/clear socket.token then reconnect
 
 export const updateTokenAuth = async () => {
   let user: ApiResponse<UserProfileType> | null = null;

@@ -4,16 +4,46 @@ import { path2clientpath } from "@/const/title-path"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 import HomeIcon from '@/public/icons/Home.svg'
+import { useGetMeQuery, useLazyGetMeQuery } from "@/features/auth/authApiSlice"
+import { useMemo } from "react"
+import getInitPathByRole from "@/lib/utils/get-init-path-by-role"
+import { useRouter } from "next/navigation";
 
 const getClientPath = (pathArr: string[]) => {
     return path2clientpath?.[`/${pathArr[2]}/${pathArr[3]}/${pathArr[4]}`] || path2clientpath?.[`/${pathArr[2]}/${pathArr[3]}`] || path2clientpath?.[`/${pathArr[2]}`] || path2clientpath['/']
 }
 export function ClientPath() {
     const pathname = usePathname()
+    const router = useRouter();
     const pathArr = pathname.split('/')
     const clientPath = getClientPath(pathArr)
+    // 
+    // const [
+    //     getMe,
+    //     {
+    //         data: meApi,
+    //         currentData: currentMe,
+    //         isLoading: isLoadingGetMe,
+    //         isError: isGetMeError,
+    //     },
+    // ] = useLazyGetMeQuery();
+    const { data: meApi } = useGetMeQuery()
+
+    // const me = useMemo(() => meApi?.data || {}, [meApi]);
+
+    const goToHome = () => {
+        console.log(`me?.role?.name`, meApi)
+        const initPath = getInitPathByRole(
+            pathname,
+            meApi?.data?.role?.name,
+        );
+        console.log(`initPath`, initPath)
+        router.push(initPath)
+    }
     return <>
-        <HomeIcon className='inline-block w-4 h-4' />
+        <span onClick={goToHome} >
+            <HomeIcon className='inline-block w-4 h-4' />
+        </span>
         {clientPath?.map((item, index) => (
             <div className='flex gap-2' key={index}>
                 <Typography variant='caption' as='p'>
@@ -22,6 +52,7 @@ export function ClientPath() {
                 <Typography key={'title' + index} variant='caption' as='p'>
                     <span className={cn(!item.goto ? '' : 'text-blue-600 hover:underline cursor-pointer', '')}>{item.name}</span>
                 </Typography>
+
             </div>
         ))}
     </>

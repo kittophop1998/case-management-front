@@ -1,6 +1,4 @@
-// 'use client'
 import Container from '@/components/common/containter'
-import { Typography } from '@/components/common/typography'
 import { Separator } from '@/components/ui/separator'
 import { AppbarUserUI } from './app-bar-user-ui'
 import { SwitchLanguage } from './switch-language'

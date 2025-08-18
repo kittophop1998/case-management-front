@@ -1,9 +1,8 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   useLazyGetMeQuery,
   useLogoutMutation,
-  // useLoginMutation,
 } from "@/features/auth/authApiSlice";
 import { LoginSchemas } from "@/schemas";
 import { useRouter } from "next/navigation";
@@ -33,12 +32,7 @@ export default function useAuth() {
   const router = useRouter();
   const [
     getMe,
-    {
-      data: meApi,
-      currentData: currentMe,
-      isLoading: isLoadingGetMe,
-      isError: isGetMeError,
-    },
+    { data: meApi, isLoading: isLoadingGetMe, isError: isGetMeError },
   ] = useLazyGetMeQuery();
   const me = useMemo(() => meApi?.data || {}, [meApi]);
   const login = async (value: z.infer<typeof LoginSchemas>) => {

@@ -6,6 +6,7 @@ export const userRoles: UserRolesType[] = [
   "Staff",
   "AsstManager Up",
   "Supervisor",
+  "System",
 ];
 
 export const redirectAfterLoginByRole: Record<UserRolesType, string> = {

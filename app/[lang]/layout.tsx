@@ -6,8 +6,6 @@ import { InitializersData } from './_components/initializers-data'
 import { updateTokenAuth } from '@/actions/updateTokenAuth'
 import { handleError401 } from '@/lib/utils/handleError'
 import { headers } from "next/headers";
-// import { redirect } from "next/navigation";
-// import getInitPathByRole from '@/lib/utils/get-init-path-by-role'
 
 const kanit = Kanit({
   weight: '400',
