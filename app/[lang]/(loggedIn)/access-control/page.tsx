@@ -217,7 +217,7 @@ export default function AccessControlPage({
     if (!isFormDirty) {
       return true
     }
-    if (await confirm('ท่านมีการแก้ไขล่าสุดอยู่ ต้องการยกเลิกหรือไม่')) {
+    if (await confirm('You have unsaved changes. Do you want to discard them?')) {
       setForm({})
       return true
     } else {
