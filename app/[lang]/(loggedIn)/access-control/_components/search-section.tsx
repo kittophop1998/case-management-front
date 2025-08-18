@@ -47,7 +47,7 @@ export const SearchSection = ({
                                 }
                             }
                         }}
-                        items={dataDropdown?.data?.departments || []}
+                        items={dataDropdown?.data?.departments ? dataDropdown?.data?.departments.filter(v => v.name !== "System") : []}
                         valueName='id'
                         labelName='name'
                         placeholder="Select Department"
@@ -65,7 +65,7 @@ export const SearchSection = ({
                                 }
                             }
                         }}
-                        items={dataDropdown?.data?.sections || []}
+                        items={dataDropdown?.data?.sections ? dataDropdown?.data?.sections.filter(v => v.name !== "System") : []}
                         valueName='id'
                         labelName='name'
                         placeholder="Select Section"

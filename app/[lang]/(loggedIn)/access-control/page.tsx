@@ -45,7 +45,7 @@ export default function AccessControlPage({
         header: ({ column }) => <Header column={column} label='Permission' sortAble />,
         cell: info => <div>{info.getValue()}</div>
       }),
-      ...(roles.map(role =>
+      ...(roles.filter(role => (role.name !== 'CMS Admin' && role.name !== 'System')).map(role =>
         columnHelper.accessor(`roles.${role.name}`, {
           header: ({ column }) => <Header column={column} label={role.name} sortAble />,
           cell: info => {
