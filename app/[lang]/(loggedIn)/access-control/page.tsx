@@ -18,6 +18,7 @@ import { FormError } from "@/components/form/form-error";
 import { getErrorText } from "@/services/api";
 import { checkPassword } from "@/components/common/dialog-check-password";
 import { dialogAlert } from "@/components/common/dialog-alert";
+import getTextByValueDropdown from "@/lib/utils/get-text-by-value-dropdown";
 // AccessControlPage.whyDidYouRender = true
 
 
@@ -79,6 +80,23 @@ export default function AccessControlPage({
   }, [roles, form, isEdit])
   const [getTable, { data: dataTable, isFetching, isError, error }] = useLazyGetTableQuery();
   const [edit, { error: errorEdit, isLoading: isLoadingEdit }] = useEditTableMutation()
+  const { data: dataDropdown, error: errorDD, isFetching: isFetchingDD, isError: isErrorDD } = useGetDropdownQuery()
+  const [displaySearch, setDisplaySearch] = useState<
+    {
+      department: null | string
+      section: null | string
+    }
+  >({
+    department: null,
+    section: null,
+  })
+  useEffect(() => {
+    setDisplaySearch({
+      department: getTextByValueDropdown(search.department, ddData?.data?.departments),
+      section: getTextByValueDropdown(search.section, ddData?.data?.sections),
+    })
+  }, [search.department, search.section])
+
   const memoizedData = useMemo(() => dataTable?.data || [], [dataTable]);
   const { table, sort, page, limit, setPage, setLimit } = useTable({
     data: memoizedData,
@@ -206,6 +224,7 @@ export default function AccessControlPage({
       return false
     }
   }
+
   return (
     <CardPageWrapper classNameCard="space-y-3 mt-6">
       <Typography >
@@ -214,18 +233,17 @@ export default function AccessControlPage({
       <Typography variant="body2">
         Select Department and Section for Manage Access Function
       </Typography>
-      {/* {
-        JSON.stringify(form)
-      } */}
       <SearchSection
         search={search}
         setSearch={setSearch}
         confirmChangeGroup={confirmChangeGroup}
+        error={errorDD}
+        isError={isErrorDD}
+        dataDropdown={dataDropdown}
+        isFetching={isFetchingDD}
       />
-
       {!!error && <FormError message={getErrorText(error)} />}
       {
-
         (!!search.department && !!search.section) ?
           <>
             {
@@ -233,10 +251,10 @@ export default function AccessControlPage({
               <>
                 <div className="flex">
                   <div className="w-[clamp(300px,100%,342px)]">
-                    <Typography>Department: -</Typography>
+                    <Typography>Department: {displaySearch.department || '-'}</Typography>
                   </div>
                   <div className="w-[clamp(300px,100%,342px)]">
-                    <Typography>Section:  -</Typography>
+                    <Typography>Section:   {displaySearch.section || '-'}</Typography>
                   </div>
                   <div className="flex-1" />
                   {

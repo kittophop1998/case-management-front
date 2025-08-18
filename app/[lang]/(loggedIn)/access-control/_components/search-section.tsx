@@ -1,7 +1,7 @@
 import { FormError } from "@/components/form/form-error";
 import { SearchFieldInput } from "@/components/form/search-field";
 import { SelectFieldInput } from "@/components/form/select-field";
-import { useGetDropdownQuery } from "@/features/system/systemApiSlice";
+import { GetDropdownResponse, useGetDropdownQuery } from "@/features/system/systemApiSlice";
 import { getErrorText } from "@/services/api";
 import { current } from "@reduxjs/toolkit";
 import { promises } from "dns";
@@ -18,14 +18,20 @@ interface SearchSectionProps {
         text?: string;
     }) => void;
     confirmChangeGroup: () => Promise<Boolean>
+    error: any,
+    isError: boolean,
+    dataDropdown: GetDropdownResponse | undefined,
+    isFetching: boolean
 }
 export const SearchSection = ({
     search,
     setSearch,
-    confirmChangeGroup
+    confirmChangeGroup,
+    error,
+    isError,
+    dataDropdown,
+    isFetching
 }: SearchSectionProps) => {
-    const { data: dataDropdown, error, isFetching, isError } = useGetDropdownQuery()
-
     return (
         <div>
             <div className="flex items-center gap-3">

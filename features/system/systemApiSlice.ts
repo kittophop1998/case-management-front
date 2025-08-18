@@ -6,13 +6,15 @@ import { ApiResponse } from "@/types/api.type";
 // permissions
 // roles
 // sections
-type GetDropdownResponse = ApiResponse<{
+export type DropdownSystemType = {
   centers: JsonJoinDetails[];
   permissions: JsonJoinDetails[];
   roles: JsonJoinDetails[];
   sections: JsonJoinDetails[];
   departments: JsonJoinDetails[];
-}>;
+};
+export type GetDropdownResponse = ApiResponse<DropdownSystemType>;
+
 export const systemApiSlice = createApi({
   reducerPath: "systemApi",
   baseQuery,
