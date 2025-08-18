@@ -103,7 +103,7 @@ export const navMain: {
   {
     title: "Customer Dashboard",
     url: "/customer/search",
-    // permission: ["user.customersearch", "user.customerdashboard"],
+    permission: ["search.customer"],
   },
   {
     title: "Case Management",
@@ -126,7 +126,7 @@ export const navMain: {
   {
     title: "User Management",
     url: "/user-management",
-    // permission: ["user.management"],
+    permission: ["view.user"],
   },
   {
     title: "Access Control",
