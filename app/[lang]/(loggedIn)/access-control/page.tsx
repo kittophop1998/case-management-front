@@ -3,7 +3,7 @@ import { Typography } from "@/components/common/typography";
 import CardPageWrapper from "@/components/common/card-page-warpper";
 import { useGetDropdownQuery } from "@/features/system/systemApiSlice";
 import { useEditTableMutation, useLazyGetTableQuery } from "@/features/permission/permissionApiSlice";
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useTable } from "@/hooks/use-table";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { DataTable, Header } from "@/components/common/table";
@@ -13,17 +13,12 @@ import { SearchSection } from "./_components/search-section";
 import { Button } from "@/components/common/Button";
 import { Search, Undo2 } from "lucide-react";
 import { AccessControlPermissionType, RolesType } from "@/types/access-control.type";
-import { isDirty } from "zod/v3";
 import { FormError } from "@/components/form/form-error";
 import { getErrorText } from "@/services/api";
 import { checkPassword } from "@/components/common/dialog-check-password";
 import { dialogAlert } from "@/components/common/dialog-alert";
 import getTextByValueDropdown from "@/lib/utils/get-text-by-value-dropdown";
 // AccessControlPage.whyDidYouRender = true
-
-
-
-
 export type DataAccessControl = {
   permission: AccessControlPermissionType;
   roles: RolesType[];
