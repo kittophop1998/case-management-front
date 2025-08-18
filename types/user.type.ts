@@ -6,7 +6,8 @@ export type UserRolesType =
   | "Staff"
   | "AsstManager Up"
   | "Supervisor"
-  | "System";
+  | "System"
+  | "CMS Admin";
 
 export type JsonJoinDetails = {
   id: string;

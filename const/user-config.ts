@@ -2,11 +2,12 @@ import { UserRolesType } from "@/types/user.type";
 
 export const userRoles: UserRolesType[] = [
   "Admin",
-  "User",
   "Staff",
-  "AsstManager Up",
   "Supervisor",
+  "AsstManager Up",
   "System",
+  "System",
+  "CMS Admin",
 ];
 
 export const redirectAfterLoginByRole: Record<UserRolesType, string> = {
@@ -16,4 +17,5 @@ export const redirectAfterLoginByRole: Record<UserRolesType, string> = {
   User: "/case-management",
   "AsstManager Up": "/assistant-management",
   Supervisor: "/supervisor-management",
+  "CMS Admin": "/user-management",
 };
