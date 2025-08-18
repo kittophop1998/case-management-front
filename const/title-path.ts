@@ -103,12 +103,12 @@ export const navMain: {
   {
     title: "Customer Dashboard",
     url: "/customer/search",
-    permission: ["user.customersearch", "user.customerdashboard"],
+    // permission: ["user.customersearch", "user.customerdashboard"],
   },
   {
     title: "Case Management",
     url: "/case-management",
-    permission: ["case.management"],
+    // permission: ["case.management"],
   },
   {
     title: "Inquiry Log",
@@ -117,7 +117,7 @@ export const navMain: {
   {
     title: "Report",
     url: "/report",
-    permission: ["case.standardreport"],
+    // permission: ["case.standardreport"],
   },
   {
     title: "Settings",
@@ -126,11 +126,11 @@ export const navMain: {
   {
     title: "User Management",
     url: "/user-management",
-    permission: ["user.management"],
+    // permission: ["user.management"],
   },
   {
     title: "Access Control",
     url: "/access-control",
-    permission: ["user.accesscontrol"],
+    permission: ["view.accesscontrol"],
   },
 ];

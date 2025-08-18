@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 import { useGetMeQuery, useLogoutMutation, authApiSlice } from '@/features/auth/authApiSlice'
 import { UserProfileType } from '@/types/user.type'
 import { useDispatch } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { AvatarUser } from '@/components/user/avatar'
 import { Separator } from '@/components/ui/separator'
 import { BtnClose } from '@/components/button/btn-close'
@@ -72,7 +72,9 @@ const PopupUserUI = ({ user, onClose }: { user: UserProfileType }) => {
 }
 
 export const AppbarUserUI = () => {
-  const { data: me, isLoading: isLoadingGetMe, refetch: refetchMe, isError: isGetMeError } = useGetMeQuery()
+  const { data: meApi, isLoading: isLoadingGetMe, refetch: refetchMe, isError: isGetMeError } = useGetMeQuery()
+  const me = useMemo(() => meApi?.data || null, [meApi]);
+
 
   const [openPopup, setOpenPopup] = useState(false)
   if (!me) return null

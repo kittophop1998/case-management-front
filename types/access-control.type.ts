@@ -8,7 +8,7 @@ export type RolesType =
   | "Staff"
   | "Support"
   | "Staff";
-
+export type AccessControlPermissionType = string;
 export type AccessControlType = {
   permission: string;
   label: string;

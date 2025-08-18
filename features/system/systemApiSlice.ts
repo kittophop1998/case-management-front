@@ -19,7 +19,6 @@ export const systemApiSlice = createApi({
   endpoints: (builder) => ({
     getDropdown: builder.query<GetDropdownResponse, void>({
       query: () => ({
-        // url: "/lookups",
         url: "/master-data/lookups",
         method: "GET",
       }),

@@ -97,6 +97,9 @@ export const SelectFieldInput = ({
   )
   return (
     <Select
+      disabled={
+        readonly
+      }
       className={className}
       {...field}
       value={String(field.value)}

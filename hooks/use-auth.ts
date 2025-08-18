@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   useLazyGetMeQuery,
   useLogoutMutation,
@@ -34,12 +34,13 @@ export default function useAuth() {
   const [
     getMe,
     {
-      data: me,
+      data: meApi,
       currentData: currentMe,
       isLoading: isLoadingGetMe,
       isError: isGetMeError,
     },
   ] = useLazyGetMeQuery();
+  const me = useMemo(() => meApi?.data || {}, [meApi]);
   const login = async (value: z.infer<typeof LoginSchemas>) => {
     setIsLoadingLogin(true);
     setLoginError(null);
@@ -67,12 +68,17 @@ export default function useAuth() {
       await setRefreshToken(refreshToken);
       getMe()
         .unwrap()
-        .then(async (currentMe) => {
+        .then(async (resMe) => {
+          const currentMe = resMe.data;
+
           console.log("useAuth-getMe success", currentMe);
           try {
+            if (!currentMe) {
+              throw new Error("User data not found");
+            }
             const initPath = await getInitPathByRole(
               pathname,
-              currentMe?.role?.name,
+              currentMe.role.name,
               "eeeeeeeeeeeeeee"
             );
             console.log(

@@ -15,14 +15,13 @@ import { cva } from 'class-variance-authority'
 import { Typography } from '@/components/common/typography'
 import { navMain, path2sidebar } from '@/const/title-path'
 import { useGetMeQuery } from '@/features/auth/authApiSlice'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { GalleryVerticalEnd, Settings2 } from 'lucide-react'
 import CaseManagementIcon from '@/public/icons/Case Management.svg'
 import InquiryLogIcon from '@/public/icons/Inquiry Log.svg'
 import ReportIcon from '@/public/icons/Report.svg'
 import SettingIcon from '@/public/icons/Setting.svg'
 import CustomerDashboardIcon from '@/public/icons/Customer Dashboard.svg'
-import { PermissionKeyType } from '@/types/permission.type'
 
 const sidebarMenuButtonVariants = cva('', {
   variants: {
@@ -55,12 +54,14 @@ const title2icon: Record<string, React.ComponentType<any>> = {
   'Access Control': SettingIcon
 }
 export function AppSidebarMenuList({ }) {
-  const { data: me, isLoading: isLoadingGetMe } = useGetMeQuery()
+  const { data: meApi, isLoading: isLoadingGetMe } = useGetMeQuery()
+  const me = useMemo(() => meApi?.data || null, [meApi]);
+
   const [myPermissions, setMyPermissions] = useState<string[]>([])
   useEffect(() => {
     let myPermissions = []
-    if (me?.role?.permissions) {
-      for (const element of me?.role?.permissions || []) {
+    if (me?.permissions) {
+      for (const element of me?.permissions || []) {
         myPermissions.push(element.key)
       }
       setMyPermissions(myPermissions)

@@ -123,7 +123,7 @@ export const TextFieldInput = ({
         {...field}
         prependInnerIcon={!!prependInnerIcon}
         appendInnerIcon={!!appendInnerIcon}
-        readOnly={readonly || loading}
+        disabled={readonly || loading}
       />
     </div>
   )

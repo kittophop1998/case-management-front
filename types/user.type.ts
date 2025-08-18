@@ -5,7 +5,8 @@ export type UserRolesType =
   | "User"
   | "Staff"
   | "AsstManager Up"
-  | "Supervisor";
+  | "Supervisor"
+  | "System";
 
 export type JsonJoinDetails = {
   id: string;
@@ -37,8 +38,10 @@ export type UserProfileType = {
   id: string;
   isActive: boolean;
   name: string;
-  role: JsonJoinDetails & { Permissions: any[] };
+  role: JsonJoinDetails;
+  // & { Permissions: any[] };
   section: JsonJoinDetails;
   updatedAt: string;
   username: string;
+  permissions: any[];
 };
