@@ -4,6 +4,7 @@ import { SelectFieldInput } from "@/components/form/select-field";
 import { useGetDropdownQuery } from "@/features/system/systemApiSlice";
 import { getErrorText } from "@/services/api";
 import { current } from "@reduxjs/toolkit";
+import { promises } from "dns";
 
 interface SearchSectionProps {
     search: {
@@ -16,16 +17,15 @@ interface SearchSectionProps {
         section?: string;
         text?: string;
     }) => void;
+    confirmChangeGroup: () => Promise<Boolean>
 }
 export const SearchSection = ({
     search,
     setSearch,
+    confirmChangeGroup
 }: SearchSectionProps) => {
     const { data: dataDropdown, error, isFetching, isError } = useGetDropdownQuery()
-    // if (error) {
-    //     console.error("Error fetching dropdown data:", error);
-    //     return <div>Error loading data</div>;
-    // }
+
     return (
         <div>
             <div className="flex items-center gap-3">
@@ -35,8 +35,10 @@ export const SearchSection = ({
                     <SelectFieldInput
                         field={{
                             value: search.department,
-                            onChange: (value: any) => {
-                                setSearch((current) => ({ ...current, department: value }))
+                            onChange: async (value: any) => {
+                                if (await confirmChangeGroup()) {
+                                    setSearch((current) => ({ ...current, department: value }))
+                                }
                             }
                         }}
                         items={dataDropdown?.data?.departments || []}
@@ -51,8 +53,10 @@ export const SearchSection = ({
                     <SelectFieldInput
                         field={{
                             value: search.section,
-                            onChange: (value: any) => {
-                                setSearch((current) => ({ ...current, section: value }))
+                            onChange: async (value: any) => {
+                                if (await confirmChangeGroup()) {
+                                    setSearch((current) => ({ ...current, section: value }))
+                                }
                             }
                         }}
                         items={dataDropdown?.data?.sections || []}

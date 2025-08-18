@@ -38,7 +38,6 @@ export default function AccessControlPage({
     section: '',
     text: ''
   });
-
   const { data: ddData } = useGetDropdownQuery();
   const columnHelper = createColumnHelper<any>()
   const roles = ddData?.data?.roles || [];
@@ -107,7 +106,6 @@ export default function AccessControlPage({
     } else {
       currentForm.roles = currentForm.roles.filter((r: string) => r !== role)
     }
-
     const dbRoles = [...original.roles].sort()
     const formRoles = [...currentForm.roles].sort()
     const isObjDirty = (JSON.stringify(dbRoles) !== JSON.stringify(formRoles));
@@ -198,6 +196,17 @@ export default function AccessControlPage({
     }
   }
   console.count(`rerender`)
+  const confirmChangeGroup = async () => {
+    if (!isFormDirty) {
+      return true
+    }
+    if (await confirm('ท่านมีการแก้ไขล่าสุดอยู่ ต้องการยกเลิกหรือไม่')) {
+      setForm({})
+      return true
+    } else {
+      return false
+    }
+  }
   return (
     <CardPageWrapper classNameCard="space-y-3 mt-6">
       <Typography >
@@ -212,6 +221,7 @@ export default function AccessControlPage({
       <SearchSection
         search={search}
         setSearch={setSearch}
+        confirmChangeGroup={confirmChangeGroup}
       />
 
       {!!error && <FormError message={getErrorText(error)} />}
