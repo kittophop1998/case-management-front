@@ -50,7 +50,7 @@ const TextAreaField = ({
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <div className='relative'>
-              <div className='absolute flex items-center justify-center h-full w-[2rem]'>
+              <div className='absolute flex items-center justify-center h-full w-[2rem] pointer-events-none'>
                 {prependInnerIcon}
               </div>
               <Textarea

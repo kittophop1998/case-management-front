@@ -1,8 +1,3 @@
-import CaseManagementIcon from "@/public/icons/Case Management.svg";
-import InquiryLogIcon from "@/public/icons/Inquiry Log.svg";
-import ReportIcon from "@/public/icons/Report.svg";
-import SettingIcon from "@/public/icons/Setting.svg";
-import CustomerDashboardIcon from "@/public/icons/Customer Dashboard.svg";
 import { PermissionKeyType } from "@/types/permission.type";
 export const path2name: Record<string, string> = {
   // default
@@ -108,7 +103,6 @@ export const navMain: {
   {
     title: "Case Management",
     url: "/case-management",
-    // permission: ["case.management"],
   },
   {
     title: "Inquiry Log",
@@ -117,7 +111,6 @@ export const navMain: {
   {
     title: "Report",
     url: "/report",
-    // permission: ["case.standardreport"],
   },
   {
     title: "Settings",
