@@ -62,7 +62,6 @@ export const CreateEditUserSchema = z.object({
 });
 
 // "operatorId": z.string().min(1, 'Operator ID is required').regex(/^\d+$/, 'Operator ID must contain only numbers'),
-
 export const SettingAccessControlSchema = z.object({
   permission: z.string().min(1, "Permission Key is required"),
   roles: z.array(z.string().min(1, "Role is required")),
@@ -70,7 +69,6 @@ export const SettingAccessControlSchema = z.object({
 
 export const NewCaseSchema = z.object({
   customerId: z.string().optional(), //query
-  caseTitle: z.string().min(1, "Case Title is required"), //auto
   caseTypeId: z.string().min(1, "Case Type is required"), //auto
   dispositionMainId: z.string().min(1, "Disposition Stamp is required"),
   dispositionMains: z.array(z.string()),

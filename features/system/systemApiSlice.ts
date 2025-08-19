@@ -1,3 +1,4 @@
+import { description } from "./../../components/chart/mockup";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { JsonJoinDetails, UserProfileType, UserType } from "@/types/user.type";
 import { baseQuery } from "@/services/api";
@@ -12,6 +13,12 @@ export type DropdownSystemType = {
   roles: JsonJoinDetails[];
   sections: JsonJoinDetails[];
   departments: JsonJoinDetails[];
+  caseTypes: {
+    description: string;
+    group: string;
+    id: string;
+    name: string;
+  }[];
 };
 export type GetDropdownResponse = ApiResponse<DropdownSystemType>;
 

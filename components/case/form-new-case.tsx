@@ -28,7 +28,6 @@ const emptyNewCase: z.infer<typeof NewCaseSchema> = {
     dispositionMainId: '',
     caseNote: [''],
     caseDescription: '',
-    caseTitle: '',
     caseTypeId: ''
 }
 export interface FormNewCaseRef { onOpen: (caseTitle: string | null, customerId: string | null) => void }
@@ -72,7 +71,6 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                         onOpen: (caseTypeId: string | null, customerId: string | null) => {
                             form.reset({
                                 ...emptyNewCase,
-                                caseTitle: caseTypeId || '',
                                 caseTypeId: caseTypeId || '',
                                 customerId: customerId || '',
                             })
@@ -83,10 +81,10 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
             useDebugLogForm({
                 form
             })
-            const caseTitle = form.watch('caseTitle')
+            const caseTypeId = form.watch('caseTypeId')
             const customerId = form.watch('customerId')
             const { data: customerInfo } = useCustomerInfo(customerId)
-            const { data: caseInfo } = useCaseInfo(caseTitle)
+            const { data: caseInfo } = useCaseInfo(caseTypeId)
             const { data: inquirysApi } = useGetInquiryQuery();
             const inquirys = useMemo(() => inquirysApi?.data || [], [inquirysApi])
             const { fields, append, remove } = useFieldArray({
@@ -224,10 +222,10 @@ function useCustomerInfo(customerId: string | null | undefined) {
     }, [customerId])
     return { data: customerInfo }
 }
-function useCaseInfo(caseTitle: string | null | undefined) {
+function useCaseInfo(caseTypeId: string | null | undefined) {
     const [caseInfo, setCaseInfo] = useState(emptyCase)
     useEffect(() => {
-        if (caseTitle) {
+        if (caseTypeId) {
             setCaseInfo({
                 id: 'AC1029384B',
                 name: 'Inquiry',
@@ -236,7 +234,7 @@ function useCaseInfo(caseTitle: string | null | undefined) {
             setCaseInfo(emptyCase)
         }
 
-    }, [caseTitle])
+    }, [caseTypeId])
     return { data: caseInfo }
 }
 
