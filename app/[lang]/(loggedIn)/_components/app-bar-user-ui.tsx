@@ -70,11 +70,11 @@ const PopupUserUI = ({ user, onClose }: { user: UserProfileType, onClose: () => 
 export const AppBarUserUI = () => {
   const { data: meApi, isLoading: isLoadingGetMe, refetch: refetchMe, isError: isGetMeError } = useGetMeQuery()
   const me = useMemo(() => meApi?.data || null, [meApi]);
-  const { myPermission } = usePermission()
+  // const { myPermission } = usePermission()
   const [openPopup, setOpenPopup] = useState(false)
   if (!me) return null
   const name = me?.name ?? 'Unknown User'
-  if (!myPermission?.['view.profile']) return null
+  // if (!myPermission?.['view.profile']) return null
   return (
     <Popover open={openPopup} onOpenChange={setOpenPopup} modal>
       <PopoverTrigger asChild>

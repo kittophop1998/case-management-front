@@ -103,18 +103,22 @@ export const navMain: {
   {
     title: "Case Management",
     url: "/case-management",
+    permission: ["view.case"],
   },
   {
     title: "Inquiry Log",
     url: "/inquiry-log",
+    permission: ["mockupzzzzzzz"],
   },
   {
     title: "Report",
     url: "/report",
+    permission: ["mockupzzzzzzz"],
   },
   {
     title: "Settings",
     url: "/settings",
+    permission: ["mockupzzzzzzz"],
   },
   {
     title: "User Management",

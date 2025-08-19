@@ -65,16 +65,32 @@ export function ControlItems({
     const [search, setSearch] = React.useState("")
     const filteredData = data
         .map((group) => {
+            if (!!filterListMain && !filterListMain.includes(group.name)) {
+                return
+            }
             const matchParent = group.name
                 .toLowerCase()
                 .includes(search.toLowerCase())
-            const matchedSubs = group.sub.filter((s) =>
-                s.name.toLowerCase().includes(search.toLowerCase())
+
+            const matchedSubs = group.sub.filter((s) => {
+                if (!!filterListSub && !filterListSub.includes(s.name)) {
+                    return false
+                }
+                if (!search) {
+                    return true
+                }
+                return s.name.toLowerCase().includes(search.toLowerCase())
+            }
             )
+            console.log(`matchedSubs`, matchedSubs, mode)
+
+
+
             if (matchParent || matchedSubs.length > 0 || search === "") {
                 return {
                     ...group,
-                    sub: search ? matchedSubs : group.sub,
+                    // sub: search ? matchedSubs : group.sub,
+                    sub: matchedSubs
                 }
             }
             return null
@@ -82,6 +98,14 @@ export function ControlItems({
         .filter(Boolean)
     return (
         <>
+            <div>
+                <div>
+                    {JSON.stringify(filterListMain)}
+                </div>
+                <div>
+                    {JSON.stringify(filterListSub)}
+                </div>
+            </div>
             <Command shouldFilter={false}>
                 <CommandInput
                     placeholder="Search..."
@@ -93,7 +117,6 @@ export function ControlItems({
 
                     {filteredData.map((group) => (
                         <CommandGroup key={group!.name} >
-                            {/* Main selectable */}
                             <CommandItem
                                 key={group!.name}
                                 value={group!.name}
@@ -109,8 +132,6 @@ export function ControlItems({
                                 />
                                 {group!.name}
                             </CommandItem>
-
-                            {/* Sub selectable */}
                             {group!.sub.map((item) => (
                                 <CommandItem
                                     key={item.name}

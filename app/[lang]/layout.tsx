@@ -50,15 +50,6 @@ export default async function RootLayout({
           <InitializersData user={user} accessToken={accessToken} refreshToken={refreshToken} />
           {children}
         </StoreProvider>
-        {/* aaaa */}
-        {/* <InputDisposition
-          form={{}}
-          keyMainChild=''
-          keySubChild=''
-          keyMain=''
-          keySub=''
-          items={[]}
-        /> */}
         {/* <FormTest /> */}
       </body>
     </html>

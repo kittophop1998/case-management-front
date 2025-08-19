@@ -147,7 +147,7 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                                         { value: 'Main003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'Main003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
                                     ]}
                                 />
-                                <InputInquirySelectMain
+                                {/* <InputInquirySelectMain
                                     onChangeMain={() => { }}
                                     onChangeChild={() => {
                                         form.setValue('supInquiryStamp', ''); // Reset supInquiryStamp when supInquiry changes
@@ -162,31 +162,6 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                                         { value: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
                                         { value: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
                                     ]}
-                                />
-                                {/* <SelectField
-                                    form={form}
-                                    name="supInquiry"
-                                    label="Sup inquiry"
-                                    items={[
-                                        { value: 'sup1', label: 'SUP001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'sup2', label: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'sup3', label: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                    ]}
-                                    valueName="value"
-                                    labelName="label"
-                                />
-                                <CheckboxField
-                                    label="Sup inquiry in select:"
-                                    form={form}
-                                    items={[
-                                        { value: 'inquiry1', label: 'MIA001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'inquiry2', label: 'MIA002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'inquiry3', label: 'MIA003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                    ]}
-                                    name="mainInquiryStamp"
-                                    valueName="value"
-                                    labelName="label"
-
                                 /> */}
                             </div>
                         </SectionCard>
