@@ -10,11 +10,11 @@ export const userRoles: UserRolesType[] = [
 ];
 
 export const redirectAfterLoginByRole: Record<UserRolesType, string> = {
-  Admin: "/user-management",
-  System: "/user-management",
-  Staff: "/user-management",
-  User: "/case-management",
-  "AsstManager Up": "/assistant-management",
-  Supervisor: "/supervisor-management",
-  "CMS Admin": "/user-management",
+  Admin: "/dashboard",
+  System: "/dashboard",
+  Staff: "/dashboard",
+  User: "/dashboard",
+  "AsstManager Up": "/dashboard",
+  Supervisor: "/dashboard",
+  "CMS Admin": "/dashboard",
 };
