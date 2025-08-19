@@ -16,6 +16,7 @@ import { SectionCard } from "@/app/[lang]/(loggedIn)/dashboard/components/sectio
 import { useGetInquiryQuery } from "@/features/system/systemApiSlice";
 import { useCreateCaseMutation } from "@/features/case/caseApiSlice";
 import { getErrorText } from "@/services/api";
+import useCaseType from "@/hooks/use-case-type";
 interface FormNewCaseProps {
     isSmallMod?: boolean;
     setStatus?: (status: boolean) => void;
@@ -91,7 +92,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                 control,
                 name: "caseNote", // ต้องตรงกับ schema
             });
-
+            const { childValue2text } = useCaseType()
             return (
                 <FormProvider {...form} >
                     <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>
@@ -108,8 +109,8 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                 </SectionCard>
                                 <SectionCard title="Case Information" isAccordion={!!isSmallMod}>
                                     <div className="space-y-3 pt-2">
-                                        <Typography variant="caption">Case Type:  {caseInfo.name}</Typography>
-                                        <Typography variant="caption">Case ID:  {caseInfo.id}</Typography>
+                                        <Typography variant="caption">Case Type:  {childValue2text?.[caseTypeId] || caseTypeId}</Typography>
+                                        {/* <Typography variant="caption">Case ID:  {caseInfo.id}</Typography> */}
                                         <TextAreaField
                                             name="caseDescription"
                                             label="Case Description"

@@ -188,17 +188,22 @@ const CustomerDashboard = () => {
                                                         {
                                                             myPermission?.["add.custnote"] &&
                                                             <>
-                                                                <Button variant='ghost' size='sm' >
+                                                                <Button variant='ghost' size='sm'
+                                                                    onClick={() => {
+                                                                        setStatus(false)
+                                                                        setStatusNote(true)
+                                                                    }}
+                                                                >
                                                                     <ClipboardPlus />
                                                                 </Button>
-                                                                <Button className=" bg-black white-text" size='sm'
+                                                                {/* <Button className=" bg-black white-text" size='sm'
                                                                     onClick={() => {
                                                                         setStatus(false)
                                                                         setStatusNote(true)
                                                                     }
 
                                                                     }
-                                                                >New Note</Button>
+                                                                >New Note</Button> */}
                                                             </>
                                                         }
                                                     </div>

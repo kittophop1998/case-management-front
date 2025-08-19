@@ -7,6 +7,7 @@ export default function useCaseType() {
   const [group, setGroup] = useState<string[]>([]);
   // const [items, setItems] = useState([]);
   const [childByGroup, setChildByGroup] = useState({});
+  const [childValue2text, setChildValue2text] = useState({});
   useEffect(() => {
     if (!data?.data) {
       setGroup([]);
@@ -31,6 +32,7 @@ export default function useCaseType() {
         valueChildByGroup[group] = [];
         valueGroup.push(group);
       }
+      childValue2text[id] = name;
       valueChildByGroup[group].push(child);
       valueChildByGroup["null"].push(child);
     }
@@ -42,5 +44,6 @@ export default function useCaseType() {
     //  items,
     group,
     childByGroup,
+    childValue2text,
   };
 }
