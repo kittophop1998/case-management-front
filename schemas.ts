@@ -1,7 +1,13 @@
 import * as z from "zod";
 
 export const LoginSchemas = z.object({
-  username: z.string().min(1, "username is required"),
+  username: z
+    .string()
+    .min(1, "username is required")
+    .regex(
+      /^[A-Za-z0-9]+$/,
+      "username must be English letters or numbers only"
+    ),
   password: z.string().min(1, "password is required"),
 });
 
@@ -30,7 +36,13 @@ export const UserSchema = z.object({
 
 export const CreateEditUserSchema = z.object({
   id: z.string().nullable(),
-  username: z.string().min(1, "Username is required"),
+  username: z
+    .string()
+    .min(1, "Username is required")
+    .regex(
+      /^[A-Za-z0-9]+$/,
+      "username must be English letters or numbers only"
+    ),
   name: z.string().min(1, "Name is required"),
   email: z.string().min(1, "Email is required").email("Invalid email format"),
   sectionId: z.string().min(1, "Section is required"),
