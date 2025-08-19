@@ -21,7 +21,7 @@ export const path2clientpath: Record<string, { name: string; goto: string }[]> =
     // 1st level
     "/settings": [
       {
-        name: "settings",
+        name: "Settings",
         goto: "",
       },
     ],
@@ -33,42 +33,42 @@ export const path2clientpath: Record<string, { name: string; goto: string }[]> =
     ],
     "/access-control": [
       {
-        name: "access-control",
+        name: "Access Control",
         goto: "",
       },
     ],
     "/report": [
       {
-        name: "report",
+        name: "Report",
         goto: "",
       },
     ],
     "/inquiry-log": [
       {
-        name: "inquiry-log",
+        name: "Inquiry Iog",
         goto: "",
       },
     ],
     // 2nd level
     "/case/management": [
       {
-        name: "case-management",
+        name: "Case Management",
         goto: "",
       },
     ],
     "/customer/search": [
       {
-        name: "customer-search",
+        name: "Customer Search",
         goto: "",
       },
     ],
     "/customer/dashboard": [
       {
-        name: "customer-search",
+        name: "Customer Search",
         goto: "/customer/search",
       },
       {
-        name: "customer-dashboard",
+        name: "Customer Dashboard",
         goto: "",
       },
     ],

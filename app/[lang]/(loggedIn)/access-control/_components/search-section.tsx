@@ -83,6 +83,7 @@ export const SearchSection = ({
                             }
                         }
                     }
+                        placeholder="Search Function"
                         readonly={isError}
                     />
                 </div>
