@@ -30,6 +30,8 @@ export default function useAuth() {
     },
   });
   const router = useRouter();
+  const pathname = usePathname();
+
   const [
     getMe,
     { data: meApi, isLoading: isLoadingGetMe, isError: isGetMeError },
@@ -60,12 +62,10 @@ export default function useAuth() {
       }
       await setAccessToken(accessToken);
       await setRefreshToken(refreshToken);
-      const pathname = usePathname();
       getMe()
         .unwrap()
         .then(async (resMe) => {
           const currentMe = resMe.data;
-
           console.log("useAuth-getMe success", currentMe);
           try {
             if (!currentMe) {
@@ -94,9 +94,8 @@ export default function useAuth() {
       setIsLoadingLogin(false);
       setLoginError(null);
     } catch (error) {
-      console.log("3 clint catch login  action", error);
-      setIsLoadingLogin(false);
       console.log("useAuth-Login failed", error);
+      setIsLoadingLogin(false);
       if (error instanceof Error) {
         setLoginError(error.message);
       } else {

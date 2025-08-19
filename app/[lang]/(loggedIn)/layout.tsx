@@ -19,7 +19,7 @@ export default function UserLayout({
   // When screen resizes, default to closed if below md
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 768) {//md
+      if (window.innerWidth <= 1000) {//md
         setOpen(false)
       }
     }

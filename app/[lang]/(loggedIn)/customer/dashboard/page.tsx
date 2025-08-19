@@ -166,7 +166,7 @@ const CustomerDashboard = () => {
                                 <>
                                     <VerifyPass className='size-7' />
                                 </>
-                            } className={cn("xl:col-span-4 md:col-span-4 col-span-12")} >
+                            } className={cn("lg:col-span-4 md:col-span-6 col-span-12")} >
                                 <>
                                     <div className="flex gap-3  mt-0">
                                         <StatusComplaintLv lv={1} />
@@ -222,7 +222,7 @@ const CustomerDashboard = () => {
                                     </div>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Suggested Promotion" TopRight={null} className={cn("xl:col-span-4 md:col-span-4 col-span-12")}>
+                            <SectionCard title="Suggested Promotion" TopRight={null} className={cn("lg:col-span-4 md:col-span-6 col-span-12")}>
                                 <>
                                     <div className="space-y-0">
                                         <Typography className="line-clamp-1">BIC CAMERA Coupon with Aeon Credit Card</Typography>
@@ -241,7 +241,7 @@ const CustomerDashboard = () => {
                                     </div>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Case History" TopRight={null} className={cn("xl:col-span-4 md:col-span-4 col-span-12")}>
+                            <SectionCard title="Case History" TopRight={null} className={cn("lg:col-span-4 md:col-span-4 col-span-12")}>
                                 <>
                                     <div className="grid grid-cols-3 gap-3">
                                         {
@@ -274,7 +274,7 @@ const CustomerDashboard = () => {
                                     </div>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Top Purchased Categories" TopRight={null} className={cn("xl:col-span-4 md:col-span-4 col-span-12 min-h-[20rem]")}>
+                            <SectionCard title="Top Purchased Categories" TopRight={null} className={cn("lg:col-span-4 md:col-span-4 col-span-12 min-h-[20rem]")}>
                                 <>
 
                                     <Typography >{""}</Typography>
@@ -282,7 +282,7 @@ const CustomerDashboard = () => {
                                     <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Suggested Card" TopRight={null} className={cn("xl:col-span-3 md:col-span-3 col-span-12")} >
+                            <SectionCard title="Suggested Card" TopRight={null} className={cn("lg:col-span-3 md:col-span-4 col-span-12")} >
                                 <>
 
                                     <Typography >{""}</Typography>
@@ -290,7 +290,7 @@ const CustomerDashboard = () => {
                                     <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Last Activity" TopRight={null} className={cn("xl:col-span-5 md:col-span-5 col-span-12")}>
+                            <SectionCard title="Last Activity" TopRight={null} className={cn("lg:col-span-5 md:col-span-12 col-span-12")}>
                                 <>
 
                                     <Typography >{""}</Typography>
