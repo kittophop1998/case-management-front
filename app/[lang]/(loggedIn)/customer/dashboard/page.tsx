@@ -1,68 +1,69 @@
 'use client';
+
+import { useEffect, useMemo, useState } from "react";
+import { cn } from "@/lib/utils";
+import { ClipboardPlus, Phone } from "lucide-react";
+import { useLazyCustomerDashboardQuery } from "@/features/customers/customersApiSlice";
+import { Customer } from "@/types/customer.type";
+import VerifyPass from '@/public/icons/VerifyPass.svg'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { getErrorText } from "@/services/api";
+import usePermission from "@/hooks/use-permission";
+// 
+import { FormNewCase } from "@/components/case/form-new-case";
+import BtnNew from "@/components/button/btn-new";
+import { ChartAreaDefault } from "@/components/chart/mockup";
+import { DialogSelectCaseType } from "@/components/case/dialog-select-case-type";
 import Container from "@/components/common/containter";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Typography } from "@/components/common/typography";
-import { useRouter } from 'next/navigation'
-import { Suspense, useEffect, useMemo, useState } from "react";
 import { FloatingWidget } from "@/components/common/floating-widget";
-import { FormNewCase } from "@/components/case/form-new-case";
-import { cn } from "@/lib/utils";
-import { ClipboardPlus, Files, Phone } from "lucide-react";
+// 
 import { NoteButtonNoti } from "@/components/note/note-button-noti";
+import { CreateNewNoteTemplate } from "@/components/note/form-create-note";
+// 
 import { StatusCustomerFeeling } from "@/components/customer/status-customer-feeling";
 import { StatusComplaintLv } from "@/components/customer/status-complaint-lv";
 import { StatusCustomer } from "@/components/customer/status-customer";
 import { StatusPayment } from "@/components/customer/status-payment";
 import { StatusMobileApp } from "@/components/customer/status-mobile-app";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import BtnNew from "@/components/button/btn-new";
-import { CreateNewNoteTemplate } from "@/components/note/form-create-note";
-import { DialogSelectCaseType } from "@/components/case/dialog-select-case-type";
-import { useLazyCustomerDashboardQuery } from "@/features/customers/customersApiSlice";
-import { Customer } from "@/types/customer.type";
-import VerifyPass from '@/public/icons/VerifyPass.svg'
-import { ChartAreaDefault } from "@/components/chart/mockup";
-import { useSearchParams } from 'next/navigation'
-import { getErrorText } from "@/services/api";
-import usePermission from "@/hooks/use-permission";
+// 
+import { DataWithCopy } from "./_components/data-with-copy";
+import { SectionCard } from "./_components/section-card";
+import { DisplayValue } from "./_components/display-value";
 
-
-const DisplayDerivedValue = ({ title, value, className, classNameValue }: { title: string, value: any, className?: string, classNameValue?: string }) => {
-    if (typeof value === 'string') {
-        value = <Typography variant="body2" className={classNameValue}>{value}</Typography>
+const mockup = (value: Customer) => {
+    if (value?.email === undefined) {
+        value.email = 'Arunee@example.com'
     }
-    return (
-        <div className={cn('pb-2', className)}>
-            <Typography variant="caption">{title}</Typography>
-            {value}
-        </div>
-    )
-}
-const SectionCard = ({ title, children, TopRight = null, className }: { title: string, children: React.ReactNode, TopRight: React.ReactNode, className?: string }) => {
-    return (
-        <Card className={cn("p-4 shadow-none rounded-sm outline-0 border-0 gap-3", className)}>
-            <div className="flex items-center justify-between ">
-                <Typography className="line-clamp-1 font-medium">{title}</Typography>
-                {TopRight}
-            </div>
-            {children}
-        </Card>
-    );
+    if (value?.status === undefined) {
+        value.status = 'Active'
+    }
+    if (value?.type === undefined) {
+        value.type = 'Individual'
+    }
+    if (value?.group === undefined) {
+        value.group = 'Regular'
+    }
+    if (value?.paymentStatus === undefined) {
+        value.paymentStatus = 'Paid'
+    }
+    if (value?.segment === undefined) {
+        value.segment = 'General'
+    }
+    if (value?.mobileAppStatus === undefined) {
+        value.mobileAppStatus = 'Active'
+    }
+    if (value?.gender === undefined) {
+        value.gender = ''
+    }
+    if (value?.note === undefined) {
+        value.note = { count: 0 };
+    }
+    return value
 }
 
-const DataWithCopy = ({ title, value, showCopy = false, loading }: { value: string, title: string, showCopy?: boolean }) => {
-    return (
-        <div className="flex items-center gap-1">
-            <Typography variant="body2">{title}</Typography>
-            <Typography variant="body2" className="text-gray-500">{value}</Typography>
-            {showCopy &&
-                <Button variant='ghost' size='sm' >
-                    <Files color='#5570F1' />
-                </Button>}
-        </div>
-    );
-}
 const CustomerDashboard = () => {
     const { myPermission } = usePermission()
     const searchParams = useSearchParams()
@@ -73,37 +74,15 @@ const CustomerDashboard = () => {
             return undefined
         }
         let value = { ...(data?.data || {}) }
-        if (value?.email === undefined) {
-            value.email = 'Arunee@example.com'
-        }
-        if (value?.status === undefined) {
-            value.status = 'Active'
-        }
-        if (value?.type === undefined) {
-            value.type = 'Individual'
-        }
-        if (value?.group === undefined) {
-            value.group = 'Regular'
-        }
-        if (value?.paymentStatus === undefined) {
-            value.paymentStatus = 'Paid'
-        }
-        if (value?.segment === undefined) {
-            value.segment = 'General'
-        }
-        if (value?.mobileAppStatus === undefined) {
-            value.mobileAppStatus = 'Active'
-        }
-        if (value?.gender === undefined) {
-            value.gender = ''
-        }
-        if (value?.note === undefined) {
-            value.note = { count: 0 };
-        }
+        value = mockup(value)//TODO DELETE THIS
         return value
     }, [data]);
     const router = useRouter()
     useEffect(() => {
+        if (!customerId) {
+            console.log('!!not have query customerId')
+            return
+        }
         searchCustomer({
             id: customerId
         })
@@ -173,25 +152,25 @@ const CustomerDashboard = () => {
                                         <StatusCustomerFeeling status='Sweetheart' />
                                     </div>
                                     <div className="grid grid-cols-6 gap-4 ">
-                                        <DisplayDerivedValue title="Phone" value={
+                                        <DisplayValue title="Phone" value={
                                             <div className="flex gap-1">
                                                 <Typography variant="body2">{customer?.mobileNO ? '+66' : ''}</Typography>
                                                 <Typography variant="body2" className="text-[#FA541C]">{customer.mobileNO}</Typography>
                                             </div>
                                         } className="col-span-3" />
-                                        <DisplayDerivedValue title="Email" value={customer?.email} className="col-span-3 " />
-                                        <DisplayDerivedValue title="Status" value={<StatusCustomer status={customer?.status} />} className="col-span-2" />
-                                        <DisplayDerivedValue title="Customer Type:" value={customer?.type} className="col-span-2" />
-                                        <DisplayDerivedValue title="Customer Group" value={customer?.group} className="col-span-2" />
-                                        <DisplayDerivedValue title="Payment Status" value={<StatusPayment status={customer?.paymentStatus} />} className="col-span-2" />
-                                        <DisplayDerivedValue title="Segment" value={customer?.segment} className={cn("col-span-4")} />
-                                        <DisplayDerivedValue title="Mobile App Status" value={<StatusMobileApp status={customer?.mobileAppStatus} />} className="col-span-2" />
-                                        <DisplayDerivedValue title="Gender" value={customer?.status ? 'Men' : ''} className="col-span-2" />
+                                        <DisplayValue title="Email" value={customer?.email} className="col-span-3 " />
+                                        <DisplayValue title="Status" value={<StatusCustomer status={customer?.status} />} className="col-span-2" />
+                                        <DisplayValue title="Customer Type:" value={customer?.type} className="col-span-2" />
+                                        <DisplayValue title="Customer Group" value={customer?.group} className="col-span-2" />
+                                        <DisplayValue title="Payment Status" value={<StatusPayment status={customer?.paymentStatus} />} className="col-span-2" />
+                                        <DisplayValue title="Segment" value={customer?.segment} className={cn("col-span-4")} />
+                                        <DisplayValue title="Mobile App Status" value={<StatusMobileApp status={customer?.mobileAppStatus} />} className="col-span-2" />
+                                        <DisplayValue title="Gender" value={customer?.status ? 'Men' : ''} className="col-span-2" />
                                         {/* Gender */}
 
                                         {
                                             (myPermission?.["view.custnote"] || myPermission?.["add.custnote"]) &&
-                                            <DisplayDerivedValue title="Notes"
+                                            <DisplayValue title="Notes"
                                                 value={
                                                     <div className="flex items-center gap-1">
                                                         {

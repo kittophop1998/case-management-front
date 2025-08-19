@@ -6,6 +6,7 @@ import { InitializersData } from './_components/initializers-data'
 import { updateTokenAuth } from '@/actions/updateTokenAuth'
 import { handleError401 } from '@/lib/utils/handleError'
 import { headers } from "next/headers";
+import { FormTest } from '@/components/case/input-disposition'
 
 const kanit = Kanit({
   weight: '400',
@@ -45,10 +46,20 @@ export default async function RootLayout({
           inter.className
         )}
       >
-        <StoreProvider>
+        {/* <StoreProvider>
           <InitializersData user={user} accessToken={accessToken} refreshToken={refreshToken} />
           {children}
-        </StoreProvider>
+        </StoreProvider> */}
+        aaaa
+        {/* <InputDisposition
+          form={{}}
+          keyMainChild=''
+          keySubChild=''
+          keyMain=''
+          keySub=''
+          items={[]}
+        /> */}
+        <FormTest />
       </body>
     </html>
   )

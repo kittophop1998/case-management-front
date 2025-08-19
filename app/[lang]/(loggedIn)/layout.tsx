@@ -2,8 +2,7 @@
 
 import {
   SidebarProvider,
-  SidebarInset,
-  SidebarTrigger
+  SidebarInset
 } from '@/components/ui/sidebar'
 import { AppSidebar } from './_components/app-sidebar'
 import { AppBar } from './_components/app-bar'
@@ -14,9 +13,7 @@ export default function UserLayout({
 }: {
   children: React.ReactNode
 }) {
-  // const [open, setOpen] = useState(false)
   const [open, setOpen] = useState(true)
-  // When screen resizes, default to closed if below md
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 1000) {//md
@@ -33,7 +30,6 @@ export default function UserLayout({
         <AppSidebar />
         <SidebarInset className='bg-[#f4f5fa]'>
           <AppBar />
-          {/* <div className='w-full h-full'>{children}</div> */}
           {children}
         </SidebarInset>
       </SidebarProvider>

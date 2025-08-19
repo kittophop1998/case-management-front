@@ -1,12 +1,12 @@
 "use client";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   useLazyGetMeQuery,
   useLogoutMutation,
 } from "@/features/auth/authApiSlice";
 import { LoginSchemas } from "@/schemas";
 import { useRouter } from "next/navigation";
-import z, { set } from "zod";
+import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { setAccessToken, setRefreshToken } from "@/services/api";
@@ -83,8 +83,10 @@ export default function useAuth() {
             if (initPath) {
               router.push(initPath);
             }
-          } catch (error) {
-            setLoginError(error.message);
+          } catch (error: unknown) {
+            if (error instanceof Error) {
+              setLoginError(error.message);
+            }
           }
         })
         .catch((error) => {
