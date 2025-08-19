@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ClipboardPlus, Phone } from "lucide-react";
 import { useLazyCustomerDashboardQuery } from "@/features/customers/customersApiSlice";
@@ -10,7 +10,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import { getErrorText } from "@/services/api";
 import usePermission from "@/hooks/use-permission";
 // 
-import { FormNewCase } from "@/components/case/form-new-case";
+import { FormNewCase, FormNewCaseRef } from "@/components/case/form-new-case";
 import BtnNew from "@/components/button/btn-new";
 import { ChartAreaDefault } from "@/components/chart/mockup";
 import { DialogSelectCaseType } from "@/components/case/dialog-select-case-type";
@@ -65,6 +65,8 @@ const mockup = (value: Customer) => {
 }
 
 const CustomerDashboard = () => {
+    const formNewCaseRef = useRef<FormNewCaseRef>(null)
+
     const { myPermission } = usePermission()
     const searchParams = useSearchParams()
     const customerId = searchParams.get('customerId')
@@ -94,12 +96,15 @@ const CustomerDashboard = () => {
         console.log("Selected case type:", value);
         setOpenSelectCase(false);
         setStatus(true)
+        formNewCaseRef.current?.onOpen(value, customerId)
+
     }
     const handleOpenSelectCase = () => {
         setOpenSelectCase(true);
         setStatus(false);
         setStatusNote(false);
     }
+
     if (isError) return <>{getErrorText(error)}</>
     if (isFetching) return <></>
     if (!customer) return <></>
@@ -304,7 +309,8 @@ const CustomerDashboard = () => {
                 status={status}
                 setStatus={setStatus}
             >
-                <FormNewCase />
+                <FormNewCase
+                    ref={formNewCaseRef} />
             </FloatingWidget>
             <FloatingWidget
                 title="Create Note"

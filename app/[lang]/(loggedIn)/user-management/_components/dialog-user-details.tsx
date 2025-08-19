@@ -24,6 +24,7 @@ interface DialogDetailsProps {
 }
 const emptyUser: z.infer<typeof CreateEditUserSchema> = {
   "id": "",// Staff ID
+  "username": "",// Name
   "name": "",// Name
   "email": "",// Domain Name
   "sectionId": "",// Section
@@ -37,112 +38,116 @@ const emptyUser: z.infer<typeof CreateEditUserSchema> = {
 
 }
 
-export const DialogDetails = forwardRef<DialogDetailsRef, DialogDetailsProps>(
-  ({
-    getUsers
-  }, ref) => {
-    const [fetchUser, { isLoading: isLoadingForm, error: errorGet, isSuccess }] =
-      useGetUserMutation()
-    const [createUser, { error: errorCreate, isLoading: isLoadingCreate }] = useCreateUserMutation()
-    const [editUser, { error: errorEdit, isLoading: isLoadingEdit }] = useEditUserMutation()
+export const DialogDetails = forwardRef
+  <DialogDetailsRef, DialogDetailsProps>
+  (
+    (
+      {
+        getUsers
+      }, ref
+    ) => {
+      const [fetchUser, { isLoading: isLoadingForm, error: errorGet, isSuccess }] =
+        useGetUserMutation()
+      const [createUser, { error: errorCreate, isLoading: isLoadingCreate }] = useCreateUserMutation()
+      const [editUser, { error: errorEdit, isLoading: isLoadingEdit }] = useEditUserMutation()
 
-    const [displayError, setDisplayError] = useState<string | null>(null)
+      const [displayError, setDisplayError] = useState<string | null>(null)
 
-    useEffect(() => {
-      const err = errorCreate || errorEdit || errorGet
-      if (err) {
-        const message = getErrorText(err)
-        setDisplayError(message)
-      }
-    }, [errorCreate, errorEdit, errorGet])
-
-    const [open, setOpen] = useState(false)
-    const [mode, setMode] = useState<'create' | 'edit'>('create')
-    const form = useForm<z.infer<typeof CreateEditUserSchema>>({
-      resolver: zodResolver(CreateEditUserSchema)
-    })
-    useEffect(() => {
-      console.log('All errors:', form.formState.errors)
-      console.log('All errors:', form.getValues())
-    }, [form.formState.errors])
-
-
-    const onSubmit = async (userData: z.infer<typeof CreateEditUserSchema>) => {
-      console.log('Form submitted with values:', mode, userData)
-      try {
-        switch (mode) {
-          case 'edit':
-            const password = await checkPassword()
-            if (!password) return // กดยกเลิก หรือกรอกผิด
-            await editUser({ id: userData.id, data: userData }).unwrap()
-            dialogAlert(true)
-            break;
-          case 'create':
-            await createUser(userData).unwrap()
-            dialogAlert(true)
-            break;
-          default:
-            throw new Error('Invalid mode')
+      useEffect(() => {
+        const err = errorCreate || errorEdit || errorGet
+        if (err) {
+          const message = getErrorText(err)
+          setDisplayError(message)
         }
-        setOpen(false)
-        await getUsers()
-      } catch (err) {
-        console.log('Error saving user:', err)
-      }
-    }
+      }, [errorCreate, errorEdit, errorGet])
 
-    useImperativeHandle(ref, () => ({
-      setDefaultUser: async user => {
-        console.log('setDefaultUser called with user:', user)
-        if (user) {
-          setMode('edit')
-          form.reset(emptyUser)
-          const userDetails = await fetchUser(user.id).unwrap()
-          console.log('Fetched user details:', userDetails)
-          if (!userDetails?.data) return
-          const userAPI = userDetails.data
-          const updateForm = {
-            id: userAPI.id,
-            username: userAPI.username,
-            name: userAPI.name,
-            email: userAPI.email,
-            sectionId: userAPI.section.id,
-            staffId: userAPI.staffId === null ? '' : `${userAPI.staffId}`,
-            operatorId: `${userAPI.operatorId}`,
-            centerId: userAPI.center.id,
-            roleId: userAPI.role.id, // Assuming role is an object with an id
-            departmentId: `${userAPI.department.id}`,
-            isActive: userAPI.isActive
+      const [open, setOpen] = useState(false)
+      const [mode, setMode] = useState<'create' | 'edit'>('create')
+      const form = useForm<z.infer<typeof CreateEditUserSchema>>({
+        resolver: zodResolver(CreateEditUserSchema)
+      })
+      useEffect(() => {
+        console.log('All errors:', form.formState.errors)
+        console.log('All errors:', form.getValues())
+      }, [form.formState.errors])
+
+
+      const onSubmit = async (userData: z.infer<typeof CreateEditUserSchema>) => {
+        console.log('Form submitted with values:', mode, userData)
+        try {
+          switch (mode) {
+            case 'edit':
+              const password = await checkPassword()
+              if (!password) return // กดยกเลิก หรือกรอกผิด
+              await editUser({ id: userData.id, data: userData }).unwrap()
+              dialogAlert(true)
+              break;
+            case 'create':
+              await createUser(userData).unwrap()
+              dialogAlert(true)
+              break;
+            default:
+              throw new Error('Invalid mode')
           }
-          form.reset(updateForm)
-        } else {
-          setMode('create')
-          form.reset(emptyUser)
+          setOpen(false)
+          await getUsers()
+        } catch (err) {
+          console.log('Error saving user:', err)
         }
-        setDisplayError(null)
-        setOpen(true)
-
       }
-    }))
-    if (!open) return null
-    return (
-      <Modal
-        isOpen={open}
-        title={mode === 'create' ? 'Add Individual User' : 'Select Update'}
-        className='w-[clamp(300px,80%,608px)]'
-      >
-        <FormUserDetails
-          isLoadingForm={isLoadingForm}
-          mode={mode}
-          onClose={() => setOpen(false)}
-          form={form}
-          onSubmit={onSubmit}
-          isPendingSubmit={isLoadingCreate || isLoadingEdit}
-          error={displayError}
-        />
-      </Modal>
-    )
-  }
-)
+
+      useImperativeHandle(ref, () => ({
+        setDefaultUser: async user => {
+          console.log('setDefaultUser called with user:', user)
+          if (user) {
+            setMode('edit')
+            form.reset(emptyUser)
+            const userDetails = await fetchUser(user.id).unwrap()
+            console.log('Fetched user details:', userDetails)
+            if (!userDetails?.data) return
+            const userAPI = userDetails.data
+            const updateForm = {
+              id: userAPI.id,
+              username: userAPI.username,
+              name: userAPI.name,
+              email: userAPI.email,
+              sectionId: userAPI.section.id,
+              staffId: userAPI.staffId === null ? '' : `${userAPI.staffId}`,
+              operatorId: `${userAPI.operatorId}`,
+              centerId: userAPI.center.id,
+              roleId: userAPI.role.id, // Assuming role is an object with an id
+              departmentId: `${userAPI.department.id}`,
+              isActive: userAPI.isActive
+            }
+            form.reset(updateForm)
+          } else {
+            setMode('create')
+            form.reset(emptyUser)
+          }
+          setDisplayError(null)
+          setOpen(true)
+
+        }
+      }))
+      if (!open) return null
+      return (
+        <Modal
+          isOpen={open}
+          title={mode === 'create' ? 'Add Individual User' : 'Select Update'}
+          className='w-[clamp(300px,80%,608px)]'
+        >
+          <FormUserDetails
+            isLoadingForm={isLoadingForm}
+            mode={mode}
+            onClose={() => setOpen(false)}
+            form={form}
+            onSubmit={onSubmit}
+            isPendingSubmit={isLoadingCreate || isLoadingEdit}
+            error={displayError}
+          />
+        </Modal>
+      )
+    }
+  )
 
 

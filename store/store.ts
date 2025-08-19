@@ -6,6 +6,7 @@ import { usersApiSlice } from "@/features/users/usersApiSlice";
 import { systemApiSlice } from "@/features/system/systemApiSlice";
 import { permissionApiSlice } from "@/features/permission/permissionApiSlice";
 import { customersApiSlice } from "@/features/customers/customersApiSlice";
+import { caseApiSlice } from "@/features/case/caseApiSlice";
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -15,7 +16,8 @@ export const store = configureStore({
       .concat(usersApiSlice.middleware)
       .concat(systemApiSlice.middleware)
       .concat(permissionApiSlice.middleware)
-      .concat(customersApiSlice.middleware),
+      .concat(customersApiSlice.middleware)
+      .concat(caseApiSlice.middleware),
 });
 
 export type AppStore = typeof store;

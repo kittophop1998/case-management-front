@@ -69,21 +69,13 @@ export const SettingAccessControlSchema = z.object({
 });
 
 export const NewCaseSchema = z.object({
-  note: z.string().optional(),
-  caseDescription: z.string().optional(),
-  mainInquiry: z.array(z.string()).optional(),
-  supInquiry: z.array(z.string()).optional(),
-  mainInquiryStamp: z.string().optional(),
-  supInquiryStamp: z.string().optional(),
-  isDraft: z.boolean().optional(),
-  //
-  // caseTitle: z.string(),
-  // customerId: z.string(),
-  // caseTypeId: z.string(),
-  // dispositionMainId: z.string(),
-  // dispositionMains: z.array(z.string()),
-  // caseDescription: z.string(),
-  // caseNote: z.array(z.string()),
+  customerId: z.string().optional(), //query
+  caseTitle: z.string().min(1, "Case Title is required"), //auto
+  caseTypeId: z.string().min(1, "Case Type is required"), //auto
+  dispositionMainId: z.string().min(1, "Disposition Stamp is required"),
+  dispositionMains: z.array(z.string()),
+  caseDescription: z.string(),
+  caseNote: z.array(z.string()),
 });
 
 export const CreateNoteSchemas = z.object({

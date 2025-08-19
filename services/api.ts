@@ -24,6 +24,7 @@ export const getErrorText = (
   if (!response.error && response.data) {
     response = response.data;
   }
+
   return response?.error?.message?.[lang] || defaultMessage;
 };
 

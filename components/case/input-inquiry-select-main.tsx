@@ -24,14 +24,12 @@ export const InputInquirySelectMain = ({
     onChangeMain,
     onChangeChild
 }: InputInquirySelectMainProps) => {
-    // const handleSubmitSelect = (selected: any[]) => {
-    //     setSublist(selected)
-    // }
     const itemsChild = form.watch(nameChild)
-    const itemsChildSelect = itemsChild.map((value: string) => ({
-        value: value,
-        label: value,
-    }))
+    const itemsChildSelect = [...items].filter(e => itemsChild.includes(e.id))
+    // (itemsChild ?? []).map((value: string) => ({
+    //     id: value,
+    //     name: value,
+    // }))
 
     return (
         <>
@@ -44,21 +42,20 @@ export const InputInquirySelectMain = ({
                 name={nameChild}
                 label={nameMainLabel}
                 items={items}
-                valueName="value"
-                labelName="label"
+                valueName="id"
+                labelName="name"
 
             />
             <RadioField
                 onChange={(newV) => {
                     onChangeMain(newV)
-
                 }}
                 label={nameChildLabel}
                 form={form}
                 items={itemsChildSelect}
                 name={nameMain}
-                valueName="value"
-                labelName="label"
+                valueName="id"
+                labelName="name"
 
             />
             {(!itemsChildSelect.length) ? <Typography variant="caption" className="mx-3">-</Typography> : null}

@@ -134,23 +134,7 @@ export default function AccessControlPage({
         }
       })
     }
-    // if (newValue===)
-    // if (isActiveDB === newValue) {
-    //   setForm((current) => {
-    //     const newForm = { ...current }
-    //     delete newForm[`${role}$$$${action}`]
-    //     return newForm
-    //   })
-    //   return
-    // }
-    // setForm((current) => {
-    //   return {
-    //     ...current,
-    //     [`${role}$$$${action}`]: newValue
-    //   }
-    // })
   }
-
   useEffect(() => {
     fetchTable()
   }, [page, limit, sort, search])

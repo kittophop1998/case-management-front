@@ -25,7 +25,15 @@ export const systemApiSlice = createApi({
         method: "GET",
       }),
     }),
+    getInquiry: builder.query<GetDropdownResponse, void>({
+      query: () => ({
+        url: "/cases/disposition",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetDropdownQuery } = systemApiSlice;
+export const { useGetDropdownQuery, useGetInquiryQuery } = systemApiSlice;
+// const { data: ddData } = useGetDropdownQuery();
+// const { data: ddData } = useGetInquiryQuery();

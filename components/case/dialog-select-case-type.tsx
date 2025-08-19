@@ -94,7 +94,7 @@ export const DialogSelectCaseType = ({ open, setOpen, onSelect }: DialogSelectCa
                                         value: 'Customer'
                                     },
                                 ].map((el) => (
-                                    <TabsTrigger className="h-[3.3rem] cursor-pointer data-[state=active]:cursor-default my-0 w-[200px] max-w-[300px] data-[state=active]:shadow-none  rounded-none border-0 data-[state=active]:border-b-4  border-[#5570f1]" value={el.value}>{el.name}</TabsTrigger>
+                                    <TabsTrigger className="h-[3.3rem] cursor-pointer data-[state=active]:cursor-default my-0 w-[200px] max-w-[300px] data-[state=active]:shadow-none  rounded-none border-0 data-[state=active]:border-b-4  border-[#5570f1]" value={el.value} key={el.value}>{el.name}</TabsTrigger>
                                 ))
                             }
                         </TabsList>

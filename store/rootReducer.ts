@@ -5,6 +5,7 @@ import { usersApiSlice } from "@/features/users/usersApiSlice";
 import { systemApiSlice } from "@/features/system/systemApiSlice";
 import { permissionApiSlice } from "@/features/permission/permissionApiSlice";
 import { customersApiSlice } from "@/features/customers/customersApiSlice";
+import { caseApiSlice } from "@/features/case/caseApiSlice";
 
 export const rootReducer = combineReducers({
   [authApiSlice.reducerPath]: authApiSlice.reducer,
@@ -12,4 +13,5 @@ export const rootReducer = combineReducers({
   [systemApiSlice.reducerPath]: systemApiSlice.reducer,
   [permissionApiSlice.reducerPath]: permissionApiSlice.reducer,
   [customersApiSlice.reducerPath]: customersApiSlice.reducer,
+  [caseApiSlice.reducerPath]: caseApiSlice.reducer,
 });

@@ -1,153 +1,165 @@
 'use client';
-// import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@radix-ui/react-accordion";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Form } from "@/components/ui/form";
 import { NewCaseSchema } from "@/schemas";
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import { TextAreaField } from "@/components/form/textarea-field";
 import { Typography } from "@/components/common/typography";
-import { Check, Maximize2, Minimize2, Minus, Square, X } from "lucide-react";
-import { CheckboxField } from "@/components/form/checkbox";
-import { SelectField } from "@/components/form/select-field";
-import { Separator } from "@/components/ui/separator";
-import { Card } from "@/components/ui/card";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/common/Button";
 import { ButtonCancel } from "@/components/button/btn-cancle";
-import { RadioField } from "@/components/form/radio";
 import { dialogAlert } from "../common/dialog-alert";
 import { InputInquirySelectMain } from "./input-inquiry-select-main";
-
-const SectionCard = ({ title, children, isAccordion }: { title: string, children: React.ReactNode, isAccordion: boolean }) => {
-    const [isOpen, setIsOpen] = useState(true);
-    if (isAccordion) {
-        return (
-            <Card className="rounded-none shadow-none p-3">
-                <Accordion type="single" collapsible className="" value={isOpen ? "item-1" : ""} onValueChange={(value) => setIsOpen(value === "item-1")}>
-                    <AccordionItem value="item-1">
-                        <AccordionTrigger className='p-0 m-0'>{title}</AccordionTrigger>
-                        <AccordionContent className="mt-2 text-gray-600">
-                            {children}
-                        </AccordionContent>
-                    </AccordionItem>
-                </Accordion>
-            </Card>
-        );
-    } else {
-        return (
-            <>
-                <div className="p-3">
-                    <div >
-                        {title}
-                    </div>
-                    <div>
-                        {children}
-                    </div>
-                </div>
-                <Separator />
-            </>)
-
-    }
-
-}
-
+import { useDebugLogForm } from "@/hooks/use-debug-log-form";
+import { SectionCard } from "@/app/[lang]/(loggedIn)/dashboard/components/section-card";
+import { useGetInquiryQuery } from "@/features/system/systemApiSlice";
+import { useCreateCaseMutation } from "@/features/case/caseApiSlice";
+import { getErrorText } from "@/services/api";
 interface FormNewCaseProps {
     isSmallMod?: boolean;
     setStatus?: (status: boolean) => void;
 }
-export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
-    const onSubmit = (data: z.infer<typeof NewCaseSchema>) => {
-        console.log('Form submitted with data:', data);
-        dialogAlert(true)
-        onClose()
-    };
-    const onClose = () => {
-        setStatus(false);
-    };
-    const form = useForm<z.infer<typeof NewCaseSchema>>({
-        resolver: zodResolver(NewCaseSchema),
-        defaultValues: {
-            mainInquiry: [],
-            mainInquiryStamp: '',
-            supInquiry: [],
-            supInquiryStamp: '',
-            isDraft: false,
-            note: '',
-            caseDescription: ''
-        }
-    })
-    const customer = {
-        name: 'John Doe',
-        email: '',
-        phone: '(123) 456-7890',
-        caseType: '123456',
-        caseId: '123456',
-    }
-    useEffect(() => {
-        console.log('All errors:', form.formState.errors)
-        console.log('All errors:', form.getValues())
-    }, [form.formState.errors])
-    return (
-        <FormProvider {...form} >
-            <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>
-                <div className={cn("py-3", isSmallMod ? "max-h-[50vh] overflow-y-auto" : "w-[70vw] grid grid-cols-2 gap-3")}>
-                    <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
-                        <SectionCard title="Customer Information" isAccordion={!!isSmallMod}>
-                            <div className="space-y-3 pt-2">
-                                <Typography variant="caption">Customer ID/Passport :  9712333456234</Typography>
-                                <Typography variant="caption">Name: John Doe</Typography>
-                                <Typography variant="caption">Email: john.doe@example.com</Typography>
-                                <Typography variant="caption">Phone: (123) 456-7890</Typography>
+
+
+const emptyNewCase: z.infer<typeof NewCaseSchema> = {
+    customerId: '',
+    dispositionMains: [],
+    dispositionMainId: '',
+    caseNote: [''],
+    caseDescription: '',
+    caseTitle: '',
+    caseTypeId: ''
+}
+export interface FormNewCaseRef { onOpen: (caseTitle: string | null, customerId: string | null) => void }
+export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
+    (
+        ({ isSmallMod, setStatus }, ref) => {
+            const form = useForm<z.infer<typeof NewCaseSchema>>({
+                resolver: zodResolver(NewCaseSchema),
+                defaultValues: emptyNewCase
+            })
+            const { control } = form;
+            const [createCase, { error: errorCreateCase, isLoading: isLoadingCreateCase }] = useCreateCaseMutation();
+
+            const onSubmit = async (data: z.infer<typeof NewCaseSchema>) => {
+                try {
+                    let res = await createCase({ body: data })
+                    if (!!res?.error) {
+                        res = res?.error?.data
+                        throw Error(getErrorText(res))
+                    }
+                    dialogAlert(true)
+                    onClose()
+                } catch (error) {
+                    dialogAlert(false, {
+                        title: 'Error',
+                        message: error.message,
+                        confirmText: 'Try again',
+                        cancelText: 'Close',
+                        onConfirm: () => { },
+                        onCancel: () => { }
+                    })
+
+                }
+            };
+            const onClose = (): void => {
+                setStatus?.(false);
+            };
+            useImperativeHandle(
+                ref, () => (
+                    {
+                        onOpen: (caseTypeId: string | null, customerId: string | null) => {
+                            form.reset({
+                                ...emptyNewCase,
+                                caseTitle: caseTypeId || '',
+                                caseTypeId: caseTypeId || '',
+                                customerId: customerId || '',
+                            })
+                        }
+                    }
+                )
+            )
+            useDebugLogForm({
+                form
+            })
+            const caseTitle = form.watch('caseTitle')
+            const customerId = form.watch('customerId')
+            const { data: customerInfo } = useCustomerInfo(customerId)
+            const { data: caseInfo } = useCaseInfo(caseTitle)
+            const { data: inquirysApi } = useGetInquiryQuery();
+            const inquirys = useMemo(() => inquirysApi?.data || [], [inquirysApi])
+            const { fields, append, remove } = useFieldArray({
+                control,
+                name: "caseNote", // ต้องตรงกับ schema
+            });
+
+            return (
+                <FormProvider {...form} >
+                    <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>
+                        <div className={cn("py-3", isSmallMod ? "max-h-[50vh] overflow-y-auto" : "w-[70vw] grid grid-cols-2 gap-3")}>
+                            <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
+                                {/* {JSON.stringify(inquirys)} */}
+                                <SectionCard title="Customer Information" isAccordion={!!isSmallMod}>
+                                    <div className="space-y-3 pt-2">
+                                        <Typography variant="caption">Customer ID/Passport :  {customerInfo.passport}</Typography>
+                                        <Typography variant="caption">Name: {customerInfo.name}</Typography>
+                                        <Typography variant="caption">Email: {customerInfo.email}</Typography>
+                                        <Typography variant="caption">Phone: {customerInfo.phone}</Typography>
+                                    </div>
+                                </SectionCard>
+                                <SectionCard title="Case Information" isAccordion={!!isSmallMod}>
+                                    <div className="space-y-3 pt-2">
+                                        <Typography variant="caption">Case Type:  {caseInfo.name}</Typography>
+                                        <Typography variant="caption">Case ID:  {caseInfo.id}</Typography>
+                                        <TextAreaField
+                                            name="caseDescription"
+                                            label="Case Description"
+                                            placeholder="Enter Case Description"
+                                            form={form}
+                                        />
+                                    </div>
+                                </SectionCard>
+                                <SectionCard title="Case Note" isAccordion={!!isSmallMod}>
+                                    <div className="space-y-3 pt-2">
+                                        {fields.map((field, index) => (
+                                            <TextAreaField
+                                                key={field.id}
+                                                name={`caseNote.${index}`}
+                                                label={`Add Note`}
+                                                placeholder="Enter Note"
+                                                form={form}
+                                            />
+                                        ))}
+                                    </div>
+                                </SectionCard>
                             </div>
-                        </SectionCard>
-                        <SectionCard title="Case Information" isAccordion={!!isSmallMod}>
-                            <div className="space-y-3 pt-2">
-                                <Typography variant="caption">Case Type:  Inquiry</Typography>
-                                <Typography variant="caption">Case ID:  AC1029384B</Typography>
-                                <TextAreaField
-                                    name="caseDescription"
-                                    label="Case Description"
-                                    placeholder="Enter Case Description"
-                                    form={form}
-                                />
-                            </div>
-                        </SectionCard>
-                        <SectionCard title="Case Note" isAccordion={!!isSmallMod}>
-                            <div className="space-y-3 pt-2">
-                                <TextAreaField
-                                    name="note"
-                                    label="Add Note"
-                                    placeholder="Enter Note"
-                                    form={form}
-                                />
-                            </div>
-                        </SectionCard>
-                    </div>
-                    <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
-                        <SectionCard title="Disposition" isAccordion={!!isSmallMod}>
-                            <div className="space-y-3 mt-3">
-                                <InputInquirySelectMain
-                                    onChangeChild={() => {
-                                        form.setValue('mainInquiryStamp', ''); // Reset mainInquiryStamp when mainInquiry changes
-                                        form.setValue('supInquiry', []); // Reset supInquiryStamp when supInquiry changes
-                                        form.setValue('supInquiryStamp', ''); // Reset supInquiryStamp when supInquiry changes
-                                    }}
-                                    onChangeMain={() => { }}
-                                    form={form}
-                                    nameMainLabel='Main inquiry'
-                                    nameChildLabel='Select Main inquiry Stamp to Genesys:'
-                                    nameChild='mainInquiry'
-                                    nameMain='mainInquiryStamp'
-                                    items={[
-                                        { value: 'Main001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'Main001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'Main002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'Main002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'Main003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'Main003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                    ]}
-                                />
-                                {/* <InputInquirySelectMain
+                            <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
+                                <SectionCard title="Disposition" isAccordion={!!isSmallMod}>
+                                    <div className="space-y-3 mt-3">
+                                        <InputInquirySelectMain
+                                            onChangeChild={() => {
+                                                form.setValue('dispositionMainId', ''); // Reset dispositionMainId when dispositionMains changes
+                                                // form.setValue('supInquiry', []); // Reset supInquiryStamp when supInquiry changes
+                                                // form.setValue('supInquiryStamp', ''); // Reset supInquiryStamp when supInquiry changes
+                                            }}
+                                            onChangeMain={() => { }}
+                                            form={form}
+                                            nameMainLabel='Main inquiry'
+                                            nameChildLabel='Select Main inquiry Stamp to Genesys:'
+                                            nameChild='dispositionMains'
+                                            nameMain='dispositionMainId'
+                                            items={
+                                                // [
+                                                // { value: 'Main001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'Main001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                // { value: 'Main002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'Main002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                // { value: 'Main003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'Main003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
+                                                // ]
+                                                inquirys || []
+                                            }
+
+                                        />
+                                        {/* <InputInquirySelectMain
                                     onChangeMain={() => { }}
                                     onChangeChild={() => {
                                         form.setValue('supInquiryStamp', ''); // Reset supInquiryStamp when supInquiry changes
@@ -163,73 +175,68 @@ export const FormNewCase = ({ isSmallMod, setStatus }: FormNewCaseProps) => {
                                         { value: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
                                     ]}
                                 /> */}
+                                    </div>
+                                </SectionCard>
+
                             </div>
-                        </SectionCard>
+                        </div>
+                        <div className="flex justify-end gap-3 pb-3">
+                            <ButtonCancel onClick={onClose} />
+                            <Button loading={isLoadingCreateCase}>Save</Button>
+                        </div>
+                    </form>
+                </FormProvider>
+            );
+        }
+    )
+// TODO: move under this line to other component
+// ? components
 
-                    </div>
-                </div>
-                <div className="flex justify-end gap-3 pb-3">
-                    <ButtonCancel onClick={onClose} />
-                    <Button>Save</Button>
-                </div>
-            </form>
-        </FormProvider>
-    );
-};
+// ? Hooks
+const emptyCustomer = {
+    name: '',
+    email: '',
+    phone: '',
+    caseType: '',
+    caseId: '',
+    passport: ''
+}
+const emptyCase = {
+    id: '',
+    name: '',
+}
+function useCustomerInfo(customerId: string | null | undefined) {
+    const [customerInfo, setCustomerInfo] = useState(emptyCustomer)
+    useEffect(() => {
+        if (!!customerId) {
+            setCustomerInfo({
+                name: 'John Doe',
+                email: '',
+                phone: '(123) 456-7890',
+                caseType: '123456',
+                caseId: '123456',
+                passport: '9712333456234'
+            })
+        } else {
+            setCustomerInfo(emptyCustomer)
+        }
 
+    }, [customerId])
+    return { data: customerInfo }
+}
+function useCaseInfo(caseTitle: string | null | undefined) {
+    const [caseInfo, setCaseInfo] = useState(emptyCase)
+    useEffect(() => {
+        if (caseTitle) {
+            setCaseInfo({
+                id: 'AC1029384B',
+                name: 'Inquiry',
+            })
+        } else {
+            setCaseInfo(emptyCase)
+        }
 
-// <SectionCard title="Require Create Case" isAccordion={!!isSmallMod}>
-//     <div className="space-y-3 pt-2">
-//         <RadioField
-//             form={form}
-//             items={
-//                 [
-//                     {
-//                         label: 'Yes',
-//                         value: true
-//                     },
-//                     {
-//                         label: 'No',
-//                         value: false
-//                     }
-//                 ]
-//             }
-//             valueName='value'
-//             labelName='label'
-//             name='isDraft'
-//             label='Create Draft case ?'
-//             className='flex'
-//         />
-//         <RadioField
-//             form={form}
-//             items={
-//                 [
-//                     {
-//                         label: 'Change Name',
-//                         value: 1
-//                     },
-//                     {
-//                         label: 'Change Passport',
-//                         value: 2
-//                     },
-//                     {
-//                         label: 'Change Birth date',
-//                         value: 3
-//                     },
-//                     {
-//                         label: 'Change mobile number ',
-//                         value: 4
-//                     },
-//                     {
-//                         label: 'Change Birth date',
-//                         value: 5
-//                     }
-//                 ]
-//             }
-//             valueName='value'
-//             labelName='label'
-//             name='isDraft'
-//             label='Select Case for Draft'
-//         />
-//     </div>
-// </SectionCard>
+    }, [caseTitle])
+    return { data: caseInfo }
+}
+
