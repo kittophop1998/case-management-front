@@ -61,6 +61,7 @@ export default function useCaseType() {
     []
   );
   //
+  const [countFiltered, setCountFiltered] = useState<number>(0);
   const [group, setGroup] = useState<string[]>([]);
   const [childByGroup, setChildByGroup] = useState({});
   const [groupFiltered, setGroupFiltered] = useState<string[]>([]);
@@ -122,27 +123,28 @@ export default function useCaseType() {
     }
     const itemsFiltered = [...caseTypes].filter(
       (el) =>
-        (!searchText ||
-          el.group
-            .toLocaleLowerCase()
-            .includes(searchText.toLocaleLowerCase()) ||
-          el.name
-            .toLocaleLowerCase()
-            .includes(searchText.toLocaleLowerCase())) &&
-        (selectGroup === "null" || selectGroup === el.group)
+        !searchText ||
+        el.group.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()) ||
+        el.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
+      //  &&(selectGroup === "null" || selectGroup === el.group)
     );
     // itemsFiltered;
     setCaseTypesFiltered(itemsFiltered);
-    console.log(searchText, selectGroup, caseTypes);
-  }, [searchText, selectGroup, caseTypes]);
+    setCountFiltered(itemsFiltered.length);
+    // console.log(searchText, selectGroup, caseTypes);
+  }, [
+    searchText,
+    // selectGroup,
+    caseTypes,
+  ]);
 
   return {
     state: { searchText, setSearchText, selectGroup, setSelectGroup },
-    data: { group, childByGroup, childValue2text, items: [] },
+    data: { group, childByGroup, childValue2text },
     dataFiltered: {
       group: groupFiltered,
       childByGroup: childByGroupFiltered,
-      items: [],
+      countFiltered,
     },
   };
 }
