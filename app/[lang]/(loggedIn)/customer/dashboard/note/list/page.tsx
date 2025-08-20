@@ -33,8 +33,8 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
     const dataTable = useMemo(() => dataApi?.data || [], [dataApi])
     const columnHelper = createColumnHelper<any>()
     const columns = useMemo(() => [
-        columnHelper.accessor('noteTypeId', {
-            id: 'noteTypeId',
+        columnHelper.accessor('noteType.name', {
+            id: 'noteType.name',
             header: ({ column }) => <Header column={column} label='Type' sortAble />,
             cell: info => <div>{info.getValue()}</div>
         }),
@@ -68,7 +68,10 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
 
     const { table, sort, page, limit, setPage, setLimit } = useTable({
         data: dataTable,
-        columns: columns
+        columns: columns,
+        mapSortingName: {
+            noteType_name: "noteType",
+        },
     });
     useEffect(() => {
         if (!customerId) return

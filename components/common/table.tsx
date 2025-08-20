@@ -99,15 +99,7 @@ export function DataTable<T>({
   setPage,
   setLimit
 }: DataTableProps<T>) {
-  // const rows = useMemo(() => table.getRowModel().rows, [JSON.stringify(table)]);
-  // const rows = useMemo(() => table.getRowModel().rows, [table]);
-  // const rowModel = useMemo(() => table.getRowModel(), [table]);
-  // const rows = rowModel.rows;
   const rows = table.getRowModel().rows
-  // console.log('rows', rows, table.getRowModel().rows);
-  // useEffect(() => {
-  //   console.log('rows re-rendered', JSON.stringify(rows))
-  // }, [rows]);
   return (
     <>
       <Table>
