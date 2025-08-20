@@ -90,6 +90,7 @@ export const DialogSelectCaseType = ({
                     <Separator />
                     <div className="px-3">
                         <SearchFieldInput
+                            placeholder="Search New Case"
                             field={{
                                 value: searchText,
                                 onChange: (e) => setSearchText(e.target.value),
