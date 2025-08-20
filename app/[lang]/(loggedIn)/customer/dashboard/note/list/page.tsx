@@ -81,7 +81,7 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
             limit,
             sort,
             keyword: filterForm.text,
-            createdAt: `${filterForm.date}`,
+            createdAt: filterForm.date ? format(filterForm.date, 'yyyy-MM-dd') : '',
         })
     }, [customerId,
         filterForm, page,
