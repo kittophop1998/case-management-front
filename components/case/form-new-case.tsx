@@ -44,17 +44,13 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
 
             const onSubmit = async (data: z.infer<typeof NewCaseSchema>) => {
                 try {
-                    let res = await createCase({ body: data })
-                    if (!!res?.error) {
-                        res = res?.error?.data
-                        throw Error(getErrorText(res))
-                    }
+                    await createCase({ body: data }).unwrap();
                     dialogAlert(true)
                     onClose()
                 } catch (error) {
                     dialogAlert(false, {
                         title: 'Error',
-                        message: error.message,
+                        message: error.message || getErrorText(error),
                         confirmText: 'Try again',
                         cancelText: 'Close',
                         onConfirm: () => { },

@@ -10,7 +10,7 @@ import { DataTable, Header } from "@/components/common/table";
 import { Typography } from "@/components/common/typography";
 import { DatePickerFieldInput, DateValueType } from "@/components/form/date-picker";
 import { SearchFieldInput } from "@/components/form/search-field";
-import { CreateNewNoteTemplate } from "@/components/note/form-create-note";
+import { FormCreateNote } from "@/components/note/form-create-note";
 import { useTable } from "@/hooks/use-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { format } from "date-fns";
@@ -123,20 +123,12 @@ const NoteListPage = () => {
                     total={data.length}
                     totalPages={1}
                 />
-                {/* <FormCreateNote /> */}
-                {/* <ExampeleForm /> */}
-                {/* <Modal
-                    isOpen={false} // Replace with actual state to control modal visibility
-                    onClose={() => console.log('Modal closed')}
-                    title="Note Creation"
-                >
-                </Modal> */}
                 <FloatingWidget
-                    title="Create Note"
+                    title="New Customer Note"
                     status={status}
                     setStatus={setStatus}
                 >
-                    <CreateNewNoteTemplate />
+                    <FormCreateNote customerId="" />
                 </FloatingWidget>
             </CardPageWrapper>
 

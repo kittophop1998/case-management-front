@@ -1,84 +1,111 @@
 import { CreateNoteSchemas } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
-// 
 import { SelectField } from "@/components/form/select-field";
-import { Form } from "@/components/ui/form";
 import { ButtonCancel } from "../button/btn-cancle";
 import { Button } from "../common/Button";
 import { cn } from "@/lib/utils";
 import { TextAreaField } from "../form/textarea-field";
 import { dialogAlert } from "../common/dialog-alert";
+import { useCreateNoteMutation } from "@/features/note/noteApiSlice";
+import { useGetNoteTypeQuery } from "@/features/system/systemApiSlice";
+import { useDebugLogForm } from "@/hooks/use-debug-log-form";
+import { getErrorText } from "@/services/api";
 
-export const FormCreateNote = ({
-    isSmallMod = true,
-    setStatus = (status: boolean) => { }
-}) => {
-    const form = useForm<z.infer<typeof CreateNoteSchemas>>({
-        resolver: zodResolver(CreateNoteSchemas),
-        defaultValues: {
-            type: null,
-            text: ''
+interface FormCreateNoteProps {
+    isSmallMod?: boolean,
+    setStatus?: (status: boolean) => void
+    customerId: string
+
+}
+export const FormCreateNote =
+    (
+        {
+            isSmallMod = true,
+            setStatus = (status: boolean) => { },
+            customerId
+        }: FormCreateNoteProps
+    ) => {
+
+        const { data: noteTypes = [] } = useGetNoteTypeQuery();
+        const [createNote, { error, isLoading }] = useCreateNoteMutation();
+        const form = useForm<z.infer<typeof CreateNoteSchemas>>({
+            resolver: zodResolver(CreateNoteSchemas),
+            defaultValues: {
+                customerId,
+                noteTypeId: '',
+                note: ''
+            }
+        })
+
+        const onSubmit = async (values: z.infer<typeof CreateNoteSchemas>) => {
+            // console.log("getValues()", form.getValues())
+            // console.log(`values-xxx 1:`, values)
+            // console.log("onSubmit - values", values);
+            // console.log("getValues()", form.getValues());
+            // console.log("dirtyFields", form.formState.dirtyFields);
+            // console.log("errors", form.formState.errors);
+            // console.log(`values-xxx 2:`, values)
+            try {
+                await createNote({ body: form.getValues() }).unwrap();
+                dialogAlert(true)
+                onClose();
+                form.reset({
+                    customerId,
+                    noteTypeId: '',
+                    note: ''
+                })
+            } catch (error) {
+                dialogAlert(false, {
+                    title: 'Error',
+                    message: error.message || getErrorText(error),
+                    confirmText: 'Try again',
+                    cancelText: 'Close',
+                    onConfirm: () => { },
+                    onCancel: () => { }
+                })
+            }
         }
-    })
-    const onSubmit = (values: z.infer<typeof CreateNoteSchemas>) => {
-        console.log('Form submitted with values:', values);
-        // Handle form submission logic here
-        dialogAlert(true)
-        onClose();
+        const onClose = () => {
+            setStatus(false);
+        }
+        const formState = form.formState;
+        const isFormPending = formState.isSubmitting || formState.isValidating;
+        const isFormDisabled = !formState.isDirty
+        useDebugLogForm({ form })
+        // const seeData = form.watch()
+        return (
+            <div className={cn("p-3", isSmallMod ? '' : 'max-w-2xl w-full min-w-[50vw]')}>
+                {/* {JSON.stringify(seeData)} */}
+                <FormProvider {...form} >
+                    <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+                        <SelectField
+                            form={form}
+                            name='noteTypeId'
+                            label='Note Type'
+                            placeholder='Select Note Type'
+                            valueName='id'
+                            labelName='name'
+                            loading={isFormPending}
+                            items={
+                                noteTypes
+                            }
+                        />
+                        <TextAreaField
+                            loading={isFormPending}
+                            form={form}
+                            name='note'
+                            label='Note'
+                            placeholder='Enter Note'
+                            className={cn("", isSmallMod ? 'h-[clamp(360px,100vh,242px)]' : 'h-[clamp(360px,100vh,242px)]')}
+                        />
+                        <div className="flex gap-3 items-center justify-end">
+                            <ButtonCancel onClick={onClose} />
+                            <Button loading={isFormPending} disabled={isFormDisabled} >Save</Button>
+                        </div>
+                    </form>
+                </FormProvider>
+            </div>
+        );
     }
-    const onClose = () => {
-        setStatus(false);
-    }
-    const formState = form.formState;
-    const isFormPending = formState.isSubmitting || formState.isValidating;
-    const isFormDisabled = !formState.isDirty
-    return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
-                <SelectField
-                    form={form}
-                    name='type'
-                    label='type'
-                    placeholder='All'
-                    valueName='id'
-                    labelName='name'
-                    loading={isFormPending}
-                    items={[
-                        { id: 'type1', name: 'การติดต่อจากลูกค้า' },
-                        { id: 'type2', name: 'Type 2' },
-                        { id: 'type3', name: 'Type 3' }
-                    ]}
-                />
-                <TextAreaField
-                    loading={isFormPending}
-                    form={form}
-                    name='text'
-                    label='message'
-                    placeholder='message'
-                    className={cn("h-32", isSmallMod ? 'max-h-32' : 'max-h-96')}
-                />
-                <div className="flex gap-3 items-center justify-end">
-                    <ButtonCancel onClick={onClose} />
-                    <Button loading={isFormPending} disabled={isFormDisabled}>Save</Button>
-                </div>
-            </form>
-        </Form>
-    );
-}
-
-
-export const CreateNewNoteTemplate = ({
-    isSmallMod = true,
-    setStatus = (status: boolean) => { }
-}) => {
-    return (
-        <div className={cn("p-3", isSmallMod ? '' : 'max-w-2xl w-full min-w-[50vw]')}>
-            <FormCreateNote
-                isSmallMod={isSmallMod}
-                setStatus={setStatus}
-            />
-        </div>
-    );
-}

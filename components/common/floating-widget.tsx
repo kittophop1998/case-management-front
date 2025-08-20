@@ -16,7 +16,7 @@ export const FloatingWidget = ({ title, status, setStatus, children }: FloatingW
 
     return (
         <div className={
-            cn('fixed z-50', (isSmallMod || isHidden) ? 'right-0 bottom-0 max-h-[70vh] w-[40vw]' : 'inset-0  flex items-center justify-center bg-[#A3A3A3]/20 backdrop-blur-xs', status ? '' : 'hidden')
+            cn('fixed z-50', (isSmallMod || isHidden) ? 'right-0 bottom-0 max-h-[70vh] w-[clamp(432px,40vw,300px)]' : 'inset-0  flex items-center justify-center bg-[#A3A3A3]/20 backdrop-blur-xs', status ? '' : 'hidden')
         }>
             <div className="bg-white rounded-sm overflow-hidden">
                 <div className="flex items-center bg-primary/25 px-3">

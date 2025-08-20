@@ -47,7 +47,10 @@ const TextAreaField = ({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel>
+            {/* {field.value} */}
+
+            {label}</FormLabel>
           <FormControl>
             <div className='relative'>
               <div className='absolute flex items-center justify-center h-full w-[2rem] pointer-events-none'>

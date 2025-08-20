@@ -3,6 +3,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { JsonJoinDetails, UserProfileType, UserType } from "@/types/user.type";
 import { baseQuery } from "@/services/api";
 import { ApiResponse } from "@/types/api.type";
+import { Note } from "@/types/note.type";
 // centers
 // permissions
 // roles
@@ -32,15 +33,27 @@ export const systemApiSlice = createApi({
         method: "GET",
       }),
     }),
-    getInquiry: builder.query<GetDropdownResponse, void>({
+    getInquiry: builder.query<ApiResponse<any[]>, void>({
       query: () => ({
         url: "/cases/disposition",
         method: "GET",
       }),
     }),
+    getNoteType: builder.query<Note[], void>({
+      query: () => ({
+        url: "/customers/note-types",
+        method: "GET",
+      }),
+      transformResponse: (response: ApiResponse<Note[]>) =>
+        response?.data ?? [],
+    }),
+    // customer/note-type
   }),
 });
 
-export const { useGetDropdownQuery, useGetInquiryQuery } = systemApiSlice;
+export const { useGetDropdownQuery, useGetInquiryQuery, useGetNoteTypeQuery } =
+  systemApiSlice;
 // const { data: ddData } = useGetDropdownQuery();
 // const { data: ddData } = useGetInquiryQuery();
+// const { data: ddData } = useGetNoteTypeQuery();
+// const noteTypes = useMemo(() => noteTypesApi?.data || [], [noteTypesApi])

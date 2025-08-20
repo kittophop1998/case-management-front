@@ -21,7 +21,7 @@ import { Typography } from "@/components/common/typography";
 import { FloatingWidget } from "@/components/common/floating-widget";
 // 
 import { NoteButtonNoti } from "@/components/note/note-button-noti";
-import { CreateNewNoteTemplate } from "@/components/note/form-create-note";
+import { FormCreateNote, FormNewNoteRef } from "@/components/note/form-create-note";
 // 
 import { StatusCustomerFeeling } from "@/components/customer/status-customer-feeling";
 import { StatusComplaintLv } from "@/components/customer/status-complaint-lv";
@@ -66,7 +66,6 @@ const mockup = (value: Customer) => {
 
 const CustomerDashboard = () => {
     const formNewCaseRef = useRef<FormNewCaseRef>(null)
-
     const { myPermission } = usePermission()
     const searchParams = useSearchParams()
     const customerId = searchParams.get('customerId')
@@ -108,7 +107,7 @@ const CustomerDashboard = () => {
     if (isError) return <>{getErrorText(error)}</>
     if (isFetching) return <></>
     if (!customer) return <></>
-
+    if (!customerId) return <></>
     return (
         <>
             <Tabs defaultValue="account">
@@ -318,11 +317,13 @@ const CustomerDashboard = () => {
                     ref={formNewCaseRef} />
             </FloatingWidget>
             <FloatingWidget
-                title="Create Note"
+                title="New Customer Note"
                 status={statusNote}
                 setStatus={setStatusNote}
             >
-                <CreateNewNoteTemplate />
+                <FormCreateNote
+                    customerId={customerId}
+                />
             </FloatingWidget>
         </>
     );

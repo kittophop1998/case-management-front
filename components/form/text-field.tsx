@@ -82,7 +82,9 @@ export const TextFieldWarpper = ({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}{reqired && (<span className='text-red-500'>*</span>)}</FormLabel>
+          <FormLabel>
+            {/* {field.value} */}
+            {label}{reqired && (<span className='text-red-500'>*</span>)}</FormLabel>
           {cloneElement(children, { field })}
           <FormMessage />
         </FormItem>

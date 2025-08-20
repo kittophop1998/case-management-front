@@ -77,6 +77,19 @@ export const NewCaseSchema = z.object({
 });
 
 export const CreateNoteSchemas = z.object({
+  customerId: z.string().min(1, "Customer Id is required"),
+  noteTypeId: z.string().min(1, "Note Type is required"),
+  note: z.string().min(1, "Note is required"),
+  // type: z
+  //   .string()
+  //   .nullable()
+  //   .refine((val) => val && val.length > 0, {
+  //     message: "Type is required",
+  //   }),
+  // text: z.string().min(1, "Note is required"),
+});
+
+export const NewNoteSchema = z.object({
   type: z
     .string()
     .nullable()
