@@ -180,7 +180,7 @@ const CustomerDashboard = () => {
                                                         {
                                                             myPermission?.["view.custnote"] &&
                                                             <NoteButtonNoti
-                                                                onClick={() => router.push('/customer/dashboard/note/list?')}
+                                                                onClick={() => router.push(`/customer/dashboard/note/list?customerId=${customerId}`)}
                                                                 count={customer?.note.count}
                                                                 size='sm'
                                                             />}

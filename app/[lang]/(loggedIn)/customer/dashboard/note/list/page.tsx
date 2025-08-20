@@ -11,30 +11,30 @@ import { Typography } from "@/components/common/typography";
 import { DatePickerFieldInput, DateValueType } from "@/components/form/date-picker";
 import { SearchFieldInput } from "@/components/form/search-field";
 import { FormCreateNote } from "@/components/note/form-create-note";
+import { useLazyGetCustomerNotesQuery } from "@/features/note/noteApiSlice";
 import { useTable } from "@/hooks/use-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 
-const NoteListPage = () => {
-    const [data, setData] = useState<any[]>([{
-        type: 'General',
-        note: 'This is a sample note',
-        createdBy: 'John Doe',
-        createdDate: new Date().toISOString(),
-        action: ''
-    }, {
-        type: 'Follow-up',
-        note: 'Follow up on the previous note',
-        createdBy: 'Jane Smith',
-        createdDate: new Date().toISOString(),
-        action: ''
-    }]); // Replace with actual data fetching logic
-    const [status, setStatus] = useState<boolean>(false);
+
+const useNoteTable = ({ customerId }: { customerId: string | null }) => {
+    const [filterForm, setFilterForm] = useState<
+        {
+            text: string;
+            date: DateValueType;
+        }
+    >({
+        text: '',
+        date: null,
+    });
+    const [getData, { data: dataApi, isFetching }] = useLazyGetCustomerNotesQuery();
+    const dataTable = useMemo(() => dataApi?.data || [], [dataApi])
     const columnHelper = createColumnHelper<any>()
     const columns = useMemo(() => [
-        columnHelper.accessor('type', {
-            id: 'type',
+        columnHelper.accessor('noteTypeId', {
+            id: 'noteTypeId',
             header: ({ column }) => <Header column={column} label='Type' sortAble />,
             cell: info => <div>{info.getValue()}</div>
         }),
@@ -49,8 +49,8 @@ const NoteListPage = () => {
 
             cell: info => <div>{info.getValue()}</div>
         }),
-        columnHelper.accessor('createdDate', {
-            id: 'createdDate',
+        columnHelper.accessor('createdAt', {
+            id: 'createdAt',
             header: ({ column }) => <Header column={column} label='Created Date' sortAble />,
             cell: info => <div>{
                 format(info.getValue(), "PPP")
@@ -67,19 +67,55 @@ const NoteListPage = () => {
     ], [])
 
     const { table, sort, page, limit, setPage, setLimit } = useTable({
-        data,
+        data: dataTable,
         columns: columns
     });
+    useEffect(() => {
+        if (!customerId) return
+        getData({
+            customerId,
+            page,
+            limit,
+            sort,
+            keyword: filterForm.text,
+            createdAt: `${filterForm.date}`,
+        })
+    }, [customerId,
+        filterForm, page,
+        limit,
+        sort])
+    return {
+        filterForm,
+        setFilterForm,
+        table,
+        dataApi,
+        page,
+        limit,
+        setPage,
+        setLimit,
+    }
+}
 
-    const [filterForm, setFilterForm] = useState<
-        {
-            text: string;
-            date: DateValueType;
-        }
-    >({
-        text: '',
-        date: null,
-    });
+const NoteListPage = () => {
+    const searchParams = useSearchParams()
+    const customerId = searchParams.get('customerId')
+    const [status, setStatus] = useState<boolean>(false);
+    const {
+        filterForm,
+        setFilterForm,
+        table,
+        dataApi,
+        page,
+        limit,
+        setPage,
+        setLimit
+    } = useNoteTable({
+        customerId
+    })
+    console.count(`NoteListPage.rerender()`)
+    if (!customerId) {
+        return <></>
+    }
     return (
         <div className="h-full flex flex-col">
             <Container className="flex justify-end py-3">
@@ -120,15 +156,15 @@ const NoteListPage = () => {
                     limit={limit}
                     setPage={setPage}
                     setLimit={setLimit}
-                    total={data.length}
-                    totalPages={1}
+                    total={dataApi?.total || 0}
+                    totalPages={dataApi?.totalPages || 1}
                 />
                 <FloatingWidget
                     title="New Customer Note"
                     status={status}
                     setStatus={setStatus}
                 >
-                    <FormCreateNote customerId="" />
+                    <FormCreateNote customerId={customerId} />
                 </FloatingWidget>
             </CardPageWrapper>
 
