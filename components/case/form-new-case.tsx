@@ -91,7 +91,9 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                 control,
                 name: "caseNote", // ต้องตรงกับ schema
             });
-            const { childValue2text } = useCaseType()
+            const {
+                data: { childValue2text },
+            } = useCaseType()
             return (
                 <FormProvider {...form} >
                     <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>

@@ -49,15 +49,22 @@ interface DialogSelectCaseTypeProps {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
     onSelect: (value: string) => void
 }
+
 export const DialogSelectCaseType = ({ open, setOpen, onSelect }: DialogSelectCaseTypeProps) => {
-    const [searchValue, setSearchValue] = useState<string>('')
+    const {
+        state: { searchText, setSearchText, selectGroup, setSelectGroup },
+        data: { group, childByGroup },
+        dataFiltered: {
+            group: groupFiltered,
+            childByGroup: childByGroupFiltered,
+        }
+    } = useCaseType()
     const handleSelect = (value: string) => {
         onSelect(value)
         setOpen(false)
     }
-    const { group, childByGroup } = useCaseType()
     return (
-        <Modal isOpen={open} title={'Surapong Lertprayapat'} onClose={() => setOpen(false)} className="w-[600px] px-0 min-h-[50vh]" classNameHeader='px-6'>
+        <Modal isOpen={open} title={'Surapong Lertprayapat'} onClose={() => setOpen(false)} className="w-[600px] px-0 min-h-[60vh]" classNameHeader='px-6'>
             <div className="bg-white">
                 <div className="flex gap-3 px-6">
                     <StatusComplaintLv lv={1} />
@@ -68,8 +75,8 @@ export const DialogSelectCaseType = ({ open, setOpen, onSelect }: DialogSelectCa
                     <div className="px-3">
                         <SearchFieldInput
                             field={{
-                                value: searchValue,
-                                onChange: (e) => setSearchValue(e.target.value),
+                                value: searchText,
+                                onChange: (e) => setSearchText(e.target.value),
                             }}
                             clearABle
                             className="border-0! ring-0! rounded-none outline-none"
@@ -78,7 +85,7 @@ export const DialogSelectCaseType = ({ open, setOpen, onSelect }: DialogSelectCa
                     <Separator />
                 </div>
                 <div>
-                    <Tabs defaultValue="null">
+                    <Tabs value={selectGroup} onValueChange={(value) => setSelectGroup(value)}>
                         <TabsList className="w-full bg-white px-6 rounded-0">
                             <TabsTrigger className="h-[3.3rem] cursor-pointer data-[state=active]:cursor-default my-0 w-[200px] max-w-[300px] data-[state=active]:shadow-none  rounded-none border-0 data-[state=active]:border-b-4  border-[#5570f1]" value={'null'} >All</TabsTrigger>
                             {
@@ -89,13 +96,13 @@ export const DialogSelectCaseType = ({ open, setOpen, onSelect }: DialogSelectCa
                         </TabsList>
                         <Separator />
                         <TabsContent value="null">
-                            {group.map((g) => (
-                                <Group handleSelect={handleSelect} items={childByGroup?.[g] || []} name={g} />
+                            {groupFiltered.map((g) => (
+                                <Group key={g} handleSelect={handleSelect} items={childByGroupFiltered?.[g] || []} name={g} />
                             ))}
                         </TabsContent>
-                        {group.map((g) => (
-                            <TabsContent value={g}>
-                                <Group handleSelect={handleSelect} items={childByGroup?.[g] || []} name={g} />
+                        {groupFiltered.map((g) => (
+                            <TabsContent key={g} value={g}>
+                                <Group handleSelect={handleSelect} items={childByGroupFiltered?.[g] || []} name={g} />
                             </TabsContent>
                         ))}
                     </Tabs>
