@@ -16,7 +16,8 @@ import { getErrorText } from "@/services/api";
 interface FormCreateNoteProps {
     isSmallMod?: boolean,
     setStatus?: (status: boolean) => void
-    customerId: string
+    customerId: string,
+    afterPost: () => void
 
 }
 export const FormCreateNote =
@@ -24,7 +25,8 @@ export const FormCreateNote =
         {
             isSmallMod = true,
             setStatus = (status: boolean) => { },
-            customerId
+            customerId,
+            afterPost
         }: FormCreateNoteProps
     ) => {
 
@@ -57,6 +59,7 @@ export const FormCreateNote =
                     noteTypeId: '',
                     note: ''
                 })
+                !!afterPost && afterPost()
             } catch (error) {
                 dialogAlert(false, {
                     title: 'Error',

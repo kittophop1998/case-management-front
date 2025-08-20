@@ -73,7 +73,8 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
             noteType_name: "noteType",
         },
     });
-    useEffect(() => {
+
+    const refetch = () => {
         if (!customerId) return
         getData({
             customerId,
@@ -83,6 +84,9 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
             keyword: filterForm.text,
             createdAt: filterForm.date ? format(filterForm.date, 'yyyy-MM-dd') : '',
         })
+    }
+    useEffect(() => {
+        refetch()
     }, [customerId,
         filterForm, page,
         limit,
@@ -96,6 +100,7 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
         limit,
         setPage,
         setLimit,
+        refetch
     }
 }
 
@@ -111,7 +116,8 @@ const NoteListPage = () => {
         page,
         limit,
         setPage,
-        setLimit
+        setLimit,
+        refetch
     } = useNoteTable({
         customerId
     })
@@ -167,7 +173,7 @@ const NoteListPage = () => {
                     status={status}
                     setStatus={setStatus}
                 >
-                    <FormCreateNote customerId={customerId} />
+                    <FormCreateNote customerId={customerId} afterPost={refetch} />
                 </FloatingWidget>
             </CardPageWrapper>
 
