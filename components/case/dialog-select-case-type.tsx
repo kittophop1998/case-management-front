@@ -9,42 +9,41 @@ import { Modal } from "../common/Modal"
 import { Typography } from "../common/typography"
 import useCaseType from "@/hooks/use-case-type"
 
-const Items = ({ handleSelect,
+
+const Item = ({ handleSelect, id, name }) => {
+    return (
+        <div className="flex items-center justify-between p-2 hover:bg-gray-100 cursor-pointer px-6" onClick={() => handleSelect(id)}>
+            <Typography>{name}</Typography>
+            <div className="text-xs text-gray-500 font-medium">Create</div>
+        </div>
+    )
+}
+
+const GroupName = ({ name }) => {
+    return (
+        <div className="flex items-center justify-between p-2 px-6">
+            <Typography variant="caption" className="text-[1rem]">{name}</Typography>
+        </div>
+    )
+}
+
+const Group = ({ handleSelect,
     items
     , name
 }: { items: any[], handleSelect: () => void, name: string }) => {
     return (
-        <div className="flex flex-col gap-2 max-h-[40vh] overflow-auto">
-            <div className="px-6">
-                <Typography variant="caption" className="text-[1rem]">{name}</Typography>
-                {
-                    items.map((item) => (
-                        <Item handleSelect={handleSelect} {...item} />
-                    ))
-                }
-            </div>
+        <div>
+            <GroupName name={name}></GroupName>
+            {
+                items.map((item) => (
+                    <Item handleSelect={handleSelect} {...item} />
+                ))
+            }
             <Separator />
-            {/* 
-            <div className="px-6">
-                <Typography variant="caption" className="text-[1rem]">Change customer info</Typography>
-                <Item handleSelect={handleSelect} />
-                <Item handleSelect={handleSelect} />
-                <Item handleSelect={handleSelect} />
-            </div>
-            <Separator /> */}
-
-
         </div>
     )
 }
-const Item = ({ handleSelect, id, name }) => {
-    return (
-        <div className="flex items-center justify-between p-2 hover:bg-gray-100 cursor-pointer" onClick={() => handleSelect(id)}>
-            <div className="text-sm">{name}</div>
-            <div className="text-xs text-gray-500">Create</div>
-        </div>
-    )
-}
+
 interface DialogSelectCaseTypeProps {
     open: boolean
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -58,7 +57,7 @@ export const DialogSelectCaseType = ({ open, setOpen, onSelect }: DialogSelectCa
     }
     const { group, childByGroup } = useCaseType()
     return (
-        <Modal isOpen={open} title={'Surapong Lertprayapat'} onClose={() => setOpen(false)} className="w-[600px] px-0" classNameHeader='px-6'>
+        <Modal isOpen={open} title={'Surapong Lertprayapat'} onClose={() => setOpen(false)} className="w-[600px] px-0 min-h-[50vh]" classNameHeader='px-6'>
             <div className="bg-white">
                 <div className="flex gap-3 px-6">
                     <StatusComplaintLv lv={1} />
@@ -88,15 +87,15 @@ export const DialogSelectCaseType = ({ open, setOpen, onSelect }: DialogSelectCa
                                 ))
                             }
                         </TabsList>
-                        <Separator className=" mb-1" />
+                        <Separator />
                         <TabsContent value="null">
                             {group.map((g) => (
-                                <Items handleSelect={handleSelect} items={childByGroup?.[g] || []} name={g} />
+                                <Group handleSelect={handleSelect} items={childByGroup?.[g] || []} name={g} />
                             ))}
                         </TabsContent>
                         {group.map((g) => (
                             <TabsContent value={g}>
-                                <Items handleSelect={handleSelect} items={childByGroup?.[g] || []} name={g} />
+                                <Group handleSelect={handleSelect} items={childByGroup?.[g] || []} name={g} />
                             </TabsContent>
                         ))}
                     </Tabs>

@@ -85,7 +85,6 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
             const caseTypeId = form.watch('caseTypeId')
             const customerId = form.watch('customerId')
             const { data: customerInfo } = useCustomerInfo(customerId)
-            const { data: caseInfo } = useCaseInfo(caseTypeId)
             const { data: inquirysApi } = useGetInquiryQuery();
             const inquirys = useMemo(() => inquirysApi?.data || [], [inquirysApi])
             const { fields, append, remove } = useFieldArray({
@@ -223,19 +222,5 @@ function useCustomerInfo(customerId: string | null | undefined) {
     }, [customerId])
     return { data: customerInfo }
 }
-function useCaseInfo(caseTypeId: string | null | undefined) {
-    const [caseInfo, setCaseInfo] = useState(emptyCase)
-    useEffect(() => {
-        if (caseTypeId) {
-            setCaseInfo({
-                id: 'AC1029384B',
-                name: 'Inquiry',
-            })
-        } else {
-            setCaseInfo(emptyCase)
-        }
 
-    }, [caseTypeId])
-    return { data: caseInfo }
-}
 
