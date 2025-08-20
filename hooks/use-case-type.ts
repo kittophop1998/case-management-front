@@ -8,10 +8,6 @@ type DataCaseChild = {
   name: string;
   description: string;
 };
-type DataCase = {
-  group: string;
-  items: DataCaseChild;
-};
 type ResDataCaseApi = DataCaseChild & {
   group: string;
 };
@@ -63,43 +59,19 @@ export default function useCaseType() {
   //
   const [countFiltered, setCountFiltered] = useState<number>(0);
   const [group, setGroup] = useState<string[]>([]);
-  const [childByGroup, setChildByGroup] = useState({});
+  const [childByGroup, setChildByGroup] = useState<
+    Record<string, DataCaseChild>
+  >({});
   const [groupFiltered, setGroupFiltered] = useState<string[]>([]);
-  const [childByGroupFiltered, setChildByGroupFiltered] = useState({});
+  const [childByGroupFiltered, setChildByGroupFiltered] = useState<
+    Record<string, DataCaseChild>
+  >({});
   //
   const [searchText, setSearchText] = useState<string>("");
   const [selectGroup, setSelectGroup] = useState<string>("null");
   const [childValue2text, setChildValue2text] = useState({});
 
   useEffect(() => {
-    // if (!caseTypes?.length) {
-    //   setGroup([]);
-    //   setChildByGroup({});
-    //   return;
-    // }
-    // let valueChildByGroup = {
-    //   null: [],
-    // };
-    // // let valueItems = [];
-    // let valueGroup = [];
-    // let valuechildValue2text = {};
-    // for (const { description, group, id, name } of caseTypes) {
-    //   let child = {
-    //     id,
-    //     name,
-    //     description,
-    //   };
-    //   if (valueChildByGroup?.[group] === undefined) {
-    //     valueChildByGroup[group] = [];
-    //     valueGroup.push(group);
-    //   }
-    //   valuechildValue2text[id] = name;
-    //   valueChildByGroup[group].push(child);
-    //   valueChildByGroup["null"].push(child);
-    // }
-    // setGroup(valueGroup);
-    // setChildByGroup(valueChildByGroup);
-    // setChildValue2text(valuechildValue2text);
     groupData({
       caseTypes,
       setGroup,
@@ -126,17 +98,10 @@ export default function useCaseType() {
         !searchText ||
         el.group.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()) ||
         el.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
-      //  &&(selectGroup === "null" || selectGroup === el.group)
     );
-    // itemsFiltered;
     setCaseTypesFiltered(itemsFiltered);
     setCountFiltered(itemsFiltered.length);
-    // console.log(searchText, selectGroup, caseTypes);
-  }, [
-    searchText,
-    // selectGroup,
-    caseTypes,
-  ]);
+  }, [searchText, caseTypes]);
 
   return {
     state: { searchText, setSearchText, selectGroup, setSelectGroup },
