@@ -48,6 +48,7 @@ export const FormCreateNote =
             // console.log("errors", form.formState.errors);
             // console.log(`values-xxx 2:`, values)
             try {
+                // TODO:change form.getValues() to values but values noteTypeId and note missing
                 await createNote({ body: form.getValues() }).unwrap();
                 dialogAlert(true)
                 onClose();
