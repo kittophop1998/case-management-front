@@ -189,9 +189,9 @@ const NoteListPage = () => {
                 >
                     <FormCreateNote customerId={customerId} afterPost={refetch} />
                 </FloatingWidget>
-                <FormCreateNote
+                {/* <FormCreateNote
                     customerId={customerId}
-                />
+                /> */}
             </CardPageWrapper>
 
         </div >
