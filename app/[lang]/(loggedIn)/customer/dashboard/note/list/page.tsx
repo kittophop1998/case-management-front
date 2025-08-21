@@ -56,14 +56,14 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
                 format(info.getValue(), "PPP")
             }</div>
         }),
-        columnHelper.accessor('action', {
-            id: 'action',
-            header: ({ column }) => <div className="w-[2.5rem]"></div>,
-            cell: info =>
-                <div className="w-[2.5rem]">
-                    <BtnEdit onClick={() => { }} />
-                </div>
-        }),
+        // columnHelper.accessor('action', {
+        //     id: 'action',
+        //     header: ({ column }) => <div className="w-[2.5rem]"></div>,
+        //     cell: info =>
+        //         <div className="w-[2.5rem]">
+        //             <BtnEdit onClick={() => { }} />
+        //         </div>
+        // }),
     ], [])
 
     const { table, sort, page, limit, setPage, setLimit } = useTable({
@@ -146,16 +146,16 @@ const NoteListPage = () => {
                                 }
                             }
                         />
-                        <BtnFilter onClick={() => console.log('Filter clicked', filterForm)} />
+                        {/* <BtnFilter onClick={() => console.log('Filter clicked', filterForm)} /> */}
 
-                        <DatePickerFieldInput
+                        {/* <DatePickerFieldInput
                             value={filterForm.date}
                             onChange={(date) => {
                                 console.log('Selected date:', date);
                                 setFilterForm(pv => ({ ...pv, date }));
                             }}
-                        />
-                        <BtnExport onClick={() => console.log('Export clicked')} />
+                        /> */}
+                        {/* <BtnExport onClick={() => console.log('Export clicked')} /> */}
                     </div>
                 </div>
                 <DataTable
