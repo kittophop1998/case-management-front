@@ -33,7 +33,10 @@ export default function UserManagementPage() {
   const columns = useMemo<ColumnDef<UserType, any>[]>(() => [
     columnHelper.accessor('username', {
       header: ({ column }) => <Header label='Username' sortAble column={column} />,
-      cell: info => <div>{info.getValue()}</div>
+      cell: info => <div>{info.getValue()}</div>,
+      meta: {
+        cellClass: ''
+      }
     }),
     columnHelper.accessor('name', {
       header: ({ column }) => <Header label='Name' sortAble column={column} />,
@@ -57,7 +60,10 @@ export default function UserManagementPage() {
     }),
     columnHelper.accessor('isActive', {
       header: ({ column }) => <Header label='Status' sortAble column={column} />,
-      cell: info => <ChipIsActive isActive={info.getValue()} />
+      cell: info => <ChipIsActive isActive={info.getValue()} />,
+      meta: {
+        cellClass: 'w-[5rem]'
+      }
     }),
 
     ...(myPermission?.["edit.user"] ? [columnHelper.display({
@@ -73,7 +79,11 @@ export default function UserManagementPage() {
             </Button>
           </div>
         )
+      },
+      meta: {
+        cellClass: 'w-[3rem]'
       }
+
     }),] : [])
 
   ], [openDialogEditUser, myPermission])
