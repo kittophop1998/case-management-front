@@ -13,7 +13,11 @@ export const DataWithCopy = ({ title, value, showCopy = false, loading = false, 
         <div className="flex items-center gap-1">
             <Typography variant="body2">{title}</Typography>
             {loading ?
-                <Skeleton className="h-[1rem] w-[6rem] rounded-xl" /> :
+                // <Skeleton className="h-[1rem] w-[6rem] rounded-xl" /> :
+                <Skeleton className="w-[6rem] text-transparent" >
+                    <Typography variant="body2">{title}</Typography>
+                </Skeleton> :
+
                 <Typography
                     variant="body2"
                     className={cn("text-gray-500 ")}
