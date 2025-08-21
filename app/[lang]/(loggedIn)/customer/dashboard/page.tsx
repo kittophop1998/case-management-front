@@ -183,7 +183,7 @@ const CustomerDashboard = () => {
                                 </>
                             </SectionCard>
                             <SectionCard title="Suggested Promotion" TopRight={null} className={cn("lg:col-span-4 md:col-span-6 col-span-12")}>
-                                <>
+                                <div className="space-y-3 mt-1">
                                     <div className="space-y-0">
                                         <Typography className="line-clamp-1">BIC CAMERA Coupon with Aeon Credit Card</Typography>
                                         <Typography variant="caption" className="line-clamp-1">Period: 01 Apr 2025 - 30 Dec 2025</Typography>
@@ -199,7 +199,7 @@ const CustomerDashboard = () => {
                                             <Button>Next</Button>
                                         </div>
                                     </div>
-                                </>
+                                </div>
                             </SectionCard>
                             <SectionCard title="Case History" TopRight={null} className={cn("lg:col-span-4 md:col-span-4 col-span-12")}>
                                 <>
