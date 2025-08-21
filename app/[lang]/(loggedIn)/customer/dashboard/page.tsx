@@ -1,6 +1,5 @@
 'use client';
-
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ClipboardPlus, Phone } from "lucide-react";
 import { useSearchParams, useRouter } from 'next/navigation'
@@ -30,33 +29,7 @@ import { DisplayValue } from "./_components/display-value";
 import { useCustomerInfo } from "@/hooks/use-customer-info";
 import { ChartAreaDefault } from "@/components/chart/mockup";
 import { StatusVerify } from "@/components/customer/status-verify";
-// const mockup = (value: CustomerResApiProfile) => {
-//     if (value?.email === undefined) {
-//         value.email = 'Arunee@example.com'
-//     }
-//     if (value?.status === undefined) {
-//         value.status = 'Active'
-//     }
-//     if (value?.type === undefined) {
-//         value.type = 'Individual'
-//     }
-//     if (value?.group === undefined) {
-//         value.group = 'Regular'
-//     }
-//     if (value?.paymentStatus === undefined) {
-//         value.paymentStatus = 'Paid'
-//     }
-//     if (value?.segment === undefined) {
-//         value.segment = 'General'
-//     }
-//     if (value?.mobileAppStatus === undefined) {
-//         value.mobileAppStatus = 'Active'
-//     }
-//     if (value?.note === undefined) {
-//         value.note = { count: 0 };
-//     }
-//     return value
-// }
+
 const CustomerDashboard = () => {
     const router = useRouter()
     const formNewCaseRef = useRef<FormNewCaseRef>(null)
@@ -95,6 +68,7 @@ const CustomerDashboard = () => {
     if (!customerId) return <></>
     return (
         <>
+            {/* {JSON.stringify(customer)} */}
             <Tabs defaultValue="account">
                 <TabsList className="bg-white w-full flex justify-start rounded-none pb-0">
                     <Container >
@@ -109,8 +83,8 @@ const CustomerDashboard = () => {
                         onSelect={onSelectCase}
                     />
                     <div className="flex gap-3">
-                        <DataWithCopy title='Aeon ID' value='#47378877' showCopy minWidth='9rem' loading={loading.info} />
-                        <DataWithCopy title='Customer ID/Passport' value={customer.info?.nationalId} loading={loading.info} showCopy minWidth='13rem' />
+                        <DataWithCopy title='Aeon ID' value='#47378877' showCopy loading={loading.info} />
+                        <DataWithCopy title='Customer ID/Passport' value={customer.info?.nationalId} loading={loading.info} showCopy />
                         <DataWithCopy title='Customer Since' value='2024-02-02' loading={loading.info} />
                         <div className="flex-1" />
 
@@ -190,10 +164,10 @@ const CustomerDashboard = () => {
                                         <Typography variant="caption" className="line-clamp-1">Eligible Card:  BIG C WORLD MASTERCARD</Typography>
                                     </div>
                                     <div className="bg-[#D5A3F926] p-3 rounded-md">
-                                        <Typography className="line-clamp-6">ซื้อสินค้าปลอดภาษี สูงสุด 10% และ รับส่วนลด สูงสุด 7% เมื่อซื้อสินค้า ที่ร้าน BicCamera ประเทศญี่ปุ่น, ร้าน Air BicCamera และ ร้าน KOJIMA ด้วย บัตรเครดิตอิออนทุกประเภท โยกเว้นบัตรเครดิต เพื่อองค์กร ซึ่ง BicCamera เป็นห้างสรรพสินจำหน่ายสินค้าหลากหลายประเภท เช่นเครื่องใช้ไฟฟ้า ยา เครื่องสำอาง และของใช้ใน ชีวิตประจำวัน  โปรดแสดง ภาพบาร์โค้ดบนสื่อ ประชาสัมพันธ์นี้ ที่แคชเชียร์</Typography>
+                                        <Typography variant="body2" className="line-clamp-6 leading-6">ซื้อสินค้าปลอดภาษี สูงสุด 10% และ รับส่วนลด สูงสุด 7% เมื่อซื้อสินค้า ที่ร้าน BicCamera ประเทศญี่ปุ่น, ร้าน Air BicCamera และ ร้าน KOJIMA ด้วย บัตรเครดิตอิออนทุกประเภท โยกเว้นบัตรเครดิต เพื่อองค์กร ซึ่ง BicCamera เป็นห้างสรรพสินจำหน่ายสินค้าหลากหลายประเภท เช่นเครื่องใช้ไฟฟ้า ยา เครื่องสำอาง และของใช้ใน ชีวิตประจำวัน  โปรดแสดง ภาพบาร์โค้ดบนสื่อ ประชาสัมพันธ์นี้ ที่แคชเชียร์</Typography>
                                     </div>
                                     <div className="flex justify-between">
-                                        <Typography variant="caption">1/9 results</Typography>
+                                        <Typography variant="caption">1/{customer.suggestion?.suggest_promotions?.length || 0} results</Typography>
                                         <div className="gap-3 flex">
                                             <Button disabled>Previous</Button>
                                             <Button>Next</Button>
