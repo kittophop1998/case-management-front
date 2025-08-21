@@ -43,7 +43,7 @@ export const LoginForm = () => {
             <FormError message={loginError} />
           ) : (
             <Typography variant='caption' className='text-center p-3 text-base text-gray-400'>
-              Enter your domain and password to log in
+              Enter your username and password to log in
             </Typography>
           )}
         </div>
