@@ -53,7 +53,7 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
             id: 'createdAt',
             header: ({ column }) => <Header column={column} label='Created Date' sortAble />,
             cell: info => <div>{
-                format(info.getValue(), "PPP")
+                format(info.getValue(), "dd MMM yyyy HH:mm:ss")
             }</div>
         }),
         // columnHelper.accessor('action', {
