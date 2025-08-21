@@ -42,7 +42,7 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
             id: 'noteDetail',
             header: ({ column }) => <Header column={column} label='Note' sortAble />,
             cell: info => info.getValue(),
-            meta: { cellClass: 'line-clamp-3' },
+            meta: { cellClass: 'line-clamp-1 h-[2rem]' },
             // <div
             //     className="max-w-[30rem] break-words overflow-hidden text-ellipsis bg-red-300"
             //     style={{
@@ -145,10 +145,10 @@ const NoteListPage = () => {
             </Container>
             <CardPageWrapper className="pb-3">
                 <div className="flex justify-between mb-3">
-                    <Typography variant="h4" className="mb-4">
+                    <Typography variant="h4" className="mb-2">
                         Note List
                     </Typography>
-                    <div className="flex items-center gap-2">
+                    {/* <div className="flex items-center gap-2">
                         <SearchFieldInput placeholder='Search by Cust. Reference'
                             field={
                                 {
@@ -159,17 +159,16 @@ const NoteListPage = () => {
                                 }
                             }
                         />
-                        {/* <BtnFilter onClick={() => console.log('Filter clicked', filterForm)} /> */}
-
-                        {/* <DatePickerFieldInput
+                        <BtnFilter onClick={() => console.log('Filter clicked', filterForm)} />
+                        <DatePickerFieldInput
                             value={filterForm.date}
                             onChange={(date) => {
                                 console.log('Selected date:', date);
                                 setFilterForm(pv => ({ ...pv, date }));
                             }}
-                        /> */}
-                        {/* <BtnExport onClick={() => console.log('Export clicked')} /> */}
-                    </div>
+                        />
+                        <BtnExport onClick={() => console.log('Export clicked')} />
+                    </div> */}
                 </div>
                 <DataTable
                     loading={false}
