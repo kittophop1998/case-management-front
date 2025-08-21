@@ -11,7 +11,10 @@ export type PermissionKeyType =
   | "edit.accesscontrol"
   | "edit.case"
   | "edit.user"
-  | "add.case";
+  | "add.case"
+  | "view.report"
+  | "view.setting"
+  | "view.inquirylog";
 
 export type ObjPermission = {
   id: string;
