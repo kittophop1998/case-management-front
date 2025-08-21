@@ -11,6 +11,7 @@ import { Separator } from '@/components/ui/separator'
 import { BtnClose } from '@/components/button/btn-close'
 import Image from 'next/image'
 import usePermission from '@/hooks/use-permission'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const PopupUserUI = ({ user, onClose }: { user: UserProfileType, onClose: () => void }) => {
   const dispatch = useDispatch()
@@ -72,8 +73,8 @@ export const AppBarUserUI = () => {
   const me = useMemo(() => meApi?.data || null, [meApi]);
   // const { myPermission } = usePermission()
   const [openPopup, setOpenPopup] = useState(false)
-  if (!me) return null
-  const name = me?.name ?? 'Unknown User'
+  // if (!me) return null
+  const name = me?.name
   // if (!myPermission?.['view.profile']) return null
   return (
     <Popover open={openPopup} onOpenChange={setOpenPopup} modal>
@@ -87,7 +88,13 @@ export const AppBarUserUI = () => {
             width={32}
             height={32}
           />
-          <Typography>{name}</Typography>
+          {name ?
+            <div className='w-[8rem]'>
+              <Typography variant='body2'>{name}</Typography>
+            </div>
+            :
+            <Skeleton className='h-[1rem] w-[8rem]'></Skeleton>
+          }
         </div>
       </PopoverTrigger>
       <PopoverContent className='w-[23rem] mx-2' onPointerDownOutside={(e) => {

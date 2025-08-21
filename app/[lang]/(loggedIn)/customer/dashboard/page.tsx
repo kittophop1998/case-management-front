@@ -29,6 +29,7 @@ import { DisplayValue } from "./_components/display-value";
 import { useCustomerInfo } from "@/hooks/use-customer-info";
 import { ChartAreaDefault } from "@/components/chart/mockup";
 import { StatusVerify } from "@/components/customer/status-verify";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const CustomerDashboard = () => {
     const router = useRouter()
@@ -157,23 +158,36 @@ const CustomerDashboard = () => {
                                 </>
                             </SectionCard>
                             <SectionCard title="Suggested Promotion" TopRight={null} className={cn("lg:col-span-4 md:col-span-6 col-span-12")}>
+                                {/* {loading.info ? <Skeleton className="h-[20rem] mt-1"></Skeleton> : */}
                                 <div className="space-y-3 mt-1">
                                     <div className="space-y-0">
                                         <Typography className="line-clamp-1">BIC CAMERA Coupon with Aeon Credit Card</Typography>
                                         <Typography variant="caption" className="line-clamp-1">Period: 01 Apr 2025 - 30 Dec 2025</Typography>
                                         <Typography variant="caption" className="line-clamp-1">Eligible Card:  BIG C WORLD MASTERCARD</Typography>
                                     </div>
-                                    <div className="bg-[#D5A3F926] p-3 rounded-md">
-                                        <Typography variant="body2" className="line-clamp-6 leading-6">ซื้อสินค้าปลอดภาษี สูงสุด 10% และ รับส่วนลด สูงสุด 7% เมื่อซื้อสินค้า ที่ร้าน BicCamera ประเทศญี่ปุ่น, ร้าน Air BicCamera และ ร้าน KOJIMA ด้วย บัตรเครดิตอิออนทุกประเภท โยกเว้นบัตรเครดิต เพื่อองค์กร ซึ่ง BicCamera เป็นห้างสรรพสินจำหน่ายสินค้าหลากหลายประเภท เช่นเครื่องใช้ไฟฟ้า ยา เครื่องสำอาง และของใช้ใน ชีวิตประจำวัน  โปรดแสดง ภาพบาร์โค้ดบนสื่อ ประชาสัมพันธ์นี้ ที่แคชเชียร์</Typography>
-                                    </div>
+                                    {
+                                        loading.info ?
+                                            <Skeleton className="h-[10.5rem] w-full" />
+                                            :
+                                            <div className="bg-[#D5A3F926] p-3 rounded-md h-[10.5rem]">
+                                                <Typography variant="body2" className="line-clamp-6 leading-6">ซื้อสินค้าปลอดภาษี สูงสุด 10% และ รับส่วนลด สูงสุด 7% เมื่อซื้อสินค้า ที่ร้าน BicCamera ประเทศญี่ปุ่น, ร้าน Air BicCamera และ ร้าน KOJIMA ด้วย บัตรเครดิตอิออนทุกประเภท โยกเว้นบัตรเครดิต เพื่อองค์กร ซึ่ง BicCamera เป็นห้างสรรพสินจำหน่ายสินค้าหลากหลายประเภท เช่นเครื่องใช้ไฟฟ้า ยา เครื่องสำอาง และของใช้ใน ชีวิตประจำวัน  โปรดแสดง ภาพบาร์โค้ดบนสื่อ ประชาสัมพันธ์นี้ ที่แคชเชียร์</Typography>
+                                            </div>
+                                    }
+
                                     <div className="flex justify-between">
-                                        <Typography variant="caption">1/{customer.suggestion?.suggestPromotions?.length || 0} results</Typography>
+                                        {
+                                            loading.info ?
+                                                <Skeleton className="h-[0.7rem] w-[3rem]" /> :
+                                                <Typography variant="caption">1/{customer.suggestion?.suggestPromotions?.length || 0} results</Typography>
+
+                                        }
                                         <div className="gap-3 flex">
-                                            <Button disabled>Previous</Button>
-                                            <Button>Next</Button>
+                                            <Button disabled={loading.info}>Previous</Button>
+                                            <Button disabled={loading.info}>Next</Button>
                                         </div>
                                     </div>
                                 </div>
+                                {/* } */}
                             </SectionCard>
                             <SectionCard title="Case History" TopRight={null} className={cn("lg:col-span-4 md:col-span-4 col-span-12")}>
                                 <>
