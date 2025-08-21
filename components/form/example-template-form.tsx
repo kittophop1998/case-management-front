@@ -22,7 +22,7 @@ export const ExampeleForm = () => {
         // Handle form submission logic here
     }
 
-    const isFormPending = useMemo(() => form.formState.isSubmitting || form.formState.isValidating, [form.formState.isSubmitting || form.formState.isValidating])
+    const isFormPending = useMemo(() => form.formState.isSubmitting, [form.formState.isSubmitting])
     const isFormDisabled = useMemo(() => !form.formState.isDirty, [form.formState.isDirty])
     return (
         <>

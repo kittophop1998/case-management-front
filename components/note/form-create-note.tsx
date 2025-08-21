@@ -89,8 +89,9 @@ export const FormCreateNote =
         const onClose = () => {
             setStatus(false);
         }
-        const isFormPending = useMemo(() => form.formState.isSubmitting || form.formState.isValidating, [form.formState.isSubmitting || form.formState.isValidating])
+        const isFormPending = useMemo(() => form.formState.isSubmitting, [form.formState.isSubmitting])
         const isFormDisabled = useMemo(() => !form.formState.isDirty, [form.formState.isDirty])
+
         return (
             <div className={cn("p-3", isSmallMod ? '' : 'max-w-2xl w-full min-w-[50vw]')}>
                 <FormProvider {...form} >
@@ -108,7 +109,7 @@ export const FormCreateNote =
                             }
                         />
                         <TextAreaField
-                            // loading={isFormPending}
+                            loading={isFormPending}
                             form={form}
                             name='note'
                             label='Note'
