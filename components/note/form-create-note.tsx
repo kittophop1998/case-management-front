@@ -11,7 +11,7 @@ import { dialogAlert } from "../common/dialog-alert";
 import { useCreateNoteMutation } from "@/features/note/noteApiSlice";
 import { useGetNoteTypeQuery } from "@/features/system/systemApiSlice";
 import { getErrorText } from "@/services/api";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 interface FormCreateNoteProps {
     isSmallMod?: boolean,
@@ -89,9 +89,8 @@ export const FormCreateNote =
         const onClose = () => {
             setStatus(false);
         }
-        const formState = form.formState;
-        const isFormPending = formState.isSubmitting || formState.isValidating;
-        const isFormDisabled = !formState.isDirty
+        const isFormPending = useMemo(() => form.formState.isSubmitting || form.formState.isValidating, [form.formState.isSubmitting || form.formState.isValidating])
+        const isFormDisabled = useMemo(() => !form.formState.isDirty, [form.formState.isDirty])
         return (
             <div className={cn("p-3", isSmallMod ? '' : 'max-w-2xl w-full min-w-[50vw]')}>
                 <FormProvider {...form} >
@@ -109,7 +108,7 @@ export const FormCreateNote =
                             }
                         />
                         <TextAreaField
-                            loading={isFormPending}
+                            // loading={isFormPending}
                             form={form}
                             name='note'
                             label='Note'

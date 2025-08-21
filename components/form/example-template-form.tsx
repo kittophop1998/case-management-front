@@ -7,6 +7,7 @@ import { SelectField } from "@/components/form/select-field";
 import { TextField } from "@/components/form/text-field";
 import { Button } from "@/components/common/Button";
 import { Form } from "@/components/ui/form";
+import { useMemo } from "react";
 
 export const ExampeleForm = () => {
     const form = useForm<z.infer<typeof CreateNoteSchemas>>({
@@ -20,9 +21,9 @@ export const ExampeleForm = () => {
         console.log('Form submitted with values:', values);
         // Handle form submission logic here
     }
-    const formState = form.formState;
-    const isFormPending = formState.isSubmitting || formState.isValidating;
-    const isFormDisabled = !formState.isDirty
+
+    const isFormPending = useMemo(() => form.formState.isSubmitting || form.formState.isValidating, [form.formState.isSubmitting || form.formState.isValidating])
+    const isFormDisabled = useMemo(() => !form.formState.isDirty, [form.formState.isDirty])
     return (
         <>
             <Form {...form}>
