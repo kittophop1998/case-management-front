@@ -108,17 +108,17 @@ export const navMain: {
   {
     title: "Inquiry Log",
     url: "/inquiry-log",
-    permission: ["mockupzzzzzzz"],
+    permission: ["view.inquirylog"],
   },
   {
     title: "Report",
     url: "/report",
-    permission: ["mockupzzzzzzz"],
+    permission: ["view.report"],
   },
   {
     title: "Settings",
     url: "/settings",
-    permission: ["mockupzzzzzzz"],
+    permission: ["view.setting"],
   },
   {
     title: "User Management",
