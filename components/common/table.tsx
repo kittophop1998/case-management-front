@@ -61,14 +61,6 @@ export const Header = ({
     <span className={cn('flex items-center', className)}>
       <span className={cn('flex items-center', className)}>
         {label}
-        {/* {sortAble ? (
-        <span onClick={() => column.toggleSorting(isSorted === 'asc')}>
-          {isSorted === 'asc' ? (
-            <ArrowUpWideNarrow className='ml-2 h-4 w-4' />
-          ) : (
-            <ArrowDownWideNarrow className='ml-2 h-4 w-4' />
-          )}
-        </span> */}
         {sortAble ? (
           <span onClick={() => column.toggleSorting(isSorted === 'asc')}>
             {isSorted === 'asc' ? (
@@ -102,12 +94,92 @@ export function DataTable<T>({
   const rows = table.getRowModel().rows
   return (
     <>
-      <Table>
+      <table className='w-full border-b border-[#e1e2e9]'>
+        <thead className='border-b border-t border-[#e1e2e9]'>
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => (
+                <th key={header.id} className='p-2 text-sm font-normal'>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map(row => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map(cell => (
+                <td key={cell.id} className={cn('p-2 text-sm text-[#6E7079]', cell.column.columnDef.meta?.cellClass || '')}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+        {/* <tfoot>
+          {table.getFooterGroups().map(footerGroup => (
+            <tr key={footerGroup.id}>
+              {footerGroup.headers.map(header => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                      header.column.columnDef.footer,
+                      header.getContext()
+                    )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </tfoot> */}
+      </table>
+      <div className='flex items-center justify-end mt-1'>
+        {/* <Typography variant='caption'>
+          Showing {(page - 1) * limit + 1} -{' '}
+          {Math.min(page * limit, total)} of {total} records
+        </Typography> */}
+        <div className='flex items-center space-x-2'>
+          <Typography variant='caption'>
+            Page {page} of {totalPages}
+          </Typography>
+          <Button
+            variant='ghost'
+            size='sm'
+            onClick={() => setPage && setPage((p: number) => p - 1)}
+            disabled={page === 1}
+          >
+            <ChevronLeft
+              // @ts-expect-error className is valid for lucide icon
+              className='h-4 w-4' />
+          </Button>
+          <Button
+            variant='ghost'
+            size='sm'
+            onClick={() => setPage && setPage((p) => p + 1)}
+            disabled={page >= totalPages}
+          >
+            <ChevronRight
+              // @ts-expect-error className is valid for lucide icon
+              className='h-4 w-4' />
+          </Button>
+        </div>
+      </div>
+    </>
+  )
+  return (
+    <>
+      <Table className='bg-red-300 overflow-hidden'>
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map(header => (
-                <TableHead key={header.id}>
+                <TableHead key={header.id} >
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -140,7 +212,11 @@ export function DataTable<T>({
                 onClick={onRowClick ? () => onRowClick(row) : undefined}
               >
                 {row.getVisibleCells().map(cell => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} className={clsx(
+                    // 'border-2 border-red-600',
+                    cell.column.columnDef.meta?.cellClass
+                  )}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

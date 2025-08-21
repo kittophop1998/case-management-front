@@ -1,14 +1,11 @@
 'use client';
-import BtnEdit from "@/components/button/btn-edit";
-import BtnExport from "@/components/button/btn-export";
-import BtnFilter from "@/components/button/btn-filter";
 import BtnNew from "@/components/button/btn-new";
 import CardPageWrapper from "@/components/common/card-page-warpper";
 import Container from "@/components/common/containter";
 import { FloatingWidget } from "@/components/common/floating-widget";
 import { DataTable, Header } from "@/components/common/table";
 import { Typography } from "@/components/common/typography";
-import { DatePickerFieldInput, DateValueType } from "@/components/form/date-picker";
+import { DateValueType } from "@/components/form/date-picker";
 import { SearchFieldInput } from "@/components/form/search-field";
 import { FormCreateNote } from "@/components/note/form-create-note";
 import { useLazyGetCustomerNotesQuery } from "@/features/note/noteApiSlice";
@@ -36,25 +33,41 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
         columnHelper.accessor('noteType.name', {
             id: 'noteType.name',
             header: ({ column }) => <Header column={column} label='Type' sortAble />,
-            cell: info => <div>{info.getValue()}</div>
+            cell: info => info.getValue(),
+            meta: { cellClass: 'w-[12rem]' },
+
+
         }),
         columnHelper.accessor('note', {
             id: 'note',
             header: ({ column }) => <Header column={column} label='Note' sortAble />,
-            cell: info => <div>{info.getValue()}</div>
+            cell: info => info.getValue(),
+            meta: { cellClass: 'overflow-hidden break-words max-w-[10%]' },
+            // <div
+            //     className="max-w-[30rem] break-words overflow-hidden text-ellipsis bg-red-300"
+            //     style={{
+            //         display: "-webkit-box",
+            //         WebkitLineClamp: 1,
+            //         WebkitBoxOrient: "vertical",
+            //     }}
+            // >
+            //     {info.getValue()}
+            // </div>
         }),
         columnHelper.accessor('createdBy', {
             id: 'createdBy',
             header: ({ column }) => <Header column={column} label='Created by' sortAble />,
+            cell: info => info.getValue(),
+            meta: { cellClass: 'w-[10rem]' },
 
-            cell: info => <div>{info.getValue()}</div>
         }),
         columnHelper.accessor('createdAt', {
             id: 'createdAt',
             header: ({ column }) => <Header column={column} label='Created Date' sortAble />,
-            cell: info => <div>{
-                format(info.getValue(), "dd MMM yyyy HH:mm:ss")
-            }</div>
+            cell: info => format(info.getValue(), "dd MMM yyyy HH:mm:ss"),
+            // cellClass: 'min-w-[200px] text-right',
+            meta: { cellClass: 'w-[13rem]' },
+
         }),
         // columnHelper.accessor('action', {
         //     id: 'action',
