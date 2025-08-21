@@ -60,7 +60,7 @@ export const customersApiSlice = createApi({
     >({
       query: ({ id }) => {
         return {
-          url: `/dashboard/suggestion/${id}`,
+          url: `/dashboard/custsuggestion/${id}`,
           method: "GET",
         };
       },
