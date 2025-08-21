@@ -259,7 +259,7 @@ export default function AccessControlPage({
 
 
                 <Typography variant="body2">
-                  Function: {dataTable?.total || 0}
+                  Function: {dataTable?.permCount || 0}
                 </Typography>
                 <DataTable
                   loading={isFetching}
