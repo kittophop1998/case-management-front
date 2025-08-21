@@ -10,7 +10,6 @@ import { TextAreaField } from "../form/textarea-field";
 import { dialogAlert } from "../common/dialog-alert";
 import { useCreateNoteMutation } from "@/features/note/noteApiSlice";
 import { useGetNoteTypeQuery } from "@/features/system/systemApiSlice";
-import { useDebugLogForm } from "@/hooks/use-debug-log-form";
 import { getErrorText } from "@/services/api";
 import { useEffect } from "react";
 
@@ -43,7 +42,6 @@ export const FormCreateNote =
                 note: ''
             }
         })
-        const put = (c: any) => { }
         const updateFormById = (noteId: string | null) => {
             if (noteId) {
                 // TODO API
@@ -94,11 +92,8 @@ export const FormCreateNote =
         const formState = form.formState;
         const isFormPending = formState.isSubmitting || formState.isValidating;
         const isFormDisabled = !formState.isDirty
-        useDebugLogForm({ form })
-        // const seeData = form.watch()
         return (
             <div className={cn("p-3", isSmallMod ? '' : 'max-w-2xl w-full min-w-[50vw]')}>
-                {/* {JSON.stringify(seeData)} */}
                 <FormProvider {...form} >
                     <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
                         <SelectField
@@ -121,6 +116,7 @@ export const FormCreateNote =
                             placeholder='Enter Note'
                             className={cn("", isSmallMod ? 'h-[clamp(360px,100vh,242px)]' : 'h-[clamp(360px,100vh,242px)]')}
                         />
+                        <input />
                         <div className="flex gap-3 items-center justify-end">
                             <ButtonCancel onClick={onClose} />
                             <Button loading={isFormPending} disabled={isFormDisabled} >Save</Button>

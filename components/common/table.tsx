@@ -115,7 +115,7 @@ export function DataTable<T>({
           {table.getRowModel().rows.map(row => (
             <tr key={row.id}>
               {row.getVisibleCells().map(cell => (
-                <td key={cell.id} className={cn('p-2 text-sm text-[#6E7079]', cell.column.columnDef.meta?.cellClass || '')}>
+                <td key={cell.id} className={cn('m-2 text-sm text-[#6E7079]', cell.column.columnDef.meta?.cellClass || '')}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

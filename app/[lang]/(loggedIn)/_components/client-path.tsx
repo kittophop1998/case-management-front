@@ -2,7 +2,7 @@
 import { Typography } from "@/components/common/typography"
 import { path2clientpath } from "@/const/title-path"
 import { cn } from "@/lib/utils"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import HomeIcon from '@/public/icons/Home.svg'
 import { useGetMeQuery, useLazyGetMeQuery } from "@/features/auth/authApiSlice"
 import { useMemo } from "react"
@@ -30,6 +30,12 @@ export function ClientPath() {
         console.log(`initPath`, initPath)
         router.push(initPath)
     }
+    const searchParams = useSearchParams();
+    const goToLink = (goto: string) => {
+        if (!goto) return;
+        router.push(`${goto}?${searchParams.toString()}`);
+    };
+
     return <>
         <span onClick={goToHome} className="flex items-center">
             <HomeIcon className='inline-block w-4 h-4 cursor-pointer hover:opacity-75' />
@@ -40,7 +46,9 @@ export function ClientPath() {
                     /
                 </Typography>
                 <Typography key={'title' + index} variant='caption' as='p'>
-                    <span className={cn(!item.goto ? '' : 'text-blue-600 hover:underline cursor-pointer', '')}>{item.name}</span>
+                    <span className={cn(!item.goto ? '' : 'text-blue-600 hover:underline cursor-pointer', '')}
+                        onClick={() => goToLink(item.goto)}
+                    >{item.name}</span>
                 </Typography>
 
             </div>

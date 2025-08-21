@@ -42,7 +42,7 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
             id: 'noteDetail',
             header: ({ column }) => <Header column={column} label='Note' sortAble />,
             cell: info => info.getValue(),
-            meta: { cellClass: 'line-clamp-1 h-[2rem]' },
+            meta: { cellClass: 'line-clamp-1' },
             // <div
             //     className="max-w-[30rem] break-words overflow-hidden text-ellipsis bg-red-300"
             //     style={{
@@ -187,6 +187,9 @@ const NoteListPage = () => {
                 >
                     <FormCreateNote customerId={customerId} afterPost={refetch} />
                 </FloatingWidget>
+                <FormCreateNote
+                    customerId={customerId}
+                />
             </CardPageWrapper>
 
         </div >
