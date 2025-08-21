@@ -15,9 +15,9 @@ export const DataWithCopy = ({ title, value, showCopy = false, loading = false, 
             {loading ?
                 // <Skeleton className="h-[1rem] w-[6rem] rounded-xl" /> :
                 <Skeleton className="w-[6rem] text-transparent" >
-                    <Typography variant="body2">{title}</Typography>
-                </Skeleton> :
-
+                    <Typography variant="body2">-</Typography>
+                </Skeleton>
+                :
                 <Typography
                     variant="body2"
                     className={cn("text-gray-500 ")}
