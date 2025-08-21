@@ -1,5 +1,9 @@
 import { ApiResponse } from "@/types/api.type";
-import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { SerializedError } from "@reduxjs/toolkit";
+import {
+  fetchBaseQuery,
+  FetchBaseQueryError,
+} from "@reduxjs/toolkit/query/react";
 const BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ||
   "https://case-management-backend-new-production.up.railway.app/api/v1";
@@ -17,11 +21,11 @@ export function setRefreshToken(token: string | null) {
 }
 
 export const getErrorText = (
-  response: ApiResponse<undefined>,
+  response: ApiResponse<undefined> | FetchBaseQueryError | SerializedError,
   defaultMessage = "An unexpected error occurred. Please try again later."
 ): string => {
   // TODO: error response on rtk is response: { data: ApiResponse<undefined>; status: number } change it to ApiResponse<undefined>
-  if (!response.error && response.data) {
+  if (!response?.error && response?.data) {
     response = response.data;
   }
 

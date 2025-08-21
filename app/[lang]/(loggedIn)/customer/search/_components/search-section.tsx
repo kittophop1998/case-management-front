@@ -4,7 +4,7 @@ import { CustomerCard } from "./customer-card";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/common/Button";
 import { useRouter } from 'next/navigation'
-import { useLazySearchCustomerQuery } from "@/features/customers/customersApiSlice";
+import { useLazyCustomerCustinfoQuery } from "@/features/customers/customersApiSlice";
 import { getErrorText } from "@/services/api";
 import { FloatingWidget } from "@/components/common/floating-widget";
 import { FormNewCase } from "@/components/case/form-new-case";
@@ -16,7 +16,7 @@ export const SearchSection = ({
 }) => {
     const [status, setStatus] = useState<boolean>(false);
     const router = useRouter()
-    const [searchCustomer, { data: costumer, isFetching, isError, error }] = useLazySearchCustomerQuery();
+    const [searchCustomer, { data: costumer, isFetching, isError, error }] = useLazyCustomerCustinfoQuery();
     const [search, setSearch] = useState<string>('');
     const [isSearhted, setIsSearhted] = useState<boolean>(false);
     const handleSearch = async () => {
@@ -60,9 +60,9 @@ export const SearchSection = ({
             </form>
             <div className="mx-auto max-w-md space-y-3 w-full min-w-full">
                 {/* <FormError message={isError ? getErrorText(error) : undefined}></FormError> */}
-                {costumer?.data ?
+                {costumer ?
                     <CustomerCard
-                        {...costumer?.data || {}}
+                        {...costumer || {}}
                     />
                     :
                     (isSearhted ?

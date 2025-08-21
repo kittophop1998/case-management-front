@@ -4,10 +4,7 @@ import { JsonJoinDetails, UserProfileType, UserType } from "@/types/user.type";
 import { baseQuery } from "@/services/api";
 import { ApiResponse } from "@/types/api.type";
 import { Note } from "@/types/note.type";
-// centers
-// permissions
-// roles
-// sections
+
 export type DropdownSystemType = {
   centers: JsonJoinDetails[];
   permissions: JsonJoinDetails[];

@@ -1,4 +1,3 @@
-import { Customer } from "./../../types/customer.type";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQuery } from "@/services/api";
 import z from "zod";

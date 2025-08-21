@@ -2,7 +2,7 @@ import { Button } from "@/components/common/Button";
 import { Typography } from "@/components/common/typography";
 import { Files } from "lucide-react";
 
-interface DataWithCopyProps { value: string, title: string, showCopy?: boolean, loading?: boolean }
+interface DataWithCopyProps { value: string | undefined, title: string, showCopy?: boolean, loading?: boolean }
 
 export const DataWithCopy = ({ title, value, showCopy = false, loading }: DataWithCopyProps) => {
     return (

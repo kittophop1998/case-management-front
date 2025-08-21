@@ -3,16 +3,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ClipboardPlus, Phone } from "lucide-react";
-import { useLazyCustomerDashboardQuery } from "@/features/customers/customersApiSlice";
-import { Customer } from "@/types/customer.type";
 import VerifyPass from '@/public/icons/VerifyPass.svg'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { getErrorText } from "@/services/api";
 import usePermission from "@/hooks/use-permission";
 // 
 import { FormNewCase, FormNewCaseRef } from "@/components/case/form-new-case";
 import BtnNew from "@/components/button/btn-new";
-import { ChartAreaDefault } from "@/components/chart/mockup";
 import { DialogSelectCaseType } from "@/components/case/dialog-select-case-type";
 import Container from "@/components/common/containter";
 import { Button } from "@/components/ui/button";
@@ -21,7 +17,7 @@ import { Typography } from "@/components/common/typography";
 import { FloatingWidget } from "@/components/common/floating-widget";
 // 
 import { NoteButtonNoti } from "@/components/note/note-button-noti";
-import { FormCreateNote, FormNewNoteRef } from "@/components/note/form-create-note";
+import { FormCreateNote } from "@/components/note/form-create-note";
 // 
 import { StatusCustomerFeeling } from "@/components/customer/status-customer-feeling";
 import { StatusComplaintLv } from "@/components/customer/status-complaint-lv";
@@ -32,81 +28,69 @@ import { StatusMobileApp } from "@/components/customer/status-mobile-app";
 import { DataWithCopy } from "./_components/data-with-copy";
 import { SectionCard } from "./_components/section-card";
 import { DisplayValue } from "./_components/display-value";
-
-const mockup = (value: Customer) => {
-    if (value?.email === undefined) {
-        value.email = 'Arunee@example.com'
-    }
-    if (value?.status === undefined) {
-        value.status = 'Active'
-    }
-    if (value?.type === undefined) {
-        value.type = 'Individual'
-    }
-    if (value?.group === undefined) {
-        value.group = 'Regular'
-    }
-    if (value?.paymentStatus === undefined) {
-        value.paymentStatus = 'Paid'
-    }
-    if (value?.segment === undefined) {
-        value.segment = 'General'
-    }
-    if (value?.mobileAppStatus === undefined) {
-        value.mobileAppStatus = 'Active'
-    }
-    if (value?.gender === undefined) {
-        value.gender = ''
-    }
-    if (value?.note === undefined) {
-        value.note = { count: 0 };
-    }
-    return value
-}
-
+import { useCustomerInfo } from "@/hooks/use-customer-info";
+import { ChartAreaDefault } from "@/components/chart/mockup";
+// const mockup = (value: CustomerResApiProfile) => {
+//     if (value?.email === undefined) {
+//         value.email = 'Arunee@example.com'
+//     }
+//     if (value?.status === undefined) {
+//         value.status = 'Active'
+//     }
+//     if (value?.type === undefined) {
+//         value.type = 'Individual'
+//     }
+//     if (value?.group === undefined) {
+//         value.group = 'Regular'
+//     }
+//     if (value?.paymentStatus === undefined) {
+//         value.paymentStatus = 'Paid'
+//     }
+//     if (value?.segment === undefined) {
+//         value.segment = 'General'
+//     }
+//     if (value?.mobileAppStatus === undefined) {
+//         value.mobileAppStatus = 'Active'
+//     }
+//     if (value?.note === undefined) {
+//         value.note = { count: 0 };
+//     }
+//     return value
+// }
 const CustomerDashboard = () => {
+    const router = useRouter()
     const formNewCaseRef = useRef<FormNewCaseRef>(null)
     const { myPermission } = usePermission()
     const searchParams = useSearchParams()
     const customerId = searchParams.get('customerId')
-    const [searchCustomer, { data, isFetching, isError, error }] = useLazyCustomerDashboardQuery();
-    const customer: Customer | undefined = useMemo(() => {
-        if (data?.data === undefined) {
-            return undefined
-        }
-        let value = { ...(data?.data || {}) }
-        value = mockup(value)//TODO DELETE THIS
-        return value
-    }, [data]);
-    const router = useRouter()
-    useEffect(() => {
-        if (!customerId) {
-            console.log('!!not have query customerId')
-            return
-        }
-        searchCustomer({
-            id: customerId
-        })
-    }, [customerId]);
+    const {
+        customer,
+        loading,
+        fetch,
+    } = useCustomerInfo(customerId)
     const [openSelectCase, setOpenSelectCase] = useState<boolean>(false);
     const [status, setStatus] = useState<boolean>(false);
     const [statusNote, setStatusNote] = useState<boolean>(false);
     const onSelectCase = (value: string) => {
-        console.log("Selected case type:", value);
         setOpenSelectCase(false);
         setStatus(true)
         formNewCaseRef.current?.onOpen(value, customerId)
-
     }
     const handleOpenSelectCase = () => {
         setOpenSelectCase(true);
         setStatus(false);
         setStatusNote(false);
     }
-
-    if (isError) return <>{getErrorText(error)}</>
-    if (isFetching) return <></>
-    if (!customer) return <></>
+    useEffect(() => {
+        if (!customerId) {
+            console.log('!!not have query customerId')
+            return
+        }
+        fetch(['custsegment', 'info', 'profile', 'suggestion'])
+    }, [customerId]);
+    // if (isError) return <>{getErrorText(error)}</>
+    // if (isFetching) return <></>
+    // if (!customer) return <></>
     if (!customerId) return <></>
     return (
         <>
@@ -125,19 +109,16 @@ const CustomerDashboard = () => {
                     />
                     <div className="flex gap-3">
                         <DataWithCopy title='Aeon ID' value='#47378877' showCopy />
-                        <DataWithCopy title='Customer ID/Passport' value='9712333456234' showCopy />
+                        <DataWithCopy title='Customer ID/Passport' value={customer.info?.nationalId} loading={loading.info} showCopy />
                         <DataWithCopy title='Customer Since' value='2024-02-02' />
                         <div className="flex-1" />
 
                         {
                             myPermission?.["add.case"] &&
                             <BtnNew
-                                // onClick={() => setStatus((v) => !v)}
                                 onClick={handleOpenSelectCase}
                             />
                         }
-
-
                         <Button className="bg-[#FA541C]">
 
                             <Phone />
@@ -145,7 +126,7 @@ const CustomerDashboard = () => {
                     </div>
                     <TabsContent value="account" className="max-w-none">
                         <div className="grid grid-cols-12 gap-4">
-                            <SectionCard title={customer.customerNameEng} TopRight={
+                            <SectionCard title={customer.info?.customerNameEng} TopRight={
                                 <>
                                     <VerifyPass className='size-7' />
                                 </>
@@ -158,20 +139,18 @@ const CustomerDashboard = () => {
                                     <div className="grid grid-cols-6 gap-4 ">
                                         <DisplayValue title="Phone" value={
                                             <div className="flex gap-1">
-                                                <Typography variant="body2">{customer?.mobileNO ? '+66' : ''}</Typography>
-                                                <Typography variant="body2" className="text-[#FA541C]">{customer.mobileNO}</Typography>
+                                                <Typography variant="body2">{customer.info?.mobileNO}</Typography>
+                                                <Typography variant="body2" className="text-[#FA541C]">{customer.info?.mobileNO}</Typography>
                                             </div>
                                         } className="col-span-3" />
-                                        <DisplayValue title="Email" value={customer?.email} className="col-span-3 " />
-                                        <DisplayValue title="Status" value={<StatusCustomer status={customer?.status} />} className="col-span-2" />
-                                        <DisplayValue title="Customer Type:" value={customer?.type} className="col-span-2" />
-                                        <DisplayValue title="Customer Group" value={customer?.group} className="col-span-2" />
-                                        <DisplayValue title="Payment Status" value={<StatusPayment status={customer?.paymentStatus} />} className="col-span-2" />
-                                        <DisplayValue title="Segment" value={customer?.segment} className={cn("col-span-4")} />
-                                        <DisplayValue title="Mobile App Status" value={<StatusMobileApp status={customer?.mobileAppStatus} />} className="col-span-2" />
-                                        <DisplayValue title="Gender" value={customer?.status ? 'Men' : ''} className="col-span-2" />
-                                        {/* Gender */}
-
+                                        <DisplayValue title="Email" value={customer.info?.customerNameEng} className="col-span-3 " />
+                                        <DisplayValue title="Status" value={<StatusCustomer status={'Normal'} />} className="col-span-2" />
+                                        <DisplayValue title="Customer Type:" value={'VP'} className="col-span-2" />
+                                        <DisplayValue title="Customer Group" value={'Nomal-VIP'} className="col-span-2" />
+                                        <DisplayValue title="Payment Status" value={<StatusPayment status='On-Time' />} className="col-span-2" />
+                                        <DisplayValue title="Segment" value={'Normal'} className={cn("col-span-4")} />
+                                        <DisplayValue title="Mobile App Status" value={<StatusMobileApp status='Active' />} className="col-span-2" />
+                                        <DisplayValue title="Gender" value={customer.profile?.gender} className="col-span-2" />
                                         {
                                             (myPermission?.["view.custnote"] || myPermission?.["add.custnote"]) &&
                                             <DisplayValue title="Notes"
@@ -181,7 +160,7 @@ const CustomerDashboard = () => {
                                                             myPermission?.["view.custnote"] &&
                                                             <NoteButtonNoti
                                                                 onClick={() => router.push(`/customer/dashboard/note/list?customerId=${customerId}`)}
-                                                                count={customer?.note.count}
+                                                                count={0}
                                                                 size='sm'
                                                             />}
                                                         {
@@ -195,14 +174,6 @@ const CustomerDashboard = () => {
                                                                 >
                                                                     <ClipboardPlus />
                                                                 </Button>
-                                                                {/* <Button className=" bg-black white-text" size='sm'
-                                                                    onClick={() => {
-                                                                        setStatus(false)
-                                                                        setStatusNote(true)
-                                                                    }
-
-                                                                    }
-                                                                >New Note</Button> */}
                                                             </>
                                                         }
                                                     </div>
@@ -286,7 +257,6 @@ const CustomerDashboard = () => {
                                     <Typography >{""}</Typography>
                                 </>
                             </SectionCard>
-
                         </div>
                     </TabsContent>
                     <TabsContent value="password" className="w-full max-w-none h-[70vh]">
@@ -329,3 +299,20 @@ const CustomerDashboard = () => {
     );
 };
 export default CustomerDashboard;
+
+
+
+
+// 
+// 
+// 
+// 
+// const [searchCustomer, { data, isFetching, isError, error }] = useLazyCustomerProfileQuery();
+// const customer: CustomerResApiProfile | undefined = useMemo(() => {
+//     if (data?.data === undefined) {
+//         return undefined
+//     }
+//     let value = { ...(data?.data || {}) }
+//     value = mockup(value)//TODO DELETE THIS
+//     return value
+// }, [data]);

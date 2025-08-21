@@ -12,12 +12,14 @@ import { useCreateNoteMutation } from "@/features/note/noteApiSlice";
 import { useGetNoteTypeQuery } from "@/features/system/systemApiSlice";
 import { useDebugLogForm } from "@/hooks/use-debug-log-form";
 import { getErrorText } from "@/services/api";
+import { useEffect } from "react";
 
 interface FormCreateNoteProps {
     isSmallMod?: boolean,
     setStatus?: (status: boolean) => void
     customerId: string,
-    afterPost: () => void
+    noteId?: string,
+    afterPost?: () => void
 
 }
 export const FormCreateNote =
@@ -26,6 +28,7 @@ export const FormCreateNote =
             isSmallMod = true,
             setStatus = (status: boolean) => { },
             customerId,
+            noteId,
             afterPost
         }: FormCreateNoteProps
     ) => {
@@ -40,15 +43,29 @@ export const FormCreateNote =
                 note: ''
             }
         })
-
+        const put = (c: any) => { }
+        const updateFormById = (noteId: string | null) => {
+            if (noteId) {
+                // TODO API
+                const details = {
+                    customerId,
+                    noteTypeId: '',
+                    note: ''
+                }
+                form.reset(details)
+            } else {
+                const details = {
+                    customerId,
+                    noteTypeId: '',
+                    note: ''
+                }
+                form.reset(details)
+            }
+        }
+        useEffect(() => {
+            updateFormById(noteId || null)
+        }, [customerId, noteId])
         const onSubmit = async (values: z.infer<typeof CreateNoteSchemas>) => {
-            // console.log("getValues()", form.getValues())
-            // console.log(`values-xxx 1:`, values)
-            // console.log("onSubmit - values", values);
-            // console.log("getValues()", form.getValues());
-            // console.log("dirtyFields", form.formState.dirtyFields);
-            // console.log("errors", form.formState.errors);
-            // console.log(`values-xxx 2:`, values)
             try {
                 // TODO:change form.getValues() to values but values noteTypeId and note missing
                 await createNote({ body: form.getValues() }).unwrap();
