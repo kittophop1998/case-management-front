@@ -167,7 +167,7 @@ const CustomerDashboard = () => {
                                         <Typography variant="body2" className="line-clamp-6 leading-6">ซื้อสินค้าปลอดภาษี สูงสุด 10% และ รับส่วนลด สูงสุด 7% เมื่อซื้อสินค้า ที่ร้าน BicCamera ประเทศญี่ปุ่น, ร้าน Air BicCamera และ ร้าน KOJIMA ด้วย บัตรเครดิตอิออนทุกประเภท โยกเว้นบัตรเครดิต เพื่อองค์กร ซึ่ง BicCamera เป็นห้างสรรพสินจำหน่ายสินค้าหลากหลายประเภท เช่นเครื่องใช้ไฟฟ้า ยา เครื่องสำอาง และของใช้ใน ชีวิตประจำวัน  โปรดแสดง ภาพบาร์โค้ดบนสื่อ ประชาสัมพันธ์นี้ ที่แคชเชียร์</Typography>
                                     </div>
                                     <div className="flex justify-between">
-                                        <Typography variant="caption">1/{customer.suggestion?.suggest_promotions?.length || 0} results</Typography>
+                                        <Typography variant="caption">1/{customer.suggestion?.suggestPromotions?.length || 0} results</Typography>
                                         <div className="gap-3 flex">
                                             <Button disabled>Previous</Button>
                                             <Button>Next</Button>
