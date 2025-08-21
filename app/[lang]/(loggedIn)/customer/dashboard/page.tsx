@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ClipboardPlus, Phone } from "lucide-react";
-import VerifyPass from '@/public/icons/VerifyPass.svg'
 import { useSearchParams, useRouter } from 'next/navigation'
 import usePermission from "@/hooks/use-permission";
 // 
@@ -30,6 +29,7 @@ import { SectionCard } from "./_components/section-card";
 import { DisplayValue } from "./_components/display-value";
 import { useCustomerInfo } from "@/hooks/use-customer-info";
 import { ChartAreaDefault } from "@/components/chart/mockup";
+import { StatusVerify } from "@/components/customer/status-verify";
 // const mockup = (value: CustomerResApiProfile) => {
 //     if (value?.email === undefined) {
 //         value.email = 'Arunee@example.com'
@@ -68,6 +68,13 @@ const CustomerDashboard = () => {
         loading,
         fetch,
     } = useCustomerInfo(customerId)
+    useEffect(() => {
+        if (!customerId) {
+            console.log('!!not have query customerId')
+            return
+        }
+        fetch(['custsegment', 'info', 'profile', 'suggestion'])
+    }, [customerId]);
     const [openSelectCase, setOpenSelectCase] = useState<boolean>(false);
     const [status, setStatus] = useState<boolean>(false);
     const [statusNote, setStatusNote] = useState<boolean>(false);
@@ -81,13 +88,7 @@ const CustomerDashboard = () => {
         setStatus(false);
         setStatusNote(false);
     }
-    useEffect(() => {
-        if (!customerId) {
-            console.log('!!not have query customerId')
-            return
-        }
-        fetch(['custsegment', 'info', 'profile', 'suggestion'])
-    }, [customerId]);
+
     // if (isError) return <>{getErrorText(error)}</>
     // if (isFetching) return <></>
     // if (!customer) return <></>
@@ -108,9 +109,9 @@ const CustomerDashboard = () => {
                         onSelect={onSelectCase}
                     />
                     <div className="flex gap-3">
-                        <DataWithCopy title='Aeon ID' value='#47378877' showCopy />
-                        <DataWithCopy title='Customer ID/Passport' value={customer.info?.nationalId} loading={loading.info} showCopy />
-                        <DataWithCopy title='Customer Since' value='2024-02-02' />
+                        <DataWithCopy title='Aeon ID' value='#47378877' showCopy minWidth='9rem' loading={loading.info} />
+                        <DataWithCopy title='Customer ID/Passport' value={customer.info?.nationalId} loading={loading.info} showCopy minWidth='13rem' />
+                        <DataWithCopy title='Customer Since' value='2024-02-02' loading={loading.info} />
                         <div className="flex-1" />
 
                         {
@@ -128,29 +129,29 @@ const CustomerDashboard = () => {
                         <div className="grid grid-cols-12 gap-4">
                             <SectionCard title={customer.info?.customerNameEng} TopRight={
                                 <>
-                                    <VerifyPass className='size-7' />
+                                    <StatusVerify status='1' loading={loading.info} />
                                 </>
-                            } className={cn("lg:col-span-4 md:col-span-6 col-span-12")} >
+                            } className={cn("lg:col-span-4 md:col-span-6 col-span-12")} loadingTitle={loading.info} >
                                 <>
                                     <div className="flex gap-3  mt-0">
-                                        <StatusComplaintLv lv={1} />
-                                        <StatusCustomerFeeling status='Sweetheart' />
+                                        <StatusComplaintLv lv={1} loading={loading.info} />
+                                        <StatusCustomerFeeling status='Sweetheart' loading={loading.info} />
                                     </div>
                                     <div className="grid grid-cols-6 gap-4 ">
-                                        <DisplayValue title="Phone" value={
+                                        <DisplayValue title="Phone" loading={loading.info} value={
                                             <div className="flex gap-1">
-                                                <Typography variant="body2">{customer.info?.mobileNO}</Typography>
+                                                <Typography variant="body2">{'+66'}</Typography>
                                                 <Typography variant="body2" className="text-[#FA541C]">{customer.info?.mobileNO}</Typography>
                                             </div>
                                         } className="col-span-3" />
-                                        <DisplayValue title="Email" value={customer.info?.customerNameEng} className="col-span-3 " />
-                                        <DisplayValue title="Status" value={<StatusCustomer status={'Normal'} />} className="col-span-2" />
-                                        <DisplayValue title="Customer Type:" value={'VP'} className="col-span-2" />
-                                        <DisplayValue title="Customer Group" value={'Nomal-VIP'} className="col-span-2" />
-                                        <DisplayValue title="Payment Status" value={<StatusPayment status='On-Time' />} className="col-span-2" />
-                                        <DisplayValue title="Segment" value={'Normal'} className={cn("col-span-4")} />
-                                        <DisplayValue title="Mobile App Status" value={<StatusMobileApp status='Active' />} className="col-span-2" />
-                                        <DisplayValue title="Gender" value={customer.profile?.gender} className="col-span-2" />
+                                        <DisplayValue title="Email" value={customer.info?.customerNameEng} loading={loading.info} className="col-span-3 " />
+                                        <DisplayValue title="Status" value={<StatusCustomer status={'Normal'} />} loading={loading.info} className="col-span-2" />
+                                        <DisplayValue title="Customer Type:" value={'VP'} loading={loading.info} className="col-span-2" />
+                                        <DisplayValue title="Customer Group" value={'Nomal-VIP'} loading={loading.info} className="col-span-2" />
+                                        <DisplayValue title="Payment Status" value={<StatusPayment status='On-Time' />} loading={loading.info} className="col-span-2" />
+                                        <DisplayValue title="Segment" value={'Normal'} loading={loading.info} className={cn("col-span-4")} />
+                                        <DisplayValue title="Mobile App Status" value={<StatusMobileApp status='Active' />} loading={loading.info} className="col-span-2" />
+                                        <DisplayValue title="Gender" value={customer.profile?.gender} loading={loading.info} className="col-span-2" />
                                         {
                                             (myPermission?.["view.custnote"] || myPermission?.["add.custnote"]) &&
                                             <DisplayValue title="Notes"
@@ -251,7 +252,6 @@ const CustomerDashboard = () => {
                             </SectionCard>
                             <SectionCard title="Last Activity" TopRight={null} className={cn("lg:col-span-5 md:col-span-12 col-span-12")}>
                                 <>
-
                                     <Typography >{""}</Typography>
                                     <Typography >{""}</Typography>
                                     <Typography >{""}</Typography>

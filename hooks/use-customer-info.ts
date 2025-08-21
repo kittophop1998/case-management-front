@@ -79,18 +79,25 @@ export function useCustomerInfo(customberId: string | null): {
   );
   const loading: CustomerCombineLoading = useMemo(
     () => ({
-      profile: isFetchingProfile,
-      info: isFetchingInfo,
-      custsegment: isFetchingCusCustsegment,
-      suggestion: isFetchingCusSuggestion,
+      profile: isFetchingProfile || (!cusProfile && !!customberId),
+      info: isFetchingInfo || (!cusInfo && !!customberId),
+      custsegment:
+        isFetchingCusCustsegment || (!cusCustsegment && !!customberId),
+      suggestion: isFetchingCusSuggestion || (!cusSuggestion && !!customberId),
     }),
     [
+      cusInfo,
+      cusProfile,
+      cusCustsegment,
+      cusSuggestion,
       isFetchingInfo,
       isFetchingProfile,
       isFetchingCusCustsegment,
       isFetchingCusSuggestion,
+      customberId,
     ]
   );
+
   return {
     customer,
     loading,
