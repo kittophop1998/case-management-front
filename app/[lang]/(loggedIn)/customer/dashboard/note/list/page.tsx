@@ -30,19 +30,19 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
     const dataTable = useMemo(() => dataApi?.data || [], [dataApi])
     const columnHelper = createColumnHelper<any>()
     const columns = useMemo(() => [
-        columnHelper.accessor('noteType.name', {
-            id: 'noteType.name',
+        columnHelper.accessor('noteType', {
+            id: 'noteType',
             header: ({ column }) => <Header column={column} label='Type' sortAble />,
             cell: info => info.getValue(),
             meta: { cellClass: 'w-[12rem]' },
 
 
         }),
-        columnHelper.accessor('note', {
-            id: 'note',
+        columnHelper.accessor('noteDetail', {
+            id: 'noteDetail',
             header: ({ column }) => <Header column={column} label='Note' sortAble />,
             cell: info => info.getValue(),
-            meta: { cellClass: 'overflow-hidden break-words max-w-[10%]' },
+            meta: { cellClass: 'line-clamp-3' },
             // <div
             //     className="max-w-[30rem] break-words overflow-hidden text-ellipsis bg-red-300"
             //     style={{
@@ -61,8 +61,8 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
             meta: { cellClass: 'w-[10rem]' },
 
         }),
-        columnHelper.accessor('createdAt', {
-            id: 'createdAt',
+        columnHelper.accessor('createdDate', {
+            id: 'createdDate',
             header: ({ column }) => <Header column={column} label='Created Date' sortAble />,
             cell: info => format(info.getValue(), "dd MMM yyyy HH:mm:ss"),
             // cellClass: 'min-w-[200px] text-right',
@@ -95,7 +95,7 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
             limit,
             sort,
             keyword: filterForm.text,
-            createdAt: filterForm.date ? format(filterForm.date, 'yyyy-MM-dd') : '',
+            createdDate: filterForm.date ? format(filterForm.date, 'yyyy-MM-dd') : '',
         })
     }
     useEffect(() => {

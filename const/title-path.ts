@@ -58,13 +58,13 @@ export const path2clientpath: Record<string, { name: string; goto: string }[]> =
     ],
     "/customer/search": [
       {
-        name: "Customer Search",
+        name: "Search Customer",
         goto: "",
       },
     ],
     "/customer/dashboard": [
       {
-        name: "Customer Search",
+        name: "Search Customer",
         goto: "/customer/search",
       },
       {

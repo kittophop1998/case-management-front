@@ -8,7 +8,9 @@ export const SectionCard = ({ title, children, TopRight = null, className, loadi
         <Card className={cn("p-4 shadow-none rounded-sm outline-0 border-0 gap-3", className)}>
             <div className="flex items-center justify-between ">
                 {loadingTitle ?
-                    <Skeleton className="w-[16rem] text-transparent">-</Skeleton>
+                    <Skeleton className="w-[16rem] text-transparent">
+                        <Typography className="line-clamp-1 font-medium">-</Typography>
+                    </Skeleton>
                     :
                     <Typography className="line-clamp-1 font-medium">{title}</Typography>
                 }

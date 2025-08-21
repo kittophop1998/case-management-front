@@ -29,16 +29,16 @@ export const noteApiSlice = createApi({
         limit: number;
         sort: string | null;
         keyword: string;
-        createdAt: string;
+        createdDate: string;
       }
     >({
-      query: ({ customerId, page, limit, sort, keyword, createdAt }) => {
+      query: ({ customerId, page, limit, sort, keyword, createdDate }) => {
         const searchParams = createSearchParams({
           page,
           limit,
           sort,
           keyword,
-          createdAt,
+          createdDate,
         });
         return {
           url: `/customers/${customerId}/notes?${searchParams}`,

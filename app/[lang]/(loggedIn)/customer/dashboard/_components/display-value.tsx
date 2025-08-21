@@ -10,7 +10,8 @@ export const DisplayValue = ({ title, value, className, classNameValue, loading 
         <div className={cn('pb-2', className)}>
             <Typography variant="caption">{title}</Typography>
             {loading ?
-                <Skeleton className="w-[6rem] text-transparent" >-</Skeleton> :
+                <Skeleton className="w-[6rem] text-transparent hidden-child" >{value || '-'}</Skeleton>
+                :
                 value
             }
         </div>

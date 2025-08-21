@@ -135,6 +135,9 @@
 .skeleton-mode > * {
   visibility: hidden;
 }
+.hidden-child > * {
+  visibility: hidden;
+}
 
 .base-input-casemm {
   @apply active:border-[#5570f1];

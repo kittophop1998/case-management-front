@@ -63,13 +63,8 @@ const CustomerDashboard = () => {
         setStatusNote(false);
     }
 
-    // if (isError) return <>{getErrorText(error)}</>
-    // if (isFetching) return <></>
-    // if (!customer) return <></>
-    if (!customerId) return <></>
     return (
         <>
-            {/* {JSON.stringify(customer)} */}
             <Tabs defaultValue="account">
                 <TabsList className="bg-white w-full flex justify-start rounded-none pb-0">
                     <Container >
@@ -95,10 +90,12 @@ const CustomerDashboard = () => {
                                 onClick={handleOpenSelectCase}
                             />
                         }
-                        <Button className="bg-[#FA541C]">
-
+                        {/* 
+                            <Button className="bg-[#FA541C]">
                             <Phone />
-                            End call</Button>
+                            End call
+                            </Button>
+                         */}
                     </div>
                     <TabsContent value="account" className="max-w-none">
                         <div className="grid grid-cols-12 gap-4">
@@ -112,7 +109,7 @@ const CustomerDashboard = () => {
                                         <StatusComplaintLv lv={customer.custsegment?.complaintLevel} loading={loading.info} />
                                         <StatusCustomerFeeling status={customer.custsegment?.sweetheart} loading={loading.info} />
                                     </div>
-                                    <div className="grid grid-cols-6 gap-4 ">
+                                    <div className="grid grid-cols-6 gap-2">
                                         <DisplayValue title="Phone" loading={loading.info} value={
                                             <div className="flex gap-1">
                                                 <Typography variant="body2">{'+66'}</Typography>
@@ -248,7 +245,6 @@ const CustomerDashboard = () => {
                         </div>
                     </TabsContent>
                     <TabsContent value="password" className="w-full max-w-none h-[70vh]">
-                        {/* <div className="w-full bg-white px-3 h-[50vh]"></div> */}
                         <div className="flex gap-3 h-full">
                             <div className="bg-white">
                                 <div className="w-[500px]"></div>
@@ -264,7 +260,6 @@ const CustomerDashboard = () => {
                         </div>
                     </TabsContent>
                 </Container>
-
             </Tabs >
             <FloatingWidget
                 title="New Case"
