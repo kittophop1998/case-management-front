@@ -134,8 +134,8 @@ const CustomerDashboard = () => {
                             } className={cn("lg:col-span-4 md:col-span-6 col-span-12")} loadingTitle={loading.info} >
                                 <>
                                     <div className="flex gap-3  mt-0">
-                                        <StatusComplaintLv lv={1} loading={loading.info} />
-                                        <StatusCustomerFeeling status='Sweetheart' loading={loading.info} />
+                                        <StatusComplaintLv lv={customer.custsegment?.complaintLevel} loading={loading.info} />
+                                        <StatusCustomerFeeling status={customer.custsegment?.sweetheart} loading={loading.info} />
                                     </div>
                                     <div className="grid grid-cols-6 gap-4 ">
                                         <DisplayValue title="Phone" loading={loading.info} value={
@@ -146,10 +146,10 @@ const CustomerDashboard = () => {
                                         } className="col-span-3" />
                                         <DisplayValue title="Email" value={customer.info?.customerNameEng} loading={loading.info} className="col-span-3 " />
                                         <DisplayValue title="Status" value={<StatusCustomer status={'Normal'} />} loading={loading.info} className="col-span-2" />
-                                        <DisplayValue title="Customer Type:" value={'VP'} loading={loading.info} className="col-span-2" />
-                                        <DisplayValue title="Customer Group" value={'Nomal-VIP'} loading={loading.info} className="col-span-2" />
+                                        <DisplayValue title="Customer Type:" value={customer.custsegment?.customerType} loading={loading.info} className="col-span-2" />
+                                        <DisplayValue title="Customer Group" value={customer.custsegment?.complaintGroup} loading={loading.info} className="col-span-2" />
                                         <DisplayValue title="Payment Status" value={<StatusPayment status='On-Time' />} loading={loading.info} className="col-span-2" />
-                                        <DisplayValue title="Segment" value={'Normal'} loading={loading.info} className={cn("col-span-4")} />
+                                        <DisplayValue title="Segment" value={customer.custsegment?.customerSegment} loading={loading.info} className={cn("col-span-4")} />
                                         <DisplayValue title="Mobile App Status" value={<StatusMobileApp status='Active' />} loading={loading.info} className="col-span-2" />
                                         <DisplayValue title="Gender" value={customer.profile?.gender} loading={loading.info} className="col-span-2" />
                                         {

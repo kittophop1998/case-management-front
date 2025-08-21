@@ -24,9 +24,10 @@ export const StatusCustomerFeeling = ({ status, loading = false }: { status: 'Sw
     if (loading) return <Skeleton className="w-[7rem] rounded-sm text-transparent"> {'-'}</Skeleton>
     return <Badge
         className={cn(statusCustomerFeelingVariants({
-            status
+            status: 'Sweetheart'
         }))}
     >
-        ICON {status}
+        {/* ICON {status} */}
+        Sweetheart
     </Badge>
 }

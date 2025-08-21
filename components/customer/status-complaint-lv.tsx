@@ -23,7 +23,10 @@ const statusComplaintLvVariants = cva(
 export const StatusComplaintLv = ({ lv = 1, loading = false }: { lv: 1 | 2 | 3 | 4, loading?: boolean }) => {
     if (loading) return <Skeleton className="w-[7rem] rounded-sm text-transparent" > {'-'}</Skeleton>
     return <Badge className={cn(statusComplaintLvVariants({
-        lv: `${lv}`
+        // lv: `${lv}`
+        lv: `${1}`
 
-    }))}>Complaint Level: {lv}</Badge>
+    }))}>Complaint Level: 1
+        {/* {lv} */}
+    </Badge>
 }
