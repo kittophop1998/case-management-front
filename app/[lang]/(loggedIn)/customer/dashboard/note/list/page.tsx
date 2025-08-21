@@ -41,8 +41,10 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
         columnHelper.accessor('noteDetail', {
             id: 'noteDetail',
             header: ({ column }) => <Header column={column} label='Note' sortAble />,
-            cell: info => info.getValue(),
-            meta: { cellClass: 'line-clamp-1' },
+            cell: info =>
+                <div className="line-clamp-1">
+                    {info.getValue()}
+                </div>,
             // <div
             //     className="max-w-[30rem] break-words overflow-hidden text-ellipsis bg-red-300"
             //     style={{
