@@ -1,7 +1,7 @@
 'use client';
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { ClipboardPlus, Phone } from "lucide-react";
+import { ChevronDown, ClipboardPlus, Phone } from "lucide-react";
 import { useSearchParams, useRouter } from 'next/navigation'
 import usePermission from "@/hooks/use-permission";
 // 
@@ -30,7 +30,105 @@ import { useCustomerInfo } from "@/hooks/use-customer-info";
 import { ChartAreaDefault } from "@/components/chart/mockup";
 import { StatusVerify } from "@/components/customer/status-verify";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Promotion } from "@/types/promotion.type";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
+type SuggestionCardProps = {
+    loading: boolean
+    suggestPromotions?: Promotion[]
+}
+
+const SuggestionCard = ({ loading, suggestPromotions = [] }: SuggestionCardProps) => {
+    const [page, setPage] = useState<number>(1)
+    const promotion = useMemo(() => suggestPromotions[page - 1] || {
+        promotionCode: '',
+        promotionName: '',
+        promotionDetails: '',
+        action: '',
+        promotionResultTimestamp: '',
+        period: '',
+        eligibleCard: ['']
+    }, [page, suggestPromotions])
+    return <SectionCard title="Suggested Promotion" TopRight={
+        <>
+            {loading ?
+                <Skeleton className="min-w-[6rem] py-1 px-2 text-transparent" >-</Skeleton> :
+                <>
+                    {/* <Popover>
+                <PopoverTrigger asChild> */}
+                    <div className="min-w-[6rem] justify-center cursor-pointer bg-[#f2d5fb] py-1 px-2 rounded-md text-sm flex items-center gap-1">
+                        {promotion.action}
+                        {/* TODO: COLOR */}
+                        <ChevronDown size={18} color="#722ed1" />
+                    </div>
+                    {/* </PopoverTrigger>
+                <PopoverContent className="w-[9rem] py-1 px-0">
+                    <div >
+                        {
+                            [1, 1, 1, 1].map((item) => (
+                                <div className="cursor-pointer hover:bg-gray-600/10">aaaaaaaaaaaaaa</div>
+                            ))
+                        }
+                    </div>
+                </PopoverContent>
+            </Popover> */}
+
+                </>
+            }
+
+
+        </>
+    } className={cn("lg:col-span-4 md:col-span-6 col-span-12")}>
+        <div className="space-y-3 mt-1">
+            <div className="space-y-1">
+                {loading ? <Skeleton className="w-[10rem] text-transparent w-full" >
+                    <Typography className="line-clamp-1">-</Typography>
+                </Skeleton> : <Typography className="line-clamp-1">{promotion.promotionName}</Typography>}
+                <div className="flex gap-1">
+                    <Typography variant="caption" className="line-clamp-1 flex">
+                        Period:
+                    </Typography>
+                    {loading ?
+                        <Skeleton className="w-[10rem]" >
+                            <Typography variant="caption" className="text-transparent">-</Typography>
+                        </Skeleton> :
+                        <Typography variant="caption" className="line-clamp-1"> {promotion.period}</Typography>}
+                </div>
+                <div className="flex gap-1">
+                    <Typography variant="caption" className="line-clamp-1 flex">
+                        Eligible Card:
+                    </Typography>
+                    {loading ?
+                        <Skeleton className="w-[10rem]" >
+                            <Typography variant="caption" className="text-transparent">-</Typography>
+                        </Skeleton> : <Typography variant="caption" className="line-clamp-1 flex">  {promotion.eligibleCard.join(',')}</Typography>}
+                </div>
+            </div>
+            {
+                loading ?
+                    <Skeleton className="h-[10.5rem] w-full" />
+                    :
+                    <div className="bg-[#D5A3F926] p-3 rounded-md h-[10.5rem]">
+                        <Typography variant="body2" className="line-clamp-6 leading-6">{promotion.promotionDetails}</Typography>
+                    </div>
+            }
+
+            <div className="flex justify-between">
+                {
+                    loading ?
+                        <Skeleton className="h-[0.7rem] w-[3rem]" /> :
+                        <Typography variant="caption">{page}/{suggestPromotions.length} results</Typography>
+
+                }
+                <div className="gap-3 flex">
+                    <Button disabled={loading || page === 1} onClick={() => setPage(v => v - 1)}>Previous</Button>
+                    <Button disabled={loading || suggestPromotions.length <= page} onClick={() => setPage(v => v + 1)}>Next</Button>
+                </div>
+            </div>
+        </div>
+        {/* {JSON.stringify(promotion)} */}
+    </SectionCard>
+}
 const CustomerDashboard = () => {
     const router = useRouter()
     const formNewCaseRef = useRef<FormNewCaseRef>(null)
@@ -83,19 +181,12 @@ const CustomerDashboard = () => {
                         <DataWithCopy title='Customer ID/Passport' value={customer.info?.nationalId} loading={loading.info} showCopy />
                         <DataWithCopy title='Customer Since' value='2024-02-02' loading={loading.info} />
                         <div className="flex-1" />
-
-                        {
+                        {/* {
                             myPermission?.["add.case"] &&
                             <BtnNew
                                 onClick={handleOpenSelectCase}
                             />
-                        }
-                        {/* 
-                            <Button className="bg-[#FA541C]">
-                            <Phone />
-                            End call
-                            </Button>
-                         */}
+                        } */}
                     </div>
                     <TabsContent value="account" className="max-w-none">
                         <div className="grid grid-cols-12 gap-4">
@@ -154,38 +245,7 @@ const CustomerDashboard = () => {
                                     </div>
                                 </>
                             </SectionCard>
-                            <SectionCard title="Suggested Promotion" TopRight={null} className={cn("lg:col-span-4 md:col-span-6 col-span-12")}>
-                                {/* {loading.info ? <Skeleton className="h-[20rem] mt-1"></Skeleton> : */}
-                                <div className="space-y-3 mt-1">
-                                    <div className="space-y-0">
-                                        <Typography className="line-clamp-1">BIC CAMERA Coupon with Aeon Credit Card</Typography>
-                                        <Typography variant="caption" className="line-clamp-1">Period: 01 Apr 2025 - 30 Dec 2025</Typography>
-                                        <Typography variant="caption" className="line-clamp-1">Eligible Card:  BIG C WORLD MASTERCARD</Typography>
-                                    </div>
-                                    {
-                                        loading.info ?
-                                            <Skeleton className="h-[10.5rem] w-full" />
-                                            :
-                                            <div className="bg-[#D5A3F926] p-3 rounded-md h-[10.5rem]">
-                                                <Typography variant="body2" className="line-clamp-6 leading-6">ซื้อสินค้าปลอดภาษี สูงสุด 10% และ รับส่วนลด สูงสุด 7% เมื่อซื้อสินค้า ที่ร้าน BicCamera ประเทศญี่ปุ่น, ร้าน Air BicCamera และ ร้าน KOJIMA ด้วย บัตรเครดิตอิออนทุกประเภท โยกเว้นบัตรเครดิต เพื่อองค์กร ซึ่ง BicCamera เป็นห้างสรรพสินจำหน่ายสินค้าหลากหลายประเภท เช่นเครื่องใช้ไฟฟ้า ยา เครื่องสำอาง และของใช้ใน ชีวิตประจำวัน  โปรดแสดง ภาพบาร์โค้ดบนสื่อ ประชาสัมพันธ์นี้ ที่แคชเชียร์</Typography>
-                                            </div>
-                                    }
-
-                                    <div className="flex justify-between">
-                                        {
-                                            loading.info ?
-                                                <Skeleton className="h-[0.7rem] w-[3rem]" /> :
-                                                <Typography variant="caption">1/{customer.suggestion?.suggestPromotions?.length || 0} results</Typography>
-
-                                        }
-                                        <div className="gap-3 flex">
-                                            <Button disabled={loading.info}>Previous</Button>
-                                            <Button disabled={loading.info}>Next</Button>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* } */}
-                            </SectionCard>
+                            <SuggestionCard loading={loading.info} suggestPromotions={customer.suggestion?.suggestPromotions} />
                             <SectionCard title="Case History" TopRight={null} className={cn("lg:col-span-4 md:col-span-4 col-span-12")}>
                                 <>
                                     <div className="grid grid-cols-3 gap-3">
