@@ -99,7 +99,9 @@ export function DataTable<T>({
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => (
-                <th key={header.id} className='p-2 text-sm font-normal'>
+                <th key={header.id}
+                  className={cn('p-2 text-sm font-normal', header.column.columnDef?.meta?.headerClass || '')}
+                >
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -115,7 +117,7 @@ export function DataTable<T>({
           {table.getRowModel().rows.map(row => (
             <tr key={row.id} className=''>
               {row.getVisibleCells().map(cell => (
-                <td key={cell.id} className={cn('p-2 text-sm text-[#6E7079]', cell.column.columnDef.meta?.cellClass || '')}>
+                <td key={cell.id} className={cn('p-2 text-sm text-[#6E7079]', cell.column.columnDef?.meta?.cellClass || '')}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
@@ -140,10 +142,6 @@ export function DataTable<T>({
         </tfoot> */}
       </table>
       <div className='flex items-center justify-end mt-1'>
-        {/* <Typography variant='caption'>
-          Showing {(page - 1) * limit + 1} -{' '}
-          {Math.min(page * limit, total)} of {total} records
-        </Typography> */}
         <div className='flex items-center space-x-2'>
           <Typography variant='caption'>
             Page {page} of {totalPages}
@@ -172,104 +170,7 @@ export function DataTable<T>({
       </div>
     </>
   )
-  return (
-    <>
-      <Table className='bg-red-300 overflow-hidden'>
-        <TableHeader>
-          {table.getHeaderGroups().map(headerGroup => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map(header => (
-                <TableHead key={header.id} >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
 
-        <TableBody className='text-[#6E7079]'>
-          {loading ? (
-            <TableRow>
-              <TableCell colSpan={table.getAllColumns().length}>
-                <div className='text-center py-8 text-muted-foreground'>Loading...</div>
-              </TableCell>
-            </TableRow>
-          ) : rows?.length ? (
-
-            rows.map(row => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && 'selected'}
-                className={clsx(
-                  'cursor-pointer hover:bg-accent',
-                  onRowClick && 'hover:underline',
-                )}
-                onClick={onRowClick ? () => onRowClick(row) : undefined}
-              >
-                {row.getVisibleCells().map(cell => (
-                  <TableCell key={cell.id} className={clsx(
-                    // 'border-2 border-red-600',
-                    cell.column.columnDef.meta?.cellClass
-                  )}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          )
-            : (
-              <TableRow>
-                <TableCell
-                  colSpan={table.getAllColumns().length}
-                  className='h-24 text-center text-muted-foreground'
-                >
-                  {emptyText}
-                </TableCell>
-              </TableRow>
-            )}
-        </TableBody>
-      </Table>
-      <Separator />
-
-      <div className='flex items-center justify-end mt-4'>
-        {/* <Typography variant='caption'>
-          Showing {(page - 1) * limit + 1} -{' '}
-          {Math.min(page * limit, total)} of {total} records
-        </Typography> */}
-        <div className='flex items-center space-x-2'>
-          <Typography variant='caption'>
-            Page {page} of {totalPages}
-          </Typography>
-          <Button
-            variant='ghost'
-            size='sm'
-            onClick={() => setPage && setPage((p: number) => p - 1)}
-            disabled={page === 1}
-          >
-            <ChevronLeft
-              // @ts-expect-error className is valid for lucide icon
-              className='h-4 w-4' />
-          </Button>
-          <Button
-            variant='ghost'
-            size='sm'
-            onClick={() => setPage && setPage((p) => p + 1)}
-            disabled={page >= totalPages}
-          >
-            <ChevronRight
-              // @ts-expect-error className is valid for lucide icon
-              className='h-4 w-4' />
-          </Button>
-        </div>
-      </div>
-    </>
-  )
 }
 
 interface SearchInputProps {
