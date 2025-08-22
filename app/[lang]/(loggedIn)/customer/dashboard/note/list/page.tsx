@@ -35,16 +35,15 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
             header: ({ column }) => <Header column={column} label='Type' sortAble />,
             cell: info => info.getValue(),
             meta: { cellClass: 'w-[12rem]' },
-
-
         }),
         columnHelper.accessor('noteDetail', {
             id: 'noteDetail',
             header: ({ column }) => <Header column={column} label='Note' sortAble />,
             cell: info =>
-                <div className="line-clamp-1">
+                <div className="truncate w-200">
                     {info.getValue()}
                 </div>,
+            meta: { cellClass: 'w-[30rem]' },
             // <div
             //     className="max-w-[30rem] break-words overflow-hidden text-ellipsis bg-red-300"
             //     style={{

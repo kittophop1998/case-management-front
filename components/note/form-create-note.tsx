@@ -12,6 +12,7 @@ import { useCreateNoteMutation } from "@/features/note/noteApiSlice";
 import { useGetNoteTypeQuery } from "@/features/system/systemApiSlice";
 import { getErrorText } from "@/services/api";
 import { useEffect, useMemo } from "react";
+import { Typography } from "../common/typography";
 
 interface FormCreateNoteProps {
     isSmallMod?: boolean,
@@ -96,6 +97,7 @@ export const FormCreateNote =
             <div className={cn("p-3", isSmallMod ? '' : 'max-w-2xl w-full min-w-[50vw]')}>
                 <FormProvider {...form} >
                     <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+                        <Typography className="text-sm">Create Note</Typography>
                         <SelectField
                             form={form}
                             name='noteTypeId'

@@ -96,15 +96,15 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                         <div className={cn("py-3", isSmallMod ? "max-h-[50vh] overflow-y-auto" : "w-[70vw] grid grid-cols-2 gap-3")}>
                             <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
                                 {/* {JSON.stringify(inquirys)} */}
-                                <SectionCard title="Customer Information" isAccordion={!!isSmallMod}>
+                                <SectionCard title="Customer Info" isAccordion={!!isSmallMod}>
                                     <div className="space-y-3 pt-2">
                                         <Typography variant="caption">Customer ID/Passport :  {customerInfo.passport}</Typography>
-                                        <Typography variant="caption">Name: {customerInfo.name}</Typography>
-                                        <Typography variant="caption">Email: {customerInfo.email}</Typography>
-                                        <Typography variant="caption">Phone: {customerInfo.phone}</Typography>
+                                        <Typography variant="caption">Customer Name: {customerInfo.name}</Typography>
+                                        <Typography variant="caption">Aeon ID: {customerInfo.aeonId}</Typography>
+                                        <Typography variant="caption">Mobile No.: {customerInfo.phone}</Typography>
                                     </div>
                                 </SectionCard>
-                                <SectionCard title="Case Information" isAccordion={!!isSmallMod}>
+                                <SectionCard title="Case Info" isAccordion={!!isSmallMod}>
                                     <div className="space-y-3 pt-2">
                                         <Typography variant="caption">Case Type:  {childValue2text?.[caseTypeId] || caseTypeId}</Typography>
                                         {/* <Typography variant="caption">Case ID:  {caseInfo.id}</Typography> */}
@@ -191,7 +191,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
 // ? Hooks
 const emptyCustomer = {
     name: '',
-    email: '',
+    aeonId: '',
     phone: '',
     caseType: '',
     caseId: '',
@@ -207,8 +207,8 @@ function useCustomerInfo(customerId: string | null | undefined) {
         if (!!customerId) {
             setCustomerInfo({
                 name: 'John Doe',
-                email: '',
-                phone: '(123) 456-7890',
+                aeonId: 'AEON123456',
+                phone: '097766xxxx',
                 caseType: '123456',
                 caseId: '123456',
                 passport: '9712333456234'
