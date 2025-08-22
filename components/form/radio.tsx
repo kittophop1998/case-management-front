@@ -1,31 +1,14 @@
-import {
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
+import { InputDefaultProps, InputFieldWarper, InputFieldWarperChildProps, InputFormDefaultProps, InputSelectProps } from "./input-warper";
+import { SelectItems } from "./combo-multi-field";
 
-interface RadioFieldProps {
-    onChange?: (value: string) => void; // Optional onChange handler
-    loading?: boolean;
-    readonly?: boolean;
-    items: any[];
-    valueName?: string;
-    labelName?: string;
-    form: any; // Replace 'any' with the correct form type, e.g., UseFormReturn<any> if using react-hook-form
-    name: string;
-    label: string;
-    className?: string; // Optional className for additional styling
+interface RadioFieldProps extends
+    InputFieldWarperChildProps,
+    InputSelectProps,
+    InputFormDefaultProps,
+    InputDefaultProps {
     disableList?: any[]
-    required?: boolean // Optional prop to indicate if the field is required
 }
-// 
-// 
-// 
 const RadioFieldVariants = cva(
     'w-full',
     {
@@ -50,51 +33,30 @@ const RadioField = (
         label,
         className = "",
         disableList,
-        required = false
+        required = false,
+        placeholder
     }: RadioFieldProps) => {
-    const valueMap = new Map(
-        items.map((item: any) => [String(item[valueName]), item[valueName]])
-    )
+    const value = form.watch(name)
+    const onSelect = (val: string) => {
+        form.setValue(name, val, { shouldValidate: true });
+        onChange?.(val)
+    }
     return (
-        <FormField
-            control={form.control}
+        <InputFieldWarper
+            loading={loading}
+            form={form}
             name={name}
-            disabled={loading || readonly}
-            render={({ field }) => (
-                <FormItem >
-                    <FormLabel>{label}</FormLabel>
-                    <FormControl>
-                        <RadioGroup
-                            defaultValue={field.value}
-                            className={cn(RadioFieldVariants({ readonly }), className)}
-                            value={String(field.value)}
-                            onValueChange={val => {
-                                const actualValue = valueMap.get(val)
-                                console.log('RadioField onValueChange', val, actualValue)
-                                if (actualValue !== undefined) {
-                                    field.onChange(actualValue) // fallback to val if not found
-                                    onChange?.(actualValue) // Call onChange if provided
-                                } else {
-                                    field.onChange(val) // fallback to val if not found
-                                }
-                            }}
-                        >
-                            {
-                                items.map((item: any) => (
-                                    <FormItem className="flex items-center gap-3" key={String(item[valueName])} >
-                                        <FormControl>
-                                            <RadioGroupItem disabled={disableList && disableList.includes(item[valueName])} value={String(item[valueName])} id={String(item[valueName])} />
-                                        </FormControl>
-                                        <FormLabel disabled={disableList && disableList.includes(item[valueName])}>{item[labelName]}</FormLabel>
-                                    </FormItem>
-                                ))
-                            }
-                        </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            )}
-        />
+            label={label}
+            required={required}
+        >
+            <SelectItems
+                items={items}
+                valueName={valueName}
+                labelName={labelName}
+                onChange={onSelect}
+                value={value}
+            />
+        </InputFieldWarper>
     )
 };
 
