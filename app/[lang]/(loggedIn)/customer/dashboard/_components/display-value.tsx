@@ -7,7 +7,7 @@ export const DisplayValue = ({ title, value, className, classNameValue, loading 
         value = <Typography variant="body2" className={classNameValue}>{value}</Typography>
     }
     return (
-        <div className={cn('pb-2', className)}>
+        <div className={cn('pb-2 h-[2.7rem]', className)}>
             <Typography variant="caption">{title}</Typography>
             {loading ?
                 <Skeleton className="w-[6rem] text-transparent hidden-child" >{value || '-'}</Skeleton>
