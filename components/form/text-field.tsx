@@ -9,6 +9,7 @@ import {
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 import { cloneElement } from 'react'
+import { InputFieldWarper } from './input-warper'
 
 interface TextFieldProps {
   form: any // Replace 'any' with the correct form type, e.g., UseFormReturn<any> if using react-hook-form
@@ -42,7 +43,7 @@ export const TextField = ({
   reqired = false
 }: TextFieldProps) => {
   return (
-    <TextFieldWarpper
+    <InputFieldWarper
       loading={loading}
       form={form}
       name={name}
@@ -55,44 +56,11 @@ export const TextField = ({
         placeholder={placeholder}
         readonly={readonly}
       />
-    </TextFieldWarpper>
+    </InputFieldWarper>
   )
 }
 
-interface TextFieldWarpperProps {
-  children: React.ReactElement<{ field: any }>
-  loading?: boolean
-  form: any // Replace 'any' with the correct form type, e.g., UseFormReturn<any> if using react-hook-form
-  name: string
-  label: string
-  reqired?: boolean // Optional prop to indicate if the field is required
-}
-export const TextFieldWarpper = ({
-  children,
-  loading,
-  form,
-  name,
-  label,
-  reqired = false
-}: TextFieldWarpperProps) => {
-  return (
-    <FormField
-      disabled={loading}
-      control={form.control}
-      name={name}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>
-            {/* {field.value} */}
-            {label}{reqired && (<span className='text-red-500'>*</span>)}</FormLabel>
-          {cloneElement(children, { field })}
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  )
-  // 
-}
+
 
 interface TextFieldInputProps {
   prependInnerIcon?: React.ReactNode

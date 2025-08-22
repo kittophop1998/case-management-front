@@ -13,7 +13,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { cva } from 'class-variance-authority'
-import { TextFieldWarpper } from './text-field'
+import { InputFieldWarper } from './input-warper'
 
 interface SelectFieldProps {
   loading?: boolean
@@ -51,7 +51,7 @@ const SelectField = ({
   reqired = false
 }: SelectFieldProps) => {
   return (
-    <TextFieldWarpper
+    <InputFieldWarper
       loading={loading}
       form={form}
       name={name}
@@ -66,7 +66,7 @@ const SelectField = ({
         labelName={labelName}
         onChange={onChange}
       />
-    </TextFieldWarpper>
+    </InputFieldWarper>
   )
 }
 
