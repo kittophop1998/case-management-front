@@ -59,7 +59,7 @@ export const FormUserDetails = ({
               name='username'
               label='Username'
               placeholder='Enter Username'
-              reqired
+              required
             />
             <TextField
               loading={isPendingSubmit || isLoadingForm}
@@ -67,7 +67,7 @@ export const FormUserDetails = ({
               name='name'
               label='Name'
               placeholder='Enter Name'
-              reqired
+              required
             />
             <TextField
               loading={isPendingSubmit || isLoadingForm}
@@ -83,7 +83,7 @@ export const FormUserDetails = ({
               name='email'
               label='Email'
               placeholder='Enter Email'
-              reqired
+              required
             />
             <TextField
               loading={isPendingSubmit || isLoadingForm}
@@ -91,7 +91,7 @@ export const FormUserDetails = ({
               name='operatorId'
               label='Operator ID'
               placeholder='Enter Operator ID'
-              reqired
+              required
             />
             {/* </> */}
             {/* )} */}
@@ -104,7 +104,7 @@ export const FormUserDetails = ({
               placeholder='Enter Role'
               valueName='id'
               labelName='name'
-              reqired
+              required
             />
             <SelectField
               loading={isPendingSubmit || isLoadingForm}
@@ -115,7 +115,7 @@ export const FormUserDetails = ({
               placeholder='Enter Section'
               valueName='id'
               labelName='name'
-              reqired
+              required
             />
             <SelectField
               loading={isPendingSubmit || isLoadingForm}
@@ -125,7 +125,7 @@ export const FormUserDetails = ({
               label='Department'
               placeholder='Enter Department'
               valueName='id'
-              reqired
+              required
               labelName='name'
             />
             <SelectField
@@ -137,7 +137,7 @@ export const FormUserDetails = ({
               placeholder='Enter Center'
               valueName='id'
               labelName='name'
-              reqired
+              required
             />
             <div />
             {/* <div className={cn(mode === 'create' ? '' : 'order-first')}> */}
@@ -153,7 +153,7 @@ export const FormUserDetails = ({
                   className='flex'
                   valueName='id'
                   labelName='name'
-                  reqired
+                  required
                 />
               </>
             }

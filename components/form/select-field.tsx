@@ -26,7 +26,7 @@ interface SelectFieldProps {
   label: string
   placeholder?: string
   onChange?: (value: any) => void // Optional onChange handler
-  reqired?: boolean // Optional prop to indicate if the field is required
+  required?: boolean // Optional prop to indicate if the field is required
 }
 const selectFieldVariants = cva('w-full', {
   variants: {
@@ -48,7 +48,7 @@ const SelectField = ({
   name,
   label,
   placeholder,
-  reqired = false
+  required = false
 }: SelectFieldProps) => {
   return (
     <InputFieldWarper
@@ -56,7 +56,7 @@ const SelectField = ({
       form={form}
       name={name}
       label={label}
-      reqired={reqired}
+      required={required}
     >
       <SelectFieldInput
         placeholder={placeholder}

@@ -21,7 +21,7 @@ interface RadioFieldProps {
     label: string;
     className?: string; // Optional className for additional styling
     disableList?: any[]
-    reqired?: boolean // Optional prop to indicate if the field is required
+    required?: boolean // Optional prop to indicate if the field is required
 }
 // 
 // 
@@ -50,7 +50,7 @@ const RadioField = (
         label,
         className = "",
         disableList,
-        reqired = false
+        required = false
     }: RadioFieldProps) => {
     const valueMap = new Map(
         items.map((item: any) => [String(item[valueName]), item[valueName]])

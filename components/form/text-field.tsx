@@ -20,7 +20,7 @@ interface TextFieldProps {
   readonly?: boolean // Optional prop to make the input read-only
   prependInnerIcon?: React.ReactNode // Optional prop for an icon
   appendInnerIcon?: React.ReactNode // Optional prop for an icon
-  reqired?: boolean // Optional prop to indicate if the field is required
+  required?: boolean // Optional prop to indicate if the field is required
 }
 const textFieldVariants = cva('', {
   variants: {
@@ -40,7 +40,7 @@ export const TextField = ({
   placeholder,
   prependInnerIcon,
   appendInnerIcon,
-  reqired = false
+  required = false
 }: TextFieldProps) => {
   return (
     <InputFieldWarper
@@ -48,7 +48,7 @@ export const TextField = ({
       form={form}
       name={name}
       label={label}
-      reqired={reqired}
+      required={required}
     >
       <TextFieldInput
         prependInnerIcon={prependInnerIcon}

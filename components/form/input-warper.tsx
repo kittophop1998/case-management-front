@@ -7,7 +7,7 @@ interface InputFieldWarperProps {
     form: any
     name: string
     label: string
-    reqired?: boolean
+    required?: boolean
 }
 export const InputFieldWarper = ({
     children,
@@ -15,7 +15,7 @@ export const InputFieldWarper = ({
     form,
     name,
     label,
-    reqired = false
+    required = false
 }: InputFieldWarperProps) => {
     return (
         <FormField
@@ -25,7 +25,8 @@ export const InputFieldWarper = ({
             render={({ field }) => (
                 <FormItem>
                     <FormLabel>
-                        {label}{reqired && (<span className='text-red-500'>*</span>)}</FormLabel>
+                        {label}{required && (<span className='text-red-500'>*</span>)}
+                    </FormLabel>
                     {cloneElement(children, { field })}
                     <FormMessage />
                 </FormItem>
