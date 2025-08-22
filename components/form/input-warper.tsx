@@ -9,6 +9,24 @@ interface InputFieldWarperProps {
     label: string
     required?: boolean
 }
+export interface InputFieldWarperChildProps {
+    field?: any
+}
+export interface InputSelectProps {
+    items?: any[]
+    valueName?: string
+    labelName?: string
+}
+export interface InputDefaultProps {
+    placeholder?: string
+    onChange?: (value: any) => void,
+    className?: string
+    readonly?: boolean
+}
+export interface InputFormDefaultProps {
+    form: any
+    name: string
+}
 export const InputFieldWarper = ({
     children,
     loading,
