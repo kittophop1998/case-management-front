@@ -47,16 +47,17 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                     await createCase({ body: data }).unwrap();
                     dialogAlert(true)
                     onClose()
-                } catch (error) {
-                    dialogAlert(false, {
-                        title: 'Error',
-                        message: error.message || getErrorText(error),
-                        confirmText: 'Try again',
-                        cancelText: 'Close',
-                        onConfirm: () => { },
-                        onCancel: () => { }
-                    })
-
+                } catch (error: unknown) {
+                    if (error instanceof Error) {
+                        dialogAlert(false, {
+                            title: 'Error',
+                            message: error.message || getErrorText(error),
+                            confirmText: 'Try again',
+                            cancelText: 'Close',
+                            onConfirm: () => { },
+                            onCancel: () => { }
+                        })
+                    }
                 }
             };
             const onClose = (): void => {
@@ -85,7 +86,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
             const inquirys = useMemo(() => inquirysApi?.data || [], [inquirysApi])
             const { fields, append, remove } = useFieldArray({
                 control,
-                name: "caseNote", // ต้องตรงกับ schema
+                name: "caseNote",
             });
             const {
                 data: { childValue2text },

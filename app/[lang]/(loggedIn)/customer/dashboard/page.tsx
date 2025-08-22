@@ -338,7 +338,7 @@ const CustomerDashboard = () => {
                 setStatus={setStatusNote}
             >
                 <FormCreateNote
-                    customerId={customerId}
+                    customerId={customerId || ''}
                 />
             </FloatingWidget>
 

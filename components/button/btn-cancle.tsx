@@ -4,14 +4,17 @@ import { Button } from '../common/Button'
 export const ButtonCancel = (
   {
     className,
+    onClick = () => { },
+    disabled = false,
     ...props
   }: {
     className?: string
-    props: React.ButtonHTMLAttributes<HTMLButtonElement>
+    onClick?: () => void
+    disabled?: boolean
   }
 ) => {
   return (
-    <Button variant='outline-primary' type='button' {...props} className={cn('', className)}>
+    <Button onClick={onClick} disabled={disabled} variant='outline-primary' type='button' {...props} className={cn('', className)}>
       Cancel
     </Button>
   )

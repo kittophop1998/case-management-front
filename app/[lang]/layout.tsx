@@ -48,7 +48,7 @@ export default async function RootLayout({
         )}
       >
         <StoreProvider>
-          <InitializersData user={user} accessToken={accessToken} refreshToken={refreshToken} />
+          <InitializersData accessToken={accessToken} refreshToken={refreshToken} />
           <Suspense fallback={<></>}>
             {children}
           </Suspense>

@@ -10,7 +10,12 @@ import { Typography } from "../common/typography";
 import useCaseType from "@/hooks/use-case-type";
 import { Badge } from "../ui/badge";
 
-const Item = ({ handleSelect, id, name }) => {
+interface ItemProps {
+    id: string;
+    name: string;
+    handleSelect: (id: string) => void;
+}
+const Item = ({ handleSelect, id, name }: ItemProps) => {
     return (
         <div
             className="flex items-center justify-between p-2 hover:bg-gray-100 cursor-pointer px-6"
@@ -22,7 +27,7 @@ const Item = ({ handleSelect, id, name }) => {
     );
 };
 
-const GroupName = ({ name }) => {
+const GroupName = ({ name }: { name: string }) => {
     return (
         <div className="flex items-center justify-between p-2 px-6">
             <Typography variant="caption" className="text-[1rem]">
@@ -38,7 +43,7 @@ const Group = ({
     name,
 }: {
     items: any[];
-    handleSelect: () => void;
+    handleSelect: (value: string) => void;
     name: string;
 }) => {
     return (
@@ -83,7 +88,7 @@ export const DialogSelectCaseType = ({
         >
             <div className="bg-white">
                 <div className="flex gap-3 px-6">
-                    <StatusComplaintLv lv={1} />
+                    <StatusComplaintLv lv={'1'} />
                     <StatusCustomerFeeling status="Sweetheart" />
                 </div>
                 <div className="py-3 ">
@@ -93,7 +98,7 @@ export const DialogSelectCaseType = ({
                             placeholder="Search New Case"
                             field={{
                                 value: searchText,
-                                onChange: (e) => setSearchText(e.target.value),
+                                onChange: (e: React.ChangeEvent<HTMLInputElement>) => setSearchText(e.target.value),
                             }}
                             clearABle
                             className="border-0! ring-0! rounded-none outline-none"

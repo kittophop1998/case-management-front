@@ -77,6 +77,9 @@ export const DialogDetails = forwardRef
         try {
           switch (mode) {
             case 'edit':
+              if (!userData?.id) {
+                throw new Error('Invalid data userData?.id is null')
+              }
               const password = await checkPassword()
               if (!password) return // กดยกเลิก หรือกรอกผิด
               await editUser({ id: userData.id, data: userData }).unwrap()
@@ -98,7 +101,6 @@ export const DialogDetails = forwardRef
 
       useImperativeHandle(ref, () => ({
         setDefaultUser: async user => {
-          console.log('setDefaultUser called with user:', user)
           if (user) {
             setMode('edit')
             form.reset(emptyUser)

@@ -60,11 +60,11 @@ export default function useCaseType() {
   const [countFiltered, setCountFiltered] = useState<number>(0);
   const [group, setGroup] = useState<string[]>([]);
   const [childByGroup, setChildByGroup] = useState<
-    Record<string, DataCaseChild>
+    Record<string, DataCaseChild[]>
   >({});
   const [groupFiltered, setGroupFiltered] = useState<string[]>([]);
   const [childByGroupFiltered, setChildByGroupFiltered] = useState<
-    Record<string, DataCaseChild>
+    Record<string, DataCaseChild[]>
   >({});
   //
   const [searchText, setSearchText] = useState<string>("");

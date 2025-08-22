@@ -25,8 +25,8 @@ export const SearchSection = ({
                 id: search
             }).unwrap()
             console.log('data:', data)
-        } catch (error) {
-            console.log('asdasdas', error.message)
+        } catch (error: unknown) {
+            console.log('asdasdas', (error as any).message)
         }
         setIsSearhted(true)
     }
@@ -53,8 +53,6 @@ export const SearchSection = ({
                     <div className="w-[100%] md:w-[60%]">
                         <SearchFieldInput
                             loading={isFetching}
-                            autocomplete="on"
-                            id='customerId'
                             placeholder="Search Customer ID/AEON ID"
                             field={{
                                 value: search,

@@ -17,8 +17,7 @@ import * as React from 'react'
 // }
 
 
-export const InitializersData = ({ user, refreshToken, accessToken }: {
-    user: ApiResponse<UserProfileType> | null,
+export const InitializersData = ({ refreshToken, accessToken }: {
     refreshToken: string | null,
     accessToken: string | null
 }) => {
@@ -27,6 +26,5 @@ export const InitializersData = ({ user, refreshToken, accessToken }: {
         setRefreshToken(refreshToken);
     }, [refreshToken, accessToken])
     const { data: ddData, isLoading: isDDLoading } = useGetDropdownQuery();
-
     return null;
 }

@@ -157,11 +157,8 @@ export const FormUserDetails = ({
                 />
               </>
             }
-
-            {/* </div> */}
           </div>
-          {/* {JSON.stringify(form.error)} */}
-          {!!error && <FormError message={getErrorText(error)} />}
+          {!!error && <FormError message={error} />}
 
           <div className='flex justify-end gap-3'>
             <ButtonCancel onClick={onClose} className='w-[100px]' />

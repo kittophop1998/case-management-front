@@ -20,7 +20,7 @@ const statusCustomerFeelingVariants = cva(
     }
 )
 
-export const StatusCustomerFeeling = ({ status, loading = false }: { status: 'Sweetheart', loading?: boolean }) => {
+export const StatusCustomerFeeling = ({ status = '', loading = false }: { status: string | undefined, loading?: boolean }) => {
     if (loading) return <Skeleton className="w-[7rem] rounded-sm text-transparent"> {'-'}</Skeleton>
     return <Badge
         className={cn(statusCustomerFeelingVariants({
