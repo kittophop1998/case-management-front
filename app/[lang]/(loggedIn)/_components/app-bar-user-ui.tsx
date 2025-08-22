@@ -13,7 +13,7 @@ import Image from 'next/image'
 import usePermission from '@/hooks/use-permission'
 import { Skeleton } from '@/components/ui/skeleton'
 
-const PopupUserUI = ({ user, onClose }: { user: UserProfileType, onClose: () => void }) => {
+const PopupUserUI = ({ user, onClose }: { user: UserProfileType | null, onClose: () => void }) => {
   const dispatch = useDispatch()
   const [logoutMutation, { isLoading: isLoadingLogout, isError: isLogoutError, error: logoutError }] = useLogoutMutation();
   const router = useRouter()

@@ -24,8 +24,6 @@ export async function loginUser({
       body: JSON.stringify({ username, password }),
       headers: { "Content-Type": "application/json" },
     });
-    console.log("[action] res-api", res);
-
     if (!res) {
       throw new Error("invalid token");
     }
@@ -45,10 +43,10 @@ export async function loginUser({
     });
     return { accessToken, refreshToken };
   } catch (error: unknown) {
-    console.log("[action] loginUser error", JSON.stringify(error));
-    // if (error instanceof Error) {
-    return { error: error?.message || "An unexpected error occurred" };
-    // }
+    if (error instanceof Error) {
+      return { error: error?.message || "An unexpected error occurred" };
+    }
+    return { error: "An unexpected error occurred" };
   }
 }
 

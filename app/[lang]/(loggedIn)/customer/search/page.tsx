@@ -3,7 +3,7 @@ import { Typography } from "@/components/common/typography";
 import { SearchSection } from "./_components/search-section";
 
 type PageProps = {
-    params: { lang: 'en' | 'th' };
+    params: Promise<{ lang: 'en' | 'th' }>;
 };
 export default async function CustomerSearchPage({
     params

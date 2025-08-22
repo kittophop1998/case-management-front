@@ -5,6 +5,7 @@ import { GetDropdownResponse, useGetDropdownQuery } from "@/features/system/syst
 import { getErrorText } from "@/services/api";
 import { current } from "@reduxjs/toolkit";
 import { promises } from "dns";
+import { Dispatch, SetStateAction } from "react";
 
 interface SearchSectionProps {
     search: {
@@ -12,11 +13,16 @@ interface SearchSectionProps {
         section: string;
         text: string;
     };
-    setSearch: (value: {
-        department?: string;
-        section?: string;
-        text?: string;
-    }) => void;
+    // setSearch: (value: {
+    //     department?: string;
+    //     section?: string;
+    //     text?: string;
+    // }) => void;
+    setSearch: Dispatch<SetStateAction<{
+        department: string;
+        section: string;
+        text: string;
+    }>>
     confirmChangeGroup: () => Promise<Boolean>
     error: any,
     isError: boolean,

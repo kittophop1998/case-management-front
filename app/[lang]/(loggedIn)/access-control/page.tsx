@@ -31,7 +31,13 @@ export default function AccessControlPage({
   const [form, setForm] = useState<Record<AccessControlPermissionType, DataAccessControl>>({})
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [isFormDirty, setIsFormDirty] = useState<boolean>(false)
-  const [search, setSearch] = useState({
+  const [search, setSearch] = useState<
+    {
+      department: string;
+      section: string;
+      text: string;
+    }
+  >({
     department: '',
     section: '',
     text: ''

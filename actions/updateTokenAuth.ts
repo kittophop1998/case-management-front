@@ -5,7 +5,7 @@ import { UserProfileType } from "@/types/user.type";
 import { cookies } from "next/headers";
 
 export const updateTokenAuth = async () => {
-  let user: ApiResponse<UserProfileType> | null = null;
+  let user: UserProfileType | null = null;
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value || null;
   const refreshToken = cookieStore.get("refreshToken")?.value || null;
@@ -19,6 +19,7 @@ export const updateTokenAuth = async () => {
     setRefreshToken(refreshToken);
     try {
       user = await api<UserProfileType>(`/auth/profile`);
+      console.log("[action] user", user);
       // const permissionObj: Record<string, boolean> = {};
       // for (const { key } of user?.data?.permissions || []) {
       //   permissionObj[key] = true;
