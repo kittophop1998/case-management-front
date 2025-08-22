@@ -34,9 +34,6 @@ export default function UserManagementPage() {
     columnHelper.accessor('username', {
       header: ({ column }) => <Header label='Username' sortAble column={column} />,
       cell: info => <div>{info.getValue()}</div>,
-      meta: {
-        cellClass: ''
-      }
     }),
     columnHelper.accessor('name', {
       header: ({ column }) => <Header label='Name' sortAble column={column} />,
@@ -62,7 +59,7 @@ export default function UserManagementPage() {
       header: ({ column }) => <Header label='Status' sortAble column={column} />,
       cell: info => <ChipIsActive isActive={info.getValue()} />,
       meta: {
-        cellClass: 'w-[5rem]'
+        headerClass: 'w-[5rem]'
       }
     }),
 
@@ -81,7 +78,7 @@ export default function UserManagementPage() {
         )
       },
       meta: {
-        cellClass: 'w-[3rem]'
+        headerClass: 'w-[3rem]'
       }
 
     }),] : [])

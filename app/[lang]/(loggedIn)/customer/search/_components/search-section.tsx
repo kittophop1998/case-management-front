@@ -47,6 +47,8 @@ export const SearchSection = ({
                 >
                     <SearchFieldInput
                         loading={isFetching}
+                        autocomplete="on"
+                        id='customerId'
                         placeholder="Search Customer ID/AEON ID"
                         field={{
                             value: search,

@@ -112,7 +112,8 @@ export const TextFieldInput = ({
   field,
   clearABle = false,
   loading = false,
-  className = ''
+  className = '',
+  ...props
 }: TextFieldInputProps) => {
   return (
     <div className='relative'>
@@ -126,6 +127,7 @@ export const TextFieldInput = ({
         prependInnerIcon={!!prependInnerIcon}
         appendInnerIcon={!!appendInnerIcon}
         disabled={readonly || loading}
+        {...props}
       />
     </div>
   )

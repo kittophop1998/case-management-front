@@ -22,7 +22,8 @@ export const SearchFieldInput = ({
   readonly = false,
   field,
   loading = false,
-  className
+  className,
+  ...props
 }: SearchFieldInputProps) => {
   return (
     <TextFieldInput
@@ -33,6 +34,7 @@ export const SearchFieldInput = ({
       clearABle
       loading={loading}
       className={className}
+      {...props}
     />
   )
 }

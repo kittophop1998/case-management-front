@@ -23,15 +23,16 @@ export const DataWithCopy = ({ title, value, showCopy = false, loading = false, 
                     className={cn("text-gray-500 ")}
                 >{value}</Typography>
             }
-            {
-                showCopy && (
-                    loading ?
-                        <Skeleton className="h-[1.5rem] w-[1.5rem] rounded-sm" /> :
+            {/* { */}
+            {/* {/* // showCopy && ( */}
+            {showCopy && (
 
-                        <Button variant='ghost' size='sm' >
-                            <Files color='#5570F1' />
-                        </Button>)
-            }
+                <Button variant='ghost' size='sm' disabled={loading} >
+                    <Files color='#5570F1' />
+                </Button>
+            )}
+            {/* // ) */}
+            {/* } */}
         </div>
     );
 }

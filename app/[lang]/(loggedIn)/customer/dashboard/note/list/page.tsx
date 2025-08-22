@@ -34,7 +34,9 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
             id: 'noteType',
             header: ({ column }) => <Header column={column} label='Type' sortAble />,
             cell: info => info.getValue(),
-            meta: { cellClass: 'w-[12rem]' },
+            meta: { headerClass: 'w-[13rem]' },
+
+
         }),
         columnHelper.accessor('noteDetail', {
             id: 'noteDetail',
@@ -59,15 +61,14 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
             id: 'createdBy',
             header: ({ column }) => <Header column={column} label='Created by' sortAble />,
             cell: info => info.getValue(),
-            meta: { cellClass: 'w-[10rem]' },
+            meta: { headerClass: 'w-[12rem]' },
 
         }),
         columnHelper.accessor('createdDate', {
             id: 'createdDate',
             header: ({ column }) => <Header column={column} label='Created Date' sortAble />,
             cell: info => format(info.getValue(), "dd MMM yyyy HH:mm:ss"),
-            // cellClass: 'min-w-[200px] text-right',
-            meta: { cellClass: 'w-[13rem]' },
+            meta: { headerClass: 'w-[13rem]' },
 
         }),
         // columnHelper.accessor('action', {
