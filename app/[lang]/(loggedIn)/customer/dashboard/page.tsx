@@ -183,12 +183,12 @@ const CustomerDashboard = () => {
                         <DataWithCopy title='Customer ID/Passport' value={customer.info?.nationalId} loading={loading.info} showCopy />
                         <DataWithCopy title='Customer Since' value='2024-02-02' loading={loading.info} />
                         <div className="flex-1" />
-                        {/* {
+                        {
                             myPermission?.["add.case"] &&
                             <BtnNew
                                 onClick={handleOpenSelectCase}
                             />
-                        } */}
+                        }
                     </div>
                     <TabsContent value="account" className="max-w-none">
                         <div className="grid grid-cols-12 gap-4">
