@@ -1,5 +1,3 @@
-import { TableType } from "./table.type";
-
 export type UserRolesType =
   | "Admin"
   | "User"
@@ -28,7 +26,10 @@ export type UserType = {
   section: JsonJoinDetails;
   isActive: boolean;
   center: JsonJoinDetails;
-  role: JsonJoinDetails;
+  role: {
+    id: string;
+    name: UserRolesType;
+  };
 };
 
 export type UserProfileType = {

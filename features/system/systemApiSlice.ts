@@ -1,6 +1,11 @@
 import { description } from "./../../components/chart/mockup";
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { JsonJoinDetails, UserProfileType, UserType } from "@/types/user.type";
+import {
+  JsonJoinDetails,
+  UserProfileType,
+  UserRolesType,
+  UserType,
+} from "@/types/user.type";
 import { baseQuery } from "@/services/api";
 import { ApiResponse } from "@/types/api.type";
 import { Note } from "@/types/note.type";
@@ -8,7 +13,10 @@ import { Note } from "@/types/note.type";
 export type DropdownSystemType = {
   centers: JsonJoinDetails[];
   permissions: JsonJoinDetails[];
-  roles: JsonJoinDetails[];
+  roles: {
+    id: string;
+    name: UserRolesType;
+  }[];
   sections: JsonJoinDetails[];
   departments: JsonJoinDetails[];
   caseTypes: {

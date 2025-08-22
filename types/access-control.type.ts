@@ -1,17 +1,10 @@
 import { TableType } from "./table.type";
+import { UserRolesType } from "./user.type";
 
-export type RolesType =
-  | "Supervisor"
-  | "Manager"
-  | "Admin"
-  | "Agent"
-  | "Staff"
-  | "Support"
-  | "Staff";
 export type AccessControlPermissionType = string;
 export type AccessControlType = {
   permission: string;
   label: string;
-  roles: RolesType[];
+  roles: UserRolesType[];
 };
 export type AccessControlTableType = TableType<AccessControlType>;

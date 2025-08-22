@@ -12,17 +12,18 @@ import { CheckIsActive } from "@/components/common/check-is-active";
 import { SearchSection } from "./_components/search-section";
 import { Button } from "@/components/common/Button";
 import { Search, Undo2 } from "lucide-react";
-import { AccessControlPermissionType, RolesType } from "@/types/access-control.type";
+import { AccessControlPermissionType } from "@/types/access-control.type";
 import { FormError } from "@/components/form/form-error";
 import { getErrorText } from "@/services/api";
 import { checkPassword } from "@/components/common/dialog-check-password";
 import { dialogAlert } from "@/components/common/dialog-alert";
 import getTextByValueDropdown from "@/lib/utils/get-text-by-value-dropdown";
 import usePermission from "@/hooks/use-permission";
+import { UserRolesType } from "@/types/user.type";
 // AccessControlPage.whyDidYouRender = true
 export type DataAccessControl = {
   permission: AccessControlPermissionType;
-  roles: RolesType[];
+  roles: UserRolesType[];
 }
 export default function AccessControlPage({
 }: Readonly<{
@@ -44,7 +45,7 @@ export default function AccessControlPage({
   });
   const { data: ddData } = useGetDropdownQuery();
   const columnHelper = createColumnHelper<any>()
-  const roles = ddData?.data?.roles || [];
+  const roles = (ddData?.data?.roles || []);
   const columns = useMemo<ColumnDef<any, any>[]>(() => {
     return [
       columnHelper.accessor('name', {
@@ -57,7 +58,7 @@ export default function AccessControlPage({
           cell: info => {
             const isActive = (info?.row?.original?.roles || []).includes(role.name)
             const formEditPermission = form[`${info.row.original.name}`]
-            const isFormEditActive = (formEditPermission?.roles || []).includes(role.name)
+            const isFormEditActive = (formEditPermission?.roles || []).includes(role.name as UserRolesType)
             const realActive = formEditPermission === undefined ? isActive : isFormEditActive
             return (
               <div onClick={() => isEdit && handleClickChange(
@@ -89,8 +90,8 @@ export default function AccessControlPage({
   })
   useEffect(() => {
     setDisplaySearch({
-      department: getTextByValueDropdown(search.department, ddData?.data?.departments),
-      section: getTextByValueDropdown(search.section, ddData?.data?.sections),
+      department: getTextByValueDropdown(search.department, ddData?.data?.departments || []),
+      section: getTextByValueDropdown(search.section, ddData?.data?.sections || []),
     })
   }, [search.department, search.section])
 
@@ -109,11 +110,18 @@ export default function AccessControlPage({
     }
   }, [form])
 
-  const handleClickChange = async ({
-    original,
-    role,
-  },
-    newValue
+  const handleClickChange = async (
+    {
+      original,
+      role,
+    }: {
+      role: UserRolesType
+      original: {
+        name: string
+        roles: UserRolesType[]
+      }
+    },
+    newValue: boolean
   ) => {
     const currentForm = JSON.parse(JSON.stringify(form?.[`${original.name}`] ? form[`${original.name}`] : original))
     if (newValue) {
@@ -180,17 +188,20 @@ export default function AccessControlPage({
       setForm({})
       dialogAlert(true)
 
-    } catch (error) {
-      await dialogAlert(false,
-        {
-          title: '',
-          message: error.message,
-          confirmText: 'Try again',
-          cancelText: 'Try again',
-          onConfirm: () => { },
-          onCancel: () => { }
-        }
-      )
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        await dialogAlert(false,
+          {
+            title: '',
+            message: error.message,
+            confirmText: 'Try again',
+            cancelText: 'Try again',
+            onConfirm: () => { },
+            onCancel: () => { }
+          }
+        )
+      }
+
     }
   }
   console.count(`rerender`)
