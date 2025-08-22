@@ -1,4 +1,4 @@
-export default async function DashboardPage ({
+export default async function DashboardPage({
   params
 }: Readonly<{
   params: Promise<{ lang: 'en' | 'th' }>
@@ -7,7 +7,6 @@ export default async function DashboardPage ({
 
   return (
     <div className='text-white'>
-      <h1>Dashboard - Language: {lang}</h1>
     </div>
   )
 }
