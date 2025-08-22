@@ -38,6 +38,8 @@ type SuggestionCardProps = {
     suggestPromotions?: Promotion[]
 }
 
+
+
 const SuggestionCard = ({ loading, suggestPromotions = [] }: SuggestionCardProps) => {
     const [page, setPage] = useState<number>(1)
     const promotion = useMemo(() => suggestPromotions[page - 1] || {
@@ -224,8 +226,9 @@ const CustomerDashboard = () => {
                                                             myPermission?.["view.custnote"] &&
                                                             <NoteButtonNoti
                                                                 onClick={() => router.push(`/customer/dashboard/note/list?customerId=${customerId}`)}
-                                                                count={0}
+                                                                // count={0}
                                                                 size='sm'
+                                                                customerId={customerId}
                                                             />}
                                                         {
                                                             myPermission?.["add.custnote"] &&
