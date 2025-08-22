@@ -178,7 +178,7 @@ const CustomerDashboard = () => {
                         setOpen={setOpenSelectCase}
                         onSelect={onSelectCase}
                     />
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 h-[2rem]">
                         <DataWithCopy title='Aeon ID' value='#47378877' showCopy loading={loading.info} />
                         <DataWithCopy title='Customer ID/Passport' value={customer.info?.nationalId} loading={loading.info} showCopy />
                         <DataWithCopy title='Customer Since' value='2024-02-02' loading={loading.info} />
