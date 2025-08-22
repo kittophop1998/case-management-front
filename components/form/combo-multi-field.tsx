@@ -19,6 +19,7 @@ import {
 import { memo, useState } from "react"
 import { Checkbox } from "../ui/checkbox"
 import { InputDefaultProps, InputFieldWarper, InputFieldWarperChildProps, InputFormDefaultProps, InputSelectProps } from "./input-warper"
+import { Typography } from "../common/typography"
 
 
 interface ComboField extends
@@ -138,6 +139,7 @@ export const SelectItems = ({
   onChange,
   value,
   searchABle = false,
+  searchPlaceholder = 'Search'
 }: InputSelectProps) => {
   const toggleValue = (val: any) => {
     const exists = value.includes(val)
@@ -166,7 +168,9 @@ export const SelectItems = ({
             <Checkbox
               checked={value.includes(item[valueName] || value === item[valueName])}
             />
-            {item[labelName]}
+            <Typography variant="body2">
+              {item[labelName]}
+            </Typography>
           </CommandItem>
         ))
       }
@@ -174,8 +178,8 @@ export const SelectItems = ({
   }, [items, labelName, valueName, value])
   return (
     <>
-      <Command>
-        {searchABle && <CommandInput placeholder="Search" className="h-9" />}
+      <Command className="bg-transparent">
+        {searchABle && <CommandInput placeholder={searchPlaceholder} />}
         <CommandList>
           <CommandEmpty>No item found.</CommandEmpty>
           <CommandGroup>
