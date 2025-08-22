@@ -17,10 +17,10 @@ const PopupUserUI = ({ user, onClose }: { user: UserProfileType, onClose: () => 
   const dispatch = useDispatch()
   const [logoutMutation, { isLoading: isLoadingLogout, isError: isLogoutError, error: logoutError }] = useLogoutMutation();
   const router = useRouter()
-  const name = user.name ?? 'Unknown User'
-  const userEmail = user.email ?? 'Unknown Email'
-  const userRole = user.role?.name ?? 'Unknown Role'
-  const userCenter = user.center?.name ?? 'Unknown Center'
+  const name = user?.name ?? 'Unknown User'
+  const userEmail = user?.email ?? 'Unknown Email'
+  const userRole = user?.role?.name ?? 'Unknown Role'
+  const userCenter = user?.center?.name ?? 'Unknown Center'
 
   const handleLogout = async () => {
     try {
