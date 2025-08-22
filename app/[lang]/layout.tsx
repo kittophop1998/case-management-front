@@ -7,6 +7,7 @@ import { updateTokenAuth } from '@/actions/updateTokenAuth'
 import { handleError401 } from '@/lib/utils/handleError'
 import { headers } from "next/headers";
 import { FormTest } from '@/components/case/input-disposition'
+import { Suspense } from 'react'
 
 const kanit = Kanit({
   weight: '400',
@@ -48,9 +49,10 @@ export default async function RootLayout({
       >
         <StoreProvider>
           <InitializersData user={user} accessToken={accessToken} refreshToken={refreshToken} />
-          {children}
+          <Suspense fallback={<></>}>
+            {children}
+          </Suspense>
         </StoreProvider>
-        {/* <FormTest /> */}
       </body>
     </html>
   )
