@@ -1,3 +1,4 @@
+"use client"
 import {
   FormControl,
   FormField,
@@ -13,8 +14,27 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { cva } from 'class-variance-authority'
-import { InputFieldWarper } from './input-warper'
 
+import { ChevronsUpDown } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { memo, useState } from "react"
+import { Checkbox } from "../ui/checkbox"
+import { InputDefaultProps, InputFieldWarper, InputFieldWarperChildProps, InputFormDefaultProps, InputSelectProps } from "./input-warper"
+import { Typography } from "../common/typography"
 interface SelectFieldProps {
   loading?: boolean
   readonly?: boolean
@@ -37,7 +57,7 @@ const selectFieldVariants = cva('w-full', {
   }
 })
 
-const SelectField = ({
+export const SelectField = ({
   onChange,
   loading = false,
   readonly = false,
@@ -108,17 +128,14 @@ export const SelectFieldInput = ({
         if (actualValue !== undefined) {
           console.log('SelectFieldInput onValueChange', actualValue)
           field?.onChange && field?.onChange(actualValue)
-          // onChange && onChange?.(actualValue)
         } else {
           field?.onChange & field?.onChange(val)
         }
       }}
     >
-      {/* <FormControl> */}
       <SelectTrigger className='w-full overflow-hidden shadow-none base-input-casemm'>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      {/* </FormControl> */}
       <SelectContent>
         {items.map((item: any) => (
           <SelectItem
@@ -132,4 +149,63 @@ export const SelectFieldInput = ({
     </Select>
   )
 }
-export { SelectField }
+
+export const SelectItems = ({
+  items = [],
+  valueName = 'id',
+  labelName = 'name',
+  onChange,
+  value,
+  searchABle = false,
+  searchPlaceholder = 'Search'
+}: InputSelectProps) => {
+  const toggleValue = (val: any) => {
+    const exists = value.includes(val)
+    let newValue
+    if (Array.isArray(value)) {
+      newValue = exists
+        ? value.filter((v) => v !== val)
+        : [...value, val]
+    } else {
+      newValue = val
+    }
+    onChange(newValue)
+  }
+
+  const Items = memo(() => {
+    return <>
+      {
+        items.map((item) => (
+          <CommandItem
+            key={item[valueName]}
+            value={String(item[labelName])}
+            onSelect={() => {
+              toggleValue(item[valueName])
+            }}
+          >
+            <Checkbox
+              checked={value.includes(item[valueName] || value === item[valueName])}
+            />
+            <Typography variant="body2">
+              {item[labelName]}
+            </Typography>
+          </CommandItem>
+        ))
+      }
+    </>
+  }, [items, labelName, valueName, value])
+  return (
+    <>
+      <Command className="bg-transparent">
+        {searchABle && <CommandInput placeholder={searchPlaceholder} />}
+        <CommandList>
+          <CommandEmpty>No item found.</CommandEmpty>
+          <CommandGroup>
+            <Items />
+          </CommandGroup>
+        </CommandList>
+      </Command >
+    </>
+
+  )
+}

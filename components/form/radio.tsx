@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import { InputDefaultProps, InputFieldWarper, InputFieldWarperChildProps, InputFormDefaultProps, InputSelectProps } from "./input-warper";
-import { SelectItems } from "./combo-multi-field";
+import { SelectItems } from "./select-field";
 
 interface RadioFieldProps extends
     InputFieldWarperChildProps,

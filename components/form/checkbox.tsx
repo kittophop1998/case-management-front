@@ -43,7 +43,6 @@ export const CheckboxField = ({ isPending, readonly = false, form, items, name, 
                                             checked={field.value?.includes(item[valueName])}
 
                                             defaultValue={field.value}
-                                            // value={field.value}
                                             onCheckedChange={(checked) => {
                                                 return checked
                                                     ? field.onChange([...field.value, item[valueName]])
@@ -58,12 +57,6 @@ export const CheckboxField = ({ isPending, readonly = false, form, items, name, 
                                     </FormControl>
                                     <FormLabel className="text-sm font-normal">
                                         {item[labelName] || item[valueName]}
-                                        {/* <div>
-                                            item[valueName]:{item[valueName]}
-                                        </div>
-                                        <div>
-                                            field.value:{JSON.stringify(field.value)}
-                                        </div> */}
                                     </FormLabel>
                                 </FormItem>
                             )
