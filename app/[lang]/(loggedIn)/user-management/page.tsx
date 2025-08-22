@@ -112,16 +112,18 @@ export default function UserManagementPage() {
   // 
   // 
   return (
-    <div>
-      <Container>
-        {myPermission?.["add.user"] && <div className='flex justify-end mb-3 mt-3'>
-          <BtnAddUser
-            onOpenDialogCreateUser={() => openDialogCreateUser()}
-            onOpenDialogImportUser={() => setModalImportUser(true)}
-          />
-        </div>}
-      </Container>
-      <CardPageWrapper className=''>
+    <div >
+      {myPermission?.["add.user"] &&
+        <Container className='mb-0 pb-0'>
+          <div className='flex justify-end mt-4'>
+            <BtnAddUser
+              onOpenDialogCreateUser={() => openDialogCreateUser()}
+              onOpenDialogImportUser={() => setModalImportUser(true)}
+            />
+          </div>
+        </Container>
+      }
+      <CardPageWrapper className='mt-6'>
         <div className='flex items-center gap-3 mb-4'>
           <Typography >
             User Lists

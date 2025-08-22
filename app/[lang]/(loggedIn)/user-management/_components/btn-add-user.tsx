@@ -20,7 +20,7 @@ export const BtnAddUser = ({
 
     };
     return (
-        <div className="flex justify-end mb-3 mt-3">
+        <div className="flex justify-end">
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <Button variant='black' className="rounded-xl">
