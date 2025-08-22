@@ -30,7 +30,22 @@ export const InputInquirySelectMain = ({
     //     id: value,
     //     name: value,
     // }))
+    const [draftChild, setDraftChild] = useState([])
+    const coseWindownChild = () => {
 
+    }
+    const confirmDraftChild = () => {
+        form.setValue(nameChild, draftChild)
+        coseWindownChild()
+    }
+    const clearDraftChild = () => {
+        setDraftChild([])
+        coseWindownChild()
+    }
+    const openDraftChild = () => {
+        setDraftChild(itemsChild)
+        coseWindownChild()
+    }
     return (
         <>
             <ComboboxMultiField
