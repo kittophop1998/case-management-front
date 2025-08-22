@@ -100,15 +100,6 @@ export function AppSidebarMenuList({ }) {
                   tooltip={item.title}
                   onClick={() => router.push(item.url)}
                 >
-                  {/* <item.icon
-                    className={cn(
-                      'w-20 h-20',
-                      sidebarMenuIconVariants({
-                        // active: pathname.includes(item.url)
-                        active: title === item.title
-                      })
-                    )}
-                  /> */}
                   {(() => {
                     const Icon = title2icon[item.title]
                     return (
