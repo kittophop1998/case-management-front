@@ -42,23 +42,32 @@ export const SearchSection = ({
         <div className="mx-auto max-w-3xl space-y-6">
 
             <form className="block space-y-3 md:space-y-0 md:flex md:gap-6 md:items-center justify-center">
-                <div
+                {/* <div
                     className="md:flex-1"
                 >
-                    <SearchFieldInput
-                        loading={isFetching}
-                        autocomplete="on"
-                        id='customerId'
-                        placeholder="Search Customer ID/AEON ID"
-                        field={{
-                            value: search,
-                            onChange: (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)
-                        }}
-                    />
+                
                 </div>
-                <Button className="min-w-full md:min-w-[10rem]" loading={isFetching} onClick={handleSearch}>
-                    Search
-                </Button>
+              */}
+                <div className="w-full flex flex-col gap-3 md:flex-row">
+                    <div className='flex-1'></div>
+                    <div className="w-[100%] md:w-[60%]">
+                        <SearchFieldInput
+                            loading={isFetching}
+                            autocomplete="on"
+                            id='customerId'
+                            placeholder="Search Customer ID/AEON ID"
+                            field={{
+                                value: search,
+                                onChange: (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)
+                            }}
+                        />
+                    </div>
+                    <div className='flex-1'>
+                        <Button className="min-w-full md:min-w-[10rem]" loading={isFetching} onClick={handleSearch}>
+                            Search
+                        </Button>
+                    </div>
+                </div>
             </form>
             <div className="mx-auto max-w-md space-y-3 w-full min-w-full">
                 {/* <FormError message={isError ? getErrorText(error) : undefined}></FormError> */}
