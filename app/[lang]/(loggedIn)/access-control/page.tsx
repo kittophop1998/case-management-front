@@ -54,7 +54,7 @@ export default function AccessControlPage({
       }),
       ...(roles.filter(role => (role.name !== 'CMS Admin' && role.name !== 'System')).map(role =>
         columnHelper.accessor(`roles.${role.name}`, {
-          header: ({ column }) => <Header column={column} label={role.name} sortAble />,
+          header: ({ column }) => <Header column={column} label={role.name} />,
           cell: info => {
             const isActive = (info?.row?.original?.roles || []).includes(role.name)
             const formEditPermission = form[`${info.row.original.name}`]
