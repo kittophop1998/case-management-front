@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation'
 import { Collapsible } from '@/components/ui/collapsible'
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem
@@ -16,12 +15,12 @@ import { Typography } from '@/components/common/typography'
 import { navMain, path2sidebar } from '@/const/title-path'
 import { useGetMeQuery } from '@/features/auth/authApiSlice'
 import { useEffect, useMemo, useState } from 'react'
-import { GalleryVerticalEnd, Settings2 } from 'lucide-react'
 import CaseManagementIcon from '@/public/icons/Case Management.svg'
 import InquiryLogIcon from '@/public/icons/Inquiry Log.svg'
 import ReportIcon from '@/public/icons/Report.svg'
 import SettingIcon from '@/public/icons/Setting.svg'
 import CustomerDashboardIcon from '@/public/icons/Customer Dashboard.svg'
+import Link from 'next/link'
 
 const sidebarMenuButtonVariants = cva('', {
   variants: {
@@ -53,6 +52,12 @@ const title2icon: Record<string, React.ComponentType<any>> = {
   'User Management': SettingIcon,
   'Access Control': SettingIcon
 }
+
+function Items() {
+  return <></>
+}
+
+
 export function AppSidebarMenuList({ }) {
   const { data: meApi, isLoading: isLoadingGetMe } = useGetMeQuery()
   const me = useMemo(() => meApi?.data || null, [meApi]);
@@ -67,61 +72,65 @@ export function AppSidebarMenuList({ }) {
       setMyPermissions(myPermissions)
     }
   }, [me])
-  const router = useRouter()
   const pathname = usePathname()
   const pathNameArr = pathname.split('/')
   const title = mappingActive(pathNameArr)
+
   return (
     <SidebarGroup>
       <SidebarMenu>
-        {navMain.map(item => {
-          if (item?.permission?.length) {
-            const hasCommon = item.permission.some(item => myPermissions.includes(item));
-            if (!hasCommon) {
-              return null
-            }
-          }
-          return (
-            <Collapsible
-              key={item.title}
-              asChild
-              className='group/collapsible'
-            >
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  className={cn(
-                    'h-[3rem] gap-3',
-                    sidebarMenuButtonVariants({
-                      // active: pathname.includes(item.url)
-                      active: title === item.title
-
-                    })
-                  )}
-                  tooltip={item.title}
-                  onClick={() => router.push(item.url)}
+        <>
+          {
+            navMain.map(item => {
+              if (item?.permission?.length) {
+                const hasCommon = item.permission.some(item => myPermissions.includes(item));
+                if (!hasCommon) {
+                  return null
+                }
+              }
+              return (
+                <Collapsible
+                  key={item.title}
+                  asChild
+                  className='group/collapsible'
                 >
-                  {(() => {
-                    const Icon = title2icon[item.title]
-                    return (
-                      <Icon
-                        className={cn(
-                          'w-20 h-20',
-                          sidebarMenuIconVariants({ active: title === item.title })
-                        )}
-                      />
-                    )
-                  })()}
-                  <Typography>
-                    {item.title}
-                    {/* {JSON.stringify(myPermissions)} */}
-                    {/* {title === item.title ? 't':'f'} */}
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      asChild
+                      className={cn(
+                        'h-[3rem] gap-3',
+                        sidebarMenuButtonVariants({
+                          active: title === item.title
+                        })
+                      )}
+                      tooltip={item.title}
+                    >
+                      <Link href={'/th' + item.url} prefetch={true}
+                        onMouseEnter={() => console.log("Mouse over, prefetch triggered")}
 
-                  </Typography>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </Collapsible>
-          )
-        })}
+                      >
+                        {(() => {
+                          const Icon = title2icon[item.title]
+                          return (
+                            <Icon
+                              className={cn(
+                                'w-20 h-20',
+                                sidebarMenuIconVariants({ active: title === item.title })
+                              )}
+                            />
+                          )
+                        })()}
+                        <Typography>
+                          {item.title}
+                        </Typography>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </Collapsible>
+              )
+            })
+          }
+        </>
       </SidebarMenu>
     </SidebarGroup>
   )

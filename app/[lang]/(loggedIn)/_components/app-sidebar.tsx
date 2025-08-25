@@ -13,8 +13,6 @@ import { AppSidebarHeader } from './app-sidebar-header'
 
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-
-
   return (
     <>
 
