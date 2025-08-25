@@ -1,9 +1,9 @@
 export default async function DashboardPage({
-  params
+  // params
 }: Readonly<{
-  params: Promise<{ lang: 'en' | 'th' }>
+  // params: Promise<{ lang: 'en' | 'th' }>
 }>) {
-  const { lang } = await params
+  // const { lang } = await params
 
   return (
     <div className='text-white'>
