@@ -185,8 +185,10 @@ export const SelectItems = ({
               console.log('SelectItems onSelect', item[valueName])
               toggleValue(item[valueName])
             }}
+            className='bg-red-300'
           >
             <Checkbox
+              className='pointer-events-none'
               checked={((typeof value === 'string' || Array.isArray(value)) && value?.includes(item?.[valueName]) || value === item[valueName])}
             />
             <Typography variant="body2">
