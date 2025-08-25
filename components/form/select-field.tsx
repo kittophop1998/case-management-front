@@ -185,7 +185,7 @@ export const SelectItems = ({
               console.log('SelectItems onSelect', item[valueName])
               toggleValue(item[valueName])
             }}
-            className='bg-red-300'
+          // className='bg-red-300'
           >
             <Checkbox
               className='pointer-events-none'
