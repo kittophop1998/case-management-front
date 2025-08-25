@@ -1,3 +1,4 @@
+'use client'
 import { Typography } from '@/components/common/typography'
 import { Button } from '@/components/common/Button'
 import { Popover, PopoverContent } from '@/components/ui/popover'

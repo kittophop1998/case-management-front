@@ -1,3 +1,4 @@
+'use client'
 import { Typography } from "@/components/common/typography"
 import { path2name } from "@/const/title-path"
 import { usePathname } from "next/navigation"

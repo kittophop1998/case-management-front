@@ -1,4 +1,7 @@
-import { Kanit, Inter } from 'next/font/google'
+import {
+  // Kanit,
+  Inter
+} from 'next/font/google'
 
 import { cn } from '@/lib/utils'
 import { StoreProvider } from '@/store/provider'
@@ -9,10 +12,10 @@ import { headers } from "next/headers";
 import { FormTest } from '@/components/case/input-disposition'
 import { Suspense } from 'react'
 
-const kanit = Kanit({
-  weight: '400',
-  subsets: ['latin']
-})
+// const kanit = Kanit({
+//   weight: '400',
+//   subsets: ['latin']
+// })
 const inter = Inter({
   weight: '400',
   subsets: ['latin']
@@ -31,12 +34,10 @@ export default async function RootLayout({
 }>) {
   const { lang } = await params
   const { user, accessToken, refreshToken } = await updateTokenAuth();
-  const headerList = headers();
-  const pathname = (await headerList).get("x-current-path") as string;
   if (!user) {
+    const headerList = headers();
+    const pathname = (await headerList).get("x-current-path") as string;
     await handleError401({ pathname });
-  } else {
-    // 
   }
   return (
     <html lang={lang}>
@@ -49,9 +50,7 @@ export default async function RootLayout({
       >
         <StoreProvider>
           <InitializersData accessToken={accessToken} refreshToken={refreshToken} />
-          <Suspense fallback={<></>}>
-            {children}
-          </Suspense>
+          {children}
         </StoreProvider>
       </body>
     </html>

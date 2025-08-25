@@ -1,4 +1,3 @@
-'use client'
 import * as React from 'react'
 
 import { AppSidebarMenuList } from './app-sidebar-menu-list'
@@ -15,7 +14,6 @@ import { AppSidebarHeader } from './app-sidebar-header'
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <>
-
       <Sidebar collapsible='icon' {...props}>
         <SidebarHeader>
           <AppSidebarHeader />
