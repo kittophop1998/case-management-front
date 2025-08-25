@@ -49,12 +49,14 @@ const RadioField = (
             label={label}
             required={required}
         >
+
             <SelectItems
                 items={items}
                 valueName={valueName}
                 labelName={labelName}
                 onChange={onSelect}
                 value={value}
+                className={className}
             />
         </InputFieldWarper>
     )

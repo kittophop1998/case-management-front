@@ -157,8 +157,10 @@ export const SelectItems = ({
   onChange,
   value,
   searchABle = false,
-  searchPlaceholder = 'Search'
+  searchPlaceholder = 'Search',
+  className
 }: InputSelectProps) => {
+  // return <>{className}</>
   const toggleValue = (val: any) => {
     const exists = value.includes(val)
     let newValue
@@ -173,7 +175,7 @@ export const SelectItems = ({
   }
 
   const Items = memo(() => {
-    return <>
+    return <span className={cn("", className)}>
       {
         items.map((item) => (
           <CommandItem
@@ -192,10 +194,11 @@ export const SelectItems = ({
           </CommandItem>
         ))
       }
-    </>
-  }, [items, labelName, valueName, value])
+    </span>
+  }, [items, labelName, valueName, value, className])
   return (
     <>
+      {/* {className}asdas */}
       <Command className="bg-transparent">
         {searchABle && <CommandInput placeholder={searchPlaceholder} />}
         <CommandList>

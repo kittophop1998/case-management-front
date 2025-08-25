@@ -219,7 +219,7 @@ export default function AccessControlPage({
 
   return (
     <CardPageWrapper classNameCard="space-y-3 mt-6">
-      <Typography >
+      <Typography variant="h6" >
         Manage Access Control
       </Typography>
       <Typography variant="body2">

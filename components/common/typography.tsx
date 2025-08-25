@@ -15,7 +15,7 @@ type TypographyProps = {
   | "h3"      // ใช้บ่อย (หัวข้อย่อยในเนื้อหา) ~15%
   | "h4"      // ใช้ปานกลาง (หัวข้อเล็ก, card title) ~10% ******
   | "h5"      // ใช้น้อย (subtitle/หัวข้อย่อยมาก) ~5%
-  | "h6"      // ใช้น้อย (subtitle เล็กสุด) ~3%
+  | "h6"      // ใช้น้อย (subtitle เล็กสุด) ~3% //? Header Page
   | "body1"   // ใช้บ่อยที่สุด (เนื้อหาหลัก paragraph) ~30% *****
   | "body2"   // ใช้บ่อย (เนื้อหาขนาดเล็กกว่า, secondary text) ~15%
   | "caption" // ใช้บ่อยปานกลาง (hint/คำอธิบายใต้ input หรือภาพ) ~10% ***
@@ -24,6 +24,7 @@ type TypographyProps = {
   // * DELETE UNDER THIS
   | "subH3Medium" // ใช้บ่อย (subtitle ขนาดกลาง, ใช้ font Poppins) ~20%
   | 'body2grey'
+  | 'buttonSmall'
   children: ReactNode;
   className?: string;
   as?: keyof JSX.IntrinsicElements;
@@ -45,8 +46,11 @@ const typographyVariants = cva(
         caption: "text-xs text-muted-foreground",
         overline: "text-xs uppercase tracking-widest text-muted-foreground",
         button: "text-sm font-medium uppercase tracking-wide",
+        // Costom
+        buttonSmall: "text-xs",
         body2grey: "text-sm text-muted-foreground",
         subH3Medium: cn(poppins.className, "font-medium text-[1.25rem]"),//use font Poppins
+
       },
     },
   }

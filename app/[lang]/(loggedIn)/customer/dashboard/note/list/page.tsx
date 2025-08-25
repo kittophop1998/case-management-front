@@ -147,7 +147,7 @@ const NoteListPage = () => {
             </Container>
             <CardPageWrapper className="pb-3">
                 <div className="flex justify-between mb-3">
-                    <Typography variant="h4" className="mb-2">
+                    <Typography variant="h6" className="mb-2">
                         Note List
                     </Typography>
                     {/* <div className="flex items-center gap-2">

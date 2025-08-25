@@ -125,7 +125,7 @@ export default function UserManagementPage() {
       }
       <CardPageWrapper className='mt-6'>
         <div className='flex items-center gap-3 mb-4'>
-          <Typography >
+          <Typography variant='h6' >
             User Lists
           </Typography>
           <div className='flex-1' />

@@ -100,7 +100,7 @@ export function DataTable<T>({
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => (
                 <th key={header.id}
-                  className={cn('p-2 text-sm font-normal', header.column.columnDef?.meta?.headerClass || '')}
+                  className={cn('px-2 py-3 text-sm font-normal', header.column.columnDef?.meta?.headerClass || '')}
                 >
                   {header.isPlaceholder
                     ? null
