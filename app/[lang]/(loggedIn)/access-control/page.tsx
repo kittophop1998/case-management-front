@@ -20,6 +20,7 @@ import { dialogAlert } from "@/components/common/dialog-alert";
 import getTextByValueDropdown from "@/lib/utils/get-text-by-value-dropdown";
 import usePermission from "@/hooks/use-permission";
 import { UserRolesType } from "@/types/user.type";
+import BtnSave from "@/components/button/btn-save";
 // AccessControlPage.whyDidYouRender = true
 export type DataAccessControl = {
   permission: AccessControlPermissionType;
@@ -255,9 +256,9 @@ export default function AccessControlPage({
                       {
                         isEdit ?
                           <>
-                            {isFormDirty ? <Button loading={isLoadingEdit} variant='black' onClick={handleSave}>
-                              Save
-                            </Button> :
+                            {isFormDirty ?
+                              <BtnSave loading={isLoadingEdit} onClick={handleSave}>
+                              </BtnSave> :
                               <Button variant='black' onClick={() => { setIsEdit((current => !current)) }}>
                                 <Undo2 />
                                 Back
