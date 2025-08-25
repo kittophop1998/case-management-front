@@ -105,7 +105,8 @@ export function AppSidebarMenuList({ }) {
                       )}
                       tooltip={item.title}
                     >
-                      <Link href={'/th' + item.url} prefetch={true}
+                      <Link href={item.url}
+                        // prefetch={true}
                         onMouseEnter={() => console.log("Mouse over, prefetch triggered")}
 
                       >

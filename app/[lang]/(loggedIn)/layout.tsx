@@ -6,7 +6,8 @@ import {
 } from '@/components/ui/sidebar'
 import { AppSidebar } from './_components/app-sidebar'
 import { AppBar } from './_components/app-bar'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
+import LoadingPage from '@/components/loading-page'
 
 export default function UserLayout({
   children,
@@ -30,7 +31,9 @@ export default function UserLayout({
         <AppSidebar />
         <SidebarInset className='bg-[#f4f5fa]'>
           <AppBar />
-          {children}
+          <Suspense fallback={<LoadingPage />}>
+            {children}
+          </Suspense>
         </SidebarInset>
       </SidebarProvider>
     </div>
