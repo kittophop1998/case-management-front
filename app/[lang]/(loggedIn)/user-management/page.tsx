@@ -129,7 +129,7 @@ export default function UserManagementPage() {
             User Lists
           </Typography>
           <div className='flex-1' />
-          <InputFilter setValue={setSearchText} value={searchText} placeholder='Search by Username, Name' className='w-[243px]' />
+          <InputFilter setValue={setSearchText} value={searchText} placeholder='Search by Username, Name' className='w-[243px] h-[1.81rem] rounded-[4px]' />
           <BtnFilter onClick={() => setIsOpenFilter(true)} />
         </div>
         <DataTable
