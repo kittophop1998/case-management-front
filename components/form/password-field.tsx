@@ -47,7 +47,7 @@ const PasswordField = ({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel className='text-xs'>{label}</FormLabel>
           <FormControl>
             <div className='relative flex'>
               <div className='absolute flex items-center justify-center h-full w-[2rem] pointer-events-none'>

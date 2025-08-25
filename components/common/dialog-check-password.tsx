@@ -80,10 +80,16 @@ export function checkPassword(): Promise<string | null> {
             }
 
             return (
-                <div className="fixed inset-0 bg-[#A3A3A333]/20 backdrop-blur-xs flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-lg shadow w-80">
+                <div className="fixed inset-0 bg-[#A3A3A333]/20 backdrop-blur-xs flex items-center justify-center z-50"
+
+                    style={{
+                        boxShadow: `0px 4px 32px 0px #3D467014`
+
+                    }}
+                >
+                    <div className="bg-white p-6 rounded-lg shadow w-[clamp(26.063rem,100%,300px)]">
                         {/* <h2 className="font-bold text-lg mb-2">Confirm Password</h2> */}
-                        <Typography variant='h4'>Confirm Password</Typography>
+                        <Typography variant='h6'>Confirm Password</Typography>
                         <FormProvider {...form}>
                             <form onSubmit={form.handleSubmit(handleConfirm)} className='space-y-4 mt-4'>
                                 <PasswordField

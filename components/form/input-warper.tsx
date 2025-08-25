@@ -45,7 +45,7 @@ export const InputFieldWarper = ({
             name={name}
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel>
+                    <FormLabel className="text-xs">
                         {label}{required && (<span className='text-red-500'>*</span>)}
                     </FormLabel>
                     {cloneElement(children, { field })}
