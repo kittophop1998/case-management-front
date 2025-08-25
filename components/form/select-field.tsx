@@ -184,7 +184,7 @@ export const SelectItems = ({
             }}
           >
             <Checkbox
-              checked={value.includes(item[valueName] || value === item[valueName])}
+              checked={((typeof value === 'string' || Array.isArray(value)) && value?.includes(item?.[valueName]) || value === item[valueName])}
             />
             <Typography variant="body2">
               {item[labelName]}
