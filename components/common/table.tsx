@@ -26,6 +26,7 @@ import clsx from 'clsx'
 import { cn } from '@/lib/utils'
 import { Separator } from '../ui/separator'
 import { useEffect, useMemo } from 'react'
+import Sort from '@/public/icons/Sort.svg'
 
 export interface DataTableProps<T> {
   table: ReactTable<T>;
@@ -64,13 +65,12 @@ export const Header = ({
         {sortAble ? (
           <span onClick={() => column.toggleSorting(isSorted === 'asc')}>
             {isSorted === 'asc' ? (
-              <ArrowUpWideNarrow
-                // @ts-expect-error className is valid for lucide icon
-                className='ml-2 h-4 w-4 cursor-pointer' />
+              // <ArrowUpWideNarrow
+              //   // @ts-expect-error className is valid for lucide icon
+              //   className='ml-2 h-4 w-4 cursor-pointer' />
+              <Sort fill={'#00092e'} className='size-4 cursor-pointer -rotate-180' />
             ) : (
-              <ArrowDownWideNarrow
-                // @ts-expect-error className is valid for lucide icon
-                className='ml-2 h-4 w-4 cursor-pointer' />
+              <Sort fill={'#00092e'} className='size-4 cursor-pointer' />
             )}
           </span>
         ) : null}
