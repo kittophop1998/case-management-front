@@ -40,7 +40,6 @@ export const SearchSection = ({
 
     return <div className="space-y-6 mt-6">
         <div className="mx-auto max-w-3xl space-y-6">
-
             <form className="block space-y-3 md:space-y-0 md:flex md:gap-6 md:items-center justify-center">
                 {/* <div
                     className="md:flex-1"
@@ -48,9 +47,9 @@ export const SearchSection = ({
                 
                 </div>
               */}
-                <div className="w-full flex flex-col gap-3 md:flex-row">
+                <div className="w-full flex flex-col gap-3 md:flex-row ">
                     <div className='flex-1'></div>
-                    <div className="w-[100%] md:w-[60%]">
+                    <div className="w-[100%] md:w-[50%] ">
                         <SearchFieldInput
                             loading={isFetching}
                             placeholder="Search Customer ID/AEON ID"
@@ -60,32 +59,39 @@ export const SearchSection = ({
                             }}
                         />
                     </div>
-                    <div className='flex-1'>
-                        <Button className="min-w-full md:min-w-[10rem]" loading={isFetching} onClick={handleSearch}>
+                    <div className='flex-1 relative'>
+                        <Button className="min-w-full md:min-w-[10rem] absolute" loading={isFetching} onClick={handleSearch}>
                             Search
                         </Button>
                     </div>
                 </div>
             </form>
-            <div className="mx-auto max-w-md space-y-3 w-full min-w-full">
-                {/* <FormError message={isError ? getErrorText(error) : undefined}></FormError> */}
-                {costumer ?
-                    <CustomerCard
-                        {...costumer || {}}
-                    />
-                    :
-                    (isSearhted ?
-                        <div className="text-center space-y-6">
-                            <>{isError ?
-                                <div className="space-y-3">
-                                    <div>{getErrorText(error) || 'Not Fond'}</div>
-                                    <div><Button onClick={() => setStatus(true)}>Inquiry & Disposition</Button></div>
-                                </div>
-                                : undefined}
-                            </>
-                        </div> : null)
-                }
-            </div >
+            <div className="w-full flex flex-col gap-3 md:flex-row  ">
+                <div className='flex-1'></div>
+                <div className="w-[100%] md:w-[50%]  mt-6 md:mt-0">
+                    {costumer ?
+                        <CustomerCard
+                            {...costumer || {}}
+                        />
+                        :
+                        (isSearhted ?
+                            <div className="text-center space-y-6">
+                                <>{isError ?
+                                    <div className="space-y-3">
+                                        <div>{getErrorText(error) || 'Not Fond'}</div>
+                                        <div><Button onClick={() => setStatus(true)}>Inquiry & Disposition</Button></div>
+                                    </div>
+                                    : undefined}
+                                </>
+                            </div> : null)
+                    }
+                </div>
+                <div className='flex-1'>
+                </div>
+            </div>
+            {/* <div className="mx-auto max-w-md space-y-3 w-full min-w-full"> */}
+            {/* <FormError message={isError ? getErrorText(error) : undefined}></FormError> */}
+            {/* </div > */}
         </div>
 
 
