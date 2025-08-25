@@ -242,14 +242,13 @@ export default function AccessControlPage({
             {
               // isFetching ? <Typography variant="body2">Loading...</Typography> :
               <>
-                <div className="flex">
+                <div className="flex items-end">
                   <div className="w-[clamp(300px,100%,342px)]">
-                    <Typography>Department: {displaySearch.department || '-'}</Typography>
+                    <Typography className="font-medium">Department: {displaySearch.department || '-'}</Typography>
                   </div>
                   <div className="w-[clamp(300px,100%,342px)]">
-                    <Typography>Section:   {displaySearch.section || '-'}</Typography>
+                    <Typography className="font-medium">Section:   {displaySearch.section || '-'}</Typography>
                   </div>
-
                   {
                     myPermission?.["edit.accesscontrol"] && <>
                       <div className="flex-1" />
@@ -274,9 +273,7 @@ export default function AccessControlPage({
                     </>
                   }
                 </div>
-
-
-                <Typography variant="body2">
+                <Typography variant="body2" className="mb-4">
                   Function: {dataTable?.permCount || 0}
                 </Typography>
                 <DataTable
