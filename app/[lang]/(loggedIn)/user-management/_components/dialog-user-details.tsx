@@ -62,6 +62,7 @@ export const DialogDetails = forwardRef
       }, [errorCreate, errorEdit, errorGet])
 
       const [open, setOpen] = useState(false)
+      const [hidden, setHidden] = useState(false)
       const [mode, setMode] = useState<'create' | 'edit'>('create')
       const form = useForm<z.infer<typeof CreateEditUserSchema>>({
         resolver: zodResolver(CreateEditUserSchema)
@@ -80,7 +81,10 @@ export const DialogDetails = forwardRef
               if (!userData?.id) {
                 throw new Error('Invalid data userData?.id is null')
               }
+              setHidden(true)
               const password = await checkPassword()
+              setHidden(false)
+
               if (!password) return // กดยกเลิก หรือกรอกผิด
               await editUser({ id: userData.id, data: userData }).unwrap()
               dialogAlert(true)
@@ -136,7 +140,7 @@ export const DialogDetails = forwardRef
         <Modal
           isOpen={open}
           title={mode === 'create' ? 'Add Individual User' : 'Select Update'}
-          className='w-[clamp(300px,80%,608px)]'
+          className={cn('w-[clamp(300px,80%,608px)]', hidden && 'hidden')} //min-h-[400px]
         >
           <FormUserDetails
             isLoadingForm={isLoadingForm}
