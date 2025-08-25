@@ -112,8 +112,11 @@ export function checkPassword(): Promise<string | null> {
                                     {/* <button onClick={cleanup}>Cancel</button> */}
                                     <ButtonCancel
                                         onClick={cleanup}
+                                        className='w-[7.5rem]'
                                     />
-                                    <Button>
+                                    <Button
+                                        className='w-[7.5rem]'
+                                    >
                                         Confirm
                                     </Button>
                                 </div>
