@@ -42,7 +42,7 @@ export const SearchSection = ({
         <div>
             <div className="flex items-center gap-3">
                 <div
-                    className="w-[clamp(100px,100%,172px)]"
+                    className="w-[clamp(100px,100%,182px)]"
                 >
                     <SelectFieldInput
                         field={{
@@ -59,9 +59,10 @@ export const SearchSection = ({
                         placeholder="Select Department"
                         loading={isFetching}
                         readonly={isError}
+                        className="small-input "
                     />
                 </div>
-                <div className="w-[clamp(100px,100%,172px)]">
+                <div className="w-[clamp(100px,100%,182px)]">
                     <SelectFieldInput
                         field={{
                             value: search.section,
@@ -77,6 +78,8 @@ export const SearchSection = ({
                         placeholder="Select Section"
                         loading={isFetching}
                         readonly={isError}
+                        className="small-input "
+
                     />
                 </div>
                 <div className="w-[clamp(250px,100%,375px)]">
@@ -91,6 +94,7 @@ export const SearchSection = ({
                     }
                         placeholder="Search Function"
                         readonly={isError}
+                        className='small-input'
                     />
                 </div>
             </div >

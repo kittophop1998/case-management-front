@@ -192,3 +192,10 @@
     transform: rotate(360deg);
   }
 }
+
+.small-input {
+  @apply h-[1.813rem] rounded-[4px] text-[14px];
+}
+.small-input::placeholder {
+  @apply text-[0.75rem]; /* text size for placeholder */
+}

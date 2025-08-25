@@ -120,7 +120,6 @@ export const SelectFieldInput = ({
       disabled={
         readonly
       }
-      className={className}
       {...field}
       value={String(field.value)}
       onValueChange={val => {
@@ -133,7 +132,7 @@ export const SelectFieldInput = ({
         }
       }}
     >
-      <SelectTrigger className='w-full overflow-hidden shadow-none base-input-casemm'>
+      <SelectTrigger className={cn('w-full overflow-hidden shadow-none base-input-casemm ', className)}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

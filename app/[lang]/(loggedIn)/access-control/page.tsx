@@ -222,7 +222,7 @@ export default function AccessControlPage({
       <Typography variant="h6" >
         Manage Access Control
       </Typography>
-      <Typography variant="body2">
+      <Typography variant="body2" className="my-4">
         Select Department and Section for Manage Access Function
       </Typography>
       <SearchSection
