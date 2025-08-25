@@ -162,10 +162,10 @@ export const SelectItems = ({
 }: InputSelectProps) => {
   // return <>{className}</>
   const toggleValue = (val: any) => {
-    const exists = value.includes(val)
+    // const exists = value.includes(val)
     let newValue
     if (Array.isArray(value)) {
-      newValue = exists
+      newValue = val
         ? value.filter((v) => v !== val)
         : [...value, val]
     } else {
@@ -182,6 +182,7 @@ export const SelectItems = ({
             key={item[valueName]}
             value={String(item[labelName])}
             onSelect={() => {
+              console.log('SelectItems onSelect', item[valueName])
               toggleValue(item[valueName])
             }}
           >

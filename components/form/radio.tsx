@@ -38,6 +38,7 @@ const RadioField = (
     }: RadioFieldProps) => {
     const value = form.watch(name)
     const onSelect = (val: string) => {
+        console.log('RadioField onSelect', val)
         form.setValue(name, val, { shouldValidate: true });
         onChange?.(val)
     }
