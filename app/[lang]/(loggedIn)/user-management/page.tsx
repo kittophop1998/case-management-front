@@ -88,6 +88,7 @@ export default function UserManagementPage() {
     table,
     usersTable,
     triggerFetch,
+    isLoading,
     state: { status, role, section, center, searchText,
       department
     },
@@ -133,7 +134,7 @@ export default function UserManagementPage() {
           <BtnFilter onClick={() => setIsOpenFilter(true)} />
         </div>
         <DataTable
-          loading={false}
+          loading={isLoading}
           table={table}
           page={usersTable?.page ?? 1}
           limit={usersTable?.limit ?? 10}

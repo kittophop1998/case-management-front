@@ -199,3 +199,20 @@
 .small-input::placeholder {
   @apply text-[0.75rem]; /* text size for placeholder */
 }
+
+@keyframes progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-progress {
+  width: 50%;
+  animation: progress 1.5s infinite linear;
+}

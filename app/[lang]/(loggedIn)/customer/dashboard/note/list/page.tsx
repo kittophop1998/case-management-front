@@ -42,10 +42,10 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
             id: 'noteDetail',
             header: ({ column }) => <Header column={column} label='Note' sortAble />,
             cell: info =>
-                <div className="truncate w-200">
+                <div className="truncate w-[clamp(300px,50vw,600px)]">
                     {info.getValue()}
                 </div>,
-            meta: { cellClass: 'w-[30rem]' },
+            // meta: { cellClass: 'w-[30rem]' },
             // <div
             //     className="max-w-[30rem] break-words overflow-hidden text-ellipsis bg-red-300"
             //     style={{
@@ -115,7 +115,8 @@ const useNoteTable = ({ customerId }: { customerId: string | null }) => {
         limit,
         setPage,
         setLimit,
-        refetch
+        refetch,
+        isFetching
     }
 }
 
@@ -132,7 +133,8 @@ const NoteListPage = () => {
         limit,
         setPage,
         setLimit,
-        refetch
+        refetch,
+        isFetching
     } = useNoteTable({
         customerId
     })
@@ -173,7 +175,7 @@ const NoteListPage = () => {
                     </div> */}
                 </div>
                 <DataTable
-                    loading={false}
+                    loading={!!isFetching}
                     table={table}
                     page={page}
                     limit={limit}

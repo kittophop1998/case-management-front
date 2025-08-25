@@ -9,7 +9,8 @@ import {
 import {
   ArrowDownWideNarrow,
   ArrowUpWideNarrow,
-  ChevronLeft
+  ChevronLeft,
+  Divide
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -92,8 +93,16 @@ export function DataTable<T>({
   setLimit
 }: DataTableProps<T>) {
   const rows = table.getRowModel().rows
+
   return (
-    <>
+    <div>
+      {/* {loading ?
+        <div className="w-full h-[2px] bg-gray-200 overflow-hidden opacity-70">
+          <div className="h-full bg-blue-500 animate-progress"></div>
+        </div>
+        : <div className='h-[2px]'></div>
+
+      } */}
       <table className='w-full border-b border-[#e1e2e9]'>
         <thead className='border-b border-t border-[#e1e2e9]'>
           {table.getHeaderGroups().map(headerGroup => (
@@ -168,7 +177,7 @@ export function DataTable<T>({
           </Button>
         </div>
       </div>
-    </>
+    </div>
   )
 
 }
