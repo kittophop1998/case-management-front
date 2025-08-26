@@ -65,7 +65,7 @@ export function SwitchLanguage() {
             variant='ghost'
             disabled={language === lang}
             className='w-full justify-start'
-            onClick={() => console.log(`Language changed to: ${language}`)}
+          // onClick={() => { console.log(`Language changed to: ${language}`) }}
           >
             {language.toUpperCase()}
             {language === lang && <Check />}
