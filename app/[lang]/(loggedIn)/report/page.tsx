@@ -1,8 +1,6 @@
-const ReportPage = () => {
+export default function ReportPage() {
     return (
-        <div>
+        <div >
         </div>
-    );
-};
-
-export default ReportPage;
+    )
+}
