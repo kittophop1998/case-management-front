@@ -7,7 +7,6 @@ import { AppSidebar } from './_components/app-sidebar'
 import { AppBar } from './_components/app-bar'
 import { Suspense } from 'react'
 import LoadingPage from '@/components/loading-page'
-import { updateTokenAuth } from '@/actions/updateTokenAuth'
 import { headers } from 'next/headers'
 import { handleError401 } from '@/lib/utils/handleError'
 import { InitializersData } from '../_components/initializers-data'
@@ -46,14 +45,3 @@ export default async function UserLayout({
 
 
 
-
-{/* <SidebarProvider */ }
-//  open={open} onOpenChange={setOpen}
-// >
-// const { user, accessToken, refreshToken } = await updateTokenAuth();
-// if (!user) {
-//   const headerList = headers();
-//   const pathname = (await headerList).get("x-current-path") as string;
-//   await handleError401({ pathname });
-// }
-// <InitializersData accessToken={accessToken} refreshToken={refreshToken} />

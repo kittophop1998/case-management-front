@@ -51,7 +51,8 @@ const title2icon: Record<string, React.ComponentType<any>> = {
   Report: ReportIcon,
   Settings: SettingIcon,
   'User Management': SettingIcon,
-  'Access Control': SettingIcon
+  'Access Control': SettingIcon,
+  'Queue Management': SettingIcon
 }
 
 function Items() {
@@ -115,8 +116,8 @@ export function AppSidebarMenuList({ }) {
                   >
                     <Link href={`/th${item.url}`}
                       prefetch={true}
-
                     >
+                      {/* {`/th${item.url}`} */}
                       {(() => {
                         const Icon = title2icon[item.title]
                         return (

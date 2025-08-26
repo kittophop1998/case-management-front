@@ -13,21 +13,14 @@ export async function generateStaticParams() {
   return [{ lang: 'en' }, { lang: 'th' }]
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params
 }: Readonly<{
   children: React.ReactNode
   params: Promise<{ lang: 'en' | 'th' }>
 }>) {
-  // const { lang } = await params
-  const lang = 'th'
-  // const { user, accessToken, refreshToken } = await updateTokenAuth();
-  // if (!user) {
-  //   const headerList = headers();
-  //   const pathname = (await headerList).get("x-current-path") as string;
-  //   await handleError401({ pathname });
-  // }
+  const { lang } = await params
   return (
     <html lang={lang}>
       <body

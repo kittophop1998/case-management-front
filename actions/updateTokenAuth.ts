@@ -34,3 +34,23 @@ export const updateTokenAuth = async () => {
   return { user, accessToken, refreshToken };
   // return user;
 };
+
+// const { user, accessToken, refreshToken } = await updateTokenAuth();
+// if (!user) {
+//   const headerList = headers();
+//   const pathname = (await headerList).get("x-current-path") as string;
+//   await handleError401({ pathname });
+// }
+
+{
+  /* <SidebarProvider */
+}
+//  open={open} onOpenChange={setOpen}
+// >
+// const { user, accessToken, refreshToken } = await updateTokenAuth();
+// if (!user) {
+//   const headerList = headers();
+//   const pathname = (await headerList).get("x-current-path") as string;
+//   await handleError401({ pathname });
+// }
+// <InitializersData accessToken={accessToken} refreshToken={refreshToken} />

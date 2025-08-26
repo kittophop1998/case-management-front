@@ -53,32 +53,32 @@ export default function useAuth() {
       }
       await setAccessToken(accessToken);
       await setRefreshToken(refreshToken);
-      getMe()
-        .unwrap()
-        .then(async (resMe) => {
-          const currentMe = resMe.data;
-          try {
-            if (!currentMe) {
-              throw new Error("User data not found");
-            }
-            const initPath = await getInitPathByRole(
-              pathname,
-              currentMe.role.name
-            );
-
-            if (initPath) {
-              router.push(initPath);
-            }
-          } catch (error: unknown) {
-            if (error instanceof Error) {
-              setLoginError(error.message);
-            }
-          }
-        })
-        .catch((error) => {
-          console.error("useAuth-getMe error", error);
-          setLoginError("Failed to fetch user data");
-        });
+      // getMe()
+      //   .unwrap()
+      //   .then(async (resMe) => {
+      //     const currentMe = resMe.data;
+      //     try {
+      //       if (!currentMe) {
+      //         throw new Error("User data not found");
+      //       }
+      //       const initPath = await getInitPathByRole(
+      //         pathname,
+      //         currentMe.role.name
+      //       );
+      const initPath = "/th/dashboard";
+      //       if (initPath) {
+      router.push(initPath);
+      //       }
+      //     } catch (error: unknown) {
+      //       if (error instanceof Error) {
+      //         setLoginError(error.message);
+      //       }
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.error("useAuth-getMe error", error);
+      //     setLoginError("Failed to fetch user data");
+      //   });
       setIsLoadingLogin(false);
       setLoginError(null);
     } catch (error) {

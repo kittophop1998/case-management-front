@@ -8,6 +8,7 @@ export const path2name: Record<string, string> = {
   "/access-control": "Access Control",
   "/report": "Report",
   "/inquiry-log": "Inquiry Log",
+  "/queue-management": "Queue Management",
   // 2nd level
   "/case/management": "Case Management",
   "/customer/search": "Search Customer",
@@ -86,6 +87,12 @@ export const path2clientpath: Record<string, { name: string; goto: string }[]> =
         goto: "",
       },
     ],
+    "/queue-management": [
+      {
+        name: "Queue Management",
+        goto: "",
+      },
+    ],
   };
 
 export const path2sidebar: Record<string, string> = {
@@ -98,6 +105,7 @@ export const path2sidebar: Record<string, string> = {
   "/access-control": "Access Control",
   "/report": "Report",
   "/inquiry-log": "Inquiry Log",
+  "/queue-management": "Queue Management",
   // 2nd level
   "/case/management": "Customer Dashboard",
   "/customer/search": "Customer Dashboard",
@@ -143,5 +151,10 @@ export const navMain: {
     title: "Access Control",
     url: "/access-control",
     permission: ["view.accesscontrol"],
+  },
+  {
+    title: "Queue Management",
+    url: "/queue-management",
+    permission: ["view.user"],
   },
 ];
