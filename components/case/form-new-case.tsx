@@ -17,6 +17,7 @@ import { useGetInquiryQuery } from "@/features/system/systemApiSlice";
 import { useCreateCaseMutation } from "@/features/case/caseApiSlice";
 import { getErrorText } from "@/services/api";
 import useCaseType from "@/hooks/use-case-type";
+import { useCustomerInfo } from "@/hooks/use-customer-info";
 interface FormNewCaseProps {
     isSmallMod?: boolean;
     setStatus?: (status: boolean) => void;
@@ -41,7 +42,6 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
             })
             const { control } = form;
             const [createCase, { error: errorCreateCase, isLoading: isLoadingCreateCase }] = useCreateCaseMutation();
-
             const onSubmit = async (data: z.infer<typeof NewCaseSchema>) => {
                 try {
                     await createCase({ body: data }).unwrap();
@@ -67,6 +67,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                 ref, () => (
                     {
                         onOpen: (caseTypeId: string | null, customerId: string | null) => {
+                            fetch(['info'])
                             form.reset({
                                 ...emptyNewCase,
                                 caseTypeId: caseTypeId || '',
@@ -81,7 +82,9 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
             })
             const caseTypeId = form.watch('caseTypeId')
             const customerId = form.watch('customerId')
-            const { data: customerInfo } = useCustomerInfo(customerId)
+            const { customer, fetch, loading } = useCustomerInfo(customerId)
+            // const { data: customerInfo } = useCustomerInfo(customerId)
+
             const { data: inquirysApi } = useGetInquiryQuery();
             const inquirys = useMemo(() => inquirysApi?.data || [], [inquirysApi])
             const seeData = form.watch()
@@ -97,16 +100,19 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                     <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>
                         <div className={cn("py-3", isSmallMod ? "max-h-[50vh] overflow-y-auto" : "w-[70vw] grid grid-cols-2 gap-3")}>
                             <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
-                                {/* {JSON.stringify(inquirys)} */}
-                                <SectionCard title="Customer Info" isAccordion={!!isSmallMod}>
-                                    <div className="space-y-3 pt-2">
-                                        {/* {JSON.stringify(seeData)} */}
-                                        <Typography variant="caption">Customer ID/Passport :  {customerInfo.passport}</Typography>
-                                        <Typography variant="caption">Customer Name: {customerInfo.name}</Typography>
-                                        <Typography variant="caption">Aeon ID: {customerInfo.aeonId}</Typography>
-                                        <Typography variant="caption">Mobile No.: {customerInfo.phone}</Typography>
-                                    </div>
-                                </SectionCard>
+                                {
+                                    customer.info?.customerNameEng && (
+                                        <SectionCard title="Customer Info" isAccordion={!!isSmallMod}>
+                                            <div className="space-y-3 pt-2">
+                                                {JSON.stringify(customer)}
+                                                <Typography variant="caption">Customer ID/Passport :  {customer.info?.nationalId}</Typography>
+                                                <Typography variant="caption">Customer Name: {customer.info?.customerNameEng}</Typography>
+                                                <Typography variant="caption">Aeon ID: {customerId}</Typography>
+                                                <Typography variant="caption">Mobile No.: {customer.info?.mobileNO}</Typography>
+                                            </div>
+                                        </SectionCard>
+                                    )
+                                }
                                 <SectionCard title="Case Info" isAccordion={!!isSmallMod}>
                                     <div className="space-y-3 pt-2">
                                         <Typography variant="caption">Case Type:  {childValue2text?.[caseTypeId] || caseTypeId}</Typography>
@@ -206,24 +212,24 @@ const emptyCase = {
     id: '',
     name: '',
 }
-function useCustomerInfo(customerId: string | null | undefined) {
-    const [customerInfo, setCustomerInfo] = useState(emptyCustomer)
-    useEffect(() => {
-        if (!!customerId) {
-            setCustomerInfo({
-                name: 'John Doe',
-                aeonId: 'AEON123456',
-                phone: '097766xxxx',
-                caseType: '123456',
-                caseId: '123456',
-                passport: '9712333456234'
-            })
-        } else {
-            setCustomerInfo(emptyCustomer)
-        }
+// function useCustomerInfo(customerId: string | null | undefined) {
+//     const [customerInfo, setCustomerInfo] = useState(emptyCustomer)
+//     useEffect(() => {
+//         if (!!customerId) {
+//             setCustomerInfo({
+//                 name: 'John Doe',
+//                 aeonId: 'AEON123456',
+//                 phone: '097766xxxx',
+//                 caseType: '123456',
+//                 caseId: '123456',
+//                 passport: '9712333456234'
+//             })
+//         } else {
+//             setCustomerInfo(emptyCustomer)
+//         }
 
-    }, [customerId])
-    return { data: customerInfo }
-}
+//     }, [customerId])
+//     return { data: customerInfo }
+// }
 
 

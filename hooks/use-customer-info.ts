@@ -11,23 +11,27 @@ import {
 } from "@/types/customer.type";
 import { useMemo } from "react";
 
-export function useCustomerInfo(customberId: string | null): {
+export function useCustomerInfo(customberId: string | null | undefined): {
   customer: CustomerCombine;
   loading: Record<CustomerDataType, boolean>;
   fetch: (customerDataType: CustomerDataType[]) => void;
 } {
   const [
     handleGetCusInfo,
-    { data: cusInfo, isFetching: isFetchingInfo, error: errorInfo },
+    { currentData: cusInfo, isFetching: isFetchingInfo, error: errorInfo },
   ] = useLazyCustomerCustinfoQuery();
   const [
     handleGetCusProfile,
-    { data: cusProfile, isFetching: isFetchingProfile, error: errorProfile },
+    {
+      currentData: cusProfile,
+      isFetching: isFetchingProfile,
+      error: errorProfile,
+    },
   ] = useLazyCustomerProfileQuery();
   const [
     handleGetCusCustsegment,
     {
-      data: cusCustsegment,
+      currentData: cusCustsegment,
       isFetching: isFetchingCusCustsegment,
       error: errorCusCustsegment,
     },
@@ -35,7 +39,7 @@ export function useCustomerInfo(customberId: string | null): {
   const [
     handleGetCusSuggestion,
     {
-      data: cusSuggestion,
+      currentData: cusSuggestion,
       isFetching: isFetchingCusSuggestion,
       error: errorCusSuggestion,
     },
@@ -43,7 +47,7 @@ export function useCustomerInfo(customberId: string | null): {
   //
   const fetch = (customerDataType: CustomerDataType[]) => {
     if (!customberId) {
-      console.log(`useCustomerInfo().fetch() invalid customberId`);
+      console.log(`useCustomerInfo().fetch() invalid customberId`, customberId);
       return;
     }
     if (customerDataType.includes("custsegment")) {

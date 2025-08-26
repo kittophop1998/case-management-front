@@ -18,7 +18,9 @@ export const SearchSection = ({
     const formNewCaseRef = useRef<FormNewCaseRef>(null)
     const [status, setStatus] = useState<boolean>(false);
     const router = useRouter()
-    const [searchCustomer, { data: costumer, isFetching, isError, error }] = useLazyCustomerCustinfoQuery();
+    const [searchCustomer, {
+        // data: costumer,
+        isFetching, isError, error, reset, currentData: costumer }] = useLazyCustomerCustinfoQuery();
     const [search, setSearch] = useState<string>('');
     const [isSearhted, setIsSearhted] = useState<boolean>(false);
     const handleSearch = async () => {
@@ -28,7 +30,9 @@ export const SearchSection = ({
             }).unwrap()
             console.log('data:', data)
         } catch (error: unknown) {
-            console.log('asdasdas', (error as any).message)
+            // reset()
+            // console.log(`currentData`, currentData)
+            console.log('error', (error as any).message)
         }
         setIsSearhted(true)
     }
@@ -61,6 +65,7 @@ export const SearchSection = ({
 
     }
     return <div className="space-y-6 mt-6">
+
         <div className="mx-auto max-w-3xl space-y-6">
             <form className="block space-y-3 md:space-y-0 md:flex md:gap-6 md:items-center justify-center">
                 <div className="w-full flex flex-col gap-3 md:flex-row ">
@@ -85,6 +90,7 @@ export const SearchSection = ({
             <div className="w-full flex flex-col gap-3 md:flex-row  ">
                 <div className='flex-1'></div>
                 <div className="w-[100%] md:w-[50%]  mt-6 md:mt-0">
+                    {JSON.stringify(costumer)}
                     {costumer ?
                         <CustomerCard
                             {...costumer || {}}
