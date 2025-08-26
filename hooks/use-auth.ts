@@ -30,6 +30,11 @@ export default function useAuth() {
     setLoginError(null);
     try {
       const { accessToken, refreshToken, error } = await loginUser(value);
+      console.log(`useAuth() res-loginUser:`, {
+        accessToken,
+        refreshToken,
+        error,
+      });
       if (error) {
         throw new Error(error);
       }
