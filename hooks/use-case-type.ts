@@ -11,23 +11,29 @@ type DataCaseChild = {
 type ResDataCaseApi = DataCaseChild & {
   group: string;
 };
+interface GroupDataProps {
+  caseTypes: ResDataCaseApi[];
+  setGroup: (group: string[]) => void;
+  setChildByGroup: (childByGroup: Record<string, DataCaseChild[]>) => void;
+  setChildValue2text?: (childValue2text: Record<string, string>) => void;
+}
 const groupData = ({
   caseTypes,
   setGroup,
   setChildByGroup,
   setChildValue2text,
-}) => {
+}: GroupDataProps) => {
   if (!caseTypes?.length) {
     setGroup([]);
     setChildByGroup({});
     return;
   }
-  let valueChildByGroup = {
+  let valueChildByGroup: Record<string, DataCaseChild[]> = {
     null: [],
   };
   // let valueItems = [];
   let valueGroup = [];
-  let valuechildValue2text = {};
+  let valuechildValue2text: Record<string, string> = {};
   for (const { description, group, id, name } of caseTypes) {
     let child = {
       id,
@@ -47,6 +53,7 @@ const groupData = ({
   setChildValue2text && setChildValue2text(valuechildValue2text);
   return;
 };
+
 export default function useCaseType() {
   const { data } = useGetDropdownQuery();
   const caseTypes: ResDataCaseApi[] = useMemo(

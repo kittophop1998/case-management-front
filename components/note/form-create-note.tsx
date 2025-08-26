@@ -76,15 +76,18 @@ export const FormCreateNote =
                     note: ''
                 })
                 !!afterPost && afterPost()
-            } catch (error) {
-                dialogAlert(false, {
-                    title: 'Error',
-                    message: error.message || getErrorText(error),
-                    confirmText: 'Try again',
-                    cancelText: 'Close',
-                    onConfirm: () => { },
-                    onCancel: () => { }
-                })
+            } catch (error: unknown) {
+                if (error instanceof Error) {
+                    const errorText = error?.message || getErrorText(error);
+                    dialogAlert(false, {
+                        title: 'Error',
+                        message: errorText,
+                        confirmText: 'Try again',
+                        cancelText: 'Close',
+                        onConfirm: () => { },
+                        onCancel: () => { }
+                    })
+                }
             }
         }
         const onClose = () => {

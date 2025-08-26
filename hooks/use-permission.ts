@@ -5,15 +5,16 @@ import { PermissionKeyType } from "@/types/permission.type";
 
 export default function usePermission() {
   const { data: meApi, isLoading } = useGetMeQuery();
-  const myPermission: Record<PermissionKeyType, boolean> = useMemo(() => {
-    const value = {};
-    if (!meApi?.data?.permissions?.length) {
+  const myPermission: Partial<Record<PermissionKeyType, boolean>> =
+    useMemo(() => {
+      const value: Partial<Record<PermissionKeyType, boolean>> = {};
+      if (!meApi?.data?.permissions?.length) {
+        return value;
+      }
+      for (const { key } of meApi?.data?.permissions || []) {
+        value[key as PermissionKeyType] = true;
+      }
       return value;
-    }
-    for (const { key } of meApi?.data?.permissions || []) {
-      value[key] = true;
-    }
-    return value;
-  }, [meApi]);
+    }, [meApi]);
   return { myPermission };
 }

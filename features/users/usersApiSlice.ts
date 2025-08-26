@@ -23,6 +23,21 @@ type EditUserBody = {
   // queueId: string;
   departmentId: string;
 };
+type CreateEditUserExtended = Omit<
+  z.infer<typeof CreateEditUserSchema>,
+  "id" | "isActive" | "staffId" | "operatorId"
+> & {
+  id?: string | null;
+  isActive?: boolean;
+  staffId: number;
+  operatorId: number;
+};
+// z.infer<typeof CreateEditUserSchema> & {
+//   id?: string;
+//   staffId?: number;
+//   operatorId?: number;
+//   isActive?: boolean;
+// };
 
 export const usersApiSlice = createApi({
   reducerPath: "usersApi",
@@ -110,10 +125,13 @@ export const usersApiSlice = createApi({
       z.infer<typeof CreateEditUserSchema>
     >({
       query: (user) => {
-        let body = {
-          ...user,
-          staffId: Number(user.staffId),
-          operatorId: Number(user.operatorId),
+        let { staffId, operatorId, ...rest } = user;
+        let staffIdNum = Number(staffId);
+        let operatorIdNum = Number(operatorId);
+        let body: CreateEditUserExtended = {
+          ...rest,
+          staffId: staffIdNum,
+          operatorId: operatorIdNum,
         };
         delete body.id;
         delete body.isActive;

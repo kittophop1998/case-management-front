@@ -20,16 +20,36 @@ export function setRefreshToken(token: string | null) {
   refreshToken = token;
 }
 
+// export const getErrorText = (
+//   response: ApiResponse<undefined> | FetchBaseQueryError | SerializedError,
+//   defaultMessage: string = "An unexpected error occurred. Please try again later."
+// ): string => {
+//   // TODO: error response on rtk is response: { data: ApiResponse<undefined>; status: number } change it to ApiResponse<undefined>
+//   if (!response?.error && response?.data) {
+//     response = response.data;
+//   }
+//   return response?.error?.message?.[lang] || defaultMessage;
+// };
 export const getErrorText = (
   response: ApiResponse<undefined> | FetchBaseQueryError | SerializedError,
-  defaultMessage = "An unexpected error occurred. Please try again later."
+  defaultMessage: string = "An unexpected error occurred. Please try again later."
 ): string => {
-  // TODO: error response on rtk is response: { data: ApiResponse<undefined>; status: number } change it to ApiResponse<undefined>
-  if (!response?.error && response?.data) {
-    response = response.data;
+  let apiResponse: ApiResponse<undefined> | undefined;
+
+  // Case 1: response มาจาก RTK fetch (มี status และ data)
+  if (
+    "status" in (response as FetchBaseQueryError) &&
+    "data" in (response as FetchBaseQueryError)
+  ) {
+    apiResponse = (response as FetchBaseQueryError)
+      .data as ApiResponse<undefined>;
+  }
+  // Case 2: response เป็น ApiResponse อยู่แล้ว
+  else if ("error" in (response as ApiResponse<undefined>)) {
+    apiResponse = response as ApiResponse<undefined>;
   }
 
-  return response?.error?.message?.[lang] || defaultMessage;
+  return apiResponse?.error?.message?.[lang] || defaultMessage;
 };
 
 export const baseQuery = fetchBaseQuery({

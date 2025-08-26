@@ -84,7 +84,6 @@ export const SelectField = ({
         items={items}
         valueName={valueName}
         labelName={labelName}
-        onChange={onChange}
       />
     </InputFieldWarper>
   )
@@ -148,7 +147,39 @@ export const SelectFieldInput = ({
     </Select>
   )
 }
-
+interface ItemsProps {
+  items: any[]
+  labelName: string
+  valueName: string
+  value: any
+  className?: string
+  toggleValue: (val: any) => void
+}
+const Items = ({ items, labelName, valueName, value, className, toggleValue }: ItemsProps) => {
+  return <span className={cn("", className)}>
+    {
+      items.map((item) => (
+        <CommandItem
+          key={item[valueName]}
+          value={String(item[labelName])}
+          onSelect={() => {
+            console.log('SelectItems onSelect', item[valueName])
+            toggleValue(item[valueName])
+          }}
+        // className='bg-red-300'
+        >
+          <Checkbox
+            className='pointer-events-none'
+            checked={((typeof value === 'string' || Array.isArray(value)) && value?.includes(item?.[valueName]) || value === item[valueName])}
+          />
+          <Typography variant="body2">
+            {item[labelName]}
+          </Typography>
+        </CommandItem>
+      ))
+    }
+  </span>
+}
 export const SelectItems = ({
   items = [],
   valueName = 'id',
@@ -179,31 +210,7 @@ export const SelectItems = ({
     onChange?.(newValue)
   }
 
-  const Items = memo(() => {
-    return <span className={cn("", className)}>
-      {
-        items.map((item) => (
-          <CommandItem
-            key={item[valueName]}
-            value={String(item[labelName])}
-            onSelect={() => {
-              console.log('SelectItems onSelect', item[valueName])
-              toggleValue(item[valueName])
-            }}
-          // className='bg-red-300'
-          >
-            <Checkbox
-              className='pointer-events-none'
-              checked={((typeof value === 'string' || Array.isArray(value)) && value?.includes(item?.[valueName]) || value === item[valueName])}
-            />
-            <Typography variant="body2">
-              {item[labelName]}
-            </Typography>
-          </CommandItem>
-        ))
-      }
-    </span>
-  }, [items, labelName, valueName, value, className])
+
   return (
     <>
       {/* {className}asdas */}
@@ -212,7 +219,14 @@ export const SelectItems = ({
         <CommandList>
           <CommandEmpty>No item found.</CommandEmpty>
           <CommandGroup>
-            <Items />
+            <Items
+              items={items}
+              labelName={labelName}
+              valueName={valueName}
+              value={value}
+              className={className}
+              toggleValue={toggleValue}
+            />
           </CommandGroup>
         </CommandList>
       </Command >

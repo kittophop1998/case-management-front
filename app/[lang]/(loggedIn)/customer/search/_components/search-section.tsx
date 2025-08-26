@@ -81,7 +81,7 @@ export const SearchSection = ({
                         />
                     </div>
                     <div className='flex-1 relative'>
-                        <Button className="min-w-full md:min-w-[10rem] absolute" loading={isFetching} onClick={handleSearch}>
+                        <Button className="min-w-full md:min-w-[10rem] absolute" loading={isFetching} onClick={handleSearch} disabled={!search}>
                             Search
                         </Button>
                     </div>

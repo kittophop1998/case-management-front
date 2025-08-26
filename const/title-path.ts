@@ -72,7 +72,6 @@ export const path2clientpath: Record<string, { name: string; goto: string }[]> =
         goto: "",
       },
     ],
-    // 1102001313257
     "/customer/dashboard/note": [
       {
         name: "Search Customer",

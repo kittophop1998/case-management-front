@@ -3,7 +3,7 @@ import { baseQuery } from "@/services/api";
 import { SettingAccessControlSchema } from "@/schemas";
 import { DefaultReqTableType, TableType } from "@/types/table.type";
 import z from "zod";
-import { DataAccessControl } from "@/app/[lang]/(loggedIn)/access-control/page";
+import { DataAccessControl } from "@/app/[lang]/(loggedIn)/access-control/_components/access-control-client-page";
 
 export const permissionApiSlice = createApi({
   reducerPath: "permissionApi",
