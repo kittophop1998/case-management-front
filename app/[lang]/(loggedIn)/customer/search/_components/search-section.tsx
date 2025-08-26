@@ -41,12 +41,6 @@ export const SearchSection = ({
     return <div className="space-y-6 mt-6">
         <div className="mx-auto max-w-3xl space-y-6">
             <form className="block space-y-3 md:space-y-0 md:flex md:gap-6 md:items-center justify-center">
-                {/* <div
-                    className="md:flex-1"
-                >
-                
-                </div>
-              */}
                 <div className="w-full flex flex-col gap-3 md:flex-row ">
                     <div className='flex-1'></div>
                     <div className="w-[100%] md:w-[50%] ">
@@ -89,9 +83,6 @@ export const SearchSection = ({
                 <div className='flex-1'>
                 </div>
             </div>
-            {/* <div className="mx-auto max-w-md space-y-3 w-full min-w-full"> */}
-            {/* <FormError message={isError ? getErrorText(error) : undefined}></FormError> */}
-            {/* </div > */}
         </div>
 
 

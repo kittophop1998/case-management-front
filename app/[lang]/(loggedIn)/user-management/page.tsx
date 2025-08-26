@@ -21,7 +21,7 @@ import { SquarePen } from 'lucide-react'
 import Container from '@/components/common/containter'
 import usePermission from '@/hooks/use-permission'
 
-export default function UserManagementPage() {
+const useUsersTable = () => {
   const { myPermission } = usePermission()
   const [isOpenFilter, setIsOpenFilter] = useState(false)
   const dialogDetailsRef = useRef<DialogDetailsRef>(null)
@@ -108,10 +108,64 @@ export default function UserManagementPage() {
   const openDialogCreateUser = () => {
     dialogDetailsRef.current?.setDefaultUser(null)
   }
-  // 
-  // 
-  // 
-  // 
+  return {
+    openDialogCreateUser,
+    myPermission,
+    setSearchText,
+    searchText,
+    setIsOpenFilter,
+    isLoading,
+    table,
+    usersTable,
+    setModalImportUser,
+    setPage,
+    setLimit,
+    dialogDetailsRef,
+    triggerFetch,
+    modalImportUser,
+    department,
+    setDepartment,
+    isOpenFilter,
+    setRole,
+    setStatus,
+    setSection,
+    setCenter,
+    role,
+    section,
+    center
+  }
+}
+export function UserManagementClientPage() {
+  return <></>
+}
+export default function UserManagementPage() {
+  const {
+    openDialogCreateUser,
+    myPermission,
+    setSearchText,
+    searchText,
+    setIsOpenFilter,
+    isLoading,
+    table,
+    usersTable,
+    setModalImportUser,
+    setPage,
+    setLimit,
+    dialogDetailsRef,
+    triggerFetch,
+    modalImportUser,
+    department,
+    setDepartment,
+    isOpenFilter,
+    setRole,
+    setStatus,
+    setSection,
+    setCenter,
+    role,
+    section,
+    center
+  } = useUsersTable()
+
   return (
     <div >
       {myPermission?.["add.user"] &&
@@ -149,7 +203,6 @@ export default function UserManagementPage() {
         ref={dialogDetailsRef}
         getUsers={triggerFetch}
       />
-
       <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
       <FilterUsersModal
         department={department}
