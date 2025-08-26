@@ -12,12 +12,12 @@ import { ButtonCancel } from "@/components/button/btn-cancle";
 import { dialogAlert } from "../common/dialog-alert";
 import { InputInquirySelectMain } from "./input-inquiry-select-main";
 import { useDebugLogForm } from "@/hooks/use-debug-log-form";
-import { SectionCard } from "@/app/[lang]/(loggedIn)/dashboard/components/section-card";
 import { useGetInquiryQuery } from "@/features/system/systemApiSlice";
 import { useCreateCaseMutation } from "@/features/case/caseApiSlice";
 import { getErrorText } from "@/services/api";
 import useCaseType from "@/hooks/use-case-type";
 import { useCustomerInfo } from "@/hooks/use-customer-info";
+import { SectionCard } from "./section-card";
 interface FormNewCaseProps {
     isSmallMod?: boolean;
     setStatus?: (status: boolean) => void;
