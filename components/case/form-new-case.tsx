@@ -67,7 +67,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                 ref, () => (
                     {
                         onOpen: (caseTypeId: string | null, customerId: string | null) => {
-                            fetch(['info'])
+                            // fetch(['info'])
                             form.reset({
                                 ...emptyNewCase,
                                 caseTypeId: caseTypeId || '',
@@ -84,6 +84,11 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
             const customerId = form.watch('customerId')
             const { customer, fetch, loading } = useCustomerInfo(customerId)
             // const { data: customerInfo } = useCustomerInfo(customerId)
+            useEffect(() => {
+                if (customerId) {
+                    fetch(['info'])
+                }
+            }, [customerId])
 
             const { data: inquirysApi } = useGetInquiryQuery();
             const inquirys = useMemo(() => inquirysApi?.data || [], [inquirysApi])
@@ -104,7 +109,6 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                     customer.info?.customerNameEng && (
                                         <SectionCard title="Customer Info" isAccordion={!!isSmallMod}>
                                             <div className="space-y-3 pt-2">
-                                                {/* {JSON.stringify(customer)} */}
                                                 <Typography variant="caption">Customer ID/Passport :  {customer.info?.nationalId}</Typography>
                                                 <Typography variant="caption">Customer Name: {customer.info?.customerNameEng}</Typography>
                                                 <Typography variant="caption">Aeon ID: {customerId}</Typography>
