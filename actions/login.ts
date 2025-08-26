@@ -31,12 +31,12 @@ export async function loginUser({
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
     const cookieStore = await cookies();
-    await cookieStore.set("accessToken", accessToken, {
+    cookieStore.set("accessToken", accessToken, {
       httpOnly: true,
       secure: true, // Use secure cookies in production https or localhost only
       path: "/",
     });
-    await cookieStore.set("refreshToken", refreshToken, {
+    cookieStore.set("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
       path: "/",
