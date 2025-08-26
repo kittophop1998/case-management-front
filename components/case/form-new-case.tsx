@@ -84,6 +84,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
             const { data: customerInfo } = useCustomerInfo(customerId)
             const { data: inquirysApi } = useGetInquiryQuery();
             const inquirys = useMemo(() => inquirysApi?.data || [], [inquirysApi])
+            const seeData = form.watch()
             const { fields, append, remove } = useFieldArray({
                 control,
                 name: "caseNote",
@@ -99,6 +100,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                 {/* {JSON.stringify(inquirys)} */}
                                 <SectionCard title="Customer Info" isAccordion={!!isSmallMod}>
                                     <div className="space-y-3 pt-2">
+                                        {/* {JSON.stringify(seeData)} */}
                                         <Typography variant="caption">Customer ID/Passport :  {customerInfo.passport}</Typography>
                                         <Typography variant="caption">Customer Name: {customerInfo.name}</Typography>
                                         <Typography variant="caption">Aeon ID: {customerInfo.aeonId}</Typography>
@@ -119,9 +121,11 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                 </SectionCard>
                                 <SectionCard title="Case Note" isAccordion={!!isSmallMod}>
                                     <div className="space-y-3 pt-2">
-                                        {fields.map((field, index) => (
+                                        {/* {JSON.stringify(seeData.caseNote)} */}
+                                        {/* {JSON.stringify(fields)} */}
+                                        {seeData.caseNote.map((field, index) => (
                                             <TextAreaField
-                                                key={field.id}
+                                                key={`TextAreaField-${index}`}
                                                 name={`caseNote.${index}`}
                                                 label={`Add Note`}
                                                 placeholder="Enter Note"

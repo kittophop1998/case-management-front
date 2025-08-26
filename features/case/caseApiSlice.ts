@@ -13,11 +13,17 @@ export const caseApiSlice = createApi({
         body: z.infer<typeof NewCaseSchema>;
       }
     >({
-      query: ({ body }) => ({
-        url: `/cases`,
-        method: "POST",
-        body,
-      }),
+      query: ({ body }) => {
+        // if (!body.customerId) {
+        //   delete body.customerId;
+        //   body.customerId = null;
+        // }
+        return {
+          url: `/cases`,
+          method: "POST",
+          body,
+        };
+      },
     }),
   }),
 });

@@ -105,6 +105,11 @@ export default function useCaseType() {
     setCountFiltered(itemsFiltered.length);
   }, [searchText, caseTypes]);
 
+  const getByName = (name: string): string | undefined => {
+    const item = caseTypes.find((item) => item.name === name);
+    return item ? item.id : undefined;
+  };
+
   return {
     state: { searchText, setSearchText, selectGroup, setSelectGroup },
     data: { group, childByGroup, childValue2text },
@@ -113,5 +118,6 @@ export default function useCaseType() {
       childByGroup: childByGroupFiltered,
       countFiltered,
     },
+    functions: { getByName },
   };
 }
