@@ -104,7 +104,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                     customer.info?.customerNameEng && (
                                         <SectionCard title="Customer Info" isAccordion={!!isSmallMod}>
                                             <div className="space-y-3 pt-2">
-                                                {JSON.stringify(customer)}
+                                                {/* {JSON.stringify(customer)} */}
                                                 <Typography variant="caption">Customer ID/Passport :  {customer.info?.nationalId}</Typography>
                                                 <Typography variant="caption">Customer Name: {customer.info?.customerNameEng}</Typography>
                                                 <Typography variant="caption">Aeon ID: {customerId}</Typography>
