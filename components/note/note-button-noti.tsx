@@ -9,21 +9,10 @@ interface NoteButtonNotiProps {
     onClick: () => void;
     // count?: number;
     size: "sm" | "lg" | "default" | "icon" | null | undefined
-    customerId: string | null
+    n: number | null
 }
-export const NoteButtonNoti = ({ onClick, size = 'sm', customerId }: NoteButtonNotiProps) => {
-    const [getData, { data: dataApi, isFetching }] = useLazyGetCustomerNotesQuery();
-    useEffect(() => {
-        if (!customerId) return
-        getData({
-            customerId,
-            page: 1,
-            limit: 1,
-            sort: null,
-            keyword: '',
-            createdDate: '',
-        })
-    }, [customerId])
+export const NoteButtonNoti = ({ onClick, size = 'sm', n = 0 }: NoteButtonNotiProps) => {
+
     return (
         <Button variant='ghost' size={size} onClick={onClick} className="relative">
             <Badge
@@ -32,7 +21,7 @@ export const NoteButtonNoti = ({ onClick, size = 'sm', customerId }: NoteButtonN
                 variant="destructive"
             >
                 {/* {count} */}
-                {dataApi?.total || 0}
+                {n}
             </Badge>
             <FileText />
         </Button>

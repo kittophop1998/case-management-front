@@ -32,6 +32,7 @@ import { StatusVerify } from "@/components/customer/status-verify";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Promotion } from "@/types/promotion.type";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useLazyGetCustomerNotesQuery } from "@/features/note/noteApiSlice";
 
 type SuggestionCardProps = {
     loading: boolean
@@ -163,6 +164,21 @@ const CustomerDashboard = () => {
         setStatusNote(false);
     }
 
+    const [getData, { data: tableNotes, isFetching: isFetchingTableNotes }] = useLazyGetCustomerNotesQuery();
+    const refetchNotes = () => {
+        if (!customerId) return
+        getData({
+            customerId,
+            page: 1,
+            limit: 1,
+            sort: null,
+            keyword: '',
+            createdDate: '',
+        })
+    }
+    useEffect(() => {
+        refetchNotes()
+    }, [customerId])
     return (
         <>
             <Tabs defaultValue="account">
@@ -227,8 +243,8 @@ const CustomerDashboard = () => {
                                                             <NoteButtonNoti
                                                                 onClick={() => router.push(`/customer/dashboard/note/list?customerId=${customerId}`)}
                                                                 // count={0}
+                                                                n={tableNotes?.total || 0}
                                                                 size='sm'
-                                                                customerId={customerId}
                                                             />}
                                                         {
                                                             myPermission?.["add.custnote"] &&
@@ -339,6 +355,9 @@ const CustomerDashboard = () => {
             >
                 <FormCreateNote
                     customerId={customerId || ''}
+                    afterPost={
+                        () => refetchNotes()
+                    }
                 />
             </FloatingWidget>
 
