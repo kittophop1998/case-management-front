@@ -45,7 +45,8 @@ export default function useAuth() {
       setAccessToken(accessToken);
       setRefreshToken(refreshToken);
       const initPath = "/th/dashboard";
-      router.replace(initPath); // ineed force push not waite load page ssr success
+      // router.push(initPath); // ineed force push not waite load page ssr success
+      window.location.href = "/th/dashboard";
       setIsLoadingLogin(false);
       setLoginError(null);
     } catch (error) {
