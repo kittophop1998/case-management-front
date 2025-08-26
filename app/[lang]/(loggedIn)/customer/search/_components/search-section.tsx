@@ -90,7 +90,7 @@ export const SearchSection = ({
             <div className="w-full flex flex-col gap-3 md:flex-row  ">
                 <div className='flex-1'></div>
                 <div className="w-[100%] md:w-[50%]  mt-6 md:mt-0">
-                    {JSON.stringify(costumer)}
+                    {/* {JSON.stringify(costumer)} */}
                     {costumer ?
                         <CustomerCard
                             {...costumer || {}}
