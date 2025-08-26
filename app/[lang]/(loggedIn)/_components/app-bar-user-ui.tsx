@@ -78,21 +78,29 @@ export const AppBarUserUI = () => {
   return (
     <Popover open={openPopup} onOpenChange={setOpenPopup} modal>
       <PopoverTrigger asChild>
-        <div className='flex items-center gap-2'>
+        <div className='flex items-center gap-2 cursor-pointer'>
           {/* <AvatarUser size='2' /> */}
-          <Image
-            src="/placeholder-user-img-colorfull.png"
-            alt="placeholder-user-img-colorfull.png"
-            className="object-cover mx-auto"
-            width={32}
-            height={32}
-          />
           {name ?
-            <div className='w-[8rem]'>
-              <Typography variant='body2'>{name}</Typography>
-            </div>
+            <>
+              <Image
+                src="/placeholder-user-img-colorfull.png"
+                alt="placeholder-user-img-colorfull.png"
+                className="object-cover mx-auto"
+                width={32}
+                height={32}
+              />
+              <div className='w-[7rem]'>
+                <Typography variant='body2' className='truncate'>
+                  {/* Jarawee Reongrit */}
+                  {name}
+                </Typography>
+              </div>
+            </>
             :
-            <Skeleton className='h-[1rem] w-[8rem]'></Skeleton>
+            <>
+              <Skeleton className='h-[32px] w-[32px] rounded-full'></Skeleton>
+              <Skeleton className='h-[1rem] w-[7rem]'></Skeleton>
+            </>
           }
         </div>
       </PopoverTrigger>

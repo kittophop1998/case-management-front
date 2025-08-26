@@ -13,33 +13,6 @@ import { handleError401 } from '@/lib/utils/handleError'
 import { InitializersData } from '../_components/initializers-data'
 import { cookies } from "next/headers";
 
-
-// const MainContent = async (
-//   {
-//     children
-//   }
-//     :
-//     {
-//       children: React.ReactNode
-//     }
-// ) => {
-//   console.time('MainContent')
-//   const cookieStore = await cookies();
-//   const accessToken = cookieStore.get("accessToken")?.value || null;
-//   const refreshToken = cookieStore.get("refreshToken")?.value || null;
-//   if (!accessToken) {
-//     const headerList = headers();
-//     const pathname = (await headerList).get("x-current-path") as string;
-//     await handleError401({ pathname });
-//   }
-//   console.timeEnd('MainContent')
-//   return <>
-//     <InitializersData accessToken={accessToken} refreshToken={refreshToken} />
-//     <Suspense fallback={<LoadingPage />}>
-//       {children}
-//     </Suspense>
-//   </>
-// }
 export default async function UserLayout({
   children,
 }: {
