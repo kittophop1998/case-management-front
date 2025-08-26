@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 import * as React from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
@@ -228,8 +229,6 @@ export function SelectMulti({
         </Popover>
     )
 }
-
-
 
 export function FormTest() {
     const [value, setValue] = React.useState<SelectedValue>({

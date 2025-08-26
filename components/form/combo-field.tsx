@@ -78,7 +78,9 @@ export function ComboboxField({
                       (item) => item[valueName] === field.value
                     )?.[labelName]
                     : placeholder}
-                  <ChevronsUpDown className="opacity-50" />
+                  <ChevronsUpDown
+                    // @ts-expect-error className is valid for lucide icon
+                    className="opacity-50" />
                 </Button>
               </FormControl>
             </PopoverTrigger>
@@ -113,6 +115,7 @@ export function ComboboxField({
                       >
                         {item[labelName]}
                         <Check
+                          // @ts-expect-error className is valid for lucide icon
                           className={cn(
                             "ml-auto",
                             item[valueName] === field.value

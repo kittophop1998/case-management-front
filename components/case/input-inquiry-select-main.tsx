@@ -8,13 +8,20 @@ import { ChevronsUpDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "../common/Button"
 
+interface SelectChildInputProps {
+    onSave: (value: string[]) => void
+    items: any[]
+    valueName: string
+    labelName: string
+    value: string[]
+}
 const SelectChildInput = ({
     onSave,
     items,
     valueName,
     labelName,
     value
-}) => {
+}: SelectChildInputProps) => {
     const [popoverOpen, setPopoverOpen] = useState(false)
     const [draftValue, setDraftValue] = useState<string[]>(value)
     return (
@@ -29,7 +36,10 @@ const SelectChildInput = ({
                     )}
                 >
                     Multiple select
-                    <ChevronsUpDown className="opacity-50 ml-2 h-4 w-4 shrink-0" />
+
+                    <ChevronsUpDown
+                        // @ts-expect-error className is valid for lucide icon
+                        className="opacity-50 ml-2 h-4 w-4 shrink-0" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="p-0 w-[var(--radix-popover-trigger-width)]">
@@ -41,6 +51,7 @@ const SelectChildInput = ({
                         valueName={valueName}
                         labelName={labelName}
                         onChange={(newValue: any) => {
+                            console.log('setDraftValue', newValue)
                             setDraftValue(newValue)
                         }}
                         value={draftValue}

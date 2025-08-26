@@ -2,7 +2,6 @@ import { Typography } from "@/components/common/typography";
 import { Button } from "@/components/common/Button";
 import { Popover, PopoverContent } from "@/components/ui/popover";
 import { PopoverTrigger } from "@radix-ui/react-popover";
-import { UserPlus } from "lucide-react";
 import { useState } from "react";
 import AddUserSvg from '@/public/icons/Add User.svg'
 

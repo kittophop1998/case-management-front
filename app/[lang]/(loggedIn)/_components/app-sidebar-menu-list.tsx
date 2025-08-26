@@ -21,6 +21,7 @@ import ReportIcon from '@/public/icons/Report.svg'
 import SettingIcon from '@/public/icons/Setting.svg'
 import CustomerDashboardIcon from '@/public/icons/Customer Dashboard.svg'
 import Link from 'next/link'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const sidebarMenuButtonVariants = cva('', {
   variants: {
@@ -79,59 +80,70 @@ export function AppSidebarMenuList({ }) {
   return (
     <SidebarGroup>
       <SidebarMenu>
-        <>
-          {
-            navMain.map(item => {
-              if (item?.permission?.length) {
-                const hasCommon = item.permission.some(item => myPermissions.includes(item));
-                if (!hasCommon) {
-                  return null
-                }
-              }
-              return (
-                <Collapsible
-                  key={item.title}
-                  asChild
-                  className='group/collapsible'
-                >
-                  <SidebarMenuItem>
-                    <SidebarMenuButton
-                      asChild
-                      className={cn(
-                        'h-[3rem] gap-3',
-                        sidebarMenuButtonVariants({
-                          active: title === item.title
-                        })
-                      )}
-                      tooltip={item.title}
-                    >
-                      <Link href={`/th${item.url}`}
-                        prefetch={true}
-                        onMouseEnter={() => console.log("Mouse over, prefetch triggered")}
+        {/* <> */}
+        {/* {isLoadingGetMe ?
+            <>
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => <> <Skeleton key={item} className='h-12 mb-[1px] w-full rounded-md' /></>)}
 
-                      >
-                        {(() => {
-                          const Icon = title2icon[item.title]
-                          return (
-                            <Icon
-                              className={cn(
-                                'w-20 h-20',
-                                sidebarMenuIconVariants({ active: title === item.title })
-                              )}
-                            />
-                          )
-                        })()}
-                        <Typography>
-                          {item.title}
-                        </Typography>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </Collapsible>
-              )
-            })
-          }
-        </>
+            </>
+            :
+            <> */}
+        {
+          navMain.map(item => {
+            if (item?.permission?.length) {
+              const hasCommon = item.permission.some(item => myPermissions.includes(item));
+              if (!hasCommon) {
+                return null
+              }
+            }
+            return (
+              <Collapsible
+                key={item.title}
+                asChild
+                className='group/collapsible'
+              >
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    className={cn(
+                      'h-[3rem] gap-3',
+                      sidebarMenuButtonVariants({
+                        active: title === item.title
+                      })
+                    )}
+                    tooltip={item.title}
+                  >
+                    <Link href={`/th${item.url}`}
+                      prefetch={true}
+                      onMouseEnter={() => console.log("Mouse over, prefetch triggered")}
+
+                    >
+                      {(() => {
+                        const Icon = title2icon[item.title]
+                        return (
+                          <Icon
+                            className={cn(
+                              'w-20 h-20',
+                              sidebarMenuIconVariants({ active: title === item.title })
+                            )}
+                          />
+                        )
+                      })()}
+                      <Typography>
+                        {item.title}
+                      </Typography>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </Collapsible>
+            )
+          })
+        }
+
+        {/* </>
+          } */}
+
+        {/* </> */}
       </SidebarMenu>
     </SidebarGroup>
   )

@@ -10,7 +10,6 @@ import {
   useSidebar
 } from '@/components/ui/sidebar'
 import { Typography } from '@/components/common/typography'
-import { PanelLeftIcon } from 'lucide-react'
 
 export function AppSidebarHeader() {
   const { isMobile, toggleSidebar } = useSidebar()

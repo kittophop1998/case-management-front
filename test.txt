@@ -1,0 +1,1 @@
+@ts-expect-error className is valid for lucide icon

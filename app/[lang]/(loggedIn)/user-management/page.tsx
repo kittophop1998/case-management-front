@@ -132,10 +132,11 @@ const useUsersTable = () => {
     setCenter,
     role,
     section,
-    center
+    center,
+    status
   }
 }
-export function UserManagementClientPage() {
+function UserManagementClientPage() {
   return <></>
 }
 export default function UserManagementPage() {
@@ -163,7 +164,8 @@ export default function UserManagementPage() {
     setCenter,
     role,
     section,
-    center
+    center,
+    status
   } = useUsersTable()
 
   return (

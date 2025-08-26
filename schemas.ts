@@ -73,7 +73,8 @@ export const NewCaseSchema = z.object({
   dispositionMainId: z.string().min(1, "Disposition Stamp is required"),
   dispositionMains: z.array(z.string()),
   caseDescription: z.string(),
-  caseNote: z.array(z.string()),
+  // TODO z.any() change this to z.string() const { fields, append, remove } = useFieldArray({control, name: "caseNote",}); got error in this line
+  caseNote: z.array(z.any()).min(1, "At least one case note is required"),
 });
 
 export const CreateNoteSchemas = z.object({

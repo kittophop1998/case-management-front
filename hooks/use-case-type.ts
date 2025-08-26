@@ -69,7 +69,9 @@ export default function useCaseType() {
   //
   const [searchText, setSearchText] = useState<string>("");
   const [selectGroup, setSelectGroup] = useState<string>("null");
-  const [childValue2text, setChildValue2text] = useState({});
+  const [childValue2text, setChildValue2text] = useState<
+    Record<string, string>
+  >({});
 
   useEffect(() => {
     groupData({

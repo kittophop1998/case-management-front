@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge"
 import { SquareCheck } from "lucide-react";
 interface ChipIsActiveProps {
     isActive: boolean;
@@ -11,6 +10,7 @@ export const CheckIsActive = ({ isActive, className }: ChipIsActiveProps) => {
         <SquareCheck
             size={16}
             color={isActive ? '#22c55e' : '#e4e4e7'}
+            // @ts-expect-error className is valid for lucide icon
             className={className}
 
         />

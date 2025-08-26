@@ -14,7 +14,9 @@ export const CustomerCard = ({ nationalId, customerNameEng, customerNameTh }: Pa
             onClick={() => router.push(`/customer/dashboard?customerId=${nationalId}`)}
         >
             <div className="flex items-center gap-4  w-full ">
-                <AvatarUser className="w-[2.5rem] h-[2.5rem]" />
+
+                <AvatarUser />
+                {/* className="w-[2.5rem] h-[2.5rem]" */}
                 <div className="flex gap-2">
                     <Typography variant="body2" className="font-medium">{nationalId}</Typography>
                     <Typography variant="body2" className="font-medium">{customerNameEng}</Typography>

@@ -42,7 +42,7 @@ export const FloatingWidget = ({ title, status, setStatus, children }: FloatingW
                     </Button>
                 </div>
                 <span className={cn(isHidden ? "hidden" : '')}>
-                    {cloneElement(children, { isSmallMod, setStatus })}
+                    {cloneElement(children, { isSmallMod, setStatus } as { isSmallMod: boolean, setStatus: (status: boolean) => void })}
                 </span>
             </div>
         </div >

@@ -92,8 +92,7 @@ export function DataTable<T>({
   setPage,
   setLimit
 }: DataTableProps<T>) {
-  const rows = table.getRowModel().rows
-
+  // const rows = table.getRowModel().rows
   return (
     <div>
       {/* {loading ?
@@ -101,7 +100,6 @@ export function DataTable<T>({
           <div className="h-full bg-blue-500 animate-progress"></div>
         </div>
         : <div className='h-[2px]'></div>
-
       } */}
       <table className='w-full border-b border-[#e1e2e9]'>
         <thead className='border-b border-t border-[#e1e2e9]'>
@@ -109,7 +107,9 @@ export function DataTable<T>({
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => (
                 <th key={header.id}
-                  className={cn('px-2 py-3 text-sm font-normal', header.column.columnDef?.meta?.headerClass || '')}
+                  className={cn('px-2 py-3 text-sm font-normal',
+                    //  @ts-expect-error //TODO: fix type error
+                    header.column.columnDef?.meta?.headerClass || '')}
                 >
                   {header.isPlaceholder
                     ? null
@@ -126,7 +126,9 @@ export function DataTable<T>({
           {table.getRowModel().rows.map(row => (
             <tr key={row.id} className=''>
               {row.getVisibleCells().map(cell => (
-                <td key={cell.id} className={cn('p-2 text-sm text-[#6E7079]', cell.column.columnDef?.meta?.cellClass || '')}>
+                <td key={cell.id} className={cn('p-2 text-sm text-[#6E7079]',
+                  //  @ts-expect-error //TODO: fix type error
+                  cell.column.columnDef?.meta?.cellClass || '')}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

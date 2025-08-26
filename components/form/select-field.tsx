@@ -154,23 +154,29 @@ export const SelectItems = ({
   valueName = 'id',
   labelName = 'name',
   onChange,
-  value,
   searchABle = false,
   searchPlaceholder = 'Search',
-  className
-}: InputSelectProps) => {
-  // return <>{className}</>
+  className,
+  value,
+}: InputSelectProps & InputDefaultProps & {
+  searchABle?: boolean
+  searchPlaceholder?: string
+  value: any
+}) => {
   const toggleValue = (val: any) => {
-    // const exists = value.includes(val)
+    console.log(`toggleValue`, val, value)
     let newValue
     if (Array.isArray(value)) {
-      newValue = val
-        ? value.filter((v) => v !== val)
-        : [...value, val]
+      const isExist = value.includes(val)
+      newValue = isExist ? value.filter((v) => v !== val) : [...value, val]
+      // newValue = val
+      //   ? value.filter((v) => v !== val)
+      //   : [...value, val]
     } else {
       newValue = val
     }
-    onChange(newValue)
+    console.log('SelectItems toggleValue', newValue)
+    onChange?.(newValue)
   }
 
   const Items = memo(() => {

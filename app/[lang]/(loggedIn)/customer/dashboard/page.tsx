@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ClipboardPlus, Phone } from "lucide-react";
+import { ChevronDown, ClipboardPlus } from "lucide-react";
 import { useSearchParams, useRouter } from 'next/navigation'
 import usePermission from "@/hooks/use-permission";
 // 

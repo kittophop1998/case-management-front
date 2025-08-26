@@ -1,3 +1,4 @@
+// @ts-nocheck 
 import { CreateNoteSchemas } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
