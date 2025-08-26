@@ -134,6 +134,24 @@ export function DataTable<T>({
               ))}
             </tr>
           ))}
+          {Array.from({ length: Math.max(0, 10 - table.getRowModel().rows.length) }).map((_, rowIndex) => (
+            <tr key={`empty-${rowIndex}`}>
+              {table.getAllLeafColumns().map((col, colIndex) => (
+                <td key={`empty-${rowIndex}-${colIndex}`} className="p-2 text-sm text-[#6E7079] text-transparent">
+                  -
+                </td>
+              ))}
+            </tr>
+          ))}
+
+
+          {/* 
+          {[...Array(10 - table.getRowModel().rows.length).fill('')].map((row, index) => (
+            <tr key={index} className=''>
+              <td key={index} className={cn('p-2 text-sm text-[#6E7079] bg-red-400')}>
+              </td>
+            </tr>
+          ))} */}
         </tbody>
         {/* <tfoot>
           {table.getFooterGroups().map(footerGroup => (
@@ -179,7 +197,7 @@ export function DataTable<T>({
           </Button>
         </div>
       </div>
-    </div>
+    </div >
   )
 
 }
