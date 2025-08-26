@@ -7,28 +7,58 @@ import { AppSidebar } from './_components/app-sidebar'
 import { AppBar } from './_components/app-bar'
 import { Suspense } from 'react'
 import LoadingPage from '@/components/loading-page'
+import { updateTokenAuth } from '@/actions/updateTokenAuth'
+import { headers } from 'next/headers'
+import { handleError401 } from '@/lib/utils/handleError'
+import { InitializersData } from '../_components/initializers-data'
+import { cookies } from "next/headers";
 
-export default function UserLayout({
+
+// const MainContent = async (
+//   {
+//     children
+//   }
+//     :
+//     {
+//       children: React.ReactNode
+//     }
+// ) => {
+//   console.time('MainContent')
+//   const cookieStore = await cookies();
+//   const accessToken = cookieStore.get("accessToken")?.value || null;
+//   const refreshToken = cookieStore.get("refreshToken")?.value || null;
+//   if (!accessToken) {
+//     const headerList = headers();
+//     const pathname = (await headerList).get("x-current-path") as string;
+//     await handleError401({ pathname });
+//   }
+//   console.timeEnd('MainContent')
+//   return <>
+//     <InitializersData accessToken={accessToken} refreshToken={refreshToken} />
+//     <Suspense fallback={<LoadingPage />}>
+//       {children}
+//     </Suspense>
+//   </>
+// }
+export default async function UserLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  // const [open, setOpen] = useState(true)
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     if (window.innerWidth <= 1000) {//md
-  //       setOpen(false)
-  //     }
-  //   }
-  //   handleResize()
-  //   window.addEventListener("resize", handleResize)
-  //   return () => window.removeEventListener("resize", handleResize)
-  // }, [])
+  console.time('getCookie')
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("accessToken")?.value || null;
+  const refreshToken = cookieStore.get("refreshToken")?.value || null;
+  if (!accessToken) {
+    const headerList = headers();
+    const pathname = (await headerList).get("x-current-path") as string;
+    await handleError401({ pathname });
+  }
+  console.timeEnd('getCookie')
   return (
-    <div>
-      <SidebarProvider
-      //  open={open} onOpenChange={setOpen}
-      >
+    <>
+      <InitializersData accessToken={accessToken} refreshToken={refreshToken} />
+      <SidebarProvider>
         <AppSidebar />
         <SidebarInset className='bg-[#f4f5fa]'>
           <AppBar />
@@ -37,6 +67,20 @@ export default function UserLayout({
           </Suspense>
         </SidebarInset>
       </SidebarProvider>
-    </div>
+    </>
   );
 }
+
+
+
+
+{/* <SidebarProvider */ }
+//  open={open} onOpenChange={setOpen}
+// >
+// const { user, accessToken, refreshToken } = await updateTokenAuth();
+// if (!user) {
+//   const headerList = headers();
+//   const pathname = (await headerList).get("x-current-path") as string;
+//   await handleError401({ pathname });
+// }
+// <InitializersData accessToken={accessToken} refreshToken={refreshToken} />
