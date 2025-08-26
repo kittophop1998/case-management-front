@@ -51,7 +51,6 @@ const SelectChildInput = ({
                         valueName={valueName}
                         labelName={labelName}
                         onChange={(newValue: any) => {
-                            console.log('setDraftValue', newValue)
                             setDraftValue(newValue)
                         }}
                         value={draftValue}

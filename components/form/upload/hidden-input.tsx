@@ -33,8 +33,6 @@ const onChangeUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: {
         const file = files[0];
         const formdata = new FormData();
         formdata.append("file", file);
-        // console.log("Files changed:", file);
-        // console.log("formdata:", formdata);
         let apiResponse = await api<
             {
                 filename: string;

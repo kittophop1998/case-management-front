@@ -67,14 +67,7 @@ export const DialogDetails = forwardRef
       const form = useForm<z.infer<typeof CreateEditUserSchema>>({
         resolver: zodResolver(CreateEditUserSchema)
       })
-      useEffect(() => {
-        console.log('All errors:', form.formState.errors)
-        console.log('All errors:', form.getValues())
-      }, [form.formState.errors])
-
-
       const onSubmit = async (userData: z.infer<typeof CreateEditUserSchema>) => {
-        console.log('Form submitted with values:', mode, userData)
         try {
           switch (mode) {
             case 'edit':
@@ -109,7 +102,6 @@ export const DialogDetails = forwardRef
             setMode('edit')
             form.reset(emptyUser)
             const userDetails = await fetchUser(user.id).unwrap()
-            console.log('Fetched user details:', userDetails)
             if (!userDetails?.data) return
             const userAPI = userDetails.data
             const updateForm = {

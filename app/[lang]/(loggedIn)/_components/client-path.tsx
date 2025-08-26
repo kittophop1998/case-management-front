@@ -27,7 +27,6 @@ export function ClientPath() {
                 forceGo: true
             }
         );
-        console.log(`initPath`, initPath)
         router.push(initPath)
     }
     const searchParams = useSearchParams();

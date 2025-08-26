@@ -18,10 +18,8 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
   const dataList: any[] = useMemo(() => data?.data || [], [data]);
 
   const getUsers = async (params: GetUsersRequest) => {
-    console.log("getUsers.call()", params);
     try {
       const result = await fetchUsers(params).unwrap();
-      console.log("Fetched users:", result);
       return result;
     } catch (err) {
       console.error("Failed to fetch users:", err);
@@ -40,7 +38,6 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
     },
   });
   const triggerFetch = () => {
-    console.log("triggerFetch called");
     // TODO:change this to lazy
     setNumberTrickerFetch((current) => current + 1);
   };

@@ -51,7 +51,6 @@ export function checkPassword(): Promise<string | null> {
 
                 // if (!res.ok) return    setError(data.message || 'Wrong password')
                 isLoading = true
-                console.log('!!!!!!1')
                 if (value.password === 'admin') {
                     // 
                     resolve(value.password)
@@ -72,7 +71,6 @@ export function checkPassword(): Promise<string | null> {
                         }
                     )
                 }
-                console.log('!!!!!!2')
                 isLoading = false
 
 

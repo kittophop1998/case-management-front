@@ -11,7 +11,6 @@
 //   const params = useParams()
 //   const lang = params.lang || 'en' // Default to 'en' if no language is specified
 //   const handleLanguageChange = () => {
-//     console.log(`Language changed to: ${lang}`)
 //   }
 //   return(
 //   )

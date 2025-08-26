@@ -41,19 +41,10 @@ export default function useAuth() {
     setIsLoadingLogin(true);
     setLoginError(null);
 
-    console.log("useAuth-Login", value);
     try {
-      console.log("1 clint login call action");
       const { accessToken, refreshToken, error } = await loginUser(value);
-      console.log(
-        "2 clint after call login  action",
-        accessToken,
-        refreshToken,
-        error
-      );
 
       if (error) {
-        console.log("useAuth-Login error", error);
         throw new Error(error);
       }
       if (!accessToken || !refreshToken) {
@@ -66,7 +57,6 @@ export default function useAuth() {
         .unwrap()
         .then(async (resMe) => {
           const currentMe = resMe.data;
-          console.log("useAuth-getMe success", currentMe);
           try {
             if (!currentMe) {
               throw new Error("User data not found");
@@ -75,11 +65,7 @@ export default function useAuth() {
               pathname,
               currentMe.role.name
             );
-            console.log(
-              "useAuth-getInitPathByRole",
-              initPath,
-              currentMe?.role?.name
-            );
+
             if (initPath) {
               router.push(initPath);
             }
@@ -96,7 +82,6 @@ export default function useAuth() {
       setIsLoadingLogin(false);
       setLoginError(null);
     } catch (error) {
-      console.log("useAuth-Login failed", error);
       setIsLoadingLogin(false);
       if (error instanceof Error) {
         setLoginError(error.message);

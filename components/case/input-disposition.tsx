@@ -83,10 +83,6 @@ export function ControlItems({
                 return s.name.toLowerCase().includes(search.toLowerCase())
             }
             )
-            console.log(`matchedSubs`, matchedSubs, mode)
-
-
-
             if (matchParent || matchedSubs.length > 0 || search === "") {
                 return {
                     ...group,

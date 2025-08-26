@@ -19,7 +19,6 @@ export const updateTokenAuth = async () => {
     setRefreshToken(refreshToken);
     try {
       user = await api<UserProfileType>(`/auth/profile`);
-      console.log("[action] user", user);
       // const permissionObj: Record<string, boolean> = {};
       // for (const { key } of user?.data?.permissions || []) {
       //   permissionObj[key] = true;

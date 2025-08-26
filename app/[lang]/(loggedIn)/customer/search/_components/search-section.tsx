@@ -28,10 +28,7 @@ export const SearchSection = ({
             let data = await searchCustomer({
                 id: search
             }).unwrap()
-            console.log('data:', data)
         } catch (error: unknown) {
-            // reset()
-            // console.log(`currentData`, currentData)
             console.log('error', (error as any).message)
         }
         setIsSearhted(true)
@@ -53,7 +50,6 @@ export const SearchSection = ({
     const openDialogInquiry = async () => {
         const forceName = 'Inquiry and disposition'
         const inqID = await getByName(forceName)
-        console.log('inqID:', inqID)
         if (inqID) {
             formNewCaseRef.current?.onOpen(inqID, search)
             setStatus(true)

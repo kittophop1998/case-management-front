@@ -115,7 +115,6 @@ export function AppSidebarMenuList({ }) {
                   >
                     <Link href={`/th${item.url}`}
                       prefetch={true}
-                      onMouseEnter={() => console.log("Mouse over, prefetch triggered")}
 
                     >
                       {(() => {
