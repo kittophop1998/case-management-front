@@ -51,6 +51,7 @@ export const TextField = ({
       required={required}
     >
       <TextFieldInput
+        loading={loading}
         prependInnerIcon={prependInnerIcon}
         appendInnerIcon={appendInnerIcon}
         placeholder={placeholder}
