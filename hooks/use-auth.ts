@@ -6,8 +6,8 @@ import { LoginSchemas } from "@/schemas";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { setAccessToken, setRefreshToken } from "@/services/api";
-import { loginUser } from "@/actions/login";
+import { api, setAccessToken, setRefreshToken } from "@/services/api";
+import { loginUser, setToken, SignInAPIResponse } from "@/actions/login";
 
 export default function useAuth() {
   const [loginError, setLoginError] = useState<string | null>(null);
@@ -29,15 +29,29 @@ export default function useAuth() {
     setIsLoadingLogin(true);
     setLoginError(null);
     try {
-      const { accessToken, refreshToken, error } = await loginUser(value);
-      console.log(`useAuth() res-loginUser:`, {
-        accessToken,
-        refreshToken,
-        error,
+      const res = await api<SignInAPIResponse>(`/auth/login`, {
+        method: "POST",
+        body: JSON.stringify({
+          username: value.username,
+          password: value.password,
+        }),
+        headers: { "Content-Type": "application/json" },
       });
-      if (error) {
-        throw new Error(error);
+      console.log(`[action] loginUser() res:`, res);
+      if (!res) {
+        throw new Error("invalid token");
       }
+      const { accessToken, refreshToken } = res;
+      // const { accessToken, refreshToken, error } = await loginUser(value);
+      // console.log(`useAuth() res-loginUser:`, {
+      //   accessToken,
+      //   refreshToken,
+      //   error,
+      // });
+      setToken({ accessToken, refreshToken });
+      // if (error) {
+      //   throw new Error(error);
+      // }
       if (!accessToken || !refreshToken) {
         await logoutMutation();
         throw new Error("Invalid login response");

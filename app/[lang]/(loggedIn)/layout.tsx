@@ -17,7 +17,7 @@ export default async function UserLayout({
 }: {
   children: React.ReactNode
 }) {
-  console.time('getCookie')
+  // console.time('getCookie')
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value || null;
   const refreshToken = cookieStore.get("refreshToken")?.value || null;
@@ -26,7 +26,7 @@ export default async function UserLayout({
     const pathname = (await headerList).get("x-current-path") as string;
     await handleError401({ pathname });
   }
-  console.timeEnd('getCookie')
+  // console.timeEnd('getCookie')
   return (
     <>
       <InitializersData accessToken={accessToken} refreshToken={refreshToken} />
