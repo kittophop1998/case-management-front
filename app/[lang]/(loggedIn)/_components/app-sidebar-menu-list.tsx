@@ -115,7 +115,7 @@ export function AppSidebarMenuList({ }) {
                     tooltip={item.title}
                   >
                     <Link href={`/th${item.url}`}
-                      prefetch={true}
+                      prefetch={false}
                     >
                       {/* {`/th${item.url}`} */}
                       {(() => {

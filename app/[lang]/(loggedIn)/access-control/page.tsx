@@ -1,6 +1,8 @@
 import { Typography } from "@/components/common/typography";
 import CardPageWrapper from "@/components/common/card-page-warpper";
 import { AccessControlClientPage } from "./_components/access-control-client-page";
+import { Suspense } from "react";
+import LoadingPage from "@/components/loading-page";
 
 export default function AccessControlPage() {
   return (
@@ -11,7 +13,9 @@ export default function AccessControlPage() {
       <Typography variant="body2" className="my-4">
         Select Department and Section for Manage Access Function
       </Typography>
-      <AccessControlClientPage />
+      <Suspense fallback={<LoadingPage />}>
+        <AccessControlClientPage />
+      </Suspense>
     </CardPageWrapper>
   )
 }
