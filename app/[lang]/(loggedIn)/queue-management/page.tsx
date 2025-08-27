@@ -30,7 +30,7 @@ export default function QueueManagementPage({
             <CardPageWrapper className="mt-4" >
                 <>
                     <Typography variant="h6" className="mb-3">Queue List</Typography>
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<div>Loading...</div>} >
                         <QueueManagementTable />
                     </Suspense>
                 </>

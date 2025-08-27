@@ -142,6 +142,8 @@ function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   const body = error ? String(error?.message ?? "") : props.children
 
   if (!body) {
+    // ! custom
+    // return <p className="text-xs text-transparent -mt-1">-</p>
     return null
   }
 

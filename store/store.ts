@@ -8,6 +8,7 @@ import { permissionApiSlice } from "@/features/permissionApiSlice";
 import { customersApiSlice } from "@/features/customersApiSlice";
 import { caseApiSlice } from "@/features/caseApiSlice";
 import { noteApiSlice } from "@/features/noteApiSlice";
+import { queueApiSlice } from "@/features/queueApiSlice";
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -19,6 +20,7 @@ export const store = configureStore({
       .concat(permissionApiSlice.middleware)
       .concat(customersApiSlice.middleware)
       .concat(caseApiSlice.middleware)
+      .concat(queueApiSlice.middleware)
       .concat(noteApiSlice.middleware),
 });
 

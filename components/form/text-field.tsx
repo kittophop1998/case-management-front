@@ -14,7 +14,7 @@ import { InputFieldWarper } from './input-warper'
 interface TextFieldProps {
   form: any // Replace 'any' with the correct form type, e.g., UseFormReturn<any> if using react-hook-form
   name: string
-  label: string
+  label?: string
   loading?: boolean
   placeholder?: string
   readonly?: boolean // Optional prop to make the input read-only
@@ -55,6 +55,7 @@ export const TextField = ({
         appendInnerIcon={appendInnerIcon}
         placeholder={placeholder}
         readonly={readonly}
+        className='mt-0 pt-0'
       />
     </InputFieldWarper>
   )

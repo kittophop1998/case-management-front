@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils'
 interface TextFieldProps {
   form: any // Replace 'any' with the correct form type, e.g., UseFormReturn<any> if using react-hook-form
   name: string
-  label: string
+  label?: string
   loading?: boolean
   placeholder?: string
   readonly?: boolean // Optional prop to make the input read-only

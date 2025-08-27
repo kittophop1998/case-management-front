@@ -2,14 +2,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQuery } from "@/services/api";
 import { DefaultReqTableType, TableType } from "@/types/table.type";
 import { createSearchParams } from "@/lib/utils/create-search-params";
-
-type QueueType = {
-  queueId: string;
-  queueName: string;
-  queueDescription: string;
-  createAt: string;
-  createBy: string;
-};
+import { QueueType } from "@/types/queue.type";
 
 export const queueApiSlice = createApi({
   reducerPath: "queueApi",
@@ -32,4 +25,4 @@ export const queueApiSlice = createApi({
   }),
 });
 
-export const { useLazyGetTableQuery, useEditTableMutation } = queueApiSlice;
+export const { useLazyGetTableQuery } = queueApiSlice;

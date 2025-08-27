@@ -1,5 +1,4 @@
 'use client'
-
 import { Button } from "@/components/common/Button";
 import CardPageWrapper from "@/components/common/card-page-warpper";
 import { Typography } from "@/components/common/typography";
@@ -8,24 +7,16 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { UserType } from "@/types/user.type";
 import BtnDel from "@/components/button/btn-del";
 import { AddUser } from "./components/add-users";
-
-
+import { CreateQueue } from "@/schemas";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
+import { Form } from "@/components/ui/form";
+import { useState } from "react";
+import { TextField } from "@/components/form/text-field";
+import { TextAreaField } from "@/components/form/textarea-field";
+import BtnSave from "@/components/button/btn-save";
 const columnHelper = createColumnHelper<UserType>()
-const prependColumns = [columnHelper.display({
-    id: 'select',
-    enableHiding: false,
-    size: 10,
-    cell: info => {
-        const user = info.row.original
-        return (
-            <BtnDel onClick={() => { }} />
-        )
-    },
-    meta: {
-        headerClass: 'w-[3rem]'
-    }
-
-})]
 const appendColumns = [columnHelper.display({
     id: 'delete',
     enableHiding: false,
@@ -41,44 +32,73 @@ const appendColumns = [columnHelper.display({
     }
 
 })]
-
-const QueueInfoForm = () => {
+const QueueInfoForm = ({ form, isCreate }: { form: any, isCreate: boolean }) => {
+    const onSubmit = (values: z.infer<typeof CreateQueue>) => {
+        console.log('Form submitted with values:', values);
+    }
+    // form.formState.isSubmitting
+    // form.formState.isDirty
     return <>
-        <div className="flex justify-between">
-            <Typography >Queue Name: </Typography>
-            {/* <BtnSave onClick={() => { }} /> */}
-            <Button >Save</Button>
-        </div>
-        <Typography >Description: </Typography>
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+                <div className="flex justify-between">
+                    <div className="w-[clamp(300px,100%,35rem)]">
+                        <div className="flex items-start gap-2">
+                            <Typography variant="body2" className="mt-1 w-[6rem]">Queue Name: </Typography>
+                            <div className="flex-1">
+                                <TextField
+                                    loading={form.formState.isSubmitting}
+                                    form={form}
+                                    name='queueName'
+                                    placeholder='Enter Queue Name'
+                                />
+                            </div>
+                        </div>
+                        <div className="flex items-start gap-2">
+                            <Typography variant="body2" className="mt-1 w-[6rem]">Description: </Typography>
+                            <div className="flex-1">
+                                <TextAreaField
+                                    loading={form.formState.isSubmitting}
+                                    form={form}
+                                    name='queueDescription'
+                                    placeholder='Enter Queue Description'
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <BtnSave onClick={() => { }} />
+                    {/* <Button >Save</Button> */}
+                </div>
+            </form></Form>
+
     </>
 }
-
-export default function QueueManagementIDPage(
-    // {
-    // params
-    // }
-    // : Readonly<{
-    // params: Promise<{ lang: 'en' | 'th' }>
-    // }>
-) {
-
+export default function QueueManagementIDPage() {
+    const form = useForm<z.infer<typeof CreateQueue>>({
+        resolver: zodResolver(CreateQueue),
+        defaultValues: {
+            queueName: '',
+            queueDescription: '',
+            queueUsers: [],
+            queueUsersAdd: [],
+            queueUsersDel: [],
+        }
+    })
+    const [isCreate, setIsCreate] = useState(false)
 
     return (
-        <>
-            <CardPageWrapper className="mt-4" >
-                <>
-                    <QueueInfoForm />
-                    <UsersTable
-                        MoreActions={
-                            <>
-                                <AddUser />
-                            </>
-                        }
-                        appendColumns={appendColumns}
-                        prependColumns={prependColumns}
-                    />
-                </>
-            </CardPageWrapper>
-        </>
+        <CardPageWrapper className="mt-4" >
+            <>
+                <QueueInfoForm form={form} isCreate={isCreate} />
+                <UsersTable
+                    MoreActions={
+                        <>
+                            <AddUser />
+                        </>
+                    }
+                    appendColumns={appendColumns}
+                />
+            </>
+        </CardPageWrapper>
     )
 }
