@@ -1,6 +1,6 @@
 'use client'
-import { useGetDropdownQuery } from "@/features/system/systemApiSlice";
-import { useEditTableMutation, useLazyGetTableQuery } from "@/features/permission/permissionApiSlice";
+import { useGetDropdownQuery } from "@/features/systemApiSlice";
+import { useEditTableMutation, useLazyGetTableQuery } from "@/features/permissionApiSlice";
 import { useEffect, useState, useMemo } from "react";
 import { useTable } from "@/hooks/use-table";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";

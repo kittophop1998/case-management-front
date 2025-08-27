@@ -1,6 +1,6 @@
 "use client";
 import { useMemo } from "react";
-import { useGetMeQuery } from "@/features/auth/authApiSlice";
+import { useGetMeQuery } from "@/features/authApiSlice";
 import { PermissionKeyType } from "@/types/permission.type";
 
 export default function usePermission() {

@@ -1,12 +1,12 @@
 import { combineReducers } from "@reduxjs/toolkit";
 // Slice
-import { authApiSlice } from "@/features/auth/authApiSlice";
-import { usersApiSlice } from "@/features/users/usersApiSlice";
-import { systemApiSlice } from "@/features/system/systemApiSlice";
-import { permissionApiSlice } from "@/features/permission/permissionApiSlice";
-import { customersApiSlice } from "@/features/customers/customersApiSlice";
-import { caseApiSlice } from "@/features/case/caseApiSlice";
-import { noteApiSlice } from "@/features/note/noteApiSlice";
+import { authApiSlice } from "@/features/authApiSlice";
+import { usersApiSlice } from "@/features/usersApiSlice";
+import { systemApiSlice } from "@/features/systemApiSlice";
+import { permissionApiSlice } from "@/features/permissionApiSlice";
+import { customersApiSlice } from "@/features/customersApiSlice";
+import { caseApiSlice } from "@/features/caseApiSlice";
+import { noteApiSlice } from "@/features/noteApiSlice";
 
 export const rootReducer = combineReducers({
   [authApiSlice.reducerPath]: authApiSlice.reducer,

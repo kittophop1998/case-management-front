@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { useGetDropdownQuery } from "@/features/system/systemApiSlice";
+import { useGetDropdownQuery } from "@/features/systemApiSlice";
 import { setAccessToken, setRefreshToken } from "@/services/api";
 
 export const InitializersData = ({ refreshToken, accessToken }: {

@@ -32,7 +32,7 @@ import { StatusVerify } from "@/components/customer/status-verify";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Promotion } from "@/types/promotion.type";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useLazyGetCustomerNotesQuery } from "@/features/note/noteApiSlice";
+import { useLazyGetCustomerNotesQuery } from "@/features/noteApiSlice";
 
 type SuggestionCardProps = {
     loading: boolean

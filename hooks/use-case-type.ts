@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 
-import { useGetDropdownQuery } from "@/features/system/systemApiSlice";
+import { useGetDropdownQuery } from "@/features/systemApiSlice";
 
 type DataCaseChild = {
   id: string;

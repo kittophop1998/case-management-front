@@ -4,7 +4,7 @@ import { path2clientpath } from "@/const/title-path"
 import { cn } from "@/lib/utils"
 import { usePathname, useSearchParams } from "next/navigation"
 import HomeIcon from '@/public/icons/Home.svg'
-import { useGetMeQuery } from "@/features/auth/authApiSlice"
+import { useGetMeQuery } from "@/features/authApiSlice"
 import { useMemo } from "react"
 import getInitPathByRole from "@/lib/utils/get-init-path-by-role"
 import { useRouter } from "next/navigation";

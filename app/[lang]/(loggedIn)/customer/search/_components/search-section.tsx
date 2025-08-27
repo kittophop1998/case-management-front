@@ -4,7 +4,7 @@ import { CustomerCard } from "./customer-card";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/common/Button";
 import { useRouter } from 'next/navigation'
-import { useLazyCustomerCustinfoQuery } from "@/features/customers/customersApiSlice";
+import { useLazyCustomerCustinfoQuery } from "@/features/customersApiSlice";
 import { getErrorText } from "@/services/api";
 import { FloatingWidget } from "@/components/common/floating-widget";
 import { FormNewCase, FormNewCaseRef } from "@/components/case/form-new-case";

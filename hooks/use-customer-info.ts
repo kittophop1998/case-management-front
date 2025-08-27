@@ -3,7 +3,7 @@ import {
   useLazyCustomerProfileQuery,
   useLazyCustomerSuggestionQuery,
   useLazyCustomerCustinfoQuery,
-} from "@/features/customers/customersApiSlice";
+} from "@/features/customersApiSlice";
 import {
   CustomerCombine,
   CustomerCombineLoading,

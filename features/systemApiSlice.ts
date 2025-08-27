@@ -1,4 +1,3 @@
-import { description } from "./../../components/chart/mockup";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import {
   JsonJoinDetails,

@@ -1,7 +1,7 @@
 "use client";
 import z from "zod";
 import { useState } from "react";
-import { useLogoutMutation } from "@/features/auth/authApiSlice";
+import { useLogoutMutation } from "@/features/authApiSlice";
 import { LoginSchemas } from "@/schemas";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";

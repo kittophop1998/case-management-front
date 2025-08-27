@@ -8,7 +8,7 @@ import { PasswordField } from '@/components/form/password-field'
 import useAuth from '@/hooks/use-auth'
 import { FormError } from '@/components/form/form-error'
 import { Typography } from '@/components/common/typography'
-import { useGetDropdownQuery } from '@/features/system/systemApiSlice'
+import { useGetDropdownQuery } from '@/features/systemApiSlice'
 
 export const LoginForm = () => {
   const { data: dataDropdown } = useGetDropdownQuery()

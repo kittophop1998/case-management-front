@@ -1,7 +1,7 @@
 import {
   useLazyGetUsersQuery,
   GetUsersRequest,
-} from "@/features/users/usersApiSlice";
+} from "@/features/usersApiSlice";
 import { useEffect, useMemo, useState } from "react";
 import { useTable } from "../use-table";
 

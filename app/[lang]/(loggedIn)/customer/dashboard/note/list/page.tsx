@@ -8,7 +8,7 @@ import { Typography } from "@/components/common/typography";
 import { DateValueType } from "@/components/form/date-picker";
 import { SearchFieldInput } from "@/components/form/search-field";
 import { FormCreateNote } from "@/components/note/form-create-note";
-import { useLazyGetCustomerNotesQuery } from "@/features/note/noteApiSlice";
+import { useLazyGetCustomerNotesQuery } from "@/features/noteApiSlice";
 import { useTable } from "@/hooks/use-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { format } from "date-fns";

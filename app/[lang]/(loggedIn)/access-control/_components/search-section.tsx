@@ -1,7 +1,7 @@
 import { FormError } from "@/components/form/form-error";
 import { SearchFieldInput } from "@/components/form/search-field";
 import { SelectFieldInput } from "@/components/form/select-field";
-import { GetDropdownResponse, useGetDropdownQuery } from "@/features/system/systemApiSlice";
+import { GetDropdownResponse, useGetDropdownQuery } from "@/features/systemApiSlice";
 import { getErrorText } from "@/services/api";
 import { current } from "@reduxjs/toolkit";
 import { promises } from "dns";

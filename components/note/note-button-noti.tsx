@@ -2,7 +2,7 @@ import { FileText } from "lucide-react";
 // import { Button } from "../common/button";
 import { Badge } from "../ui/badge";
 import { Button } from "../common/Button";
-import { useLazyGetCustomerNotesQuery } from "@/features/note/noteApiSlice";
+import { useLazyGetCustomerNotesQuery } from "@/features/noteApiSlice";
 import { useEffect } from "react";
 
 interface NoteButtonNotiProps {
