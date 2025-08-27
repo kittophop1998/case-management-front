@@ -84,6 +84,7 @@ export async function api<T>(
     throw new Error("Network error or invalid URL");
   }
   const text: string = await res.text();
+  console.log(`apiSSR.text()${BASE_URL}${url}`, text);
   const data: ApiResponse<T> = text ? JSON.parse(text) : {};
   if (!res.ok) {
     throw new Error(getErrorText(data as ApiResponse<undefined>));

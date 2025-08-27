@@ -44,7 +44,7 @@ export const usersApiSlice = createApi({
   baseQuery,
   // tagTypes: ['User'], // สำคัญถ้าคุณใช้ cache tag
   endpoints: (builder) => ({
-    getUsers: builder.mutation<ApiResponse<UserType[]>, GetUsersRequest>({
+    getUsers: builder.query<ApiResponse<UserType[]>, GetUsersRequest>({
       query: ({
         page,
         limit,
@@ -146,7 +146,8 @@ export const usersApiSlice = createApi({
 });
 
 export const {
-  useGetUsersMutation,
+  // useGetUsersMutation,
+  useLazyGetUsersQuery,
   useGetUserMutation,
   useEditUserMutation,
   useCreateUserMutation,

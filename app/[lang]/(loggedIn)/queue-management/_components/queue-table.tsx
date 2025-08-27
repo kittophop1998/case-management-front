@@ -90,9 +90,10 @@ const useQueueTable = () => {
     return { table, sort, page, limit, setPage, setLimit, dataTable }
 };
 
-export default function QueueManagementClientPage({
+export default function QueueTable({
 }) {
     const { table, dataTable, setPage, setLimit } = useQueueTable()
+
     return <>
         <DataTable
             loading={false}

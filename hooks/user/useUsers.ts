@@ -1,5 +1,5 @@
 import {
-  useGetUsersMutation,
+  useLazyGetUsersQuery,
   GetUsersRequest,
 } from "@/features/users/usersApiSlice";
 import { useEffect, useMemo, useState } from "react";
@@ -13,8 +13,10 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
   const [center, setCenter] = useState<string | null>(null);
   const [searchText, setSearchText] = useState("");
   const [numberTrickerFetch, setNumberTrickerFetch] = useState<number>(1);
-  const [fetchUsers, { data, isLoading, isError, error, isSuccess }] =
-    useGetUsersMutation();
+  const [
+    fetchUsers,
+    { currentData: data, isLoading, isError, error, isSuccess },
+  ] = useLazyGetUsersQuery();
   const dataList: any[] = useMemo(() => data?.data || [], [data]);
 
   const getUsers = async (params: GetUsersRequest) => {
