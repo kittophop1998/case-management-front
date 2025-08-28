@@ -34,6 +34,7 @@ export const useUsersBackend = () => {
         { currentData: data, isLoading, isError, error, isSuccess },
     ] = useLazyGetUsersQuery();
     const dataList: any[] = useMemo(() => data?.data || [], [data]);
+    console.count(`useUsersBackend`)
     return {
         fetchUsers,
         dataList,
@@ -43,24 +44,48 @@ export const useUsersBackend = () => {
         error,
     }
 };
+let ITEM_PER_PAGE = 10;
+let DEFAULT_PAGE = 1
+const isSame = (obj1: Record<string, any>, obj2: Record<string, any>) => JSON.stringify(obj1) === JSON.stringify(obj2)
 export const useUsersFontend = (initialData: UserType[] = []) => {
+    const filterMemo = useRef({
+        status: true,
+        role: null,
+        section: null,
+        center: null,
+        sort: null,
+        searchText: null,
+        department: null,
+        queueId: null,
+        isNotInQueue: false
+    })
+    const [newDataset, setNewDataset] = useState<UserType[]>([])
+    const [initialDatasetMemo, setInitialDatasetMemo] = useState<UserType[]>([])
+    const [allDataset, setAllDataset] = useState<UserType[]>([])
+    useEffect(() => {
+        if (isSame(initialDatasetMemo, initialData)) return
+        console.log(`initialDatasetMemo :`, initialDatasetMemo)
+        setInitialDatasetMemo(initialData)
+    }, [initialData]);
+
+    useEffect(() => {
+        const newAllDataset = [...newDataset, ...initialDatasetMemo]
+        if (isSame(allDataset, newAllDataset)) return
+        console.log(`initialDatasetMemo.current :`, initialDatasetMemo, `newDataset.current:`, newDataset.current)
+        setAllDataset(newAllDataset)
+    }, [initialDatasetMemo, newDataset]);
+
     const [data, setData] = useState({
-        data: initialData,
-        page: 1,
-        limit: 10,
+        data: [],
+        page: DEFAULT_PAGE,
+        limit: ITEM_PER_PAGE,
         total: 0,
-        totalPages: 0,
+        totalPages: 1,
     });
     const dataList = useMemo(() => data.data, [data]);
-    // useEffect(() => {
-    //     setData({
-    //         data: initialData,
-    //         page: 1,
-    //         limit: 10,
-    //         total: 0,
-    //         totalPages: 0,
-    //     });
-    // }, []);
+
+
+
     const fetchUsers = ({
         page,
         limit,
@@ -73,24 +98,77 @@ export const useUsersFontend = (initialData: UserType[] = []) => {
         department,
         queueId,
         isNotInQueue
-    }: GetUsersRequest) => { }
+    }: GetUsersRequest) => {
+        filterMemo.current = {
+            page,
+            limit,
+            status,
+            role,
+            section,
+            center,
+            sort,
+            searchText,
+            department,
+            queueId,
+            isNotInQueue
+        }
+        setData({
+            data: allDataset,
+            page: 1,
+            limit: ITEM_PER_PAGE,
+            total: allDataset.length,
+            totalPages: Math.ceil(allDataset.length / ITEM_PER_PAGE),
+        })
+    }
+    const triggerFetch = () => {
+        fetchUsers(
+            filterMemo.current
+        )
+    }
+    useEffect(() => {
+        triggerFetch()
+    }, [allDataset]);
+    // const triggerFetch = async () => {
+    //     let data = await fetchUsers({
+    //         page: 1,
+    //         limit: ITEM_PER_PAGE,
+    //         status,
+    //         role,
+    //         section,
+    //         center,
+    //         sort,
+    //         searchText,
+    //         department,
+    //         queueId,
+    //         isNotInQueue
+    //     })
+    //     setData({
+    //         data,
+    //         page: 1,
+    //         limit: ITEM_PER_PAGE,
+    //         total: allDataset.length,
+    //         totalPages: Math.ceil(allDataset.length / ITEM_PER_PAGE),
+    //     })
+    // }
     const [isLoading, setIsLoading] = useState(false)
     const [isError, setIsError] = useState(false)
     const [error, setError] = useState(false)
     const addUser = (user: UserType) => {
-        console.log('addItems', user)
-        setData(prev => ({
-            ...prev,
-            data: [...prev.data, user]
-        }))
+        // console.log('addItems', user)
+        // setData(prev => ({
+        //     ...prev,
+        //     data: [...prev.data, user]
+        // }))
     }
     const addUsers = (users: UserType) => {
-        console.log('addItems', users)
-        setData(prev => ({
-            ...prev,
-            data: [...prev.data, ...users]
-        }))
+        // console.log('addItems', users)
+        // setData(prev => ({
+        //     ...prev,
+        //     data: [...prev.data, ...users]
+        // }))
     }
+    // console.count(`useUsersFontend`)
+    console.count(`useUsersFontend`, dataList, data, initialData)
 
     return {
         fetchUsers,

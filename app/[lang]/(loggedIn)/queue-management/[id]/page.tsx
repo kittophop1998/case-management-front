@@ -69,6 +69,8 @@ export default function QueueManagementIDPage() {
             queueUsers: [],
             queueUsersAdd: [],
             queueUsersDel: [],
+            queueUsersAddObj: [],
+            queueUsersDelObj: []
         }
     })
     const [isCreate, setIsCreate] = useState(true)
@@ -85,7 +87,9 @@ export default function QueueManagementIDPage() {
     const testAddUsers = (users: UserType[]) => {
         addUsers(users)
     }
-
+    const [open, setOpen] = useState(false)
+    const [queueUsersAddObj, setQueueUsersAddObj] = useState([])
+    const [queueUsersDelObj, setQueueUsersDelObj] = useState([])
     return (
         <CardPageWrapper className="mt-4" >
             <>
@@ -150,7 +154,11 @@ export default function QueueManagementIDPage() {
                     fetchUsers={fetchUsers}
                     MoreActions={
                         <>
-                            <AddUser />
+                            <AddUser
+                                open={open}
+                                usersAdd={queueUsersAddObj}
+                                userDelete={queueUsersDelObj}
+                            />
                         </>
                     }
                     dataList={dataList}
