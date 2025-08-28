@@ -113,12 +113,16 @@ export const AddUser = memo(({ usersAdd, userDelete, handleAddUsers }: AddUserPr
         userDelete,
         usersAdd
     )
-    // useEffect(() => {
-    //     if (isOpenAddUser) {
-    //         isSame()
-
-    //     }
-    // }, [isOpenAddUser])
+    useEffect(() => {
+        if (isOpenAddUser) {
+            let initNewUsersObjDraft = {}
+            // isSame(usersAdd, Object.values(newUsersObjDraft).filter(u => u !== undefined)) || setNewUsersObjDraft(
+            for (const user of usersAdd) {
+                initNewUsersObjDraft[user.id] = user
+            }
+            setNewUsersObjDraft(initNewUsersObjDraft)
+        }
+    }, [isOpenAddUser])
     console.log(`AddUser`)
     const close = () => {
         setIsOpenAddUser(false)

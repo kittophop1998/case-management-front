@@ -135,7 +135,9 @@ export default function QueueManagementIDPage() {
     useEffect(() => {
         let queueUsers = []
         for (const element of queueUsersAddObj) {
-            queueUsers.push(element.id)
+            if (element.id) {
+                queueUsers.push(element.id)
+            }
         }
         form.setValue('queueUsers', queueUsers)
     }, [queueUsersAddObj])
