@@ -16,22 +16,7 @@ import { useState } from "react";
 import { TextField } from "@/components/form/text-field";
 import { TextAreaField } from "@/components/form/textarea-field";
 import BtnSave from "@/components/button/btn-save";
-const columnHelper = createColumnHelper<UserType>()
-const appendColumns = [columnHelper.display({
-    id: 'delete',
-    enableHiding: false,
-    size: 10,
-    cell: info => {
-        const user = info.row.original
-        return (
-            <BtnDel onClick={() => { }} />
-        )
-    },
-    meta: {
-        headerClass: 'w-[3rem]'
-    }
 
-})]
 const QueueInfoForm = ({ form, isCreate }: { form: any, isCreate: boolean }) => {
     const onSubmit = (values: z.infer<typeof CreateQueue>) => {
         console.log('Form submitted with values:', values);
