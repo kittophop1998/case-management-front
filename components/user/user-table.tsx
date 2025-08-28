@@ -112,12 +112,27 @@ export const useUsersFontend = (initialData: UserType[] = []) => {
             queueId,
             isNotInQueue
         }
+        let filtered = allDataset.filter(user => {
+
+            return (
+                (status === null || user.isActive === status) &&
+                (role === null || user.role.id === role) &&
+                (section === null || user.section.id === section) &&
+                (center === null || user.center.id === center) &&
+                // (sort === null || user.sort === sort) &&
+                (searchText === null || `${user.name}`.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())) &&
+                (department === null || user.department.id === department)
+                // (queueId === null || user.queue === queueId) &&
+                // (isNotInQueue === false || user.inQueue === isNotInQueue)
+            );
+        });
         setData({
-            data: allDataset,
-            page: 1,
+            // data: allDataset,
+            data: filtered.slice((page - 1) * limit, page * limit),
+            page: page,
             limit: ITEM_PER_PAGE,
-            total: allDataset.length,
-            totalPages: Math.ceil(allDataset.length / ITEM_PER_PAGE),
+            total: filtered.length,
+            totalPages: Math.ceil(filtered.length / ITEM_PER_PAGE),
         })
     }
     const triggerFetch = () => {
