@@ -5,6 +5,7 @@ import { ApiResponse } from "@/types/api.type";
 import { DefaultReqTableType } from "@/types/table.type";
 import { CreateEditUserSchema } from "@/schemas";
 import z from "zod";
+import { createSearchParams } from "@/lib/utils/create-search-params";
 
 export interface GetUsersRequest extends DefaultReqTableType {
   status: boolean | null;
@@ -13,6 +14,8 @@ export interface GetUsersRequest extends DefaultReqTableType {
   center: string | null;
   searchText: string;
   department: string | null;
+  queueId: string | null;
+  isNotInQueue: boolean | null;
 }
 type EditUserBody = {
   name: string;
@@ -55,43 +58,24 @@ export const usersApiSlice = createApi({
         sort = null,
         searchText = "",
         department = null,
+        queueId = null,
+        isNotInQueue = null,
       }) => {
-        let searchObj: {
-          page?: string;
-          limit?: string;
-          isActive?: string;
-          roleId?: string;
-          sectionId?: string;
-          centerId?: string;
-          keyword?: string;
-          sort?: string;
-          departmentId?: string;
-        } = {
-          page: String(page),
-          limit: String(limit),
-          isActive: String(status),
-          roleId: String(role || ""),
-          sectionId: String(section || ""),
-          centerId: String(center || ""),
-          keyword: String(searchText || ""),
-          departmentId: String(department || ""),
-          sort: String(sort),
-        };
-
-        if (!page) delete searchObj.page;
-        if (!limit) delete searchObj.limit;
-        if (!status && status !== false) delete searchObj.isActive;
-        if (!role) delete searchObj.roleId;
-        if (!section) delete searchObj.sectionId;
-        if (!center) delete searchObj.centerId;
-        if (!sort) delete searchObj.sort;
-        if (!searchText) delete searchObj.keyword;
-        if (!department) delete searchObj.departmentId;
-
-        const searchParams = new URLSearchParams(searchObj);
-
+        const searchParams = createSearchParams({
+          page,
+          limit,
+          isActive: status,
+          roleId: role,
+          sectionId: section,
+          centerId: center,
+          sort,
+          keyword: searchText,
+          departmentId: department,
+          queueId,
+          isNotInQueue,
+        });
         return {
-          url: `/users?${searchParams.toString()}`,
+          url: `/users?${searchParams}`,
           method: "GET",
         };
       },

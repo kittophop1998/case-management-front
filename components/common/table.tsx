@@ -83,14 +83,14 @@ export const Header = ({
 export function DataTable<T>({
   table,
   page = 1,
-  limit,
-  total,
+  // limit,
+  // total,
   totalPages = 0,
-  loading = false,
-  emptyText = 'No results.',
-  onRowClick,
+  // loading = false,
+  // emptyText = 'No results.',
+  // onRowClick,
   setPage,
-  setLimit
+  // setLimit
 }: DataTableProps<T>) {
   // const rows = table.getRowModel().rows
   return (
@@ -143,8 +143,6 @@ export function DataTable<T>({
               ))}
             </tr>
           ))}
-
-
           {/* 
           {[...Array(10 - table.getRowModel().rows.length).fill('')].map((row, index) => (
             <tr key={index} className=''>

@@ -2,7 +2,7 @@
 import { Button } from "@/components/common/Button";
 import CardPageWrapper from "@/components/common/card-page-warpper";
 import { Typography } from "@/components/common/typography";
-import { UsersTable } from "@/components/user/user-table";
+import { UsersTable, useUsersBackend } from "@/components/user/user-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { UserType } from "@/types/user.type";
 import BtnDel from "@/components/button/btn-del";
@@ -69,7 +69,8 @@ const QueueInfoForm = ({ form, isCreate }: { form: any, isCreate: boolean }) => 
                     <BtnSave onClick={() => { }} />
                     {/* <Button >Save</Button> */}
                 </div>
-            </form></Form>
+            </form>
+        </Form>
 
     </>
 }
@@ -84,13 +85,17 @@ export default function QueueManagementIDPage() {
             queueUsersDel: [],
         }
     })
-    const [isCreate, setIsCreate] = useState(false)
+    const [isCreate, setIsCreate] = useState(true)
+    const seeData = form.watch()
+
 
     return (
         <CardPageWrapper className="mt-4" >
             <>
+                {JSON.stringify(seeData)}
                 <QueueInfoForm form={form} isCreate={isCreate} />
                 <UsersTable
+                    useUsers={useUsersBackend}
                     MoreActions={
                         <>
                             <AddUser />
