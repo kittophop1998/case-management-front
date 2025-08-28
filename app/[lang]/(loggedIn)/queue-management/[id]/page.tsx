@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { Form } from "@/components/ui/form";
-import { useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import { TextField } from "@/components/form/text-field";
 import { TextAreaField } from "@/components/form/textarea-field";
 import BtnSave from "@/components/button/btn-save";
@@ -82,14 +82,58 @@ export default function QueueManagementIDPage() {
         isLoading,
         isError,
         error,
-        addUsers
+        setNewDataset,
+        handleDeleteDataset,
+        handleAddDataset,
+        // setDeletedUsers,
+        // deletedUsers,
     } = useUsersFontend()
-    const testAddUsers = (users: UserType[]) => {
-        addUsers(users)
-    }
+    // const testAddUsers = (users: UserType[]) => {
+    //     addUsers(users)
+    // }
     const [open, setOpen] = useState(false)
-    const [queueUsersAddObj, setQueueUsersAddObj] = useState([])
-    const [queueUsersDelObj, setQueueUsersDelObj] = useState([])
+    // const [currentDBUserDB, setCurrentDBUserDB] = useState<UserType[]>([])
+    const currentDBUserDBMemo = useMemo(() => {
+        return []
+    }, [])
+    const [queueUsersAddObj, setQueueUsersAddObj] = useState<UserType[]>([])
+    const [queueUsersDelObj, setQueueUsersDelObj] = useState<UserType[]>([])
+
+    // useEffect(() => {
+    //     setNewDataset(queueUsersAddObj)
+    // }, [queueUsersAddObj])
+    const handleDelUsers = (user: UserType) => {
+        setQueueUsersAddObj((prev) => prev.filter(u => u.id !== user.id))
+        setQueueUsersDelObj(prev => [...prev, user])
+        handleDeleteDataset([user])
+    }
+    const handleAddUsers = (users: UserType[]) => {
+        // currentDBUserDBMemo
+        setQueueUsersDelObj(
+            (prev) => prev.filter(u => !users.find(uu => uu.id === u.id))
+        )
+        setQueueUsersAddObj(prev => [...prev, ...users])
+        handleAddDataset(users)
+        // setNewDataset(users)
+    }
+
+    const columnHelper = createColumnHelper<UserType>()
+    const appendColumns = [columnHelper.display({
+        id: 'delete',
+        enableHiding: false,
+        size: 10,
+        cell: info => {
+            const user = info.row.original
+            // const isActive = !!newUsersObjDraft[user.id]
+            return (
+                <BtnDel onClick={() => handleDelUsers(user)} />
+            )
+        },
+        meta: {
+            headerClass: 'w-[3rem]'
+        }
+
+    })]
     return (
         <CardPageWrapper className="mt-4" >
             <>
@@ -152,12 +196,14 @@ export default function QueueManagementIDPage() {
                 <UsersTable
                     useUsers={useUsersBackend}
                     fetchUsers={fetchUsers}
+                    appendColumns={appendColumns}
                     MoreActions={
                         <>
                             <AddUser
-                                open={open}
                                 usersAdd={queueUsersAddObj}
                                 userDelete={queueUsersDelObj}
+                                handleAddUsers={handleAddUsers}
+
                             />
                         </>
                     }
@@ -166,6 +212,9 @@ export default function QueueManagementIDPage() {
                     isLoading={isLoading}
                     isError={isError}
                 />
+                {/* {JSON.stringify(seeData)} */}
+                <div>queueUsersAddObj:{JSON.stringify(queueUsersAddObj)}</div>
+                <div>queueUsersDelObj:{JSON.stringify(queueUsersDelObj)}</div>
             </>
         </CardPageWrapper>
     )

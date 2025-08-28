@@ -21,6 +21,8 @@ import { GetUsersRequest, useLazyGetUsersQuery } from '@/features/usersApiSlice'
 import { useTable } from '@/hooks/use-table'
 import { TableType } from '@/types/table.type'
 import { ApiResponse } from '@/types/api.type'
+import { clone, isSame } from '@/lib/utils/object'
+import { se } from 'date-fns/locale'
 const defaultData = {
     data: [],
     page: 1,
@@ -46,7 +48,6 @@ export const useUsersBackend = () => {
 };
 let ITEM_PER_PAGE = 10;
 let DEFAULT_PAGE = 1
-const isSame = (obj1: Record<string, any>, obj2: Record<string, any>) => JSON.stringify(obj1) === JSON.stringify(obj2)
 export const useUsersFontend = (initialData: UserType[] = []) => {
     const filterMemo = useRef({
         status: true,
@@ -59,6 +60,7 @@ export const useUsersFontend = (initialData: UserType[] = []) => {
         queueId: null,
         isNotInQueue: false
     })
+    const [deletedUsers, setDeletedUsers] = useState<UserType[]>([])
     const [newDataset, setNewDataset] = useState<UserType[]>([])
     const [initialDatasetMemo, setInitialDatasetMemo] = useState<UserType[]>([])
     const [allDataset, setAllDataset] = useState<UserType[]>([])
@@ -83,8 +85,6 @@ export const useUsersFontend = (initialData: UserType[] = []) => {
         totalPages: 1,
     });
     const dataList = useMemo(() => data.data, [data]);
-
-
 
     const fetchUsers = ({
         page,
@@ -128,48 +128,44 @@ export const useUsersFontend = (initialData: UserType[] = []) => {
     useEffect(() => {
         triggerFetch()
     }, [allDataset]);
-    // const triggerFetch = async () => {
-    //     let data = await fetchUsers({
-    //         page: 1,
-    //         limit: ITEM_PER_PAGE,
-    //         status,
-    //         role,
-    //         section,
-    //         center,
-    //         sort,
-    //         searchText,
-    //         department,
-    //         queueId,
-    //         isNotInQueue
-    //     })
-    //     setData({
-    //         data,
-    //         page: 1,
-    //         limit: ITEM_PER_PAGE,
-    //         total: allDataset.length,
-    //         totalPages: Math.ceil(allDataset.length / ITEM_PER_PAGE),
-    //     })
-    // }
+
     const [isLoading, setIsLoading] = useState(false)
     const [isError, setIsError] = useState(false)
     const [error, setError] = useState(false)
-    const addUser = (user: UserType) => {
-        // console.log('addItems', user)
-        // setData(prev => ({
-        //     ...prev,
-        //     data: [...prev.data, user]
-        // }))
-    }
-    const addUsers = (users: UserType) => {
-        // console.log('addItems', users)
-        // setData(prev => ({
-        //     ...prev,
-        //     data: [...prev.data, ...users]
-        // }))
-    }
-    // console.count(`useUsersFontend`)
-    console.count(`useUsersFontend`, dataList, data, initialData)
 
+    const handleDeleteDataset = async (users: UserType[]) => {
+        let founds = []
+        for (const user of users) {
+            const found = await allDataset.find
+                (u => isSame(u, user));
+            if (!!found) {
+                founds.push(found)
+            }
+        }
+        if (founds.length > 0) {
+            setDeletedUsers(prev => [...prev, ...founds])
+        }
+    }
+    const handleAddDataset = async (users: UserType[]) => {
+        console.log(`handleAddDataset`, users.length)
+        let cloneDeletedUsers = clone(deletedUsers);
+        let cloneNewDataset = clone(newDataset);
+        for (const user of users) {
+            const foundIndex = cloneDeletedUsers.findIndex(u => isSame(u, user));
+            if (foundIndex !== -1) {
+                cloneDeletedUsers.splice(foundIndex, 1);
+            } else {
+                const foundIndex = cloneNewDataset.findIndex(u => isSame(u, user));
+                if (foundIndex === -1) { cloneNewDataset.push(user); }
+            }
+        }
+        console.log(`cloneDeletedUsers`, cloneDeletedUsers.length)
+
+        console.log(`cloneNewDataset`, cloneNewDataset.length)
+
+        setDeletedUsers(cloneDeletedUsers);
+        setNewDataset(cloneNewDataset);
+    }
     return {
         fetchUsers,
         dataList,
@@ -177,7 +173,8 @@ export const useUsersFontend = (initialData: UserType[] = []) => {
         isLoading,
         isError,
         error,
-        addUsers,
+        handleDeleteDataset,
+        handleAddDataset,
     }
 };
 // export const useUsersBackend = ({ columns = [], defaultFilter = {} }: { columns: any[]; defaultFilter?: any }) => {

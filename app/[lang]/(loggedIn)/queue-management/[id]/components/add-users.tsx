@@ -12,7 +12,6 @@ import { createColumnHelper } from "@tanstack/react-table"
 import { memo, useEffect, useMemo, useState } from "react"
 
 interface AddUserProps {
-    open: boolean;
     usersAdd: UserType[]
     userDelete: UserType[]
 }
@@ -70,7 +69,7 @@ const useCombinedData = (addItems: UserType[], deleteItems: UserType[]) => {
     }
 }
 
-export const AddUser = memo(({ open, usersAdd, userDelete }: AddUserProps) => {
+export const AddUser = memo(({ usersAdd, userDelete, handleAddUsers }: AddUserProps) => {
     const [newUsersObjDraft, setNewUsersObjDraft] = useState({})
     const [isOpenAddUser, setIsOpenAddUser] = useState(false)
     const columnHelper = createColumnHelper<UserType>()
@@ -115,21 +114,31 @@ export const AddUser = memo(({ open, usersAdd, userDelete }: AddUserProps) => {
         usersAdd
     )
     // useEffect(() => {
-    //     if (open) {
-    //         // 
-    //         // 
-    //         // 
-    //         // 
+    //     if (isOpenAddUser) {
+    //         isSame()
+
     //     }
-    // }, [open])
+    // }, [isOpenAddUser])
     console.log(`AddUser`)
+    const close = () => {
+        setIsOpenAddUser(false)
+    }
+    const save = () => {
+        const users = Object.values(newUsersObjDraft)
+        handleAddUsers(users)
+        console.log(`newUsersObjDraft`, newUsersObjDraft)
+        setIsOpenAddUser(false)
+    }
     return (
         <>
+
             <Button variant='black' onClick={() => setIsOpenAddUser(true)} >
                 Add user
             </Button>
             <Modal title='' isOpen={isOpenAddUser} className='w-[clamp(985px,100vw,300px)]'>
                 <div>
+                    {/* <div>usersAdd:{JSON.stringify(usersAdd)}</div> */}
+                    {/* <div>userDelete:{JSON.stringify(userDelete)}</div> */}
                     {/* {dataList.length} */}
                     <UsersTable
                         fetchUsers={fetchUsers}
@@ -140,8 +149,8 @@ export const AddUser = memo(({ open, usersAdd, userDelete }: AddUserProps) => {
                         prependColumns={prependColumns}
                     />
                     <div className="flex justify-end gap-2">
-                        <ButtonCancel />
-                        <BtnApply />
+                        <ButtonCancel onClick={close} />
+                        <BtnApply onClick={save} />
                     </div>
                 </div>
             </Modal>
