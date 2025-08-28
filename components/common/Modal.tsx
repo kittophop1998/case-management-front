@@ -30,7 +30,7 @@ export const Modal: React.FC<ModalProps> = ({
       <div className='fixed inset-0 z-50 flex items-center justify-center bg-[#A3A3A3]/20 backdrop-blur-xs'>
         <Card
           className={cn(
-            'relative w-full max-w-lg p-6 rounded-lg shadow-xl',
+            'relative w-full p-6 rounded-lg shadow-xl',
             className
           )}
         >

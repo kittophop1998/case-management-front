@@ -22,7 +22,7 @@ export const AddUser = () => {
             <Button variant='black' onClick={() => setIsOpenAddUser(true)} >
                 Add user
             </Button>
-            <Modal title='' isOpen={isOpenAddUser}>
+            <Modal title='' isOpen={isOpenAddUser} className='w-[clamp(985px,100vw,300px)]'>
                 <UsersTable
                     fetchUsers={fetchUsers}
                     dataList={dataList}
