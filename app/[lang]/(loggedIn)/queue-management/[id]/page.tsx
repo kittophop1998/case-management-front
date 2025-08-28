@@ -17,14 +17,45 @@ import { TextField } from "@/components/form/text-field";
 import { TextAreaField } from "@/components/form/textarea-field";
 import BtnSave from "@/components/button/btn-save";
 import { useCreateMutation } from "@/features/queueApiSlice";
+import { useDebugLogForm } from "@/hooks/use-debug-log-form";
+import { dialogAlert } from "@/components/common/dialog-alert";
+import { useRouter } from 'next/navigation'
+import { getErrorText } from "@/services/api";
 
 const QueueInfoForm = ({ form, isCreate }: { form: any, isCreate: boolean }) => {
+    const router = useRouter()
     const [create, { error: errorCreate, isLoading: isLoadingCreate }] = useCreateMutation()
-    const onSubmit = (values: z.infer<typeof CreateQueue>) => {
-        create(form.getValues())
+    const onSubmit = async (values: z.infer<typeof CreateQueue>) => {
+        try {
+            await create(form.getValues()).unwrap()
+            dialogAlert(true)
+            router.push('/queue-management')
+        } catch (error: unknown) {
+            // console.log(`error`, getErrorText(error))
+            dialogAlert(false,
+                {
+                    title: '',
+                    message: getErrorText(error),
+                    confirmText: 'Try again',
+                    cancelText: 'Try again',
+                    onConfirm: () => { },
+                    onCancel: () => { }
+                }
+            )
+            // if (error instanceof Error) {
+            //     dialogAlert(false,
+            //         {
+            //             title: '',
+            //             message: getErrorText(error),
+            //             confirmText: 'Try again',
+            //             cancelText: 'Try again',
+            //             onConfirm: () => { },
+            //             onCancel: () => { }
+            //         }
+            //     )
+            // }
+        }
     }
-    // form.formState.isSubmitting
-    // form.formState.isDirty
     return <>
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
@@ -101,9 +132,14 @@ export default function QueueManagementIDPage() {
     const [queueUsersAddObj, setQueueUsersAddObj] = useState<UserType[]>([])
     const [queueUsersDelObj, setQueueUsersDelObj] = useState<UserType[]>([])
 
-    // useEffect(() => {
-    //     setNewDataset(queueUsersAddObj)
-    // }, [queueUsersAddObj])
+    useEffect(() => {
+        let queueUsers = []
+        for (const element of queueUsersAddObj) {
+            queueUsers.push(element.id)
+        }
+        form.setValue('queueUsers', queueUsers)
+    }, [queueUsersAddObj])
+
     const handleDelUsers = (user: UserType) => {
         setQueueUsersAddObj((prev) => prev.filter(u => u.id !== user.id))
         setQueueUsersDelObj(prev => [...prev, user])
@@ -145,66 +181,11 @@ export default function QueueManagementIDPage() {
     //
     //
 
-
+    useDebugLogForm({ form })
     return (
         <CardPageWrapper className="mt-4" >
             <>
-                {/* <Button onClick={() => testAddUsers([{
-                    id: '',
-                    username: 'asdasdasdasddasd',
-                    email: '',
-                    name: '22222222',
-                    role: {
-                        id: '',
-                        name: ''
-                    },
-                    section: {
-                        id: '',
-                        name: ''
-                    },
-                    department: {
-                        id: '',
-                        name: ''
-                    },
-                    center: {
-                        id: '',
-                        name: ''
-                    },
-                    isActive: true
-                }, {
-                    id: '',
-                    username: '11111111',
-                    email: '',
-                    name: 'asdasdasd',
-                    role: {
-                        id: '',
-                        name: ''
-                    },
-                    section: {
-                        id: '',
-                        name: ''
-                    },
-                    department: {
-                        id: '',
-                        name: ''
-                    },
-                    center: {
-                        id: '',
-                        name: ''
-                    },
-                    isActive: true
-                }])}>asdasdas</Button>
-                {JSON.stringify(seeData)} */}
                 <QueueInfoForm form={form} isCreate={isCreate} />
-                {/* <UsersTable
-                    useUsers={useUsersFontend}
-                    MoreActions={
-                        <>
-                            <AddUser />
-                        </>
-                    }
-                    appendColumns={appendColumns}
-                /> */}
                 <UsersTable
                     useUsers={useUsersBackend}
                     fetchUsers={fetchUsers}
