@@ -8,6 +8,7 @@ import { QueueType } from "@/types/queue.type";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 
 const useQueueTable = () => {
     const [getTable, { data: dataTable, isFetching, isError, error }] = useLazyGetTableQuery();
@@ -28,8 +29,10 @@ const useQueueTable = () => {
         }),
         columnHelper.accessor('createdAt', {
             id: 'createdAt',
+
             header: ({ column }) => <Header column={column} label='Update Date' sortAble />,
-            cell: info => info.getValue(),
+            cell: info => format(info.getValue(), "dd MMM yyyy HH:mm:ss"),
+            // cell: info => info.getValue(),
             meta: { headerClass: 'w-[13rem]' },
         }),
         columnHelper.accessor('createdBy', {
