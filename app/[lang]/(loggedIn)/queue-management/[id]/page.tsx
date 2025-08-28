@@ -104,7 +104,7 @@ export default function QueueManagementIDPage() {
     return (
         <CardPageWrapper className="mt-4" >
             <>
-                <Button onClick={() => testAddUsers([{
+                {/* <Button onClick={() => testAddUsers([{
                     id: '',
                     username: 'asdasdasdasddasd',
                     email: '',
@@ -149,7 +149,7 @@ export default function QueueManagementIDPage() {
                     },
                     isActive: true
                 }])}>asdasdas</Button>
-                {JSON.stringify(seeData)}
+                {JSON.stringify(seeData)} */}
                 <QueueInfoForm form={form} isCreate={isCreate} />
                 {/* <UsersTable
                     useUsers={useUsersFontend}
