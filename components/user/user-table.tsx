@@ -134,20 +134,20 @@ export const useUsersFontend = (initialData: UserType[] = []) => {
     const [error, setError] = useState(false)
 
     const handleDeleteDataset = async (users: UserType[]) => {
-        let founds = []
+        let cloneDeletedUsers = clone(deletedUsers);
+        let cloneNewDataset = clone(newDataset);
         for (const user of users) {
-            const found = await allDataset.find
-                (u => isSame(u, user));
-            if (!!found) {
-                founds.push(found)
+            const foundIndex = cloneNewDataset.findIndex(u => isSame(u, user));
+            if (foundIndex === -1) {
+                cloneDeletedUsers.push(user)
+            } else {
+                cloneNewDataset.splice(foundIndex, 1);
             }
         }
-        if (founds.length > 0) {
-            setDeletedUsers(prev => [...prev, ...founds])
-        }
+        setDeletedUsers(cloneDeletedUsers);
+        setNewDataset(cloneNewDataset);
     }
     const handleAddDataset = async (users: UserType[]) => {
-        console.log(`handleAddDataset`, users.length)
         let cloneDeletedUsers = clone(deletedUsers);
         let cloneNewDataset = clone(newDataset);
         for (const user of users) {
@@ -159,10 +159,6 @@ export const useUsersFontend = (initialData: UserType[] = []) => {
                 if (foundIndex === -1) { cloneNewDataset.push(user); }
             }
         }
-        console.log(`cloneDeletedUsers`, cloneDeletedUsers.length)
-
-        console.log(`cloneNewDataset`, cloneNewDataset.length)
-
         setDeletedUsers(cloneDeletedUsers);
         setNewDataset(cloneNewDataset);
     }
