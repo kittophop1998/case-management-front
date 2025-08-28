@@ -2,7 +2,7 @@ import { Save } from "lucide-react";
 import { Button } from "../common/Button";
 
 interface BtnSaveProps {
-    onClick: () => void;
+    onClick?: () => void;
     variant?: 'black';
     text?: string | null;
     className?: string;

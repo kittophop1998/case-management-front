@@ -16,10 +16,12 @@ import { use, useEffect, useMemo, useState } from "react";
 import { TextField } from "@/components/form/text-field";
 import { TextAreaField } from "@/components/form/textarea-field";
 import BtnSave from "@/components/button/btn-save";
+import { useCreateMutation } from "@/features/queueApiSlice";
 
 const QueueInfoForm = ({ form, isCreate }: { form: any, isCreate: boolean }) => {
+    const [create, { error: errorCreate, isLoading: isLoadingCreate }] = useCreateMutation()
     const onSubmit = (values: z.infer<typeof CreateQueue>) => {
-        console.log('Form submitted with values:', values);
+        create(form.getValues())
     }
     // form.formState.isSubmitting
     // form.formState.isDirty
@@ -51,7 +53,7 @@ const QueueInfoForm = ({ form, isCreate }: { form: any, isCreate: boolean }) => 
                             </div>
                         </div>
                     </div>
-                    <BtnSave onClick={() => { }} />
+                    <BtnSave loading={form.formState.isSubmitting} />
                     {/* <Button >Save</Button> */}
                 </div>
             </form>
@@ -134,6 +136,16 @@ export default function QueueManagementIDPage() {
         }
 
     })]
+
+
+    // 
+    //
+    //
+    //
+    //
+    //
+
+
     return (
         <CardPageWrapper className="mt-4" >
             <>
