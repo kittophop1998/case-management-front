@@ -155,6 +155,6 @@ export const navMain: {
   {
     title: "Queue Management",
     url: "/queue-management",
-    permission: ["view.user"],
+    permission: ["view.queue"],
   },
 ];

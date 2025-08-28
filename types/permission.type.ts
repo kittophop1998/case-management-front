@@ -14,7 +14,8 @@ export type PermissionKeyType =
   | "add.case"
   | "view.report"
   | "view.setting"
-  | "view.inquirylog";
+  | "view.inquirylog"
+  | "view.queue";
 
 export type ObjPermission = {
   id: string;
