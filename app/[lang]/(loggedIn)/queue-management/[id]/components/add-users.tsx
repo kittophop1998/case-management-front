@@ -16,7 +16,7 @@ export const AddUser = () => {
         isLoading,
         isError,
         error
-    } = useUsersFontend()
+    } = useUsersBackend()
     return (
         <>
             <Button variant='black' onClick={() => setIsOpenAddUser(true)} >
@@ -24,7 +24,6 @@ export const AddUser = () => {
             </Button>
             <Modal title='' isOpen={isOpenAddUser}>
                 <UsersTable
-                    useUsers={useUsersBackend}
                     fetchUsers={fetchUsers}
                     dataList={dataList}
                     data={data}
