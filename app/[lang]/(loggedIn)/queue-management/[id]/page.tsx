@@ -163,6 +163,11 @@ export default function QueueManagementIDPage() {
                 <UsersTable
                     useUsers={useUsersBackend}
                     fetchUsers={fetchUsers}
+                    MoreActions={
+                        <>
+                            <AddUser />
+                        </>
+                    }
                     dataList={dataList}
                     data={data}
                     isLoading={isLoading}
