@@ -2,7 +2,7 @@
 import { Button } from "@/components/common/Button";
 import CardPageWrapper from "@/components/common/card-page-warpper";
 import { Typography } from "@/components/common/typography";
-import { UsersTable, useUsersBackend } from "@/components/user/user-table";
+import { UsersTable, useUsersBackend, useUsersFontend } from "@/components/user/user-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { UserType } from "@/types/user.type";
 import BtnDel from "@/components/button/btn-del";
@@ -74,6 +74,7 @@ const QueueInfoForm = ({ form, isCreate }: { form: any, isCreate: boolean }) => 
 
     </>
 }
+
 export default function QueueManagementIDPage() {
     const form = useForm<z.infer<typeof CreateQueue>>({
         resolver: zodResolver(CreateQueue),
@@ -87,21 +88,87 @@ export default function QueueManagementIDPage() {
     })
     const [isCreate, setIsCreate] = useState(true)
     const seeData = form.watch()
-
+    const {
+        fetchUsers,
+        dataList,
+        data,
+        isLoading,
+        isError,
+        error,
+        addUsers
+    } = useUsersFontend()
+    const testAddUsers = (users: UserType[]) => {
+        addUsers(users)
+    }
 
     return (
         <CardPageWrapper className="mt-4" >
             <>
+                <Button onClick={() => testAddUsers([{
+                    id: '',
+                    username: 'asdasdasdasddasd',
+                    email: '',
+                    name: '22222222',
+                    role: {
+                        id: '',
+                        name: ''
+                    },
+                    section: {
+                        id: '',
+                        name: ''
+                    },
+                    department: {
+                        id: '',
+                        name: ''
+                    },
+                    center: {
+                        id: '',
+                        name: ''
+                    },
+                    isActive: true
+                }, {
+                    id: '',
+                    username: '11111111',
+                    email: '',
+                    name: 'asdasdasd',
+                    role: {
+                        id: '',
+                        name: ''
+                    },
+                    section: {
+                        id: '',
+                        name: ''
+                    },
+                    department: {
+                        id: '',
+                        name: ''
+                    },
+                    center: {
+                        id: '',
+                        name: ''
+                    },
+                    isActive: true
+                }])}>asdasdas</Button>
                 {JSON.stringify(seeData)}
                 <QueueInfoForm form={form} isCreate={isCreate} />
-                <UsersTable
-                    useUsers={useUsersBackend}
+                {/* <UsersTable
+                    useUsers={useUsersFontend}
                     MoreActions={
                         <>
                             <AddUser />
                         </>
                     }
                     appendColumns={appendColumns}
+                /> */}
+                <UsersTable
+                    addUser
+                    editUser
+                    useUsers={useUsersBackend}
+                    fetchUsers={fetchUsers}
+                    dataList={dataList}
+                    data={data}
+                    isLoading={isLoading}
+                    isError={isError}
                 />
             </>
         </CardPageWrapper>

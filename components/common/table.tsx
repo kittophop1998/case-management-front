@@ -83,8 +83,6 @@ export const Header = ({
 export function DataTable<T>({
   table,
   page = 1,
-  // limit,
-  // total,
   totalPages = 0,
   // loading = false,
   // emptyText = 'No results.',

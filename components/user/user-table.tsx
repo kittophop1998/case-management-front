@@ -19,6 +19,8 @@ import { ExcelUploadDialog } from '@/app/[lang]/(loggedIn)/user-management/_comp
 import { FilterUsersModal } from '@/app/[lang]/(loggedIn)/user-management/_components/filter-modal'
 import { GetUsersRequest, useLazyGetUsersQuery } from '@/features/usersApiSlice'
 import { useTable } from '@/hooks/use-table'
+import { TableType } from '@/types/table.type'
+import { ApiResponse } from '@/types/api.type'
 const defaultData = {
     data: [],
     page: 1,
@@ -26,50 +28,40 @@ const defaultData = {
     total: 0,
     totalPages: 0,
 };
-export const useUsersBackend = ({ columns = [], defaultFilter = {} }: { columns: any[]; defaultFilter?: any }) => {
-    // Initialize state with default filter values
-    const [status, setStatus] = useState<boolean | null>(defaultFilter.status || true);
-    const [role, setRole] = useState<string | null>(defaultFilter.role || null);
-    const [department, setDepartment] = useState<string | null>(defaultFilter.department || null);
-    const [section, setSection] = useState<string | null>(defaultFilter.section || null);
-    const [center, setCenter] = useState<string | null>(defaultFilter.center || null);
-    const [queueId, setQueueId] = useState<string | null>(defaultFilter.queueId || null);
-    const [isNotInQueue, setIsNotInQueue] = useState<boolean | null>(defaultFilter.isNotInQueue || null);
-    const [searchText, setSearchText] = useState(defaultFilter.searchText || "");
+export const useUsersBackend = () => {
     const [
         fetchUsers,
         { currentData: data, isLoading, isError, error, isSuccess },
     ] = useLazyGetUsersQuery();
     const dataList: any[] = useMemo(() => data?.data || [], [data]);
-    const { table, sort, page, limit, setPage, setLimit } = useTable({
-        data: dataList,
-        columns: columns,
-        mapSortingName: {
-            role_name: "role",
-            section_name: "section",
-            department_name: "department",
-            center_name: "center",
-            isActive: "is_active",
-        },
+    return {
+        fetchUsers,
+        dataList,
+        data,
+        isLoading,
+        isError,
+        error,
+    }
+};
+export const useUsersFontend = (initialData: UserType[] = []) => {
+    const [data, setData] = useState({
+        data: initialData,
+        page: 1,
+        limit: 10,
+        total: 0,
+        totalPages: 0,
     });
-    const triggerFetch = async () => {
-        await fetchUsers({
-            page,
-            limit,
-            status,
-            role,
-            section,
-            center,
-            sort,
-            searchText,
-            department,
-            queueId,
-            isNotInQueue
-        }).unwrap();
-    };
-    useEffect(() => {
-        triggerFetch();
-    }, [
+    const dataList = useMemo(() => data.data, [data]);
+    // useEffect(() => {
+    //     setData({
+    //         data: initialData,
+    //         page: 1,
+    //         limit: 10,
+    //         total: 0,
+    //         totalPages: 0,
+    //     });
+    // }, []);
+    const fetchUsers = ({
         page,
         limit,
         status,
@@ -81,41 +73,97 @@ export const useUsersBackend = ({ columns = [], defaultFilter = {} }: { columns:
         department,
         queueId,
         isNotInQueue
-    ]);
+    }: GetUsersRequest) => { }
+    const [isLoading, setIsLoading] = useState(false)
+    const [isError, setIsError] = useState(false)
+    const [error, setError] = useState(false)
+    const addUser = (user: UserType) => {
+        console.log('addItems', user)
+        setData(prev => ({
+            ...prev,
+            data: [...prev.data, user]
+        }))
+    }
+    const addUsers = (users: UserType) => {
+        console.log('addItems', users)
+        setData(prev => ({
+            ...prev,
+            data: [...prev.data, ...users]
+        }))
+    }
 
     return {
-        table,
-        usersTable: isError ? defaultData : data || defaultData,
+        fetchUsers,
+        dataList,
+        data,
         isLoading,
-        isSuccess,
         isError,
         error,
-        triggerFetch,
-        state: {
-            page,
-            limit,
-            status,
-            role,
-            section,
-            center,
-            sort,
-            searchText,
-            department,
-        },
-        setState: {
-            setPage,
-            setLimit,
-            setStatus,
-            setRole,
-            setSection,
-            setCenter,
-            setSearchText,
-            setDepartment,
-        },
-    };
+        addUsers,
+    }
 };
+// export const useUsersBackend = ({ columns = [], defaultFilter = {} }: { columns: any[]; defaultFilter?: any }) => {
+//     // Initialize state with default filter values
 
-const useUserManagement = ({ prependColumns = [], appendColumns = [], editUser = false }: UseUsersTableProps) => {
+//     const [
+//         fetchUsers,
+//         { currentData: data, isLoading, isError, error, isSuccess },
+//     ] = useLazyGetUsersQuery();
+//     const dataList: any[] = useMemo(() => data?.data || [], [data]);
+
+//     return {
+//         table,
+//         usersTable: isError ? defaultData : data || defaultData,
+//         isLoading,
+//         isSuccess,
+//         isError,
+//         error,
+//         triggerFetch,
+//         state: {
+//             page,
+//             limit,
+//             status,
+//             role,
+//             section,
+//             center,
+//             sort,
+//             searchText,
+//             department,
+//         },
+//         setState: {
+//             setPage,
+//             setLimit,
+//             setStatus,
+//             setRole,
+//             setSection,
+//             setCenter,
+//             setSearchText,
+//             setDepartment,
+//         },
+//     };
+// };
+
+
+interface UseUsersTableProps {
+    prependColumns?: ColumnDef<UserType, any>[]
+    appendColumns?: ColumnDef<UserType, any>[]
+    editUser?: boolean
+    dataList: UserType[]
+    data: ApiResponse<UserType[]> | undefined,
+    defaultFilter: any,
+    fetchUsers: (filter: GetUsersRequest) => Promise<TableType<UserType>>,
+    isError: boolean
+}
+const useUserManagement = ({
+    prependColumns = [],
+    appendColumns = [],
+    editUser = false,
+    dataList,
+    data,
+    defaultFilter = {},
+    fetchUsers,
+    isError
+}: UseUsersTableProps) => {
     const { myPermission } = usePermission()
     const [isOpenFilter, setIsOpenFilter] = useState(false)
     const [modalImportUser, setModalImportUser] = useState(false)
@@ -187,80 +235,133 @@ const useUserManagement = ({ prependColumns = [], appendColumns = [], editUser =
 
     ], [openDialogEditUser, myPermission, prependColumns, appendColumns, editUser])
 
+    const [status, setStatus] = useState<boolean | null>(defaultFilter.status || true);
+    const [role, setRole] = useState<string | null>(defaultFilter.role || null);
+    const [department, setDepartment] = useState<string | null>(defaultFilter.department || null);
+    const [section, setSection] = useState<string | null>(defaultFilter.section || null);
+    const [center, setCenter] = useState<string | null>(defaultFilter.center || null);
+    const [queueId, setQueueId] = useState<string | null>(defaultFilter.queueId || null);
+    const [isNotInQueue, setIsNotInQueue] = useState<boolean | null>(defaultFilter.isNotInQueue || null);
+    const [searchText, setSearchText] = useState(defaultFilter.searchText || "");
+    const { table, sort, page, limit, setPage, setLimit } = useTable({
+        data: dataList,
+        columns: columns,
+        mapSortingName: {
+            role_name: "role",
+            section_name: "section",
+            department_name: "department",
+            center_name: "center",
+            isActive: "is_active",
+        },
+    });
+    const triggerFetch = async () => {
+        await fetchUsers({
+            page,
+            limit,
+            status,
+            role,
+            section,
+            center,
+            sort,
+            searchText,
+            department,
+            queueId,
+            isNotInQueue
+        })?.unwrap();
+    };
+    useEffect(() => {
+        triggerFetch();
+    }, [
+        page,
+        limit,
+        status,
+        role,
+        section,
+        center,
+        sort,
+        searchText,
+        department,
+        queueId,
+        isNotInQueue
+    ]);
     return {
         openDialogCreateUser,
         myPermission,
-        // setSearchText,
-        // searchText,
+        setSearchText,
+        searchText,
         setIsOpenFilter,
         // isLoading,
-        // table,
-        // usersTable,
+        table,
+        usersTable: isError ? defaultData : data || defaultData,
         setModalImportUser,
-        // setPage,
-        // setLimit,
+        setPage,
+        setLimit,
         dialogDetailsRef,
-        // triggerFetch,
+        triggerFetch,
         modalImportUser,
-        // department,
-        // setDepartment,
+        department,
+        setDepartment,
         isOpenFilter,
-        // setRole,
-        // setStatus,
-        // setSection,
-        // setCenter,
-        // role,
-        // section,
-        // center,
-        // status,
+        setRole,
+        setStatus,
+        setSection,
+        setCenter,
+        role,
+        section,
+        center,
+        status,
         columns
     }
 }
 
-export const UsersTable = memo(({ useUsers, addUser = false, editUser = false, MoreActions, prependColumns = [], appendColumns = [], defaultFilter = {} }: UsersTableProps) => {
+export const UsersTable = memo(({ addUser = false, editUser = false, MoreActions, prependColumns = [], appendColumns = [],
+    defaultFilter = {},
+    fetchUsers,
+    dataList,
+    data,
+    isLoading,
+    isError,
+    error
+}: UsersTableProps) => {
     const {
         openDialogCreateUser,
         myPermission,
+        setSearchText,
+        searchText,
         setIsOpenFilter,
+        table,
+        usersTable,
         setModalImportUser,
+        setPage,
+        setLimit,
         dialogDetailsRef,
+        triggerFetch,
         modalImportUser,
+        department,
+        setDepartment,
         isOpenFilter,
+        setRole,
+        setStatus,
+        setSection,
+        setCenter,
+        role,
+        section,
+        center,
+        status,
         columns
     } = useUserManagement(
         {
             prependColumns,
             appendColumns,
-            editUser
+            editUser,
+            dataList,
+            data,
+            isLoading,
+            isError,
+            error,
+            fetchUsers
         }
     )
-    const {
-        table,
-        usersTable,
-        triggerFetch,
-        isLoading,
-        state: {
-            status,
-            role,
-            section,
-            center,
-            searchText,
-            department
-        },
-        setState: {
-            setPage,
-            setLimit,
-            setStatus,
-            setRole,
-            setSection,
-            setCenter,
-            setSearchText,
-            setDepartment
-        }
-    } = useUsers({
-        columns,
-        defaultFilter
-    })
 
     return (
         < >
@@ -323,14 +424,10 @@ export const UsersTable = memo(({ useUsers, addUser = false, editUser = false, M
 
 
 
-interface UseUsersTableProps {
-    prependColumns?: ColumnDef<UserType, any>[]
-    appendColumns?: ColumnDef<UserType, any>[]
-    editUser?: boolean
-}
+
 interface UsersTableProps extends UseUsersTableProps {
     addUser?: boolean,
     MoreActions?: ReactNode,
-    defaultFilter?: any,
-    useUsers: typeof useUsersBackend
+    // useUsers: typeof useUsersBackend | typeof useUsersFontend
+
 }
