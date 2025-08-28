@@ -4,7 +4,13 @@ import {
 } from "@/features/usersApiSlice";
 import { useEffect, useMemo, useState } from "react";
 import { useTable } from "../use-table";
-
+const defaultData = {
+  data: [],
+  page: 1,
+  limit: 10,
+  total: 0,
+  totalPages: 0,
+};
 export const useUsers = ({ columns = [] }: { columns: any[] }) => {
   const [status, setStatus] = useState<boolean | null>(true);
   const [role, setRole] = useState<string | null>(null);
@@ -12,7 +18,6 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
   const [section, setSection] = useState<string | null>(null);
   const [center, setCenter] = useState<string | null>(null);
   const [searchText, setSearchText] = useState("");
-  const [numberTrickerFetch, setNumberTrickerFetch] = useState<number>(1);
   const [
     fetchUsers,
     { currentData: data, isLoading, isError, error, isSuccess },
@@ -40,19 +45,6 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
     },
   });
   const triggerFetch = () => {
-    // TODO:change this to lazy
-    setNumberTrickerFetch((current) => current + 1);
-  };
-
-  const defaultData = {
-    data: [],
-    page: 1,
-    limit: 10,
-    total: 0,
-    totalPages: 0,
-  };
-
-  useEffect(() => {
     getUsers({
       page,
       limit,
@@ -64,6 +56,9 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
       searchText,
       department,
     });
+  };
+  useEffect(() => {
+    triggerFetch();
   }, [
     page,
     limit,
@@ -73,7 +68,6 @@ export const useUsers = ({ columns = [] }: { columns: any[] }) => {
     center,
     sort,
     searchText,
-    numberTrickerFetch,
     department,
   ]);
 
