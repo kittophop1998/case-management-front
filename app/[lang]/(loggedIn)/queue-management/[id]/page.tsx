@@ -161,8 +161,6 @@ export default function QueueManagementIDPage() {
                     appendColumns={appendColumns}
                 /> */}
                 <UsersTable
-                    addUser
-                    editUser
                     useUsers={useUsersBackend}
                     fetchUsers={fetchUsers}
                     dataList={dataList}

@@ -24,8 +24,6 @@ export const AddUser = () => {
             </Button>
             <Modal title='' isOpen={isOpenAddUser}>
                 <UsersTable
-                    addUser
-                    editUser
                     useUsers={useUsersBackend}
                     fetchUsers={fetchUsers}
                     dataList={dataList}
