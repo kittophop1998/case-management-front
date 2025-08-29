@@ -11,7 +11,7 @@ export const CustomerCard = ({ nationalId, customerNameEng, customerNameTh }: Pa
     const router = useRouter()
     return (
         <Card className="px-0 mx-0 cursor-pointer border-0 shadow-none pl-6 py-0"
-            onClick={() => router.push(`/customer/dashboard?customerId=${nationalId}`)}
+            onClick={() => router.push(`/customer/dashboard?from=search&customerId=${nationalId}`)}
         >
             <div className="flex items-center gap-4  w-full ">
 

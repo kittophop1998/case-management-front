@@ -1,56 +1,76 @@
 'use client'
-import { Typography } from "@/components/common/typography"
-import { path2clientpath } from "@/const/title-path"
-import { cn } from "@/lib/utils"
-import { usePathname, useSearchParams } from "next/navigation"
-import HomeIcon from '@/public/icons/Home.svg'
-import { useGetMeQuery } from "@/features/authApiSlice"
-import { useMemo } from "react"
-import getInitPathByRole from "@/lib/utils/get-init-path-by-role"
-import { useRouter } from "next/navigation";
 
-const getClientPath = (pathArr: string[]) => {
-    return path2clientpath?.[`/${pathArr[2]}/${pathArr[3]}/${pathArr[4]}`] || path2clientpath?.[`/${pathArr[2]}/${pathArr[3]}`] || path2clientpath?.[`/${pathArr[2]}`] || path2clientpath['/']
+import { usePathname, useSearchParams, useRouter } from "next/navigation"
+import { Typography } from "@/components/common/typography"
+import { path2ClientPath } from "@/const/title-path"
+import { useGetMeQuery } from "@/features/authApiSlice"
+import { cn } from "@/lib/utils"
+import getInitPathByRole from "@/lib/utils/get-init-path-by-role"
+import HomeIcon from '@/public/icons/Home.svg'
+
+// Utility for resolving breadcrumb path
+const resolveClientPath = (segments: string[]) => {
+    return (
+        path2ClientPath?.[`/${segments[2]}/${segments[3]}/${segments[4]}`] ||
+        path2ClientPath?.[`/${segments[2]}/${segments[3]}`] ||
+        path2ClientPath?.[`/${segments[2]}`] ||
+        path2ClientPath['/']
+    )
 }
+
 export function ClientPath() {
     const pathname = usePathname()
-    const router = useRouter();
-    const pathArr = pathname.split('/')
-    const clientPath = getClientPath(pathArr)
+    const router = useRouter()
+    const searchParams = useSearchParams()
+
+    const pathSegments = pathname.split('/')
+    const clientPath = resolveClientPath(pathSegments)
+    console.log('ClientPath clientPath', clientPath)
+
     const { data: meApi } = useGetMeQuery()
-    const goToHome = () => {
-        if (!meApi?.data?.role?.name) return
-        const initPath = getInitPathByRole(
-            pathname,
-            meApi?.data?.role?.name,
-            {
-                forceGo: true
-            }
-        );
+
+    const handleHomeClick = () => {
+        const role = meApi?.data?.role?.name
+        if (!role) return
+
+        const initPath = getInitPathByRole(pathname, role, { forceGo: true })
         router.push(initPath)
     }
-    const searchParams = useSearchParams();
-    const goToLink = (goto: string) => {
-        if (!goto) return;
-        router.push(`${goto}?${searchParams.toString()}`);
-    };
 
-    return <>
-        <span onClick={goToHome} className="flex items-center">
-            <HomeIcon className='inline-block w-4 h-4 cursor-pointer hover:opacity-75' />
-        </span>
-        {clientPath?.map((item, index) => (
-            <div className='flex gap-2 items-center ' key={index}>
-                <Typography variant='caption' as='p'>
-                    /
-                </Typography>
-                <Typography key={'title' + index} variant='caption' as='p'>
-                    <span className={cn(!item.goto ? '' : 'text-blue-600 hover:underline cursor-pointer', '')}
-                        onClick={() => goToLink(item.goto)}
-                    >{item.name}</span>
-                </Typography>
+    const handleBreadcrumbClick = (goto?: string) => {
+        if (!goto) return
+        const query = searchParams.toString()
+        router.push(`${goto}${query ? `?${query}` : ''}`)
+    }
 
-            </div>
-        ))}
-    </>
+    return (
+        <div className="flex items-center gap-2">
+            <span onClick={handleHomeClick} className="flex items-center">
+                <HomeIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75" />
+            </span>
+
+            {clientPath?.map(({ name, goto }, idx) => {
+                return (
+                    <div className="flex items-center gap-2" key={`${name}-${idx}`}>
+                        <Typography variant="caption" as="span">
+                            /
+                        </Typography>
+                        <span
+                            className={cn(
+                                goto ? 'text-blue-600 hover:underline cursor-pointer' : ''
+                            )}
+                            onClick={() => handleBreadcrumbClick(goto)}
+                        >
+                            <Typography
+                                variant="caption"
+                                as="span"
+                            >
+                                {name}
+                            </Typography>
+                        </span>
+                    </div>
+                )
+            })}
+        </div>
+    )
 }
