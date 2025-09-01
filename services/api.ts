@@ -6,7 +6,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 const BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ||
-  "https://case-management-backend-new.railway.internal/api/v1";
+  "https://case-management-backend-new-production.up.railway.app/api/v1";
 
 export let lang: "th" | "en" = "th";
 let accessToken: string | null = null;
