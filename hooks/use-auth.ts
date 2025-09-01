@@ -29,7 +29,7 @@ export default function useAuth() {
     setIsLoadingLogin(true);
     setLoginError(null);
     try {
-      const res = await api<SignInAPIResponse>(`/auth/login`, {
+      const res = await api<{ data: SignInAPIResponse }>(`/auth/login`, {
         method: "POST",
         body: JSON.stringify({
           username: value.username,
@@ -41,7 +41,7 @@ export default function useAuth() {
       if (!res) {
         throw new Error("invalid token");
       }
-      const { accessToken, refreshToken } = res;
+      const { accessToken, refreshToken } = res.data;
       // const { accessToken, refreshToken, error } = await loginUser(value);
       // console.log(`useAuth() res-loginUser:`, {
       //   accessToken,
