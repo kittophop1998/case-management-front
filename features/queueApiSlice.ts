@@ -5,6 +5,7 @@ import { createSearchParams } from "@/lib/utils/create-search-params";
 import { QueueType } from "@/types/queue.type";
 import z from "zod";
 import { CreateQueue } from "@/schemas";
+import { UserType } from "@/types/user.type";
 
 export const queueApiSlice = createApi({
   reducerPath: "queueApi",
@@ -38,8 +39,26 @@ export const queueApiSlice = createApi({
         };
       },
     }),
+    addUsers: builder.mutation<
+      void,
+      {
+        users: string[];
+        id: string;
+      }
+    >({
+      query: ({ users, id }) => {
+        return {
+          url: `/queues/users/${id}`,
+          method: "POST",
+          body: {
+            users,
+          },
+        };
+      },
+    }),
   }),
 });
 
-export const { useLazyGetTableQuery, useCreateMutation } = queueApiSlice;
+export const { useLazyGetTableQuery, useCreateMutation, useAddUsersMutation } =
+  queueApiSlice;
 // const [create, { error, isLoading }] = useCreateMutation()

@@ -15,10 +15,15 @@ import { dialogAlert } from "@/components/common/dialog-alert";
 import { getErrorText } from "@/services/api";
 import { Modal } from "@/components/common/Modal";
 import { CreateQueue } from "@/schemas";
+import { fa } from "zod/v4/locales";
+import { Pencil } from "lucide-react";
 
 
 const BtnCreate = ({ onClick }: { onClick: () => void }) => {
     return <Button variant='black' onClick={onClick}>Add Queue</Button>
+}
+const BtnEdit = ({ onClick }: { onClick: () => void }) => {
+    return <Button variant='black' size='icon' onClick={onClick}><Pencil /></Button>
 }
 export const QueueInfoForm = ({ form, isCreate, afterSubmit }: { form: any, isCreate: boolean, afterSubmit: () => void }) => {
     const [create, { error: errorCreate, isLoading: isLoadingCreate }] = useCreateMutation()
@@ -80,7 +85,7 @@ export const QueueInfoForm = ({ form, isCreate, afterSubmit }: { form: any, isCr
 }
 
 
-const DialogCreateQueue = ({ open, afterCreate }: { open: boolean, afterCreate: () => void }) => {
+const DialogCreateQueue = ({ open, afterCreate, isCreate, onClose }: { open: boolean, afterCreate: () => void, isCreate: boolean, onClose: () => void }) => {
     const form = useForm<z.infer<typeof CreateQueue>>({
         resolver: zodResolver(CreateQueue),
         defaultValues: {
@@ -94,24 +99,29 @@ const DialogCreateQueue = ({ open, afterCreate }: { open: boolean, afterCreate: 
         }
     })
     return (
-        <Modal title="Create Queue" isOpen={open} className='w-[clamp(300px,100%,423px)]'>
-            <QueueInfoForm form={form} isCreate={true} afterSubmit={afterCreate} />
+        <Modal onClose={onClose} title="Create Queue" isOpen={open} className='w-[clamp(300px,100%,423px)]'>
+            <QueueInfoForm form={form} isCreate={isCreate} afterSubmit={afterCreate} />
         </Modal>
     );
 };
 
 
 
-export const CreateQueueSection = ({ fetchTable }) => {
+export const CreateQueueSection = ({ fetchTable, isCreate = false }: { fetchTable: () => void, isCreate?: boolean }) => {
     const [open, setOpen] = useState(false)
     const afterCreate = () => {
         setOpen(false)
         fetchTable()
     }
+    const onClose = () => {
+        setOpen(false)
+    }
     return (
         <>
-            <BtnCreate onClick={() => setOpen(true)} />
-            <DialogCreateQueue open={open} afterCreate={afterCreate} />
+            {isCreate ? <BtnCreate onClick={() => setOpen(true)} /> :
+                <BtnEdit onClick={() => setOpen(true)} />}
+
+            <DialogCreateQueue open={open} afterCreate={afterCreate} isCreate={isCreate} onClose={onClose} />
         </>
     )
 }

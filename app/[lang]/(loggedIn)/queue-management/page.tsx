@@ -19,7 +19,7 @@ export default function QueueManagementPage({
         <>
             <Container className="mt-4">
                 <div className="flex justify-end">
-                    <CreateQueueSection fetchTable={fetchTable} />
+                    <CreateQueueSection isCreate fetchTable={fetchTable} />
                 </div>
             </Container>
             <CardPageWrapper className="mt-4" >

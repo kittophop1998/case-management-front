@@ -26,7 +26,6 @@ export default async function RootLayout({
       <body
         className={cn(
           'antialiased overflow-y-auto',
-          // lang === 'th' ? kanit.className : inter.className
           inter.className
         )}
       >

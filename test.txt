@@ -1,1 +1,4 @@
 @ts-expect-error className is valid for lucide icon
+docker compose down -v
+docker compose up -d
+go run ./...

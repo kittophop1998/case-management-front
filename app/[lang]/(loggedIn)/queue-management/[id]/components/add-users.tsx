@@ -6,32 +6,20 @@ import { Button } from "@/components/common/Button"
 import { Modal } from "@/components/common/Modal"
 import { Checkbox } from "@/components/ui/checkbox"
 import { UsersTable, useUsersBackend, useUsersFontend } from "@/components/user/user-table"
+import { useAddUsersMutation } from "@/features/queueApiSlice"
 import { UserType } from "@/types/user.type"
 import { retry } from "@reduxjs/toolkit/query"
 import { createColumnHelper } from "@tanstack/react-table"
 import { memo, useEffect, useMemo, useState } from "react"
-
+import { useParams } from 'next/navigation'
 interface AddUserProps {
-    usersAdd: UserType[]
-    userDelete: UserType[]
+    afterSubmit: () => void
 }
 
-const useCombinedData = (addItems: UserType[], deleteItems: UserType[]) => {
-    const {
-        fetchUsers: fetchUsersB,
-        dataList: dataListB,
-        data: dataB,
-        isLoading: isLoadingB,
-        isError: isErrorB,
-        error: errorB
-    } = useUsersBackend()
 
-    const initalData = useMemo(() => {
-        let items = [...dataListB, ...addItems]
-        items = items.filter(user => !deleteItems.includes(user.id))
-        console.log(`initalData`, items)
-        return items
-    }, [dataListB, addItems, deleteItems])
+
+export const AddUser = memo(({ afterSubmit }: AddUserProps) => {
+    const params = useParams<{ id: string }>()
     const {
         fetchUsers,
         dataList,
@@ -39,37 +27,10 @@ const useCombinedData = (addItems: UserType[], deleteItems: UserType[]) => {
         isLoading,
         isError,
         error
-    } = useUsersFontend(initalData)
+    } = useUsersBackend()
 
-    useEffect(() => {
-        fetchUsersB(
-            {
-                page: 1,
-                limit: 9999999999,
-                status: true,
-                role: null,
-                section: null,
-                center: null,
-                sort: null,
-                searchText: "",
-                department: null,
-                queueId: null,
-                isNotInQueue: true,
-            }
-        )
-    }, [])
-    console.count(`useCombinedData`)
-    return {
-        fetchUsers,
-        dataList,
-        data,
-        isLoading: isLoadingB || isLoading,
-        isError,
-        error
-    }
-}
+    const [addUsers, { error: errorAddUsers, isLoading: isLoadingAddUsers }] = useAddUsersMutation()
 
-export const AddUser = memo(({ usersAdd, userDelete, handleAddUsers }: AddUserProps) => {
     const [newUsersObjDraft, setNewUsersObjDraft] = useState({})
     const [isOpenAddUser, setIsOpenAddUser] = useState(false)
     const columnHelper = createColumnHelper<UserType>()
@@ -102,49 +63,35 @@ export const AddUser = memo(({ usersAdd, userDelete, handleAddUsers }: AddUserPr
         }
 
     })]
-    const {
-        fetchUsers,
-        dataList,
-        data,
-        isLoading,
-        isError,
-        error
-    } = useCombinedData(
-        userDelete,
-        usersAdd
-    )
-    useEffect(() => {
-        if (isOpenAddUser) {
-            let initNewUsersObjDraft = {}
-            // isSame(usersAdd, Object.values(newUsersObjDraft).filter(u => u !== undefined)) || setNewUsersObjDraft(
-            for (const user of usersAdd) {
-                initNewUsersObjDraft[user.id] = user
-            }
-            setNewUsersObjDraft(initNewUsersObjDraft)
-        }
-    }, [isOpenAddUser])
-    console.log(`AddUser`)
+
     const close = () => {
         setIsOpenAddUser(false)
     }
-    const save = () => {
-        const users = Object.values(newUsersObjDraft)
-        handleAddUsers(users)
-        console.log(`newUsersObjDraft`, newUsersObjDraft)
-        setIsOpenAddUser(false)
+    const save = async () => {
+        try {
+            const users = Object.keys(newUsersObjDraft)
+            await addUsers({
+                id: params.id,
+                users
+            })?.unwrap()
+            setIsOpenAddUser(false)
+            afterSubmit()
+        } catch (error) {
+            console.log(error)
+        }
     }
     return (
         <>
-
             <Button variant='black' onClick={() => setIsOpenAddUser(true)} >
                 Add user
             </Button>
             <Modal title='' isOpen={isOpenAddUser} className='w-[clamp(985px,100vw,300px)]'>
                 <div>
-                    {/* <div>usersAdd:{JSON.stringify(usersAdd)}</div> */}
-                    {/* <div>userDelete:{JSON.stringify(userDelete)}</div> */}
-                    {/* {dataList.length} */}
                     <UsersTable
+                        defaultFilter={{
+                            isNotInQueue: true
+                        }}
+                        useUsers={useUsersBackend}
                         fetchUsers={fetchUsers}
                         dataList={dataList}
                         data={data}

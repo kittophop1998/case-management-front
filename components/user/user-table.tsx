@@ -4,7 +4,7 @@ import BtnFilter from '@/components/button/btn-filter'
 import CardPageWrapper from '@/components/common/card-page-warpper'
 import InputFilter from '@/components/common/input-filter'
 import { UserType } from '@/types/user.type'
-import { memo, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { forwardRef, memo, ReactNode, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 // import { useUsers } from '@/hooks/user/useUsers'
 import { DataTable, Header } from '@/components/common/table'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
@@ -22,7 +22,6 @@ import { useTable } from '@/hooks/use-table'
 import { TableType } from '@/types/table.type'
 import { ApiResponse } from '@/types/api.type'
 import { clone, isSame } from '@/lib/utils/object'
-import { se } from 'date-fns/locale'
 const defaultData = {
     data: [],
     page: 1,
@@ -147,7 +146,6 @@ export const useUsersFontend = (initialData: UserType[] = []) => {
     const [isLoading, setIsLoading] = useState(false)
     const [isError, setIsError] = useState(false)
     const [error, setError] = useState(false)
-
     const handleDeleteDataset = async (users: UserType[]) => {
         let cloneDeletedUsers = clone(deletedUsers);
         let cloneNewDataset = clone(newDataset);
@@ -188,48 +186,58 @@ export const useUsersFontend = (initialData: UserType[] = []) => {
         handleAddDataset,
     }
 };
-// export const useUsersBackend = ({ columns = [], defaultFilter = {} }: { columns: any[]; defaultFilter?: any }) => {
-//     // Initialize state with default filter values
+// const useCombinedData = (addItems: UserType[], deleteItems: UserType[]) => {
+//     const {
+//         fetchUsers: fetchUsersB,
+//         dataList: dataListB,
+//         data: dataB,
+//         isLoading: isLoadingB,
+//         isError: isErrorB,
+//         error: errorB
+//     } = useUsersBackend()
 
-//     const [
+//     const initalData = useMemo(() => {
+//         let items = [...dataListB, ...addItems]
+//         items = items.filter(user => !deleteItems.includes(user.id))
+//         console.log(`initalData`, items)
+//         return items
+//     }, [dataListB, addItems, deleteItems])
+//     const {
 //         fetchUsers,
-//         { currentData: data, isLoading, isError, error, isSuccess },
-//     ] = useLazyGetUsersQuery();
-//     const dataList: any[] = useMemo(() => data?.data || [], [data]);
-
-//     return {
-//         table,
-//         usersTable: isError ? defaultData : data || defaultData,
+//         dataList,
+//         data,
 //         isLoading,
-//         isSuccess,
 //         isError,
-//         error,
-//         triggerFetch,
-//         state: {
-//             page,
-//             limit,
-//             status,
-//             role,
-//             section,
-//             center,
-//             sort,
-//             searchText,
-//             department,
-//         },
-//         setState: {
-//             setPage,
-//             setLimit,
-//             setStatus,
-//             setRole,
-//             setSection,
-//             setCenter,
-//             setSearchText,
-//             setDepartment,
-//         },
-//     };
-// };
+//         error
+//     } = useUsersFontend(initalData)
 
-
+//     useEffect(() => {
+//         fetchUsersB(
+//             {
+//                 page: 1,
+//                 limit: 10,
+//                 status: true,
+//                 role: null,
+//                 section: null,
+//                 center: null,
+//                 sort: null,
+//                 searchText: "",
+//                 department: null,
+//                 queueId: null,
+//                 isNotInQueue: true,
+//             }
+//         )
+//     }, [])
+//     console.count(`useCombinedData`)
+//     return {
+//         fetchUsers,
+//         dataList,
+//         data,
+//         isLoading: isLoadingB || isLoading,
+//         isError,
+//         error
+//     }
+// }
 interface UseUsersTableProps {
     prependColumns?: ColumnDef<UserType, any>[]
     appendColumns?: ColumnDef<UserType, any>[]
@@ -249,7 +257,7 @@ const useUserManagement = ({
     defaultFilter = {},
     fetchUsers,
     isError
-}: UseUsersTableProps) => {
+}: UseUsersTableProps, ref) => {
     const { myPermission } = usePermission()
     const [isOpenFilter, setIsOpenFilter] = useState(false)
     const [modalImportUser, setModalImportUser] = useState(false)
@@ -355,6 +363,23 @@ const useUserManagement = ({
             isNotInQueue
         })?.unwrap();
     };
+    useImperativeHandle(ref, () => ({
+        refetch: () => {
+            triggerFetch()
+        }
+    }), [
+        page,
+        limit,
+        status,
+        role,
+        section,
+        center,
+        sort,
+        searchText,
+        department,
+        queueId,
+        isNotInQueue
+    ])
     useEffect(() => {
         triggerFetch();
     }, [
@@ -376,7 +401,6 @@ const useUserManagement = ({
         setSearchText,
         searchText,
         setIsOpenFilter,
-        // isLoading,
         table,
         usersTable: isError ? defaultData : data || defaultData,
         setModalImportUser,
@@ -400,110 +424,124 @@ const useUserManagement = ({
     }
 }
 
-export const UsersTable = memo(({ addUser = false, editUser = false, MoreActions, prependColumns = [], appendColumns = [],
-    defaultFilter = {},
-    fetchUsers,
-    dataList,
-    data,
-    isLoading,
-    isError,
-    error
-}: UsersTableProps) => {
-    const {
-        openDialogCreateUser,
-        myPermission,
-        setSearchText,
-        searchText,
-        setIsOpenFilter,
-        table,
-        usersTable,
-        setModalImportUser,
-        setPage,
-        setLimit,
-        dialogDetailsRef,
-        triggerFetch,
-        modalImportUser,
-        department,
-        setDepartment,
-        isOpenFilter,
-        setRole,
-        setStatus,
-        setSection,
-        setCenter,
-        role,
-        section,
-        center,
-        status,
-        columns
-    } = useUserManagement(
-        {
-            prependColumns,
-            appendColumns,
-            editUser,
-            dataList,
-            data,
-            isLoading,
-            isError,
-            error,
-            fetchUsers
-        }
-    )
+export interface UsersTableRef { refetch: () => void }
 
-    return (
-        < >
-            {(addUser && myPermission?.["add.user"]) &&
-                <Container className='mb-0 pb-0'>
-                    <div className='flex justify-end mt-4'>
-                        <BtnAddUser
-                            onOpenDialogCreateUser={() => openDialogCreateUser()}
-                            onOpenDialogImportUser={() => setModalImportUser(true)}
-                        />
+export const UsersTable =
+    memo(forwardRef<UsersTableRef, UsersTableProps>(({
+        addUser = false, editUser = false, MoreActions, prependColumns = [], appendColumns = [],
+        defaultFilter = {},
+        fetchUsers,
+        dataList,
+        data,
+        isLoading,
+        isError,
+        error
+    }, ref) => {
+
+        // memo(({ addUser = false, editUser = false, MoreActions, prependColumns = [], appendColumns = [],
+        //     defaultFilter = {},
+        //     fetchUsers,
+        //     dataList,
+        //     data,
+        //     isLoading,
+        //     isError,
+        //     error
+        // }: UsersTableProps) => {
+        const {
+            openDialogCreateUser,
+            myPermission,
+            setSearchText,
+            searchText,
+            setIsOpenFilter,
+            table,
+            usersTable,
+            setModalImportUser,
+            setPage,
+            setLimit,
+            dialogDetailsRef,
+            triggerFetch,
+            modalImportUser,
+            department,
+            setDepartment,
+            isOpenFilter,
+            setRole,
+            setStatus,
+            setSection,
+            setCenter,
+            role,
+            section,
+            center,
+            status,
+            columns
+        } = useUserManagement(
+            {
+                prependColumns,
+                appendColumns,
+                editUser,
+                dataList,
+                data,
+                isLoading,
+                isError,
+                error,
+                fetchUsers,
+                defaultFilter
+            }, ref
+        )
+        return (
+            < >
+                {(addUser && myPermission?.["add.user"]) &&
+                    <Container className='mb-0 pb-0'>
+                        <div className='flex justify-end mt-4'>
+                            <BtnAddUser
+                                onOpenDialogCreateUser={() => openDialogCreateUser()}
+                                onOpenDialogImportUser={() => setModalImportUser(true)}
+                            />
+                        </div>
+                    </Container>
+                }
+                <CardPageWrapper className='mt-6'>
+                    <div className='flex items-center gap-3 mb-4'>
+                        <Typography variant='h6' >
+                            User Lists
+                        </Typography>
+                        <div className='flex-1' />
+                        <InputFilter setValue={setSearchText} value={searchText} placeholder='Search by Username, Name' className='w-[243px] h-[1.81rem] rounded-[4px]' />
+                        <BtnFilter onClick={() => setIsOpenFilter(true)} />
+                        {MoreActions && MoreActions}
                     </div>
-                </Container>
-            }
-            <CardPageWrapper className='mt-6'>
-                <div className='flex items-center gap-3 mb-4'>
-                    <Typography variant='h6' >
-                        User Lists
-                    </Typography>
-                    <div className='flex-1' />
-                    <InputFilter setValue={setSearchText} value={searchText} placeholder='Search by Username, Name' className='w-[243px] h-[1.81rem] rounded-[4px]' />
-                    <BtnFilter onClick={() => setIsOpenFilter(true)} />
-                    {MoreActions && MoreActions}
-                </div>
-                <DataTable
-                    loading={isLoading}
-                    table={table}
-                    page={usersTable?.page ?? 1}
-                    limit={usersTable?.limit ?? 10}
-                    total={usersTable?.total ?? 0}
-                    totalPages={usersTable?.totalPages ?? 0}
-                    setPage={setPage}
-                    setLimit={setLimit}
-                />
-                <DialogDetails
-                    ref={dialogDetailsRef}
-                    getUsers={triggerFetch}
-                />
-                <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
-                <FilterUsersModal
-                    department={department}
-                    setDepartment={setDepartment}
-                    isOpen={isOpenFilter}
-                    setIsOpen={setIsOpenFilter}
-                    setRole={setRole}
-                    setStatus={setStatus}
-                    setSection={setSection}
-                    setCenter={setCenter}
-                    status={status}
-                    role={role}
-                    section={section}
-                    center={center}
-                />
-            </CardPageWrapper>
-        </>
-    )
-})
+                    <DataTable
+                        loading={isLoading}
+                        table={table}
+                        page={usersTable?.page ?? 1}
+                        limit={usersTable?.limit ?? 10}
+                        total={usersTable?.total ?? 0}
+                        totalPages={usersTable?.totalPages ?? 0}
+                        setPage={setPage}
+                        setLimit={setLimit}
+                    />
+                    <DialogDetails
+                        ref={dialogDetailsRef}
+                        getUsers={triggerFetch}
+                    />
+                    <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
+                    <FilterUsersModal
+                        department={department}
+                        setDepartment={setDepartment}
+                        isOpen={isOpenFilter}
+                        setIsOpen={setIsOpenFilter}
+                        setRole={setRole}
+                        setStatus={setStatus}
+                        setSection={setSection}
+                        setCenter={setCenter}
+                        status={status}
+                        role={role}
+                        section={section}
+                        center={center}
+                    />
+                </CardPageWrapper>
+            </>
+        )
+    }))
 
 
 
