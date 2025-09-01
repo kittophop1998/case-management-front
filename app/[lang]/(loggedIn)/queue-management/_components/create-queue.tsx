@@ -91,11 +91,6 @@ const DialogCreateQueue = ({ open, afterCreate, isCreate, onClose }: { open: boo
         defaultValues: {
             queueName: '',
             queueDescription: '',
-            queueUsers: [],
-            queueUsersAdd: [],
-            queueUsersDel: [],
-            queueUsersAddObj: [],
-            queueUsersDelObj: []
         }
     })
     return (

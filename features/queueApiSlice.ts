@@ -6,6 +6,7 @@ import { QueueType } from "@/types/queue.type";
 import z from "zod";
 import { CreateQueue } from "@/schemas";
 import { UserType } from "@/types/user.type";
+import { ApiResponse } from "@/types/api.type";
 
 export const queueApiSlice = createApi({
   reducerPath: "queueApi",
@@ -25,7 +26,15 @@ export const queueApiSlice = createApi({
         };
       },
     }),
-    //
+    getQueueInfo: builder.query<QueueType | undefined, { id: string }>({
+      query: ({ id }) => {
+        return {
+          url: `/queues/${id}`,
+          method: "GET",
+        };
+      },
+      transformResponse: (response: ApiResponse<QueueType>) => response?.data,
+    }),
     create: builder.mutation<void, z.infer<typeof CreateQueue>>({
       query: (body) => {
         return {
@@ -34,7 +43,6 @@ export const queueApiSlice = createApi({
           body: {
             queueName: body.queueName,
             queueDescription: body.queueDescription,
-            queueUsers: body.queueUsers,
           },
         };
       },
@@ -77,6 +85,7 @@ export const queueApiSlice = createApi({
 });
 
 export const {
+  useLazyGetQueueInfoQuery,
   useLazyGetTableQuery,
   useCreateMutation,
   useAddUsersMutation,

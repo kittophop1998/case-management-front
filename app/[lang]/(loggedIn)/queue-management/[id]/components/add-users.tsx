@@ -21,6 +21,7 @@ interface AddUserProps {
 
 
 export const AddUser = memo(({ afterSubmit }: AddUserProps) => {
+
     const params = useParams<{ id: string }>()
     const {
         fetchUsers,
@@ -102,6 +103,7 @@ export const AddUser = memo(({ afterSubmit }: AddUserProps) => {
                 <div>
                     <UsersTable
                         defaultFilter={{
+                            queueId: params.id,
                             isNotInQueue: true
                         }}
                         useUsers={useUsersBackend}

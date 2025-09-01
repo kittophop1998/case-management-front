@@ -7,7 +7,6 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { UserType } from "@/types/user.type";
 import BtnDel from "@/components/button/btn-del";
 import { AddUser } from "./components/add-users";
-import { CreateQueue } from "@/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
@@ -16,7 +15,7 @@ import { use, useEffect, useMemo, useRef, useState } from "react";
 import { TextField } from "@/components/form/text-field";
 import { TextAreaField } from "@/components/form/textarea-field";
 import BtnSave from "@/components/button/btn-save";
-import { useCreateMutation, useDelUsersMutation } from "@/features/queueApiSlice";
+import { useCreateMutation, useDelUsersMutation, useLazyGetQueueInfoQuery } from "@/features/queueApiSlice";
 import { useDebugLogForm } from "@/hooks/use-debug-log-form";
 import { dialogAlert } from "@/components/common/dialog-alert";
 import { useParams, useRouter } from 'next/navigation'
@@ -79,25 +78,7 @@ const BtnDelUsers = ({ disabled, clearDraft, users, queueID, isActive, setIsActi
 export default function QueueManagementIDPage() {
     const columnHelper = createColumnHelper<UserType>()
     const [isActiveDelete, setIsActiveDelete] = useState(false)
-
-    // const appendColumns = [columnHelper.display({
-    //     id: 'delete',
-    //     enableHiding: false,
-    //     size: 10,
-    //     cell: info => {
-    //         const user = info.row.original
-    //         // const isActive = !!newUsersObjDraft[user.id]
-    //         return (
-    //             <BtnDel onClick={() => handleDelUsers(user)} />
-    //         )
-    //     },
-    //     meta: {
-    //         headerClass: 'w-[3rem]'
-    //     }
-    // })]
-    const [delUsersObjDraft, setDelUsersObjDraft] = useState({})
     const [delUsersDraft, setDelUsersDraft] = useState([])
-    // const [delUsersArrDraft, setDelUsersObjDraft] = useState({})
     const prependColumns = [columnHelper.display({
         id: 'delete',
         enableHiding: false,
@@ -114,9 +95,6 @@ export default function QueueManagementIDPage() {
                         (e) => {
                             e.stopPropagation()
                             if (isActive) {
-                                // setDelUsersObjDraft(prev =>
-                                //     ({ ...prev, [user.id]: undefined })
-                                // )
                                 setDelUsersDraft(prev => prev.filter(id => id !== user.id))
                             } else {
                                 setDelUsersDraft(prev => ([...prev, user.id]))
@@ -152,28 +130,23 @@ export default function QueueManagementIDPage() {
         refetchnewUsers()
         refetchUsersQueue()
     }
-
-
-
+    const [getData, { data: queueInfo, isFetching }] = useLazyGetQueueInfoQuery();
     useEffect(() => {
-        const users = Object.values(delUsersObjDraft).filter(user => user !== undefined)
-        console.log(`users`, users.length, users)
-
-    }, [delUsersObjDraft])
-    const clearDraftDelete = () => {
-        setDelUsersObjDraft({})
-    }
+        getData({ id })
+    }, [])
     return (
         <CardPageWrapper className="mt-4" >
             <>
+                {/* {JSON.stringify(queueInfo)} */}
                 <div className="flex items-center  gap-3">
                     <div>
-                        <div>Queue Name:----------------</div>
-                        <div>Description:---------------</div>
+                        <div>Queue Name:{queueInfo?.queueName || '-'}</div>
+                        <div>Description:{queueInfo?.queueDescription || '-'}</div>
                     </div>
                     <CreateQueueSection fetchTable={refetchQueue} />
                 </div>
                 <UsersTable
+                    ref={usersTableRef}
                     defaultFilter={{ queueId: id }}
                     useUsers={useUsersBackend}
                     fetchUsers={fetchUsers}
