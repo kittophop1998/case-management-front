@@ -6,11 +6,12 @@ import { useLazyGetTableQuery } from "@/features/queueApiSlice";
 import { useTable } from "@/hooks/use-table";
 import { QueueType } from "@/types/queue.type";
 import { createColumnHelper } from "@tanstack/react-table";
-import { useEffect, useMemo } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 
-const useQueueTable = () => {
+
+const useQueueTable = (ref) => {
     const [getTable, { data: dataTable, isFetching, isError, error }] = useLazyGetTableQuery();
     const memoizedData = useMemo(() => dataTable?.data || [], [dataTable]);
     const columnHelper = createColumnHelper<QueueType & { action: any }>()
@@ -59,6 +60,7 @@ const useQueueTable = () => {
         data: memoizedData,
         columns,
     })
+
     const fetchTable = () => {
         getTable({
             page,
@@ -66,26 +68,38 @@ const useQueueTable = () => {
             sort,
         })
     }
+    useImperativeHandle(ref, () => ({
+        fetchTable: () => {
+            fetchTable()
+        }
+    }), [
+        page,
+        limit,
+        sort,
+    ])
     useEffect(() => {
         fetchTable()
     }, [page, limit, sort])
     return { table, sort, page, limit, setPage, setLimit, dataTable }
 };
 
-export default function QueueTable({
-}) {
-    const { table, dataTable, setPage, setLimit } = useQueueTable()
+export interface QueueTableRef { fetchTable: () => void }
+const QueueTable = forwardRef<QueueTableRef, {}>(
+    ({ }, ref) => {
+        const { table, dataTable, setPage, setLimit } = useQueueTable(ref)
 
-    return <>
-        <DataTable
-            loading={false}
-            table={table}
-            page={dataTable?.page ?? 1}
-            limit={dataTable?.limit ?? 10}
-            total={dataTable?.total ?? 0}
-            totalPages={dataTable?.totalPages ?? 0}
-            setPage={setPage}
-            setLimit={setLimit}
-        />
-    </>
-}
+        return <>
+            <DataTable
+                loading={false}
+                table={table}
+                page={dataTable?.page ?? 1}
+                limit={dataTable?.limit ?? 10}
+                total={dataTable?.total ?? 0}
+                totalPages={dataTable?.totalPages ?? 0}
+                setPage={setPage}
+                setLimit={setLimit}
+            />
+        </>
+    })
+
+export default QueueTable;

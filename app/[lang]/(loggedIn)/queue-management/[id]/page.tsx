@@ -21,77 +21,8 @@ import { useDebugLogForm } from "@/hooks/use-debug-log-form";
 import { dialogAlert } from "@/components/common/dialog-alert";
 import { useRouter } from 'next/navigation'
 import { getErrorText } from "@/services/api";
+import { QueueInfoForm } from "../_components/create-queue";
 
-const QueueInfoForm = ({ form, isCreate }: { form: any, isCreate: boolean }) => {
-    const router = useRouter()
-    const [create, { error: errorCreate, isLoading: isLoadingCreate }] = useCreateMutation()
-    const onSubmit = async (values: z.infer<typeof CreateQueue>) => {
-        try {
-            await create(form.getValues()).unwrap()
-            dialogAlert(true)
-            router.push('/queue-management')
-        } catch (error: unknown) {
-            // console.log(`error`, getErrorText(error))
-            dialogAlert(false,
-                {
-                    title: '',
-                    message: getErrorText(error),
-                    confirmText: 'Try again',
-                    cancelText: 'Try again',
-                    onConfirm: () => { },
-                    onCancel: () => { }
-                }
-            )
-            // if (error instanceof Error) {
-            //     dialogAlert(false,
-            //         {
-            //             title: '',
-            //             message: getErrorText(error),
-            //             confirmText: 'Try again',
-            //             cancelText: 'Try again',
-            //             onConfirm: () => { },
-            //             onCancel: () => { }
-            //         }
-            //     )
-            // }
-        }
-    }
-    return <>
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
-                <div className="flex justify-between">
-                    <div className="w-[clamp(300px,100%,35rem)]">
-                        <div className="flex items-start gap-2">
-                            <Typography variant="body2" className="mt-1 w-[6rem]">Queue Name: </Typography>
-                            <div className="flex-1">
-                                <TextField
-                                    loading={form.formState.isSubmitting}
-                                    form={form}
-                                    name='queueName'
-                                    placeholder='Enter Queue Name'
-                                />
-                            </div>
-                        </div>
-                        <div className="flex items-start gap-2">
-                            <Typography variant="body2" className="mt-1 w-[6rem]">Description: </Typography>
-                            <div className="flex-1">
-                                <TextAreaField
-                                    loading={form.formState.isSubmitting}
-                                    form={form}
-                                    name='queueDescription'
-                                    placeholder='Enter Queue Description'
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <BtnSave loading={form.formState.isSubmitting} />
-                    {/* <Button >Save</Button> */}
-                </div>
-            </form>
-        </Form>
-
-    </>
-}
 
 export default function QueueManagementIDPage() {
     const form = useForm<z.infer<typeof CreateQueue>>({
@@ -115,7 +46,6 @@ export default function QueueManagementIDPage() {
         isLoading,
         isError,
         error,
-        setNewDataset,
         handleDeleteDataset,
         handleAddDataset,
         // setDeletedUsers,
@@ -154,7 +84,6 @@ export default function QueueManagementIDPage() {
         )
         setQueueUsersAddObj(prev => [...prev, ...users])
         handleAddDataset(users)
-        // setNewDataset(users)
     }
 
     const columnHelper = createColumnHelper<UserType>()
