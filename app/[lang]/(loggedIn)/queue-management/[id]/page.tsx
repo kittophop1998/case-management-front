@@ -16,81 +16,114 @@ import { use, useEffect, useMemo, useRef, useState } from "react";
 import { TextField } from "@/components/form/text-field";
 import { TextAreaField } from "@/components/form/textarea-field";
 import BtnSave from "@/components/button/btn-save";
-import { useCreateMutation } from "@/features/queueApiSlice";
+import { useCreateMutation, useDelUsersMutation } from "@/features/queueApiSlice";
 import { useDebugLogForm } from "@/hooks/use-debug-log-form";
 import { dialogAlert } from "@/components/common/dialog-alert";
 import { useParams, useRouter } from 'next/navigation'
 import { getErrorText } from "@/services/api";
 import { CreateQueueSection, QueueInfoForm } from "../_components/create-queue";
+import { cn } from "@/lib/utils";
+import { Checkbox } from "@/components/ui/checkbox";
+import { checkPassword } from "@/components/common/dialog-check-password";
 
+
+const BtnDelUsers = ({ disabled, clearDraft, users, queueID, isActive, setIsActive, afterSubmit }) => {
+    const [delUsers, { error: errorDelUsers, isLoading: isLoadingDelUsers }] = useDelUsersMutation()
+    const handleDeleteUser = async () => {
+        try {
+            const password = await checkPassword()
+            if (!password) return // กดยกเลิก หรือกรอกผิด
+            await delUsers(
+                { users, id: queueID }
+            ).unwrap()
+            afterSubmit()
+            setIsActive(false)
+            dialogAlert(true)
+
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                await dialogAlert(false,
+                    {
+                        title: '',
+                        message: error.message,
+                        confirmText: 'Try again',
+                        cancelText: 'Try again',
+                        onConfirm: () => { },
+                        onCancel: () => { }
+                    }
+                )
+            }
+        }
+    }
+
+    const length = users.length
+    if (length === 0 && isActive) return <Button className="bg-black white-text" onClick={() => setIsActive(false)}>Cancel</Button>
+    if (!isActive) {
+        return (
+            <Button className={cn("white-text", isActive ? 'bg-red-500' : 'bg-black')}
+                onClick={() => { setIsActive(true) }}
+            >
+                Delete Users
+            </Button>)
+    }
+    return (
+        <>
+            <Button className={cn("white-text", isActive ? 'bg-red-500' : 'bg-black')}
+                onClick={handleDeleteUser}
+            >
+                Delete Users {length}
+            </Button>
+        </>)
+}
 
 export default function QueueManagementIDPage() {
-    // const form = useForm<z.infer<typeof CreateQueue>>({
-    //     resolver: zodResolver(CreateQueue),
-    //     defaultValues: {
-    //         queueName: '',
-    //         queueDescription: '',
-    //         queueUsers: [],
-    //         queueUsersAdd: [],
-    //         queueUsersDel: [],
-    //         queueUsersAddObj: [],
-    //         queueUsersDelObj: []
-    //     }
-    // })
-    // const [isCreate, setIsCreate] = useState(true)
-    // const seeData = form.watch()
-    // const {
-    //     fetchUsers,
-    //     dataList,
-    //     data,
-    //     isLoading,
-    //     isError,
-    //     error,
-    //     handleDeleteDataset,
-    //     handleAddDataset,
-    // } = useUsersFontend()
-
-    // const [open, setOpen] = useState(false)
-    // // const [currentDBUserDB, setCurrentDBUserDB] = useState<UserType[]>([])
-    // const currentDBUserDBMemo = useMemo(() => {
-    //     return []
-    // }, [])
-    const [queueUsersAddObj, setQueueUsersAddObj] = useState<UserType[]>([])
-    const [queueUsersDelObj, setQueueUsersDelObj] = useState<UserType[]>([])
-
-    // useEffect(() => {
-    //     let queueUsers = []
-    //     for (const element of queueUsersAddObj) {
-    //         if (element.id) {
-    //             queueUsers.push(element.id)
-    //         }
-    //     }
-    //     form.setValue('queueUsers', queueUsers)
-    // }, [queueUsersAddObj])
-
-    // const handleDelUsers = (user: UserType) => {
-    //     setQueueUsersAddObj((prev) => prev.filter(u => u.id !== user.id))
-    //     setQueueUsersDelObj(prev => [...prev, user])
-    //     handleDeleteDataset([user])
-    // }
-    const handleAddUsers = (users: UserType[]) => {
-        // currentDBUserDBMemo
-        setQueueUsersDelObj(
-            (prev) => prev.filter(u => !users.find(uu => uu.id === u.id))
-        )
-        setQueueUsersAddObj(prev => [...prev, ...users])
-        // handleAddDataset(users)
-    }
     const columnHelper = createColumnHelper<UserType>()
-    const appendColumns = [columnHelper.display({
+    const [isActiveDelete, setIsActiveDelete] = useState(false)
+
+    // const appendColumns = [columnHelper.display({
+    //     id: 'delete',
+    //     enableHiding: false,
+    //     size: 10,
+    //     cell: info => {
+    //         const user = info.row.original
+    //         // const isActive = !!newUsersObjDraft[user.id]
+    //         return (
+    //             <BtnDel onClick={() => handleDelUsers(user)} />
+    //         )
+    //     },
+    //     meta: {
+    //         headerClass: 'w-[3rem]'
+    //     }
+    // })]
+    const [delUsersObjDraft, setDelUsersObjDraft] = useState({})
+    const [delUsersDraft, setDelUsersDraft] = useState([])
+    // const [delUsersArrDraft, setDelUsersObjDraft] = useState({})
+    const prependColumns = [columnHelper.display({
         id: 'delete',
         enableHiding: false,
         size: 10,
         cell: info => {
             const user = info.row.original
-            // const isActive = !!newUsersObjDraft[user.id]
+            // const isActive = !!delUsersObjDraft[user.id]
+            const isActive = delUsersDraft.includes(user.id)
+
             return (
-                <BtnDel onClick={() => handleDelUsers(user)} />
+                <Checkbox
+                    checked={isActive}
+                    onClick={
+                        (e) => {
+                            e.stopPropagation()
+                            if (isActive) {
+                                // setDelUsersObjDraft(prev =>
+                                //     ({ ...prev, [user.id]: undefined })
+                                // )
+                                setDelUsersDraft(prev => prev.filter(id => id !== user.id))
+                            } else {
+                                setDelUsersDraft(prev => ([...prev, user.id]))
+                            }
+                        }
+                    }
+                />
             )
         },
         meta: {
@@ -98,7 +131,6 @@ export default function QueueManagementIDPage() {
         }
 
     })]
-    // useDebugLogForm({ form })
     const {
         fetchUsers,
         dataList,
@@ -121,6 +153,16 @@ export default function QueueManagementIDPage() {
         refetchUsersQueue()
     }
 
+
+
+    useEffect(() => {
+        const users = Object.values(delUsersObjDraft).filter(user => user !== undefined)
+        console.log(`users`, users.length, users)
+
+    }, [delUsersObjDraft])
+    const clearDraftDelete = () => {
+        setDelUsersObjDraft({})
+    }
     return (
         <CardPageWrapper className="mt-4" >
             <>
@@ -135,13 +177,18 @@ export default function QueueManagementIDPage() {
                     defaultFilter={{ queueId: id }}
                     useUsers={useUsersBackend}
                     fetchUsers={fetchUsers}
-                    appendColumns={appendColumns}
+                    prependColumns={isActiveDelete ? prependColumns : []}
+
                     MoreActions={
-                        <>
+                        <div className="flex gap-3">
                             <AddUser
                                 afterSubmit={refetchUser}
                             />
-                        </>
+                            <BtnDelUsers
+                                clearDraft={() => { setDelUsersDraft([]) }} users={delUsersDraft} queueID={id} isActive={isActiveDelete} setIsActive={setIsActiveDelete}
+                                afterSubmit={refetchUser}
+                            />
+                        </div>
                     }
                     dataList={dataList}
                     data={data}

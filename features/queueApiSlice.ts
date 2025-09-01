@@ -56,9 +56,30 @@ export const queueApiSlice = createApi({
         };
       },
     }),
+    delUsers: builder.mutation<
+      void,
+      {
+        users: string[];
+        id: string;
+      }
+    >({
+      query: ({ users, id }) => {
+        return {
+          url: `/queues/users/${id}`,
+          method: "DELETE",
+          body: {
+            users,
+          },
+        };
+      },
+    }),
   }),
 });
 
-export const { useLazyGetTableQuery, useCreateMutation, useAddUsersMutation } =
-  queueApiSlice;
+export const {
+  useLazyGetTableQuery,
+  useCreateMutation,
+  useAddUsersMutation,
+  useDelUsersMutation,
+} = queueApiSlice;
 // const [create, { error, isLoading }] = useCreateMutation()
