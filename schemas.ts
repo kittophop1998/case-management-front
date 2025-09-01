@@ -81,13 +81,6 @@ export const CreateNoteSchemas = z.object({
   customerId: z.string().min(1, "Customer Id is required"),
   noteTypeId: z.string().min(1, "Note Type is required"),
   note: z.string().min(1, "Note is required"),
-  // type: z
-  //   .string()
-  //   .nullable()
-  //   .refine((val) => val && val.length > 0, {
-  //     message: "Type is required",
-  //   }),
-  // text: z.string().min(1, "Note is required"),
 });
 
 export const NewNoteSchema = z.object({
@@ -101,11 +94,7 @@ export const NewNoteSchema = z.object({
 });
 
 export const CreateQueue = z.object({
+  id: z.string().nullable(),
   queueName: z.string().min(1, "Queue Name is required"),
   queueDescription: z.string().min(1, "Queue Description is required"),
-  // queueUsers: z.array(z.string()).optional(),
-  // queueUsersAdd: z.array(z.string()).optional(),
-  // queueUsersDel: z.array(z.string()).optional(),
-  // queueUsersAddObj: z.array(z.any()),
-  // queueUsersDelObj: z.array(z.any()),
 });

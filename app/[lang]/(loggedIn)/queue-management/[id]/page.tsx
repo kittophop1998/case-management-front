@@ -1,26 +1,15 @@
 'use client'
 import { Button } from "@/components/common/Button";
 import CardPageWrapper from "@/components/common/card-page-warpper";
-import { Typography } from "@/components/common/typography";
 import { UsersTable, UsersTableRef, useUsersBackend, useUsersFontend } from "@/components/user/user-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { UserType } from "@/types/user.type";
-import BtnDel from "@/components/button/btn-del";
 import { AddUser } from "./components/add-users";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import z from "zod";
-import { Form } from "@/components/ui/form";
-import { use, useEffect, useMemo, useRef, useState } from "react";
-import { TextField } from "@/components/form/text-field";
-import { TextAreaField } from "@/components/form/textarea-field";
-import BtnSave from "@/components/button/btn-save";
-import { useCreateMutation, useDelUsersMutation, useLazyGetQueueInfoQuery } from "@/features/queueApiSlice";
-import { useDebugLogForm } from "@/hooks/use-debug-log-form";
+import { useEffect, useRef, useState } from "react";
+import { useDelUsersMutation, useLazyGetQueueInfoQuery } from "@/features/queueApiSlice";
 import { dialogAlert } from "@/components/common/dialog-alert";
-import { useParams, useRouter } from 'next/navigation'
-import { getErrorText } from "@/services/api";
-import { CreateQueueSection, QueueInfoForm } from "../_components/create-queue";
+import { useParams } from 'next/navigation'
+import { CreateQueueSection } from "../_components/create-queue";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { checkPassword } from "@/components/common/dialog-check-password";
@@ -75,6 +64,26 @@ const BtnDelUsers = ({ disabled, clearDraft, users, queueID, isActive, setIsActi
         </>)
 }
 
+
+const QueueInfo = ({ id }) => {
+    const [getData, { data: queueInfo, isFetching }] = useLazyGetQueueInfoQuery();
+    const refetchQueue = () => {
+        getData({ id })
+    }
+    useEffect(() => {
+        refetchQueue()
+    }, [])
+    return (
+        <div className="flex items-center  gap-3">
+            <div>
+                <div>Queue Name:{queueInfo?.queueName || '-'}</div>
+                <div>Description:{queueInfo?.queueDescription || '-'}</div>
+            </div>
+            <CreateQueueSection fetchTable={refetchQueue} queue={queueInfo} />
+        </div>
+    )
+}
+
 export default function QueueManagementIDPage() {
     const columnHelper = createColumnHelper<UserType>()
     const [isActiveDelete, setIsActiveDelete] = useState(false)
@@ -87,7 +96,6 @@ export default function QueueManagementIDPage() {
             const user = info.row.original
             // const isActive = !!delUsersObjDraft[user.id]
             const isActive = delUsersDraft.includes(user.id)
-
             return (
                 <Checkbox
                     checked={isActive}
@@ -121,7 +129,6 @@ export default function QueueManagementIDPage() {
     const { id } = params
     const usersTableRef = useRef<UsersTableRef>(null)
 
-    const refetchQueue = () => { }
     const refetchUsersQueue = () => {
         usersTableRef.current?.refetch()
     }
@@ -130,28 +137,17 @@ export default function QueueManagementIDPage() {
         refetchnewUsers()
         refetchUsersQueue()
     }
-    const [getData, { data: queueInfo, isFetching }] = useLazyGetQueueInfoQuery();
-    useEffect(() => {
-        getData({ id })
-    }, [])
+
     return (
         <CardPageWrapper className="mt-4" >
             <>
-                {/* {JSON.stringify(queueInfo)} */}
-                <div className="flex items-center  gap-3">
-                    <div>
-                        <div>Queue Name:{queueInfo?.queueName || '-'}</div>
-                        <div>Description:{queueInfo?.queueDescription || '-'}</div>
-                    </div>
-                    <CreateQueueSection fetchTable={refetchQueue} />
-                </div>
+                <QueueInfo id={id} />
                 <UsersTable
                     ref={usersTableRef}
                     defaultFilter={{ queueId: id }}
                     useUsers={useUsersBackend}
                     fetchUsers={fetchUsers}
                     prependColumns={isActiveDelete ? prependColumns : []}
-
                     MoreActions={
                         <div className="flex gap-3">
                             <AddUser

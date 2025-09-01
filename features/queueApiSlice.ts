@@ -47,6 +47,18 @@ export const queueApiSlice = createApi({
         };
       },
     }),
+    edit: builder.mutation<void, z.infer<typeof CreateQueue>>({
+      query: (body) => {
+        return {
+          url: `/queues/${body.id}`,
+          method: "PUT",
+          body: {
+            queueName: body.queueName,
+            queueDescription: body.queueDescription,
+          },
+        };
+      },
+    }),
     addUsers: builder.mutation<
       void,
       {
@@ -88,6 +100,7 @@ export const {
   useLazyGetQueueInfoQuery,
   useLazyGetTableQuery,
   useCreateMutation,
+  useEditMutation,
   useAddUsersMutation,
   useDelUsersMutation,
 } = queueApiSlice;
