@@ -12,6 +12,8 @@ import { retry } from "@reduxjs/toolkit/query"
 import { createColumnHelper } from "@tanstack/react-table"
 import { memo, useEffect, useMemo, useState } from "react"
 import { useParams } from 'next/navigation'
+import { getErrorText } from "@/services/api"
+import { dialogAlert } from "@/components/common/dialog-alert"
 interface AddUserProps {
     afterSubmit: () => void
 }
@@ -76,8 +78,19 @@ export const AddUser = memo(({ afterSubmit }: AddUserProps) => {
             })?.unwrap()
             setIsOpenAddUser(false)
             afterSubmit()
+            dialogAlert(true)
+
         } catch (error) {
-            console.log(error)
+            dialogAlert(false,
+                {
+                    title: '',
+                    message: getErrorText(error),
+                    confirmText: 'Try again',
+                    cancelText: 'Try again',
+                    onConfirm: () => { },
+                    onCancel: () => { }
+                }
+            )
         }
     }
     return (
@@ -101,7 +114,7 @@ export const AddUser = memo(({ afterSubmit }: AddUserProps) => {
                     />
                     <div className="flex justify-end gap-2">
                         <ButtonCancel onClick={close} />
-                        <BtnApply onClick={save} />
+                        <BtnApply onClick={save} loading={isLoadingAddUsers} />
                     </div>
                 </div>
             </Modal>
