@@ -76,8 +76,8 @@ const QueueInfo = ({ id }) => {
     return (
         <div className="flex items-center  gap-3">
             <div>
-                <div>Queue Name:{queueInfo?.queueName || '-'}</div>
-                <div>Description:{queueInfo?.queueDescription || '-'}</div>
+                <div>Queue Name : {queueInfo?.queueName || '-'}</div>
+                <div>Description : {queueInfo?.queueDescription || '-'}</div>
             </div>
             <CreateQueueSection fetchTable={refetchQueue} queue={queueInfo} />
         </div>

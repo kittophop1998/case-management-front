@@ -79,6 +79,7 @@ export const AddUser = memo(({ afterSubmit }: AddUserProps) => {
             })?.unwrap()
             setIsOpenAddUser(false)
             afterSubmit()
+            setNewUsersObjDraft({})
             dialogAlert(true)
 
         } catch (error) {
