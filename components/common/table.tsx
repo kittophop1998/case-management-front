@@ -99,57 +99,58 @@ export function DataTable<T>({
         </div>
         : <div className='h-[2px]'></div>
       } */}
-      <table className='w-full border-b border-[#e1e2e9]'>
-        <thead className='border-b border-t border-[#e1e2e9]'>
-          {table.getHeaderGroups().map(headerGroup => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map(header => (
-                <th key={header.id}
-                  className={cn('px-2 py-3 text-sm font-normal',
+      <div className='block max-w-full overflow-x-scroll overflow-y-hidden'>
+        <table className='w-full border-b border-[#e1e2e9]'>
+          <thead className='border-b border-t border-[#e1e2e9]'>
+            {table.getHeaderGroups().map(headerGroup => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map(header => (
+                  <th key={header.id}
+                    className={cn('px-2 py-3 text-sm font-normal',
+                      //  @ts-expect-error //TODO: fix type error
+                      header.column.columnDef?.meta?.headerClass || '')}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map(row => (
+              <tr key={row.id} className=''>
+                {row.getVisibleCells().map(cell => (
+                  <td key={cell.id} className={cn('p-2 text-sm text-[#6E7079]',
                     //  @ts-expect-error //TODO: fix type error
-                    header.column.columnDef?.meta?.headerClass || '')}
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map(row => (
-            <tr key={row.id} className=''>
-              {row.getVisibleCells().map(cell => (
-                <td key={cell.id} className={cn('p-2 text-sm text-[#6E7079]',
-                  //  @ts-expect-error //TODO: fix type error
-                  cell.column.columnDef?.meta?.cellClass || '')}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-          {Array.from({ length: Math.max(0, 10 - table.getRowModel().rows.length) }).map((_, rowIndex) => (
-            <tr key={`empty-${rowIndex}`}>
-              {table.getAllLeafColumns().map((col, colIndex) => (
-                <td key={`empty-${rowIndex}-${colIndex}`} className="p-2 text-sm text-[#6E7079] text-transparent">
-                  -
-                </td>
-              ))}
-            </tr>
-          ))}
-          {/* 
+                    cell.column.columnDef?.meta?.cellClass || '')}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+            {Array.from({ length: Math.max(0, 10 - table.getRowModel().rows.length) }).map((_, rowIndex) => (
+              <tr key={`empty-${rowIndex}`}>
+                {table.getAllLeafColumns().map((col, colIndex) => (
+                  <td key={`empty-${rowIndex}-${colIndex}`} className="p-2 text-sm text-[#6E7079] text-transparent">
+                    -
+                  </td>
+                ))}
+              </tr>
+            ))}
+            {/* 
           {[...Array(10 - table.getRowModel().rows.length).fill('')].map((row, index) => (
             <tr key={index} className=''>
               <td key={index} className={cn('p-2 text-sm text-[#6E7079] bg-red-400')}>
               </td>
             </tr>
           ))} */}
-        </tbody>
-        {/* <tfoot>
+          </tbody>
+          {/* <tfoot>
           {table.getFooterGroups().map(footerGroup => (
             <tr key={footerGroup.id}>
               {footerGroup.headers.map(header => (
@@ -165,7 +166,8 @@ export function DataTable<T>({
             </tr>
           ))}
         </tfoot> */}
-      </table>
+        </table>
+      </div>
       <div className='flex items-center justify-end mt-1'>
         <div className='flex items-center space-x-2'>
           <Typography variant='caption'>
