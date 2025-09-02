@@ -144,7 +144,6 @@ export const FormUserDetails = ({
             {
               mode === 'create' ? null : <>
                 <RadioField
-                  // disableList={mode === 'create' ? [false] : undefined}
                   loading={isPendingSubmit || isLoadingForm}
                   form={form}
                   items={statuses}

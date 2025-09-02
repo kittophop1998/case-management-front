@@ -89,10 +89,12 @@ export const FilterUsersModal = ({
       form.reset(defaultValues)
     }
   }, [isOpen])
-  // const seeData = form.watch()
+  const seeData = form.watch()
   return (
     <Modal isOpen={isOpen} title='Filter' className='max-w-[317px]' onClose={() => { setIsOpen(false) }}>
-      {/* {JSON.stringify(seeData)} */}
+      {/* <div className='text-xs'>
+        {JSON.stringify(seeData)}
+      </div> */}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
           <RadioField

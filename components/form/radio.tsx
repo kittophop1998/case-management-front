@@ -1,13 +1,15 @@
 import { cva } from "class-variance-authority";
 import { InputDefaultProps, InputFieldWarper, InputFieldWarperChildProps, InputFormDefaultProps, InputSelectProps } from "./input-warper";
 import { SelectItems } from "./select-field";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { cn } from "@/lib/utils";
 
 interface RadioFieldProps extends
     InputFieldWarperChildProps,
     InputSelectProps,
     InputFormDefaultProps,
     InputDefaultProps {
-    disableList?: any[]
 }
 const RadioFieldVariants = cva(
     'w-full',
@@ -32,16 +34,8 @@ const RadioField = (
         name,
         label,
         className = "",
-        disableList,
         required = false,
-        placeholder
     }: RadioFieldProps) => {
-    const value = form.watch(name)
-    const onSelect = (val: string) => {
-        console.log('RadioField onSelect', val)
-        form.setValue(name, val, { shouldValidate: true });
-        onChange?.(val)
-    }
     return (
         <InputFieldWarper
             loading={loading}
@@ -50,17 +44,33 @@ const RadioField = (
             label={label}
             required={required}
         >
-
-            <SelectItems
+            <RadioItems
+                className={className}
                 items={items}
                 valueName={valueName}
                 labelName={labelName}
-                onChange={onSelect}
-                value={value}
-                className={className}
             />
         </InputFieldWarper>
     )
 };
+const RadioItems = ({ field, items, valueName, labelName, className = '' }) => {
+    return (
+        <RadioGroup
+            onValueChange={field.onChange}
+            defaultValue={field.value}
+            className={cn('', className)}
+        >
+            {items.map((el) => (
+                <FormItem className="flex items-center gap-3">
+                    <FormControl>
+                        <RadioGroupItem value={el?.[valueName]} />
+                    </FormControl>
+                    <FormLabel className="font-normal">{el?.[labelName]}</FormLabel>
+                </FormItem>
+            ))}
 
-export { RadioField }; 
+        </RadioGroup>
+    );
+};
+
+export { RadioField };
