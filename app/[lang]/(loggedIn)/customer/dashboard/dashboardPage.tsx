@@ -187,10 +187,10 @@ const CustomerDashboard = ({ customerId }: CustomerDashboardProps) => {
     return (
         <div>
             <Tabs defaultValue="account">
-                <TabsList className="bg-white w-full flex justify-start rounded-none pb-0">
+                <TabsList className="bg-white w-full flex justify-start rounded-none pb-0 ">
                     <Container >
-                        <TabsTrigger value="account" className="cursor-pointer data-[state=active]:cursor-default my-0 w-[200px] max-w-[300px] data-[state=active]:shadow-none  rounded-none border-0 data-[state=active]:border-b-4  border-[#5570f1]">Overview</TabsTrigger>
-                        <TabsTrigger value="password" className="cursor-pointer data-[state=active]:cursor-default my-0 w-[200px] max-w-[300px] data-[state=active]:shadow-none  rounded-none border-0 data-[state=active]:border-b-4  border-[#5570f1]">Product</TabsTrigger>
+                        <TabsTrigger value="account" className="cursor-pointer data-[state=active]:cursor-default my-0 w-[200px] max-w-[300px] data-[state=active]:shadow-none  rounded-none border-0 data-[state=active]:border-b-4  border-[#5570f1] data-[state=inactive]:hover:text-primary">Overview</TabsTrigger>
+                        <TabsTrigger value="password" className="cursor-pointer data-[state=active]:cursor-default my-0 w-[200px] max-w-[300px] data-[state=active]:shadow-none  rounded-none border-0 data-[state=active]:border-b-4  border-[#5570f1] data-[state=inactive]:hover:text-primary">Product</TabsTrigger>
                     </Container>
                 </TabsList>
                 <Container className="space-y-4 my-3">
