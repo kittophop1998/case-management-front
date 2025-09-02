@@ -54,6 +54,8 @@ const useCaseTable = () => {
       id: 'customerId',
       header: ({ column }) => <Header column={column} label='Case ID' sortAble />,
       cell: info => info.getValue(),
+      meta: { headerClass: 'min-w-[10rem]' },
+
     }),
     columnHelper.accessor('customerName', {
       id: 'customerName',
