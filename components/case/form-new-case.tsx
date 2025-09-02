@@ -18,6 +18,7 @@ import { getErrorText } from "@/services/api";
 import useCaseType from "@/hooks/use-case-type";
 import { useCustomerInfo } from "@/hooks/use-customer-info";
 import { SectionCard } from "./section-card";
+// import { SelectField } from "../form/select-field";
 interface FormNewCaseProps {
     isSmallMod?: boolean;
     setStatus?: (status: boolean) => void;
@@ -168,8 +169,17 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                                 // ]
                                                 inquirys || []
                                             }
-
                                         />
+                                        {/* <SelectField
+                                            form={form}
+                                            name='section'
+                                            label='Section'
+                                            placeholder='All'
+                                            valueName='id'
+                                            labelName='name'
+                                            loading={isPending}
+                                            items={[]}
+                                        /> */}
                                         {/* <InputInquirySelectMain
                                     onChangeMain={() => { }}
                                     onChangeChild={() => {
