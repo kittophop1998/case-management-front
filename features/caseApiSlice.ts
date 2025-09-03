@@ -7,17 +7,13 @@ export const caseApiSlice = createApi({
   reducerPath: "caseApi",
   baseQuery,
   endpoints: (builder) => ({
-    createCase: builder.mutation<
+    createCaseInquiry: builder.mutation<
       void,
       {
         body: z.infer<typeof NewCaseSchema>;
       }
     >({
       query: ({ body }) => {
-        // if (!body.customerId) {
-        //   delete body.customerId;
-        //   body.customerId = null;
-        // }
         return {
           url: `/cases/inquiry`,
           method: "POST",
@@ -28,5 +24,5 @@ export const caseApiSlice = createApi({
   }),
 });
 
-export const { useCreateCaseMutation } = caseApiSlice;
-// const [createCase, { error, isLoading }] = useCreateCaseMutation();
+export const { useCreateCaseInquiryMutation } = caseApiSlice;
+// const [createCase, { error, isLoading }] = useCreateCaseInquiryMutation();

@@ -11,7 +11,7 @@ import { Button } from "@/components/common/Button";
 import { ButtonCancel } from "@/components/button/btn-cancle";
 import { dialogAlert } from "../common/dialog-alert";
 import { useGetDropdownQuery, useGetInquiryQuery } from "@/features/systemApiSlice";
-import { useCreateCaseMutation } from "@/features/caseApiSlice";
+import { useCreateCaseInquiryMutation } from "@/features/caseApiSlice";
 import { getErrorText } from "@/services/api";
 import useCaseType from "@/hooks/use-case-type";
 import { useCustomerInfo } from "@/hooks/use-customer-info";
@@ -47,7 +47,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                 defaultValues: emptyNewCase
             })
             const { control } = form;
-            const [createCase, { error: errorCreateCase, isLoading: isLoadingCreateCase }] = useCreateCaseMutation();
+            const [createCase, { error: errorCreateCase, isLoading: isLoadingCreateCase }] = useCreateCaseInquiryMutation();
             const onSubmit = async (data: z.infer<typeof NewCaseSchema>) => {
                 try {
                     await createCase({ body: data }).unwrap();
