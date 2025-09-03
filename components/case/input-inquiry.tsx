@@ -1,16 +1,13 @@
 import { Disposition, DispositionInfo } from "@/features/systemApiSlice";
 import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { Button } from "../common/Button";
 import { cn } from "@/lib/utils";
 import { ChevronsUpDown } from "lucide-react";
 import { PopoverContent } from "../ui/popover";
 import { Typography } from "../common/typography";
-// import { SearchInput } from "../common/table";
 import { SearchFieldInput } from "../form/search-field";
 import { Checkbox } from "../ui/checkbox";
-import { tr } from "date-fns/locale";
-// NewCaseSchema
 interface InputInquiryProps {
     form: any;
     mainIdName: string;
@@ -19,9 +16,6 @@ interface InputInquiryProps {
     subListName: string;
     items: Disposition[];
 }
-
-
-
 
 const ConfirmSection = ({ onCancel, onConfirm }: { onCancel: () => void; onConfirm: () => void }) => {
     return <>
@@ -44,17 +38,17 @@ const ConfirmSection = ({ onCancel, onConfirm }: { onCancel: () => void; onConfi
     </>
 }
 
-const Item = ({ className = '', onClick, item, isActive = false }: { className?: string, onClick: (v: string) => void, item: DispositionInfo, isActive: boolean }) => {
-    return <div onClick={
-        onClick
-        // () => onClick(item.id)
-    } className={cn('flex gap-3 p-1 items-center hover:bg-gray-200/30 cursor-pointer'
-        // , { 'bg-blue-500': isActive }
-        , className)}>
+const Item = memo(({ className = '', onClick, item, isActive = false }: { className?: string, onClick: (v: string) => void, item: DispositionInfo, isActive: boolean }) => {
+    return <div
+        onClick={
+            onClick
+        } className={cn('flex gap-3 p-1 items-center hover:bg-gray-200/30 cursor-pointer'
+            // , { 'bg-blue-500': isActive }
+            , className)}>
         <Checkbox checked={isActive} />
         <span className="select-none">{item.th}</span>
     </div>
-}
+})
 
 type OnClickMain = (item: Disposition) => void;
 type OnClickSub = (id: string, item: Disposition) => void;
@@ -75,8 +69,16 @@ const isActive = (value: null | string[] | string, id: string) => {
     }
     return value === id;
 };
-export const SelectMultipleChild = ({ items, onClickMain, onClickSub, main, sub, sortable = false
-    , filterMainId, filterSubId
+
+export const SelectMultipleChild = memo(({
+    items
+    , onClickMain
+    , onClickSub
+    , main
+    , sub
+    , sortable = false
+    , filterMainId
+    , filterSubId
 }: SelectMultipleChildProps) => {
     const [search, setSearch] = useState("")
     const itemsFiltered = useMemo(() => {
@@ -135,28 +137,19 @@ export const SelectMultipleChild = ({ items, onClickMain, onClickSub, main, sub,
                                 />
                             ))
                         }
-                        {/* </div> */}
-
                     </div>
                 ))}
             </div>
         </div>
         {/* {JSON.stringify(items)} */}
     </>
-}
-
-
-
-// Select multiple items
+})
 export const InputInquiry = ({
     form,
-    // 
     mainIdName,
     subIdName,
-    // 
     mainListName,
     subListName,
-    // 
     items,
 }: InputInquiryProps) => {
     const mainListValue = form.watch(mainListName) as string[]
@@ -173,14 +166,13 @@ export const InputInquiry = ({
                 return false
             }
         }
+        console.log(`pass validate`, validateObj.current)
         return true
     }
-
     const onCancel = () => {
         setPopoverOpen(false);
         setDraftValue(mainListValue);
     }
-
     const onConfirm = async () => {
         if (await validateSave()) {
             console.log('draftMainValue :', draftMainValue)
@@ -190,38 +182,84 @@ export const InputInquiry = ({
             setPopoverOpen(false)
         }
     }
+    const itemsBySelected = useMemo(() => {
+        // return items.filter(item => draftMainValue.includes(item.dispositionMain.id))
+        let value: Disposition[] = []
+        for (const main of items) {
 
-    const onClickMain = (item: Disposition) => {
-        const id = item.dispositionMain.id;
-        if (!draftMainValue.includes(id)) {
-            setDraftMainValue((v) => [...v, id])
-            validateObj.current[id] = []
-        } else {
-            setDraftMainValue((v) => v.filter(i => i !== id))
-            let childIds: string[] = item.dispositionSubs?.map(sub => sub.id) || []
-            setDraftSubValue((current) => current.filter(childId => !childIds.includes(childId)));
-            delete validateObj.current[id]
+            if (draftMainValue.includes(main.dispositionMain.id)) {
+                let mainObj: Disposition = {
+                    dispositionMain: {
+                        id: main.dispositionMain.id,
+                        th: main.dispositionMain.th,
+                        en: main.dispositionMain.en,
+                    },
+                    dispositionSubs: main.dispositionSubs?.filter(sub => draftSubValue.includes(sub.id)) || [],
+                }
+                value.push(mainObj)
+            }
         }
-    }
+        return value
+    }, [items, draftMainValue, draftSubValue])
+    // const onClickMain = useCallback((item: Disposition) => {
+    //     try {
+    //         console.log(`onClickMain.call()`)
+    //         const id = item.dispositionMain.id;
+    //         if (!draftMainValue.includes(id)) {
+    //             setDraftMainValue((v) => [...v, id])
+    //             validateObj.current[id] = []
+    //         }
+    //         else {
+    //             console.log(`else`)
+    //             setDraftMainValue((v) => v.filter(i => i !== id))
+    //             let childIds: string[] = item.dispositionSubs?.map(sub => sub.id) || []
+    //             setDraftSubValue((current) => current.filter(childId => !childIds.includes(childId)));
+    //             delete validateObj.current[id]
+    //         }
+    //     } catch (error) {
+    //         console.log(`onClickMain error:`, error)
+    //     }
+    // }, [draftMainValue])
+    const onClickMain = useCallback((item: Disposition) => {
+        console.log(`onClickMain.call()`)
+        try {
+            const id = item.dispositionMain.id;
+            setDraftMainValue((v) => {
+                if (!v.includes(id)) {
+                    validateObj.current[id] = []
+                    return [...v, id]
+                } else {
+                    delete validateObj.current[id]
+
+                    let childIds: string[] = item.dispositionSubs?.map(sub => sub.id) || []
+                    setDraftSubValue((current) => current.filter(childId => !childIds.includes(childId)))
+                    return v.filter(i => i !== id)
+                }
+            })
+        } catch (error) {
+            console.log(`onClickMain error:`, error)
+        }
+    }, [])
     const onClickSub = (childId: string, item: Disposition) => {
-        const mainId = item.dispositionMain.id;
-        if (!draftSubValue.includes(childId)) {
-            setDraftSubValue((v) => [...v, childId])
-            if (!draftMainValue.includes(mainId)) {
-                setDraftMainValue((v) => [...v, mainId])
-                validateObj.current[mainId] = [childId]
+        try {
+            const mainId = item.dispositionMain.id;
+            if (!draftSubValue.includes(childId)) {
+                setDraftSubValue((v) => [...v, childId])
+                if (!draftMainValue.includes(mainId)) {
+                    setDraftMainValue((v) => [...v, mainId])
+                    validateObj.current[mainId] = [childId]
+                } else {
+                    validateObj.current[mainId].push(childId)
+                }
             } else {
-                validateObj.current[mainId].push(childId)
+                setDraftSubValue((v) => v.filter(i => i !== childId))
+                validateObj.current[mainId] = validateObj.current[mainId].filter(id => id !== childId)
 
             }
-        } else {
-            setDraftSubValue((v) => v.filter(i => i !== childId))
-            validateObj.current[mainId] = validateObj.current[mainId].filter(id => id !== childId)
-
+        } catch (error) {
+            console.log(`onClickSub error:`, error)
         }
     }
-
-    // 
     const mainList = form.watch(mainListName)
     const subList = form.watch(subListName)
     return (
@@ -261,18 +299,15 @@ export const InputInquiry = ({
                 </Popover>
             </div>
             <div>
-                {/* <div>mainList:{JSON.stringify(mainList)}</div> */}
-                {/* <div>subList:{JSON.stringify(subList)}</div> */}
                 <SelectMultipleChild
                     filterMainId={mainList}
                     filterSubId={subList}
-                    items={items}
-                    onClickMain={onClickMain}
-                    onClickSub={onClickSub}
-                    main={draftMainValue}
-                    sub={draftSubValue}
+                    items={itemsBySelected}
+                    onClickMain={() => { }}
+                    onClickSub={() => { }}
+                    main={[]}
+                    sub={[]}
                 />
             </div>
         </>)
 }
-// Select one item
