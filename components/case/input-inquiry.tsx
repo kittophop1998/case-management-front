@@ -1,4 +1,4 @@
-import { Disposition, DispositionInfo } from "@/features/systemApiSlice";
+import { Disposition, DispositionInfo, useGetInquiryQuery } from "@/features/systemApiSlice";
 import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { Button } from "../common/Button";
@@ -14,7 +14,6 @@ interface InputInquiryProps {
     subIdName: string;
     mainListName: string;
     subListName: string;
-    items: Disposition[];
 }
 
 const ConfirmSection = ({ onCancel, onConfirm }: { onCancel: () => void; onConfirm: () => void }) => {
@@ -162,8 +161,9 @@ export const InputInquiry = ({
     subIdName,
     mainListName,
     subListName,
-    items,
 }: InputInquiryProps) => {
+    const { data: items = [] } = useGetInquiryQuery();
+
     const mainListValue = form.watch(mainListName) as string[]
     const subListValue = form.watch(subListName) as string[]
     const [popoverOpen, setPopoverOpen] = useState(false)
@@ -195,11 +195,10 @@ export const InputInquiry = ({
         }
     }
     const itemsBySelected = useMemo(() => {
-        // return items.filter(item => draftMainValue.includes(item.dispositionMain.id))
         let value: Disposition[] = []
         for (const main of items) {
 
-            if (draftMainValue.includes(main.dispositionMain.id)) {
+            if (draftMainValue?.includes(main.dispositionMain.id)) {
                 let mainObj: Disposition = {
                     dispositionMain: {
                         id: main.dispositionMain.id,
@@ -237,7 +236,7 @@ export const InputInquiry = ({
             const mainId = item.dispositionMain.id;
             if (!draftSubValue.includes(childId)) {
                 setDraftSubValue((v) => [...v, childId])
-                if (!draftMainValue.includes(mainId)) {
+                if (!draftMainValue?.includes(mainId)) {
                     setDraftMainValue((v) => [...v, mainId])
                     validateObj.current[mainId] = [childId]
                 } else {
@@ -281,7 +280,7 @@ export const InputInquiry = ({
                             role="combobox"
                             className={cn(
                                 "justify-between w-full",
-                                mainListValue.length === 0 && "text-muted-foreground"
+                                !mainListValue?.length && "text-muted-foreground"
                             )}
                         >
                             Multiple select

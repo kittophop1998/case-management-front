@@ -9,19 +9,25 @@ import { Modal } from "../common/Modal";
 import { Typography } from "../common/typography";
 import useCaseType from "@/hooks/use-case-type";
 import { Badge } from "../ui/badge";
+import { CaseTypeText } from "@/types/case.type";
 
+
+const getTypeByName = (name: string): CaseTypeText => {
+    return name === 'Inquiry and disposition' ? 'Inquiry' : 'None Inquiry'
+}
 interface ItemProps {
     id: string;
     name: string;
-    handleSelect: (id: string) => void;
+    handleSelect: (id: string, caseTypeText: CaseTypeText) => void;
 }
 const Item = ({ handleSelect, id, name }: ItemProps) => {
     return (
         <div
             className="flex items-center justify-between p-2 hover:bg-gray-100 cursor-pointer px-6"
-            onClick={() => handleSelect(id)}
+            onClick={() => handleSelect(id, getTypeByName(name))}
         >
             <Typography>{name}</Typography>
+
             <div className="text-xs text-gray-500 font-medium">Create</div>
         </div>
     );
@@ -43,7 +49,7 @@ const Group = ({
     name,
 }: {
     items: any[];
-    handleSelect: (value: string) => void;
+    handleSelect: (value: string, caseTypeText: CaseTypeText) => void;
     name: string;
 }) => {
     return (
@@ -60,7 +66,7 @@ const Group = ({
 interface DialogSelectCaseTypeProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    onSelect: (value: string) => void;
+    onSelect: (value: string, caseTypeText: CaseTypeText) => void;
 }
 
 export const DialogSelectCaseType = ({
@@ -73,8 +79,8 @@ export const DialogSelectCaseType = ({
         data: { group },
         dataFiltered: { group: groupFiltered, childByGroup: childByGroupFiltered, countFiltered },
     } = useCaseType();
-    const handleSelect = (value: string) => {
-        onSelect(value);
+    const handleSelect = (value: string, caseTypeText: CaseTypeText = 'Inquiry') => {
+        onSelect(value, caseTypeText);
         setOpen(false);
     };
 

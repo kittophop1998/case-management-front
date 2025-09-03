@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQuery } from "@/services/api";
 import z from "zod";
-import { NewCaseSchema } from "@/schemas";
+import { CreateCaseSchema } from "@/schemas";
 
 export const caseApiSlice = createApi({
   reducerPath: "caseApi",
@@ -10,7 +10,7 @@ export const caseApiSlice = createApi({
     createCaseInquiry: builder.mutation<
       void,
       {
-        body: z.infer<typeof NewCaseSchema>;
+        body: z.infer<typeof CreateCaseSchema>;
       }
     >({
       query: ({ body }) => {
@@ -24,7 +24,7 @@ export const caseApiSlice = createApi({
     createCaseNoneInquiry: builder.mutation<
       void,
       {
-        body: z.infer<typeof NewCaseSchema>;
+        body: z.infer<typeof CreateCaseSchema>;
       }
     >({
       query: ({ body }) => {

@@ -1,7 +1,7 @@
 "use client";
 import z from "zod";
 import { useState } from "react";
-import { useLogoutMutation } from "@/features/authApiSlice";
+import { useGetMeQuery, useLogoutMutation } from "@/features/authApiSlice";
 import { LoginSchemas } from "@/schemas";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +15,7 @@ export default function useAuth() {
     logoutMutation,
     { isLoading: isLoadingLogout, isError: isLogoutError, error: logoutError },
   ] = useLogoutMutation();
+  const { data: meApi, refetch: refetchMe } = useGetMeQuery();
 
   const [isLoadingLogin, setIsLoadingLogin] = useState<boolean>(false);
   const formLogin = useForm<z.infer<typeof LoginSchemas>>({
@@ -49,6 +50,7 @@ export default function useAuth() {
       //   error,
       // });
       setToken({ accessToken, refreshToken });
+
       // if (error) {
       //   throw new Error(error);
       // }
@@ -58,6 +60,12 @@ export default function useAuth() {
       }
       setAccessToken(accessToken);
       setRefreshToken(refreshToken);
+      // TODO:[CHANGE THIS LOGIC CLEAR LOG WHEN LOGOUT]
+      console.time("refetchMe");
+      refetchMe();
+      // let data = await refetchMe().unwrap();
+      console.timeEnd("refetchMe");
+      // console.log(`data :`, data);
       const initPath = "/th/dashboard";
       router.push(initPath); // ineed force push not waite load page ssr success
       // window.location.href = "/th/dashboard";

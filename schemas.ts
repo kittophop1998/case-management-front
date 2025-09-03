@@ -67,19 +67,6 @@ export const SettingAccessControlSchema = z.object({
   roles: z.array(z.string().min(1, "Role is required")),
 });
 
-export const NewCaseSchema = z.object({
-  customerId: z.string().optional(), //query
-  caseTypeId: z.string().min(1, "Case Type is required"), //auto
-  dispositionMainId: z.string().min(1, "Main Disposition Stamp is required"),
-  dispositionSubId: z.string().min(1, "Sub Disposition Stamp is required"),
-  dispositionMains: z.array(z.string()),
-  dispositionSubs: z.array(z.string()),
-  productId: z.string().min(1, "Product is required"),
-  caseDescription: z.string(),
-  // TODO z.any() change this to z.string() const { fields, append, remove } = useFieldArray({control, name: "caseNote",}); got error in this line
-  caseNote: z.array(z.any()).min(1, "At least one case note is required"),
-});
-
 export const CreateNoteSchemas = z.object({
   customerId: z.string().min(1, "Customer Id is required"),
   noteTypeId: z.string().min(1, "Note Type is required"),
@@ -101,3 +88,58 @@ export const CreateQueue = z.object({
   queueName: z.string().min(1, "Queue Name is required"),
   queueDescription: z.string().min(1, "Queue Description is required"),
 });
+
+//
+//
+//
+//
+//
+
+// if caseTypeText ==='None Inquiry' then use NewCaseSchema if caseTypeText === 'Inquiry' then use NewCaseNoneInquirySchema
+// export const NewCaseSchema = z.object({
+//   caseTypeText: z.string().min(1, "Case Text is required"), //auto
+//   customerId: z.string().optional(), //query
+//   caseTypeId: z.string().min(1, "Case Type is required"), //auto
+//   caseDescription: z.string(),
+//   caseNote: z.array(z.any()).min(1, "At least one case note is required"), // TODO z.any() change this to z.string() const { fields, append, remove } = useFieldArray({control, name: "caseNote",}); got error in this line
+//   //
+//   dispositionMainId: z.string().min(1, "Main Disposition Stamp is required"),
+//   dispositionSubId: z.string().min(1, "Sub Disposition Stamp is required"),
+//   dispositionMains: z.array(z.string()),
+//   dispositionSubs: z.array(z.string()),
+//   productId: z.string().min(1, "Product is required"),
+//   //
+// });
+
+export const CreateCaseInquirySchema = z.object({
+  caseTypeText: z.literal("None Inquiry"), // fix discriminator
+  customerId: z.string().optional(),
+  caseTypeId: z.string().min(1, "Case Type is required"),
+  caseDescription: z.string(),
+  caseNote: z.array(z.string()).min(1, "At least one case note is required"),
+  customerName: z.string(),
+  channel: z.string().min(1, "Channel is required"),
+  priority: z.string().min(1, "Priority is required"),
+  reasonCode: z.string().min(1, "ReasonCode is required"),
+  dueDate: z.string().min(1, "due Date is required"),
+  allocateToQueueTeam: z.string().min(1, "allocateToQueueTeam is required"),
+});
+
+export const CreateCaseNoneInquirySchema = z.object({
+  caseTypeText: z.literal("Inquiry"), // fix discriminator
+  customerId: z.string().optional(),
+  customerName: z.string(),
+  caseTypeId: z.string().min(1, "Case Type is required"),
+  caseDescription: z.string(),
+  caseNote: z.array(z.string()).min(1, "At least one case note is required"),
+  dispositionMainId: z.string().min(1, "Main Disposition Stamp is required"),
+  dispositionSubId: z.string().min(1, "Sub Disposition Stamp is required"),
+  dispositionMains: z.array(z.string()),
+  dispositionSubs: z.array(z.string()),
+  productId: z.string().min(1, "Product is required"),
+});
+
+export const CreateCaseSchema = z.discriminatedUnion("caseTypeText", [
+  CreateCaseInquirySchema,
+  CreateCaseNoneInquirySchema,
+]);

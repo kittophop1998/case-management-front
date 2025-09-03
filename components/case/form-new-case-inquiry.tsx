@@ -1,81 +1,111 @@
 'use client';
-import { NewCaseSchema } from "@/schemas";
-import z from 'zod';
+import { CreateCaseSchema } from "@/schemas";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
-import { TextAreaField } from "@/components/form/textarea-field";
-import { Typography } from "@/components/common/typography";
-import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import { useForm, FormProvider } from 'react-hook-form';
+import { forwardRef, useEffect, useImperativeHandle } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/common/Button";
 import { ButtonCancel } from "@/components/button/btn-cancle";
 import { dialogAlert } from "../common/dialog-alert";
-import { useGetDropdownQuery, useGetInquiryQuery } from "@/features/systemApiSlice";
+import { useGetDropdownQuery } from "@/features/systemApiSlice";
 import { useCreateCaseInquiryMutation } from "@/features/caseApiSlice";
 import { getErrorText } from "@/services/api";
-import useCaseType from "@/hooks/use-case-type";
 import { useCustomerInfo } from "@/hooks/use-customer-info";
 import { SectionCard } from "./section-card";
 import { SelectField } from "../form/select-field";
 import { InputInquiry } from "./input-inquiry";
 import { useDebugLogForm } from "@/hooks/use-debug-log-form";
+import { CustomerInfo } from "./section-customer-info";
+import { SectionCaseInfo } from "./section-case-inquiry-info";
+import { SectionCaseNoteInfo } from "./section-case-note-info";
+import { emptyCaseInquiry, emptyCaseNoneInquiry } from "@/const/case";
+import { CaseType, CaseTypeText } from "@/types/case.type";
+import { SectionEmail, SectionSendEmail } from "./section-email";
+import { SectionDisposition } from "./section-disposition";
+
+
+
 interface FormNewCaseProps {
-    isSmallMod?: boolean;
+    isSmallMod: boolean;
     setStatus?: (status: boolean) => void;
+    caseTypeText?: CaseTypeText;
 }
 
+export interface FormNewCaseRef { onOpen: (caseTitle: string | null, customerId: string | null, cancelText: CaseTypeText) => void }
 
-const emptyNewCase: z.infer<typeof NewCaseSchema> = {
-    customerId: '',
-    dispositionMains: [],
-    dispositionSubs: [],
-    dispositionMainId: '',
-    dispositionSubId: '',
-    caseNote: [''],
-    caseDescription: '',
-    caseTypeId: '',
-    productId: '',
+
+const useCaseForm = ({ setStatus }: { setStatus?: (status: boolean) => void }) => {
+    const form = useForm<CaseType>({
+        resolver: zodResolver(CreateCaseSchema),
+        defaultValues: emptyCaseNoneInquiry
+    })
+    const customerId = form.watch('customerId')
+    const caseTypeText = form.watch('caseTypeText')
+    const [createCase, { isLoading: isLoadingCreateCase }] = useCreateCaseInquiryMutation();
+    const loadEmptyForm = (type: CaseTypeText = 'Inquiry', defaultForm: { caseTypeId: string, customerId: string }) => {
+        switch (type) {
+            case 'None Inquiry':
+                form.reset({ ...emptyCaseNoneInquiry, ...defaultForm })
+                break;
+            case 'Inquiry':
+                form.reset({ ...emptyCaseInquiry, ...defaultForm })
+                break;
+            default:
+                break;
+        }
+    }
+    const onClose = (): void => {
+        setStatus?.(false);
+    };
+    const onSubmit = async (data: CaseType) => {
+        try {
+            await createCase({ body: data }).unwrap();
+            dialogAlert(true)
+            onClose()
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                dialogAlert(false, {
+                    title: 'Error',
+                    message: error.message || getErrorText(error),
+                    confirmText: 'Try again',
+                    cancelText: 'Close',
+                    onConfirm: () => { },
+                    onCancel: () => { }
+                })
+            }
+        }
+    };
+    useDebugLogForm({ form })
+    return { form, formState: { customerId, caseTypeText }, onSubmit, onClose, state: { isLoadingCreateCase }, func: { loadEmptyForm } }
 }
-export interface FormNewCaseRef { onOpen: (caseTitle: string | null, customerId: string | null) => void }
+const useCustomer = (customerId: string | null) => {
+    const { customer, fetch } = useCustomerInfo(customerId)
+    useEffect(() => {
+        if (customerId) {
+            fetch(['info'])
+        }
+    }, [customerId])
+    return { customer }
+}
 export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
     (
         ({ isSmallMod, setStatus }, ref) => {
+            const {
+                form
+                , formState: { customerId, caseTypeText }
+                , state: { isLoadingCreateCase }
+                , func: { loadEmptyForm }
+                , onClose
+                , onSubmit
+            } = useCaseForm({ setStatus });
             const { data: ddData } = useGetDropdownQuery();
+            const { customer } = useCustomer(customerId || null)
 
-            const form = useForm<z.infer<typeof NewCaseSchema>>({
-                resolver: zodResolver(NewCaseSchema),
-                defaultValues: emptyNewCase
-            })
-            const { control } = form;
-            const [createCase, { error: errorCreateCase, isLoading: isLoadingCreateCase }] = useCreateCaseInquiryMutation();
-            const onSubmit = async (data: z.infer<typeof NewCaseSchema>) => {
-                try {
-                    await createCase({ body: data }).unwrap();
-                    dialogAlert(true)
-                    onClose()
-                } catch (error: unknown) {
-                    if (error instanceof Error) {
-                        dialogAlert(false, {
-                            title: 'Error',
-                            message: error.message || getErrorText(error),
-                            confirmText: 'Try again',
-                            cancelText: 'Close',
-                            onConfirm: () => { },
-                            onCancel: () => { }
-                        })
-                    }
-                }
-            };
-            const onClose = (): void => {
-                setStatus?.(false);
-            };
             useImperativeHandle(
                 ref, () => (
                     {
-                        onOpen: (caseTypeId: string | null, customerId: string | null) => {
-                            // fetch(['info'])
-                            form.reset({
-                                ...emptyNewCase,
+                        onOpen: (caseTypeId: string | null, customerId: string | null, caseTypeText: CaseTypeText | undefined = 'Inquiry') => {
+                            loadEmptyForm(caseTypeText, {
                                 caseTypeId: caseTypeId || '',
                                 customerId: customerId || '',
                             })
@@ -84,93 +114,50 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                 )
             )
 
-            const caseTypeId = form.watch('caseTypeId')
-            const customerId = form.watch('customerId')
-            const { customer, fetch, loading } = useCustomerInfo(customerId)
-            // const { data: customerInfo } = useCustomerInfo(customerId)
-            useEffect(() => {
-                if (customerId) {
-                    fetch(['info'])
-                }
-            }, [customerId])
-
-            const { data: inquirys } = useGetInquiryQuery();
-            const seeData = form.watch()
-            const { fields, append, remove } = useFieldArray({
-                control,
-                name: "caseNote",
-            });
-            const {
-                data: { childValue2text },
-            } = useCaseType()
-
-            useDebugLogForm({ form })
+            // const seeForm = form.watch()
             return (
                 <FormProvider {...form} >
                     <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>
                         <div className={cn("py-3", isSmallMod ? "max-h-[50vh] overflow-y-auto" : "w-[70vw] grid grid-cols-2 gap-3")}>
                             <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
                                 {
-                                    customer.info?.customerNameEng && (
-                                        <SectionCard title="Customer Info" isAccordion={!!isSmallMod}>
-                                            <div className="space-y-3 pt-2">
-                                                <Typography variant="caption">Customer ID/Passport :  {customer.info?.nationalId}</Typography>
-                                                <Typography variant="caption">Customer Name: {customer.info?.customerNameEng}</Typography>
-                                                <Typography variant="caption">Aeon ID: {customerId}</Typography>
-                                                <Typography variant="caption">Mobile No.: {customer.info?.mobileNO}</Typography>
-                                            </div>
-                                        </SectionCard>
-                                    )
+                                    customer.info?.customerNameEng && customerId &&
+                                    <CustomerInfo
+                                        customerInfo={customer.info}
+                                        customerId={customerId}
+                                        isSmallMod={isSmallMod}
+                                    />
                                 }
-                                <SectionCard title="Case Info" isAccordion={!!isSmallMod}>
-                                    <div className="space-y-3 pt-2">
-                                        <Typography variant="caption">Case Type:  {childValue2text?.[caseTypeId] || caseTypeId}</Typography>
-                                        {/* <Typography variant="caption">Case ID:  {caseInfo.id}</Typography> */}
-                                        <TextAreaField
-                                            name="caseDescription"
-                                            label="Case Description"
-                                            placeholder="Enter Case Description"
-                                            form={form}
-                                        />
-                                    </div>
-                                </SectionCard>
-                                <SectionCard title="Case Note" isAccordion={!!isSmallMod}>
-                                    <div className="space-y-3 pt-2">
-                                        {seeData.caseNote.map((field, index) => (
-                                            <TextAreaField
-                                                key={`TextAreaField-${index}`}
-                                                name={`caseNote.${index}`}
-                                                label={`Add Note`}
-                                                placeholder="Enter Note"
-                                                form={form}
-                                            />
-                                        ))}
-                                    </div>
-                                </SectionCard>
+                                <SectionCaseInfo
+                                    isSmallMod={isSmallMod}
+                                    form={form}
+                                    caseTypeText={caseTypeText}
+                                />
+                                <SectionCaseNoteInfo
+                                    isSmallMod={isSmallMod}
+                                    form={form}
+                                />
+                                {
+                                    caseTypeText === 'None Inquiry' &&
+                                    <SectionEmail
+                                        isSmallMod={isSmallMod}
+                                        form={form}
+                                    />
+                                }
                             </div>
                             <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
-                                <SectionCard title="Disposition" isAccordion={!!isSmallMod}>
-                                    <div className="space-y-3 mt-3">
-                                        <InputInquiry
+                                {
+                                    caseTypeText === 'None Inquiry' ?
+                                        <SectionSendEmail
+                                            isSmallMod={isSmallMod}
                                             form={form}
-                                            mainIdName='dispositionMainId'
-                                            subIdName='dispositionSubId'
-                                            mainListName='dispositionMains'
-                                            subListName='dispositionSubs'
-                                            items={inquirys || []}
-                                        />
-                                        <SelectField
+                                        /> :
+                                        <SectionDisposition
+                                            isSmallMod={isSmallMod}
                                             form={form}
-                                            name='productId'
-                                            label='Product'
-                                            placeholder='All'
-                                            valueName='id'
-                                            labelName='name'
-                                            items={ddData?.data?.products || []}
+                                            products={ddData?.data?.products || []}
                                         />
-                                    </div>
-                                </SectionCard>
-
+                                }
                             </div>
                         </div>
                         <div className="flex justify-end gap-3 pb-3">
