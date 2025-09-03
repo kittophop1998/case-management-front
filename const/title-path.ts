@@ -96,6 +96,9 @@ export const routeMeta: RouteMeta[] = [
     name: "Queue Management",
     sidebar: "Queue Management",
     permission: ["view.queue"],
+    breadcrumbs: [
+      { name: "Queue Management", goto: "/queue-management"},
+    ],
   },
 ];
 
