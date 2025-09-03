@@ -147,16 +147,20 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                 }
                             </div>
                             <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
+                                {
+                                    caseTypeText === 'None Inquiry' ?
 
-                                {/* <SectionDisposition
-                                    isSmallMod={isSmallMod}
-                                    form={form}
-                                    products={ddData?.data?.products || []}
-                                /> */}
-                                {/* <SectionSendEmail
-                                    isSmallMod={isSmallMod}
-                                    form={form}
-                                /> */}
+                                        <SectionSendEmail
+                                            isSmallMod={isSmallMod}
+                                            form={form}
+                                        /> :
+                                        <SectionDisposition
+                                            isSmallMod={isSmallMod}
+                                            form={form}
+                                            products={ddData?.data?.products || []}
+                                        />
+                                }
+
 
                             </div>
                         </div>
