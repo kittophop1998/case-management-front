@@ -25,7 +25,6 @@ export function ClientPath() {
 
     const pathSegments = pathname.split('/')
     const clientPath = resolveClientPath(pathSegments)
-    console.log('ClientPath clientPath', clientPath)
 
     const { data: meApi } = useGetMeQuery()
 
