@@ -21,8 +21,25 @@ export const caseApiSlice = createApi({
         };
       },
     }),
+    createCaseNoneInquiry: builder.mutation<
+      void,
+      {
+        body: z.infer<typeof NewCaseSchema>;
+      }
+    >({
+      query: ({ body }) => {
+        return {
+          url: `/cases`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
-export const { useCreateCaseInquiryMutation } = caseApiSlice;
+export const {
+  useCreateCaseInquiryMutation,
+  useCreateCaseNoneInquiryMutation,
+} = caseApiSlice;
 // const [createCase, { error, isLoading }] = useCreateCaseInquiryMutation();

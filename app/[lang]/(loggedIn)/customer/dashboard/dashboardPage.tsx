@@ -6,7 +6,7 @@ import { ChevronDown, ClipboardPlus } from "lucide-react";
 import { useSearchParams, useRouter } from 'next/navigation'
 import usePermission from "@/hooks/use-permission";
 // 
-import { FormNewCase, FormNewCaseRef } from "@/components/case/form-new-case";
+import { FormNewCase, FormNewCaseRef } from "@/components/case/form-new-case-inquiry";
 import BtnNew from "@/components/button/btn-new";
 import { DialogSelectCaseType } from "@/components/case/dialog-select-case-type";
 import Container from "@/components/common/containter";
