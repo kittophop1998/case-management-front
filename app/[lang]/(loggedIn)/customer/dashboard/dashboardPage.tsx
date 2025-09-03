@@ -34,6 +34,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Promotion } from "@/types/promotion.type";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useLazyGetCustomerNotesQuery } from "@/features/noteApiSlice";
+import { CaseTypeText } from "@/types/case.type";
 
 type SuggestionCardProps = {
     loading: boolean
@@ -157,10 +158,10 @@ const CustomerDashboard = ({ customerId }: CustomerDashboardProps) => {
     const [openSelectCase, setOpenSelectCase] = useState<boolean>(false);
     const [status, setStatus] = useState<boolean>(false);
     const [statusNote, setStatusNote] = useState<boolean>(false);
-    const onSelectCase = (value: string) => {
+    const onSelectCase = (id: string, caseType: CaseTypeText = 'Inquiry') => {
         setOpenSelectCase(false);
         setStatus(true)
-        formNewCaseRef.current?.onOpen(value, customerId)
+        formNewCaseRef.current?.onOpen(id, customerId, caseType)
     }
     const handleOpenSelectCase = () => {
         setOpenSelectCase(true);

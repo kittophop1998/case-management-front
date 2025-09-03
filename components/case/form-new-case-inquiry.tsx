@@ -20,7 +20,7 @@ import { CustomerInfo } from "./section-customer-info";
 import { SectionCaseInfo } from "./section-case-inquiry-info";
 import { SectionCaseNoteInfo } from "./section-case-note-info";
 import { emptyCaseInquiry, emptyCaseNoneInquiry } from "@/const/case";
-import { CaseType } from "@/types/case.type";
+import { CaseType, CaseTypeText } from "@/types/case.type";
 import { SectionEmail, SectionSendEmail } from "./section-email";
 import { SectionDisposition } from "./section-disposition";
 
@@ -29,10 +29,10 @@ import { SectionDisposition } from "./section-disposition";
 interface FormNewCaseProps {
     isSmallMod: boolean;
     setStatus?: (status: boolean) => void;
-    caseTypeText?: 'None Inquiry' | 'Inquiry';
+    caseTypeText?: CaseTypeText;
 }
 
-export interface FormNewCaseRef { onOpen: (caseTitle: string | null, customerId: string | null) => void }
+export interface FormNewCaseRef { onOpen: (caseTitle: string | null, customerId: string | null, cancelText: CaseTypeText) => void }
 
 
 const useCaseForm = ({ setStatus }: { setStatus?: (status: boolean) => void }) => {
@@ -43,7 +43,7 @@ const useCaseForm = ({ setStatus }: { setStatus?: (status: boolean) => void }) =
     const customerId = form.watch('customerId')
     const caseTypeText = form.watch('caseTypeText')
     const [createCase, { isLoading: isLoadingCreateCase }] = useCreateCaseInquiryMutation();
-    const loadEmptyForm = (type: 'None Inquiry' | 'Inquiry' = 'Inquiry', defaultForm: { caseTypeId: string, customerId: string }) => {
+    const loadEmptyForm = (type: CaseTypeText = 'Inquiry', defaultForm: { caseTypeId: string, customerId: string }) => {
         switch (type) {
             case 'None Inquiry':
                 form.reset({ ...emptyCaseNoneInquiry, ...defaultForm })
@@ -105,7 +105,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
             useImperativeHandle(
                 ref, () => (
                     {
-                        onOpen: (caseTypeId: string | null, customerId: string | null, caseTypeText: 'None Inquiry' | 'Inquiry' | undefined = 'Inquiry') => {
+                        onOpen: (caseTypeId: string | null, customerId: string | null, caseTypeText: CaseTypeText | undefined = 'Inquiry') => {
                             loadEmptyForm(caseTypeText, {
                                 caseTypeId: caseTypeId || '',
                                 customerId: customerId || '',
@@ -149,7 +149,6 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                             <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
                                 {
                                     caseTypeText === 'None Inquiry' ?
-
                                         <SectionSendEmail
                                             isSmallMod={isSmallMod}
                                             form={form}
@@ -160,8 +159,6 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                             products={ddData?.data?.products || []}
                                         />
                                 }
-
-
                             </div>
                         </div>
                         <div className="flex justify-end gap-3 pb-3">

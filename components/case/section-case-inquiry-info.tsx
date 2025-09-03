@@ -2,11 +2,12 @@ import { Typography } from "../common/typography"
 import { SectionCard } from "./section-card"
 import { TextAreaField } from "../form/textarea-field"
 import useCaseType from "@/hooks/use-case-type"
+import { CaseTypeText } from "@/types/case.type"
 
 interface SectionCaseInfoProps {
     isSmallMod: boolean
     form: any
-    caseTypeText: 'None Inquiry' | 'Inquiry'
+    caseTypeText: CaseTypeText
 }
 
 export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry' }: SectionCaseInfoProps) => {

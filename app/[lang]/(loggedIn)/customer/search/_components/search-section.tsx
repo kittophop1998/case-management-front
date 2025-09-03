@@ -51,7 +51,7 @@ export const SearchSection = ({
         const forceName = 'Inquiry and disposition'
         const inqID = await getByName(forceName)
         if (inqID) {
-            formNewCaseRef.current?.onOpen(inqID, search)
+            formNewCaseRef.current?.onOpen(inqID, search, 'Inquiry')
             setStatus(true)
         } else {
             alert(`Not found case type: ${forceName}`)
