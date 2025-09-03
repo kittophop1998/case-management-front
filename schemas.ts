@@ -67,17 +67,34 @@ export const SettingAccessControlSchema = z.object({
   roles: z.array(z.string().min(1, "Role is required")),
 });
 
+// if caseTypeText ==='None Inquiry' then use NewCaseSchema if caseTypeText === 'Inquiry' then use NewCaseNoneInquirySchema
 export const NewCaseSchema = z.object({
+  caseTypeText: z.string().min(1, "Case Text is required"), //auto
   customerId: z.string().optional(), //query
   caseTypeId: z.string().min(1, "Case Type is required"), //auto
+  caseDescription: z.string(),
+  caseNote: z.array(z.any()).min(1, "At least one case note is required"), // TODO z.any() change this to z.string() const { fields, append, remove } = useFieldArray({control, name: "caseNote",}); got error in this line
+  //
   dispositionMainId: z.string().min(1, "Main Disposition Stamp is required"),
   dispositionSubId: z.string().min(1, "Sub Disposition Stamp is required"),
   dispositionMains: z.array(z.string()),
   dispositionSubs: z.array(z.string()),
   productId: z.string().min(1, "Product is required"),
+  //
+});
+export const NewCaseNoneInquirySchema = z.object({
+  caseTypeText: z.string().min(1, "Case Text is required"), //auto
+  customerId: z.string().optional(), //query
+  caseTypeId: z.string().min(1, "Case Type is required"), //auto
   caseDescription: z.string(),
-  // TODO z.any() change this to z.string() const { fields, append, remove } = useFieldArray({control, name: "caseNote",}); got error in this line
   caseNote: z.array(z.any()).min(1, "At least one case note is required"),
+  //
+  customerName: z.string(),
+  channel: "IVR",
+  priority: "HIGH",
+  reasonCode: "756df669-46a5-4987-ba27-9f7e3ff585f7",
+  dueDate: "2025-12-02",
+  allocateToQueueTeam: "756df669-46a5-4987-ba27-9f7e3ff585f7",
 });
 
 export const CreateNoteSchemas = z.object({

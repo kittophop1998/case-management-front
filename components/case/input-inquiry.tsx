@@ -1,4 +1,4 @@
-import { Disposition, DispositionInfo } from "@/features/systemApiSlice";
+import { Disposition, DispositionInfo, useGetInquiryQuery } from "@/features/systemApiSlice";
 import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { Button } from "../common/Button";
@@ -14,7 +14,6 @@ interface InputInquiryProps {
     subIdName: string;
     mainListName: string;
     subListName: string;
-    items: Disposition[];
 }
 
 const ConfirmSection = ({ onCancel, onConfirm }: { onCancel: () => void; onConfirm: () => void }) => {
@@ -162,8 +161,9 @@ export const InputInquiry = ({
     subIdName,
     mainListName,
     subListName,
-    items,
 }: InputInquiryProps) => {
+    const { data: items = [] } = useGetInquiryQuery();
+
     const mainListValue = form.watch(mainListName) as string[]
     const subListValue = form.watch(subListName) as string[]
     const [popoverOpen, setPopoverOpen] = useState(false)
