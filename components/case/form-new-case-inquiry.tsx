@@ -1,5 +1,5 @@
 'use client';
-import { CreateCase } from "@/schemas";
+import { CreateCaseSchema } from "@/schemas";
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -37,7 +37,7 @@ export interface FormNewCaseRef { onOpen: (caseTitle: string | null, customerId:
 
 const useCaseForm = ({ setStatus }: { setStatus?: (status: boolean) => void }) => {
     const form = useForm<CaseType>({
-        resolver: zodResolver(CreateCase),
+        resolver: zodResolver(CreateCaseSchema),
         defaultValues: emptyCaseNoneInquiry
     })
     const customerId = form.watch('customerId')
