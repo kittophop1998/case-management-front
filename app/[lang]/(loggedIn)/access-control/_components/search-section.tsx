@@ -87,7 +87,6 @@ export const SearchSection = ({
                         {
                             value: search.text,
                             onChange: (e: any) => {
-
                                 setSearch((current) => ({ ...current, text: e?.target?.value || '' }))
                             }
                         }

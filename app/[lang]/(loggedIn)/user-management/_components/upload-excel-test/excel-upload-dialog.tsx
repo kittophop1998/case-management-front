@@ -230,7 +230,6 @@ export function ExcelUploadDialog({
       <div className='flex gap-4 items-center'>
         <Typography variant='body1'>Upload File</Typography>
         <Button variant='link' size='sm' onClick={downloadTemplate}>
-          {/* @ts-expect-error className is valid for lucide icon */}
           <Download className='mr-2 h-4 w-4' />
           Download Template
         </Button>
@@ -246,7 +245,6 @@ export function ExcelUploadDialog({
           >
             {/* TODO: SET COLOR */}
             <FileSpreadsheet
-              // @ts-expect-error className is valid for lucide icon
               className='mx-auto h-12 w-12 text-muted-foreground mb-4'
               color='#7461cf'
             />

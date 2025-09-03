@@ -11,13 +11,14 @@ import { Button } from "@/components/common/Button";
 import { ButtonCancel } from "@/components/button/btn-cancle";
 import { dialogAlert } from "../common/dialog-alert";
 import { InputInquirySelectMain } from "./input-inquiry-select-main";
-import { useDebugLogForm } from "@/hooks/use-debug-log-form";
-import { useGetInquiryQuery } from "@/features/systemApiSlice";
+import { useGetDropdownQuery, useGetInquiryQuery } from "@/features/systemApiSlice";
 import { useCreateCaseMutation } from "@/features/caseApiSlice";
 import { getErrorText } from "@/services/api";
 import useCaseType from "@/hooks/use-case-type";
 import { useCustomerInfo } from "@/hooks/use-customer-info";
 import { SectionCard } from "./section-card";
+import { SelectField } from "../form/select-field";
+import { InputInquiry } from "./input-inquiry";
 // import { SelectField } from "../form/select-field";
 interface FormNewCaseProps {
     isSmallMod?: boolean;
@@ -28,15 +29,20 @@ interface FormNewCaseProps {
 const emptyNewCase: z.infer<typeof NewCaseSchema> = {
     customerId: '',
     dispositionMains: [],
+    dispositionSubs: [],
     dispositionMainId: '',
+    dispositionSubId: '',
     caseNote: [''],
     caseDescription: '',
-    caseTypeId: ''
+    caseTypeId: '',
+    productId: '',
 }
 export interface FormNewCaseRef { onOpen: (caseTitle: string | null, customerId: string | null) => void }
 export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
     (
         ({ isSmallMod, setStatus }, ref) => {
+            const { data: ddData } = useGetDropdownQuery();
+
             const form = useForm<z.infer<typeof NewCaseSchema>>({
                 resolver: zodResolver(NewCaseSchema),
                 defaultValues: emptyNewCase
@@ -78,9 +84,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                     }
                 )
             )
-            useDebugLogForm({
-                form
-            })
+
             const caseTypeId = form.watch('caseTypeId')
             const customerId = form.watch('customerId')
             const { customer, fetch, loading } = useCustomerInfo(customerId)
@@ -91,8 +95,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                 }
             }, [customerId])
 
-            const { data: inquirysApi } = useGetInquiryQuery();
-            const inquirys = useMemo(() => inquirysApi?.data || [], [inquirysApi])
+            const { data: inquirys } = useGetInquiryQuery();
             const seeData = form.watch()
             const { fields, append, remove } = useFieldArray({
                 control,
@@ -101,6 +104,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
             const {
                 data: { childValue2text },
             } = useCaseType()
+
             return (
                 <FormProvider {...form} >
                     <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>
@@ -149,7 +153,17 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                             <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
                                 <SectionCard title="Disposition" isAccordion={!!isSmallMod}>
                                     <div className="space-y-3 mt-3">
-                                        <InputInquirySelectMain
+                                        <InputInquiry
+                                            form={form}
+                                            mainIdName='dispositionMainId'
+                                            subIdName='dispositionSubId'
+                                            mainListName='dispositionMains'
+                                            subListName='dispositionSubs'
+                                            items={inquirys || []}
+                                        />
+                                        {/* <div>mainList:{JSON.stringify(mainList)}</div> */}
+                                        {/* <div>subList:{JSON.stringify(subList)}</div> */}
+                                        {/* <InputInquirySelectMain
                                             onChangeChild={() => {
                                                 form.setValue('dispositionMainId', ''); // Reset dispositionMainId when dispositionMains changes
                                                 // form.setValue('supInquiry', []); // Reset supInquiryStamp when supInquiry changes
@@ -169,17 +183,16 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                                 // ]
                                                 inquirys || []
                                             }
-                                        />
-                                        {/* <SelectField
+                                        /> */}
+                                        <SelectField
                                             form={form}
-                                            name='section'
-                                            label='Section'
+                                            name='product'
+                                            label='Product'
                                             placeholder='All'
                                             valueName='id'
                                             labelName='name'
-                                            loading={isPending}
-                                            items={[]}
-                                        /> */}
+                                            items={ddData?.data?.products || []}
+                                        />
                                         {/* <InputInquirySelectMain
                                     onChangeMain={() => { }}
                                     onChangeChild={() => {

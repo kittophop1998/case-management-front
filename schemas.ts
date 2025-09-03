@@ -70,8 +70,11 @@ export const SettingAccessControlSchema = z.object({
 export const NewCaseSchema = z.object({
   customerId: z.string().optional(), //query
   caseTypeId: z.string().min(1, "Case Type is required"), //auto
-  dispositionMainId: z.string().min(1, "Disposition Stamp is required"),
+  dispositionMainId: z.string().min(1, "Main Disposition Stamp is required"),
+  dispositionSubId: z.string().min(1, "Sub Disposition Stamp is required"),
   dispositionMains: z.array(z.string()),
+  dispositionSubs: z.array(z.string()),
+  productId: z.string().min(1, "Product is required"),
   caseDescription: z.string(),
   // TODO z.any() change this to z.string() const { fields, append, remove } = useFieldArray({control, name: "caseNote",}); got error in this line
   caseNote: z.array(z.any()).min(1, "At least one case note is required"),

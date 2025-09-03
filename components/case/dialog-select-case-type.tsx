@@ -146,6 +146,7 @@ export const DialogSelectCaseType = ({
                                     handleSelect={handleSelect}
                                     items={childByGroupFiltered?.[g] || []}
                                     name={g}
+                                    key={g}
                                 />
                             </TabsContent>
                         ))}

@@ -58,7 +58,6 @@ const SelectChildInput = ({
                     />
                 </div>
                 <div className="p-3 flex items-center justify-end gap-2"
-
                     style={{
                         boxShadow: "1px -1px 4px 0px #00000026"
                     }}
@@ -116,12 +115,7 @@ export const InputInquirySelectMain = ({
 }: InputInquirySelectMainProps) => {
     const itemsChild = form.watch(nameChild)
     const itemsChildSelect = [...items].filter(e => itemsChild.includes(e.id))
-    // (itemsChild ?? []).map((value: string) => ({
-    //     id: value,
-    //     name: value,
-    // }))
     const [draftChild, setDraftChild] = useState([])
-
     return (
         <>
             <SelectChildInput

@@ -111,7 +111,6 @@ export function ControlItems({
                 />
                 <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
-
                     {filteredData.map((group) => (
                         <CommandGroup key={group!.name} >
                             <CommandItem

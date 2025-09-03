@@ -24,9 +24,20 @@ export type DropdownSystemType = {
     id: string;
     name: string;
   }[];
+  products: JsonJoinDetails[];
 };
 export type GetDropdownResponse = ApiResponse<DropdownSystemType>;
 
+export type DispositionInfo = {
+  en: string;
+  th: string;
+  id: string;
+};
+
+export type Disposition = {
+  dispositionMain: DispositionInfo;
+  dispositionSubs: DispositionInfo[] | null;
+};
 export const systemApiSlice = createApi({
   reducerPath: "systemApi",
   baseQuery,
@@ -37,11 +48,13 @@ export const systemApiSlice = createApi({
         method: "GET",
       }),
     }),
-    getInquiry: builder.query<ApiResponse<any[]>, void>({
+    getInquiry: builder.query<Disposition[], void>({
       query: () => ({
         url: "/cases/disposition",
         method: "GET",
       }),
+      transformResponse: (response: ApiResponse<Disposition[]>) =>
+        response?.data ?? [],
     }),
     getNoteType: builder.query<Note[], void>({
       query: () => ({
