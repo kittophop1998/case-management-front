@@ -14,3 +14,13 @@ export const SectionEmail = ({ isSmallMod, form }: SectionEmailProps) => {
         </SectionCard>
     )
 }
+
+export const SectionSendEmail = ({ isSmallMod, form }: SectionEmailProps) => {
+    return (
+        <SectionCard title="Send Email" isAccordion={!!isSmallMod}>
+            <div className="space-y-3 pt-2">
+                ssssadasdasdasd
+            </div>
+        </SectionCard>
+    )
+}

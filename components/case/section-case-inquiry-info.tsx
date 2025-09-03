@@ -6,9 +6,10 @@ import useCaseType from "@/hooks/use-case-type"
 interface SectionCaseInfoProps {
     isSmallMod: boolean
     form: any
+    caseTypeText: 'None Inquiry' | 'Inquiry'
 }
 
-export const SectionCaseInfo = ({ isSmallMod, form }: SectionCaseInfoProps) => {
+export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry' }: SectionCaseInfoProps) => {
     const caseTypeId = form.watch('caseTypeId')
     const {
         data: { childValue2text },
