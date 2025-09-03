@@ -19,7 +19,7 @@ export const caseApiSlice = createApi({
         //   body.customerId = null;
         // }
         return {
-          url: `/cases`,
+          url: `/cases/inquiry`,
           method: "POST",
           body,
         };

@@ -43,9 +43,21 @@ const Item = memo(({ className = '', onClick, item, isActive = false }: { classN
         onClick={
             onClick
         } className={cn('flex gap-3 p-1 items-center hover:bg-gray-200/30 cursor-pointer'
-            // , { 'bg-blue-500': isActive }
             , className)}>
-        <Checkbox checked={isActive} />
+        {/* TODO:[CHANGE-LOGIC] */}
+        <Checkbox
+            checked={true}
+            className={cn({ "hidden": !isActive })}
+        />
+        <Checkbox
+            checked={false}
+            className={cn({ "hidden": isActive })}
+        />
+        {/* <Checkbox
+            checked={isActive}
+            onCheckedChange={() => onClick(item.id)}   // sync state
+            onClick={(e) => e.stopPropagation()}       // กัน event bubble ซ้ำ
+        /> */}
         <span className="select-none">{item.th}</span>
     </div>
 })
@@ -77,11 +89,12 @@ export const SelectMultipleChild = memo(({
     , main
     , sub
     , sortable = false
-    , filterMainId
-    , filterSubId
 }: SelectMultipleChildProps) => {
     const [search, setSearch] = useState("")
     const itemsFiltered = useMemo(() => {
+        if (!search) {
+            return items
+        }
         const value: Disposition[] = []
         for (const item of items) {
             const searchLower = search.toLowerCase()
@@ -132,7 +145,7 @@ export const SelectMultipleChild = memo(({
                                     className='pl-6'
                                     item={subItem}
                                     onClick={() => onClickSub(subItem.id, item)}
-                                    key={subItem.id}
+                                    key={`${item.dispositionMain.id}-${subItem.id}`}
                                     isActive={isActive(sub, subItem.id)}
                                 />
                             ))
@@ -141,7 +154,6 @@ export const SelectMultipleChild = memo(({
                 ))}
             </div>
         </div>
-        {/* {JSON.stringify(items)} */}
     </>
 })
 export const InputInquiry = ({
@@ -201,27 +213,7 @@ export const InputInquiry = ({
         }
         return value
     }, [items, draftMainValue, draftSubValue])
-    // const onClickMain = useCallback((item: Disposition) => {
-    //     try {
-    //         console.log(`onClickMain.call()`)
-    //         const id = item.dispositionMain.id;
-    //         if (!draftMainValue.includes(id)) {
-    //             setDraftMainValue((v) => [...v, id])
-    //             validateObj.current[id] = []
-    //         }
-    //         else {
-    //             console.log(`else`)
-    //             setDraftMainValue((v) => v.filter(i => i !== id))
-    //             let childIds: string[] = item.dispositionSubs?.map(sub => sub.id) || []
-    //             setDraftSubValue((current) => current.filter(childId => !childIds.includes(childId)));
-    //             delete validateObj.current[id]
-    //         }
-    //     } catch (error) {
-    //         console.log(`onClickMain error:`, error)
-    //     }
-    // }, [draftMainValue])
     const onClickMain = useCallback((item: Disposition) => {
-        console.log(`onClickMain.call()`)
         try {
             const id = item.dispositionMain.id;
             setDraftMainValue((v) => {
@@ -260,12 +252,27 @@ export const InputInquiry = ({
             console.log(`onClickSub error:`, error)
         }
     }
-    const mainList = form.watch(mainListName)
-    const subList = form.watch(subListName)
+
+
+    const mainId = form.watch(mainIdName)
+    const subId = form.watch(subIdName)
+
+    const onClickMainId = useCallback((item: Disposition) => {
+        console.log(`onClickMainId :`, item)
+        // form.setValue(mainIdName, mainId === item.dispositionMain.id ? null : item.dispositionMain.id);
+        form.setValue(mainIdName, item.dispositionMain.id);
+    }, [])
+    const onClickSubId = useCallback((id: string, item: Disposition) => {
+        console.log(`onClickSubId :`, id, item)
+        form.setValue(mainIdName, item.dispositionMain.id);
+        form.setValue(subIdName, id);
+    }, [])
+    // const mainList = form.watch(mainListName)
+    // const subList = form.watch(subListName)
+
+
     return (
         <>
-            {/* <div>draftMainValue:{JSON.stringify(draftMainValue)}</div> */}
-            {/* <div>draftSubValue:{JSON.stringify(draftSubValue)}</div> */}
             <div>
                 <Popover open={popoverOpen} onOpenChange={setPopoverOpen} >
                     <PopoverTrigger asChild>
@@ -300,13 +307,11 @@ export const InputInquiry = ({
             </div>
             <div>
                 <SelectMultipleChild
-                    filterMainId={mainList}
-                    filterSubId={subList}
                     items={itemsBySelected}
-                    onClickMain={() => { }}
-                    onClickSub={() => { }}
-                    main={[]}
-                    sub={[]}
+                    onClickMain={onClickMainId}
+                    onClickSub={onClickSubId}
+                    main={mainId}
+                    sub={subId}
                 />
             </div>
         </>)

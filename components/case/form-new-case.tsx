@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/common/Button";
 import { ButtonCancel } from "@/components/button/btn-cancle";
 import { dialogAlert } from "../common/dialog-alert";
-import { InputInquirySelectMain } from "./input-inquiry-select-main";
 import { useGetDropdownQuery, useGetInquiryQuery } from "@/features/systemApiSlice";
 import { useCreateCaseMutation } from "@/features/caseApiSlice";
 import { getErrorText } from "@/services/api";
@@ -19,7 +18,7 @@ import { useCustomerInfo } from "@/hooks/use-customer-info";
 import { SectionCard } from "./section-card";
 import { SelectField } from "../form/select-field";
 import { InputInquiry } from "./input-inquiry";
-// import { SelectField } from "../form/select-field";
+import { useDebugLogForm } from "@/hooks/use-debug-log-form";
 interface FormNewCaseProps {
     isSmallMod?: boolean;
     setStatus?: (status: boolean) => void;
@@ -105,6 +104,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                 data: { childValue2text },
             } = useCaseType()
 
+            useDebugLogForm({ form })
             return (
                 <FormProvider {...form} >
                     <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>
@@ -136,8 +136,6 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                 </SectionCard>
                                 <SectionCard title="Case Note" isAccordion={!!isSmallMod}>
                                     <div className="space-y-3 pt-2">
-                                        {/* {JSON.stringify(seeData.caseNote)} */}
-                                        {/* {JSON.stringify(fields)} */}
                                         {seeData.caseNote.map((field, index) => (
                                             <TextAreaField
                                                 key={`TextAreaField-${index}`}
@@ -161,54 +159,15 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                             subListName='dispositionSubs'
                                             items={inquirys || []}
                                         />
-                                        {/* <div>mainList:{JSON.stringify(mainList)}</div> */}
-                                        {/* <div>subList:{JSON.stringify(subList)}</div> */}
-                                        {/* <InputInquirySelectMain
-                                            onChangeChild={() => {
-                                                form.setValue('dispositionMainId', ''); // Reset dispositionMainId when dispositionMains changes
-                                                // form.setValue('supInquiry', []); // Reset supInquiryStamp when supInquiry changes
-                                                // form.setValue('supInquiryStamp', ''); // Reset supInquiryStamp when supInquiry changes
-                                            }}
-                                            onChangeMain={() => { }}
-                                            form={form}
-                                            nameMainLabel='Main inquiry'
-                                            nameChildLabel='Select Main inquiry Stamp to Genesys:'
-                                            nameChild='dispositionMains'
-                                            nameMain='dispositionMainId'
-                                            items={
-                                                // [
-                                                // { value: 'Main001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'Main001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                                // { value: 'Main002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'Main002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                                // { value: 'Main003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'Main003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                                // ]
-                                                inquirys || []
-                                            }
-                                        /> */}
                                         <SelectField
                                             form={form}
-                                            name='product'
+                                            name='productId'
                                             label='Product'
                                             placeholder='All'
                                             valueName='id'
                                             labelName='name'
                                             items={ddData?.data?.products || []}
                                         />
-                                        {/* <InputInquirySelectMain
-                                    onChangeMain={() => { }}
-                                    onChangeChild={() => {
-                                        form.setValue('supInquiryStamp', ''); // Reset supInquiryStamp when supInquiry changes
-                                    }}
-                                    nameMainLabel='Sup inquiry'
-                                    nameChildLabel='Select Sup inquiry in select:'
-                                    form={form}
-                                    nameChild='supInquiry'
-                                    nameMain='supInquiryStamp'
-                                    items={[
-                                        { value: 'SUP001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'SUP001-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'SUP002-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                        { value: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx', label: 'SUP003-Xxxxxxxxxxxx Xxxxxxxxxxxxxxx' },
-                                    ]}
-                                /> */}
                                     </div>
                                 </SectionCard>
 
@@ -223,40 +182,3 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
             );
         }
     )
-// TODO: move under this line to other component
-// ? components
-
-// ? Hooks
-const emptyCustomer = {
-    name: '',
-    aeonId: '',
-    phone: '',
-    caseType: '',
-    caseId: '',
-    passport: ''
-}
-const emptyCase = {
-    id: '',
-    name: '',
-}
-// function useCustomerInfo(customerId: string | null | undefined) {
-//     const [customerInfo, setCustomerInfo] = useState(emptyCustomer)
-//     useEffect(() => {
-//         if (!!customerId) {
-//             setCustomerInfo({
-//                 name: 'John Doe',
-//                 aeonId: 'AEON123456',
-//                 phone: '097766xxxx',
-//                 caseType: '123456',
-//                 caseId: '123456',
-//                 passport: '9712333456234'
-//             })
-//         } else {
-//             setCustomerInfo(emptyCustomer)
-//         }
-
-//     }, [customerId])
-//     return { data: customerInfo }
-// }
-
-
