@@ -139,7 +139,7 @@ export const CreateCaseNoneInquirySchema = z.object({
   productId: z.string().min(1, "Product is required"),
 });
 
-export const CreateCase = z.discriminatedUnion("caseTypeText", [
+export const CreateCaseSchema = z.discriminatedUnion("caseTypeText", [
   CreateCaseInquirySchema,
   CreateCaseNoneInquirySchema,
 ]);
