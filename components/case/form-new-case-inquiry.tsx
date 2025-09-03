@@ -11,9 +11,6 @@ import { useGetDropdownQuery } from "@/features/systemApiSlice";
 import { useCreateCaseInquiryMutation } from "@/features/caseApiSlice";
 import { getErrorText } from "@/services/api";
 import { useCustomerInfo } from "@/hooks/use-customer-info";
-import { SectionCard } from "./section-card";
-import { SelectField } from "../form/select-field";
-import { InputInquiry } from "./input-inquiry";
 import { useDebugLogForm } from "@/hooks/use-debug-log-form";
 import { CustomerInfo } from "./section-customer-info";
 import { SectionCaseInfo } from "./section-case-inquiry-info";
@@ -43,12 +40,13 @@ const useCaseForm = ({ setStatus }: { setStatus?: (status: boolean) => void }) =
     const caseTypeText = form.watch('caseTypeText')
     const [createCase, { isLoading: isLoadingCreateCase }] = useCreateCaseInquiryMutation();
     const loadEmptyForm = (type: CaseTypeText = 'Inquiry', defaultForm: { caseTypeId: string, customerId: string }) => {
+        const customerName = form.getValues('customerName')
         switch (type) {
             case 'None Inquiry':
-                form.reset({ ...emptyCaseNoneInquiry, ...defaultForm })
+                form.reset({ ...emptyCaseNoneInquiry, ...defaultForm, customerName })
                 break;
             case 'Inquiry':
-                form.reset({ ...emptyCaseInquiry, ...defaultForm })
+                form.reset({ ...emptyCaseInquiry, ...defaultForm, customerName })
                 break;
             default:
                 break;
@@ -100,6 +98,12 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
             } = useCaseForm({ setStatus });
             const { data: ddData } = useGetDropdownQuery();
             const { customer } = useCustomer(customerId || null)
+
+            useEffect(() => {
+                if (customer.info) {
+                    form.setValue('customerName', customer.info.customerNameTh || customer.info.customerNameEng || '')
+                }
+            }, [customer.info])
 
             useImperativeHandle(
                 ref, () => (

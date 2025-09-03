@@ -115,20 +115,20 @@ export const CreateCaseInquirySchema = z.object({
   caseTypeText: z.literal("None Inquiry"), // fix discriminator
   customerId: z.string().optional(),
   caseTypeId: z.string().min(1, "Case Type is required"),
-  caseDescription: z.string(),
+  caseDescription: z.string().min(1, "Case Description is required"),
   caseNote: z.array(z.string()).min(1, "At least one case note is required"),
   customerName: z.string(),
   channel: z.string().min(1, "Channel is required"),
   priority: z.string().min(1, "Priority is required"),
-  reasonCode: z.string().min(1, "ReasonCode is required"),
-  dueDate: z.string().min(1, "due Date is required"),
-  allocateToQueueTeam: z.string().min(1, "allocateToQueueTeam is required"),
+  reasonCode: z.string().min(1, "Reason Code is required"),
+  dueDate: z.string().min(1, "Due Date is required"),
+  allocateToQueueTeam: z.string().min(1, "Allocate To Queue Team is required"),
 });
 
 export const CreateCaseNoneInquirySchema = z.object({
   caseTypeText: z.literal("Inquiry"), // fix discriminator
   customerId: z.string().optional(),
-  customerName: z.string(),
+  customerName: z.string().min(1, "Customer Name is required"),
   caseTypeId: z.string().min(1, "Case Type is required"),
   caseDescription: z.string(),
   caseNote: z.array(z.string()).min(1, "At least one case note is required"),
