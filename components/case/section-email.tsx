@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { Button } from "../common/Button"
 import { Typography } from "../common/typography"
 import { SelectField } from "../form/select-field"
@@ -14,6 +14,7 @@ import FileSvg from '@/public/icons/File.svg'
 import DeleteSvg from '@/public/icons/Delete.svg'
 import PaperDownloadSvg from '@/public/icons/PaperDownload.svg'
 import Tiptap from "../common/Tiptap"
+import RichTextEditor from "../rich-text-editor"
 
 interface SectionEmailProps {
     isSmallMod: boolean
@@ -96,6 +97,13 @@ export const SectionEmail = ({ isSmallMod, form }: SectionEmailProps) => {
 }
 
 export const SectionSendEmail = ({ isSmallMod, form }: SectionEmailProps) => {
+    const [post, setPost] = useState("");
+
+    const onChange = (content: string) => {
+        setPost(content);
+        console.log(content);
+    };
+
     return (
         <SectionCard title="Send Email" isAccordion={!!isSmallMod}>
             <div className="space-y-3 pt-2">
@@ -162,6 +170,7 @@ export const SectionSendEmail = ({ isSmallMod, form }: SectionEmailProps) => {
                 } />
                 <div>
                     {/* EDIT-SECTION */}
+                    <RichTextEditor content={post} onChange={onChange} />
                 </div>
                 <div className="space-y-3">
                     {[1, 2].map(() => <File />)}
