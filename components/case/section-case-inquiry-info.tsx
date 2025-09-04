@@ -9,6 +9,7 @@ import { DatePickerField, DatePickerFieldInput } from "../form/date-picker"
 import TelephoneCall from '@/public/icons/TelephoneCall.svg'
 import Warning from '@/public/icons/Warning.svg'
 import { GetDropdownResponse } from "@/features/systemApiSlice"
+import { Info } from "./info"
 
 interface SectionCaseInfoProps {
     isSmallMod: boolean
@@ -18,15 +19,7 @@ interface SectionCaseInfoProps {
 
 }
 
-const Info = memo(({ title, value, required = false }: { title: string; value: string | ReactNode; required?: boolean }) => {
-    value = typeof value === 'string' ? <Typography variant="caption">{value}</Typography> : <>{value}</>
-    return (
-        <div className="flex items-center gap-3">
-            <Typography variant="caption">{title}{required && <span className="text-red-500">*</span>} :</Typography>
-            {value}
-        </div>
-    )
-})
+
 
 export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', ddData }: SectionCaseInfoProps) => {
     const caseTypeId = form.watch('caseTypeId')
