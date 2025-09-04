@@ -112,10 +112,21 @@ export const SectionSendEmail = ({ isSmallMod, form }: SectionEmailProps) => {
                         <SelectField
                             form={form}
                             name='form'
-                            valueName='id'
-                            labelName='name'
+                            valueName='form'
+                            labelName='form'
                             loading={false}
-                            items={[]}
+                            items={[
+                                {
+                                    form: "CMS@aeon.co.th",
+                                    emailSubject: "(REF1234567890) Change Passport",
+                                    date: "12 Aug 2025",
+                                },
+                                {
+                                    form: "unns@gamail.com",
+                                    emailSubject: "RE:(REF1234567890) Change Passport",
+                                    date: "12 Aug 2025",
+                                },
+                            ]}
                         />
                     </div>
                 } />
@@ -123,7 +134,7 @@ export const SectionSendEmail = ({ isSmallMod, form }: SectionEmailProps) => {
                     <div className="flex-1 ">
                         <TextField
                             form={form}
-                            name='form'
+                            name='to'
                             loading={false}
                         />
                     </div>
@@ -132,7 +143,7 @@ export const SectionSendEmail = ({ isSmallMod, form }: SectionEmailProps) => {
                     <div className="flex-1 ">
                         <TextField
                             form={form}
-                            name='form'
+                            name='cc'
                             loading={false}
                         />
                     </div>
@@ -141,7 +152,7 @@ export const SectionSendEmail = ({ isSmallMod, form }: SectionEmailProps) => {
                     <div className="flex-1 ">
                         <TextField
                             form={form}
-                            name='form'
+                            name='bcc'
                             loading={false}
                         />
                     </div>
@@ -150,7 +161,7 @@ export const SectionSendEmail = ({ isSmallMod, form }: SectionEmailProps) => {
                     <div className="flex-1 ">
                         <TextField
                             form={form}
-                            name='form'
+                            name='subject'
                             loading={false}
                         />
                     </div>
@@ -160,11 +171,16 @@ export const SectionSendEmail = ({ isSmallMod, form }: SectionEmailProps) => {
                     <div className="flex-1 ">
                         <SelectField
                             form={form}
-                            name='form'
+                            name='template'
                             valueName='id'
                             labelName='name'
                             loading={false}
-                            items={[]}
+                            items={[
+                                {
+                                    name: 'ขอเปลี่ยนแปลงเบอร์โทรศัพท์',
+                                    id: '1'
+                                }
+                            ]}
                         />
                     </div>
                 } />

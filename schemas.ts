@@ -110,7 +110,7 @@ export const CreateQueue = z.object({
 //   productId: z.string().min(1, "Product is required"),
 //   //
 // });
-// HIGH;
+// High;
 
 export const CreateCaseNoneInquirySchema = z
   .object({
@@ -127,13 +127,23 @@ export const CreateCaseNoneInquirySchema = z
     allocateToQueueTeam: z
       .string()
       .min(1, "Allocate To Queue Team is required"),
+    // mockup key
+    emails: z.array(z.any()),
+    form: z.string().min(1, "Form is required"),
+    to: z.string().min(1, "To is required"),
+    cc: z.string().min(1, "CC is required"),
+    bcc: z.string().min(1, "Bcc is required"),
+    subject: z.string().min(1, "Subject is required"),
+    template: z.string().min(1, "Template is required"),
+    mailText: z.string(),
+    files: z.array(z.any()),
   })
   .superRefine((data, ctx) => {
-    if (data.priority === "HIGH" && !data.reasonCode) {
+    if (data.priority === "High" && !data.reasonCode) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["reasonCode"],
-        message: "Reason Code is required when Priority is HIGH",
+        message: "Reason Code is required when Priority is High",
       });
     }
   });

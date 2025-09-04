@@ -12,6 +12,26 @@ export const emptyCaseNoneInquiry: CaseType = {
   reasonCode: "",
   dueDate: "",
   allocateToQueueTeam: "",
+  emails: [
+    {
+      form: "CMS@aeon.co.th",
+      emailSubject: "(REF1234567890) Change Passport",
+      date: "12 Aug 2025",
+    },
+    {
+      form: "unns@gamail.com",
+      emailSubject: "RE:(REF1234567890) Change Passport",
+      date: "12 Aug 2025",
+    },
+  ],
+  form: "",
+  to: "",
+  cc: "",
+  bcc: "",
+  subject: "",
+  template: "",
+  mailText: "",
+  files: [{ name: "" }, { name: "" }],
 };
 export const emptyCaseInquiry: CaseType = {
   caseTypeText: "Inquiry", // fix discriminator

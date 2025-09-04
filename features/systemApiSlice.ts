@@ -25,6 +25,13 @@ export type DropdownSystemType = {
     name: string;
   }[];
   products: JsonJoinDetails[];
+  reasonCodes: {
+    code: string;
+    descriptionEn: string;
+    descriptionTh: string;
+    id: string;
+    notice: string;
+  }[];
 };
 export type GetDropdownResponse = ApiResponse<DropdownSystemType>;
 
