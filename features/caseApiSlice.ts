@@ -27,7 +27,8 @@ export const caseApiSlice = createApi({
         }
         delete body.caseTypeText;
         return {
-          url: "/cases/inquiry",
+          // url: "/cases/inquiry",
+          url: "/cases",
           method: "POST",
           body,
         };
