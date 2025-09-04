@@ -13,6 +13,7 @@ import Card from "../common/card"
 import FileSvg from '@/public/icons/File.svg'
 import DeleteSvg from '@/public/icons/Delete.svg'
 import PaperDownloadSvg from '@/public/icons/PaperDownload.svg'
+import Tiptap from "../common/Tiptap"
 
 interface SectionEmailProps {
     isSmallMod: boolean
@@ -86,6 +87,7 @@ export const SectionEmail = ({ isSmallMod, form }: SectionEmailProps) => {
                     {/* {
                         JSON.stringify(fakeData)
                     } */}
+                    <Tiptap />
                     <EmailList />
                 </div>
             </div>
