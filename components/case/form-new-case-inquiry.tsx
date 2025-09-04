@@ -20,8 +20,6 @@ import { CaseType, CaseTypeText } from "@/types/case.type";
 import { SectionEmail, SectionSendEmail } from "./section-email";
 import { SectionDisposition } from "./section-disposition";
 
-
-
 interface FormNewCaseProps {
     isSmallMod: boolean;
     setStatus?: (status: boolean) => void;
@@ -29,7 +27,6 @@ interface FormNewCaseProps {
 }
 
 export interface FormNewCaseRef { onOpen: (caseTitle: string | null, customerId: string | null, cancelText: CaseTypeText) => void }
-
 
 const useCaseForm = ({ setStatus }: { setStatus?: (status: boolean) => void }) => {
     const form = useForm<CaseType>({
@@ -104,7 +101,6 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                     form.setValue('customerName', customer.info.customerNameTh || customer.info.customerNameEng || '')
                 }
             }, [customer.info])
-
             useImperativeHandle(
                 ref, () => (
                     {
@@ -117,12 +113,12 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                     }
                 )
             )
-
-            // const seeForm = form.watch()
+            // const seeForm = form.watch();
             return (
                 <FormProvider {...form} >
                     <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>
-                        <div className={cn("py-3", isSmallMod ? "max-h-[50vh] overflow-y-auto" : "w-[70vw] grid grid-cols-2 gap-3")}>
+                        {/* {seeForm} */}
+                        <div className={cn("py-3 overflow-y-auto", isSmallMod ? "max-h-[50vh]" : "max-h-[75vh] w-[70vw] grid grid-cols-2 gap-3")}>
                             <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
                                 {
                                     customer.info?.customerNameEng && customerId &&

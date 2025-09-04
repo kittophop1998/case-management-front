@@ -110,23 +110,35 @@ export const CreateQueue = z.object({
 //   productId: z.string().min(1, "Product is required"),
 //   //
 // });
-
-export const CreateCaseInquirySchema = z.object({
-  caseTypeText: z.literal("None Inquiry"), // fix discriminator
-  customerId: z.string().optional(),
-  caseTypeId: z.string().min(1, "Case Type is required"),
-  caseDescription: z.string().min(1, "Case Description is required"),
-  caseNote: z.array(z.string()).min(1, "At least one case note is required"),
-  customerName: z.string(),
-  channel: z.string().min(1, "Channel is required"),
-  priority: z.string().min(1, "Priority is required"),
-  reasonCode: z.string().min(1, "Reason Code is required"),
-  dueDate: z.string().min(1, "Due Date is required"),
-  allocateToQueueTeam: z.string().min(1, "Allocate To Queue Team is required"),
-});
+// HIGH;
+export const CreateCaseInquirySchema = z
+  .object({
+    caseTypeText: z.literal("Inquiry"), // fix discriminator
+    customerId: z.string().optional(),
+    caseTypeId: z.string().min(1, "Case Type is required"),
+    caseDescription: z.string().min(1, "Case Description is required"),
+    caseNote: z.array(z.string()).min(1, "At least one case note is required"),
+    customerName: z.string(),
+    channel: z.string().min(1, "Channel is required"),
+    priority: z.string().min(1, "Priority is required"),
+    reasonCode: z.string().optional(),
+    dueDate: z.string().min(1, "Due Date is required"),
+    allocateToQueueTeam: z
+      .string()
+      .min(1, "Allocate To Queue Team is required"),
+  })
+  .superRefine((data, ctx) => {
+    if (data.priority === "HIGH" && !data.reasonCode) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["reasonCode"],
+        message: "Reason Code is required when Priority is HIGH",
+      });
+    }
+  });
 
 export const CreateCaseNoneInquirySchema = z.object({
-  caseTypeText: z.literal("Inquiry"), // fix discriminator
+  caseTypeText: z.literal("None Inquiry"), // fix discriminator
   customerId: z.string().optional(),
   customerName: z.string().min(1, "Customer Name is required"),
   caseTypeId: z.string().min(1, "Case Type is required"),

@@ -3,6 +3,11 @@ import { SectionCard } from "./section-card"
 import { TextAreaField } from "../form/textarea-field"
 import useCaseType from "@/hooks/use-case-type"
 import { CaseTypeText } from "@/types/case.type"
+import { memo, ReactNode } from "react"
+import { SelectField } from "../form/select-field"
+import { DatePickerField, DatePickerFieldInput } from "../form/date-picker"
+import TelephoneCall from '@/public/icons/TelephoneCall.svg'
+import Warning from '@/public/icons/Warning.svg'
 
 interface SectionCaseInfoProps {
     isSmallMod: boolean
@@ -10,15 +15,82 @@ interface SectionCaseInfoProps {
     caseTypeText: CaseTypeText
 }
 
+const Info = memo(({ title, value, required = false }: { title: string; value: string | ReactNode; required?: boolean }) => {
+    value = typeof value === 'string' ? <Typography variant="caption">{value}</Typography> : <>{value}</>
+    return (
+        <div className="flex items-center gap-3">
+            <Typography variant="caption">{title}{required && <span className="text-red-500">*</span>} :</Typography>
+            {value}
+        </div>
+    )
+})
+
 export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry' }: SectionCaseInfoProps) => {
     const caseTypeId = form.watch('caseTypeId')
     const {
         data: { childValue2text },
     } = useCaseType()
+    // const isPriorityHeight = caseTypeText === 'None Inquiry'
+    const priority = form.watch('priority')
     return (
         <SectionCard title="Case Info" isAccordion={!!isSmallMod}>
             <div className="space-y-3 pt-2">
                 <Typography variant="caption">Case Type:  {childValue2text?.[caseTypeId] || caseTypeId}</Typography>
+                {caseTypeText === 'None Inquiry' && (
+                    <>
+                        <Info title="Verify Status" value="Nalan Kacherninin-BKK" />
+                        <Info title="Channel" value={
+                            <div className="flex items-center gap-2">
+                                <TelephoneCall />
+                                <Typography variant="caption">IVR</Typography>
+                            </div>
+                        } />
+                        <Info required title="Priority" value={<div className="flex-1 max-w-[300px]">
+                            <SelectField
+                                form={form}
+                                name='priority'
+                                valueName='id'
+                                labelName='name'
+                                loading={false}
+                                items={[]}
+                            /></div>} />
+
+                        {
+                            priority === 'HEIGHT' && (
+                                <>
+                                    <Info required title="Reason code" value={<div className="flex-1 max-w-[300px]">
+                                        <SelectField
+                                            form={form}
+                                            name='reasonCode'
+                                            valueName='id'
+                                            labelName='name'
+                                            loading={false}
+                                            items={[]}
+                                        /></div>} />
+                                    <div className="flex items-center gap-3">
+                                        <div><Warning /></div>
+                                        <Typography variant="caption" className="text-red-500" >SLA Response time: ภายใน 30 นาที , SLA Solution Time: ภายใน 4 ชั่วโมง, Note: ต้องมีการตรวจสอบธุรกรรมทันที</Typography>
+                                    </div>
+                                </>
+                            )
+                        }
+                        <Info title="Due Date" required value={<div className="flex-1 max-w-[300px]">
+                            <DatePickerField
+                                form={form}
+                                name='dueDate'
+                                loading={false}
+                            /></div>} />
+                        <Info title="Allocate to Queue Team" value={<div className="flex-1 max-w-[300px]">
+                            <SelectField
+                                form={form}
+                                name='allocateToQueueTeam'
+                                valueName='id'
+                                labelName='name'
+                                loading={false}
+                                items={[]}
+                            /></div>} />
+                    </>
+                )}
                 <TextAreaField
                     name="caseDescription"
                     label="Case Description"
