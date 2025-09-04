@@ -111,9 +111,11 @@ export const CreateQueue = z.object({
 //   //
 // });
 // HIGH;
-export const CreateCaseInquirySchema = z
+
+export const CreateCaseNoneInquirySchema = z
   .object({
-    caseTypeText: z.literal("Inquiry"), // fix discriminator
+    caseTypeText: z.literal("None Inquiry"), // fix discriminator
+
     customerId: z.string().optional(),
     caseTypeId: z.string().min(1, "Case Type is required"),
     caseDescription: z.string().min(1, "Case Description is required"),
@@ -137,8 +139,8 @@ export const CreateCaseInquirySchema = z
     }
   });
 
-export const CreateCaseNoneInquirySchema = z.object({
-  caseTypeText: z.literal("None Inquiry"), // fix discriminator
+export const CreateCaseInquirySchema = z.object({
+  caseTypeText: z.literal("Inquiry"), // fix discriminator
   customerId: z.string().optional(),
   customerName: z.string().min(1, "Customer Name is required"),
   caseTypeId: z.string().min(1, "Case Type is required"),
