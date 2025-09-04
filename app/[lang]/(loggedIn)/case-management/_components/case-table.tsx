@@ -1,11 +1,13 @@
 'use client'
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { DataTable, Header } from "@/components/common/table";
 import { useTable } from "@/hooks/use-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import BtnEdit from "@/components/button/btn-edit";
 import { useRouter } from "next/navigation";
+import { useCreateCaseInquiryMutation, useLazyCaseByPermissionQuery } from "@/features/caseApiSlice";
+import { format } from "date-fns";
 
 type CaseProps = {
   tab: string;
@@ -20,36 +22,40 @@ type CaseType = {
   currentAssignee: string;
   slaDate: string;
   closedDate: string;
-  receiveFrom: string;
+  // receiveFrom: string;
+  receivedFrom: string
 }
 
 // ##### Mock Data #####
-const mockCaseTableData = [
-  {
-    customerId: 'CASE001',
-    customerName: 'John Doe',
-    status: 'Pending',
-    caseType: 'ChargeBack CM001',
-    currentQueue: 'Queue 1',
-    currentAssignee: 'Agent A',
-    slaDate: '12 Aug 2024 12:00',
-    closedDate: '25 Aug 2024 15:30',
-    receiveFrom: 'Fraud',
-  },
-  {
-    customerId: 'CASE002',
-    customerName: 'Jane Smith',
-    status: 'Closed',
-    caseType: 'ChargeBack CM002',
-    currentQueue: 'Queue 2',
-    currentAssignee: 'Agent B',
-    slaDate: '15 Aug 2024 14:00',
-    closedDate: '20 Aug 2024 10:30',
-    receiveFrom: 'Fraud',
-  },
-];
+// const mockCaseTableData = [
+//   {
+//     customerId: 'CASE001',
+//     customerName: 'John Doe',
+//     status: 'Pending',
+//     caseType: 'ChargeBack CM001',
+//     currentQueue: 'Queue 1',
+//     currentAssignee: 'Agent A',
+//     slaDate: '12 Aug 2024 12:00',
+//     closedDate: '25 Aug 2024 15:30',
+//     receiveFrom: 'Fraud',
+//   },
+//   {
+//     customerId: 'CASE002',
+//     customerName: 'Jane Smith',
+//     status: 'Closed',
+//     caseType: 'ChargeBack CM002',
+//     currentQueue: 'Queue 2',
+//     currentAssignee: 'Agent B',
+//     slaDate: '15 Aug 2024 14:00',
+//     closedDate: '20 Aug 2024 10:30',
+//     receiveFrom: 'Fraud',
+//   },
+// ];
 
 const useCaseTable = () => {
+  const [getData, { data: tableObj, isFetching: isFetchingTable }] = useLazyCaseByPermissionQuery();
+  const dataListMemo = useMemo(() => tableObj?.data || [], [tableObj]);
+
   const columnHelper = createColumnHelper<CaseType & { action: any }>()
   const router = useRouter();
   const columns = useMemo(() => [
@@ -58,7 +64,7 @@ const useCaseTable = () => {
       header: ({ column }) => <Header column={column} label='' />,
       cell: info => <BtnEdit
         onClick={() => {
-            router.push(`/case-management/000`)
+          router.push(`/case-management/000`)
         }} />,
       meta: { headerClass: 'w-[3rem]' },
     }),
@@ -97,26 +103,43 @@ const useCaseTable = () => {
     columnHelper.accessor('slaDate', {
       id: 'slaDate',
       header: ({ column }) => <Header column={column} label='SLA Date' sortAble />,
-      cell: info => info.getValue(),
+      // cell: info => info.getValue(),
+      cell: info => format(info.getValue(), "dd MMM yyyy HH:mm:ss"),
     }),
     columnHelper.accessor('closedDate', {
       id: 'closedDate',
       header: ({ column }) => <Header column={column} label='Closed Date' sortAble />,
-      cell: info => info.getValue(),
+      // cell: info => info.getValue(),
+      cell: info => format(info.getValue(), "dd MMM yyyy HH:mm:ss"),
+
     }),
-    columnHelper.accessor('receiveFrom', {
-      id: 'receiveFrom',
+    columnHelper.accessor('receivedFrom', {
+      id: 'receivedFrom',
       header: ({ column }) => <Header column={column} label='Receive From' sortAble />,
       cell: info => info.getValue(),
     }),
   ], [])
 
   const { table, sort, page, limit, setPage, setLimit } = useTable({
-    data: mockCaseTableData,
+    data: dataListMemo,
     columns,
   })
-
-  return { table, sort, page, limit, setPage, setLimit, dataTable: mockCaseTableData }
+  const triggerFetch = () => {
+    getData({
+      page,
+      limit,
+      sort,
+      // order,
+    });
+  }
+  useEffect(() => {
+    triggerFetch()
+  }, [
+    page,
+    limit,
+    sort,
+  ])
+  return { table, sort, page, limit, setPage, setLimit, dataTable: dataListMemo }
 }
 
 const CaseTable = ({ tab }: CaseProps) => {
