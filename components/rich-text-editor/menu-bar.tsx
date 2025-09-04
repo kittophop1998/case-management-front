@@ -1,18 +1,3 @@
-// import {
-//   AlignCenter,
-//   AlignLeft,
-//   AlignRight,
-//   Bold,
-//   Heading1,
-//   Heading2,
-//   Heading3,
-//   Highlighter,
-//   Italic,
-//   List,
-//   ListOrdered,
-//   Strikethrough,
-// } from "lucide-react";
-// import { Toggle } from "../ui/toggle";
 import { Editor } from "@tiptap/react";
 import { Toggle } from "../ui/toggle";
 import AlignCenter from '@/public/icons/editor/AlignJustify.svg'
@@ -38,7 +23,9 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
     },
     {
       icon: <Underline className="size-4" />,
-      onClick: () => editor.chain().focus().toggleUnderline().run(),
+      // onClick: () => editor.chain().focus().toggleUnderline().run(),
+      // onClick: () => editor.chain().focus().toggle
+      onClick: () => { },
       pressed: editor.isActive("underline"),
     },
     {
