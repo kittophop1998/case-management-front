@@ -89,10 +89,14 @@ export const DatePickerFieldInputV2 = (
                 <Calendar
                     mode="single"
                     selected={field.value}
-                    onSelect={(e) => { field.onChange(e); setOpen(false) }}
-                    disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                    }
+                    onSelect={(e) => { field.onChange(format(e, 'yyyy-MM-dd')); setOpen(false) }}
+                    //   onSelect={(date: Date | undefined) => {
+                    //     onChange(date ? format(date, 'yyyy-MM-dd') : null)
+                    //     setOpen(false)
+                    // }}
+                    // disabled={(date) =>
+                    //     date > new Date() || date < new Date("1900-01-01")
+                    // }
                     captionLayout="dropdown"
                 />
             </PopoverContent>

@@ -7,7 +7,7 @@ export const emptyCaseNoneInquiry: CaseType = {
   caseDescription: "",
   caseNote: [""],
   customerName: "",
-  channel: "",
+  channel: "IVR",
   priority: "",
   reasonCode: "",
   dueDate: "",

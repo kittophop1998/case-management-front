@@ -8,11 +8,14 @@ import { SelectField } from "../form/select-field"
 import { DatePickerField, DatePickerFieldInput } from "../form/date-picker"
 import TelephoneCall from '@/public/icons/TelephoneCall.svg'
 import Warning from '@/public/icons/Warning.svg'
+import { GetDropdownResponse } from "@/features/systemApiSlice"
 
 interface SectionCaseInfoProps {
     isSmallMod: boolean
     form: any
     caseTypeText: CaseTypeText
+    ddData: GetDropdownResponse | undefined
+
 }
 
 const Info = memo(({ title, value, required = false }: { title: string; value: string | ReactNode; required?: boolean }) => {
@@ -25,13 +28,23 @@ const Info = memo(({ title, value, required = false }: { title: string; value: s
     )
 })
 
-export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry' }: SectionCaseInfoProps) => {
+export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', ddData }: SectionCaseInfoProps) => {
     const caseTypeId = form.watch('caseTypeId')
     const {
         data: { childValue2text },
     } = useCaseType()
-    // const isPriorityHeight = caseTypeText === 'None Inquiry'
     const priority = form.watch('priority')
+    // 
+    const prioritys = [
+        {
+            id: 'HEIGHT',
+            name: 'HEIGHT'
+        }, {
+            id: 'LOW',
+            name: 'LOW'
+        }]
+    const reasonCodes = prioritys || []
+    const allocateToQueueTeams = prioritys || []
     return (
         <SectionCard title="Case Info" isAccordion={!!isSmallMod}>
             <div className="space-y-3 pt-2">
@@ -52,7 +65,7 @@ export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry' }: 
                                 valueName='id'
                                 labelName='name'
                                 loading={false}
-                                items={[]}
+                                items={prioritys}
                             /></div>} />
 
                         {
@@ -65,7 +78,7 @@ export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry' }: 
                                             valueName='id'
                                             labelName='name'
                                             loading={false}
-                                            items={[]}
+                                            items={reasonCodes}
                                         /></div>} />
                                     <div className="flex items-center gap-3">
                                         <div><Warning /></div>
@@ -87,7 +100,7 @@ export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry' }: 
                                 valueName='id'
                                 labelName='name'
                                 loading={false}
-                                items={[]}
+                                items={allocateToQueueTeams}
                             /></div>} />
                     </>
                 )}
