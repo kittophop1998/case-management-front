@@ -22,21 +22,7 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
   }
 
   const Options = [
-    {
-      icon: <Heading1 className="size-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
-      preesed: editor.isActive("heading", { level: 1 }),
-    },
-    {
-      icon: <Heading2 className="size-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
-      preesed: editor.isActive("heading", { level: 2 }),
-    },
-    {
-      icon: <Heading3 className="size-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
-      preesed: editor.isActive("heading", { level: 3 }),
-    },
+
     {
       icon: <Bold className="size-4" />,
       onClick: () => editor.chain().focus().toggleBold().run(),
@@ -47,10 +33,11 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
       onClick: () => editor.chain().focus().toggleItalic().run(),
       preesed: editor.isActive("italic"),
     },
+
     {
-      icon: <Strikethrough className="size-4" />,
-      onClick: () => editor.chain().focus().toggleStrike().run(),
-      preesed: editor.isActive("strike"),
+      icon: <AlignCenter className="size-4" />,
+      onClick: () => editor.chain().focus().setTextAlign("center").run(),
+      preesed: editor.isActive({ textAlign: "center" }),
     },
     {
       icon: <AlignLeft className="size-4" />,
@@ -58,39 +45,22 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
       preesed: editor.isActive({ textAlign: "left" }),
     },
     {
-      icon: <AlignCenter className="size-4" />,
-      onClick: () => editor.chain().focus().setTextAlign("center").run(),
-      preesed: editor.isActive({ textAlign: "center" }),
-    },
-    {
       icon: <AlignRight className="size-4" />,
       onClick: () => editor.chain().focus().setTextAlign("right").run(),
       preesed: editor.isActive({ textAlign: "right" }),
     },
-    {
-      icon: <List className="size-4" />,
-      onClick: () => editor.chain().focus().toggleBulletList().run(),
-      preesed: editor.isActive("bulletList"),
-    },
-    {
-      icon: <ListOrdered className="size-4" />,
-      onClick: () => editor.chain().focus().toggleOrderedList().run(),
-      preesed: editor.isActive("orderedList"),
-    },
-    {
-      icon: <Highlighter className="size-4" />,
-      onClick: () => editor.chain().focus().toggleHighlight().run(),
-      preesed: editor.isActive("highlight"),
-    },
+
   ];
 
   return (
-    <div className="border rounded-md p-1 mb-1 bg-slate-50 space-x-2 z-50">
+    <div className="z-50 justify-end flex pt-2 px-2">
       {Options.map((option, index) => (
         <Toggle
+          className="hover:bg-white cursor-pointer"
           key={index}
           pressed={option.preesed}
           onPressedChange={option.onClick}
+          size='xs'
         >
           {option.icon}
         </Toggle>
@@ -98,3 +68,42 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
     </div>
   );
 }
+
+
+
+
+// {
+//   icon: <Heading1 className="size-4" />,
+//   onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+//   preesed: editor.isActive("heading", { level: 1 }),
+// },
+// {
+//   icon: <Heading2 className="size-4" />,
+//   onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+//   preesed: editor.isActive("heading", { level: 2 }),
+// },
+// {
+//   icon: <Heading3 className="size-4" />,
+//   onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+//   preesed: editor.isActive("heading", { level: 3 }),
+// },
+// {
+//   icon: <Strikethrough className="size-4" />,
+//   onClick: () => editor.chain().focus().toggleStrike().run(),
+//   preesed: editor.isActive("strike"),
+// },
+// {
+//   icon: <List className="size-4" />,
+//   onClick: () => editor.chain().focus().toggleBulletList().run(),
+//   preesed: editor.isActive("bulletList"),
+// },
+// {
+//   icon: <ListOrdered className="size-4" />,
+//   onClick: () => editor.chain().focus().toggleOrderedList().run(),
+//   preesed: editor.isActive("orderedList"),
+// },
+// {
+//   icon: <Highlighter className="size-4" />,
+//   onClick: () => editor.chain().focus().toggleHighlight().run(),
+//   preesed: editor.isActive("highlight"),
+// },
