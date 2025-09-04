@@ -47,9 +47,10 @@ export const CreateQueueSection = ({ fetchTable, isCreate = false, queue }: { fe
                 <BtnCreate onClick={() => setOpen(true)} /> :
                 <BtnEdit onClick={() => setOpen(true)} />
             }
-            <Modal onClose={onClose} title={isCreate ? "Create Queue" : "Edit Queue"} isOpen={open} className='w-[clamp(300px,100%,423px)]'>
-                <QueueInfoForm form={form} onSubmit={onSubmit} />
+            <Modal separator title={isCreate ? "Add Queue" : "Edit Queue"} isOpen={open} className='w-[clamp(300px,90vw,48.063rem)]' >
+                <QueueInfoForm form={form} onSubmit={onSubmit} onClose={onClose} />
             </Modal>
+            {/* onClose={onClose} */}
         </>
     )
 }

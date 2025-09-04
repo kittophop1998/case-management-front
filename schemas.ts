@@ -86,7 +86,7 @@ export const NewNoteSchema = z.object({
 export const CreateQueue = z.object({
   id: z.string().nullable(),
   queueName: z.string().min(1, "Queue Name is required"),
-  queueDescription: z.string().min(1, "Queue Description is required"),
+  queueDescription: z.string(),
 });
 
 //
