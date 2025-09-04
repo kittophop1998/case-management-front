@@ -208,6 +208,7 @@ const CustomerDashboard = ({ customerId }: CustomerDashboardProps) => {
                         {
                             myPermission?.["add.case"] &&
                             <BtnNew
+                                disabled={!(customer.info?.customerNameEng || customer.info?.customerNameTh)}
                                 onClick={handleOpenSelectCase}
                             />
                         }
