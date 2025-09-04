@@ -14,8 +14,20 @@ export const caseApiSlice = createApi({
       }
     >({
       query: ({ body }) => {
+        let url = "";
+        // switch (body.caseTypeText) {
+        //   case "Inquiry":
+        url = "/cases/inquiry";
+        //     break;
+        //   case "None Inquiry":
+        //     url = "/cases";
+        //     break;
+        //   default:
+        //     break;
+        // }
+        delete body.caseTypeText;
         return {
-          url: `/cases/inquiry`,
+          url: url,
           method: "POST",
           body,
         };

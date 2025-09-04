@@ -1,11 +1,21 @@
 "use client"
+
+import React from "react"
+export type DateValueType = string | null
+import { zodResolver } from "@hookform/resolvers/zod"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
+import { useForm } from "react-hook-form"
+// import { toast } from "sonner"
+import { z } from "zod"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
+    Form,
     FormControl,
+    FormDescription,
+    FormField,
     FormItem,
     FormLabel,
     FormMessage,
@@ -15,69 +25,84 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import React from "react"
-export type DateValueType = string | null
+import { InputFieldWarper } from "./input-warper"
+const FormSchema = z.object({
+    dob: z.date({
+        required_error: "A date of birth is required.",
+    }),
+})
+export function DatePickerField(
+    {
+        onChange,
+        loading = false,
+        readonly = false,
+        items,
+        valueName = "value",
+        labelName = "label",
+        form,
+        name,
+        label,
+        className = "",
+        required = false,
+    }
+) {
+    return (
+        <InputFieldWarper
+            loading={loading}
+            form={form}
+            name={name}
+            label={label}
+            required={required}
+        >
+            <DatePickerFieldInputV2 />
+        </InputFieldWarper>
 
-// interface DatePickerFieldProps {
-//     loading?: boolean;
-//     readonly?: boolean;
-//     form: any; // Adjust type as needed
-//     name: string;
-//     label?: string;
-//     placeholder?: string;
-//     prependInnerIcon?: React.ReactNode;
-//     appendInnerIcon?: React.ReactNode;
-// }
-// export function DatePickerField(
-//     {
-//         loading,
-//         readonly = false,
-//         form,
-//         name,
-//         label,
-//         placeholder,
-//         prependInnerIcon,
-//         appendInnerIcon
-//     }: DatePickerFieldProps
-// ) {
-//     return (
-//         <FormItem className="flex flex-col">
-//             <FormLabel>Date of birth</FormLabel>
-//             <Popover>
-//                 <PopoverTrigger asChild>
-//                     <FormControl>
-//                         <Button
-//                             variant={"outline"}
-//                             className={cn(
-//                                 "w-[240px] pl-3 text-left font-normal",
-//                                 !field.value && "text-muted-foreground"
-//                             )}
-//                         >
-//                             {field.value ? (
-//                                 format(field.value, "PPP")
-//                             ) : (
-//                                 <span>Pick a date</span>
-//                             )}
-//                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-//                         </Button>
-//                     </FormControl>
-//                 </PopoverTrigger>
-//                 <PopoverContent className="w-auto p-0" align="start">
-//                     <Calendar
-//                         mode="single"
-//                         selected={field.value}
-//                         onSelect={field.onChange}
-//                         disabled={(date) =>
-//                             date > new Date() || date < new Date("1900-01-01")
-//                         }
-//                         captionLayout="dropdown"
-//                     />
-//                 </PopoverContent>
-//             </Popover>
-//             <FormMessage />
-//         </FormItem>
-//     )
-// }
+    )
+}
+
+export const DatePickerFieldInputV2 = (
+    { field }: { field?: any }
+) => {
+    const [open, setOpen] = React.useState(false)
+
+    return (
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <FormControl>
+                    <Button
+                        variant={"outline"}
+                        className={cn(
+                            "w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                        )}
+                    >
+                        {field.value ? (
+                            format(field.value, "PPP")
+                        ) : (
+                            <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                </FormControl>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={(e) => { field.onChange(format(e, 'yyyy-MM-dd')); setOpen(false) }}
+                    //   onSelect={(date: Date | undefined) => {
+                    //     onChange(date ? format(date, 'yyyy-MM-dd') : null)
+                    //     setOpen(false)
+                    // }}
+                    // disabled={(date) =>
+                    //     date > new Date() || date < new Date("1900-01-01")
+                    // }
+                    captionLayout="dropdown"
+                />
+            </PopoverContent>
+        </Popover>
+    )
+}
 
 export const DatePickerFieldInput = ({
     value,

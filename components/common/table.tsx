@@ -40,6 +40,7 @@ export interface DataTableProps<T> {
   onRowClick?: (row: Row<T>) => void;
   setPage?: React.Dispatch<React.SetStateAction<number>>;
   setLimit?: React.Dispatch<React.SetStateAction<number>>;
+  renderEmpty?: boolean;
 }
 
 
@@ -88,6 +89,7 @@ export function DataTable<T>({
   // emptyText = 'No results.',
   // onRowClick,
   setPage,
+  renderEmpty = true
   // setLimit
 }: DataTableProps<T>) {
   // const rows = table.getRowModel().rows
@@ -133,39 +135,21 @@ export function DataTable<T>({
                 ))}
               </tr>
             ))}
-            {Array.from({ length: Math.max(0, 10 - table.getRowModel().rows.length) }).map((_, rowIndex) => (
-              <tr key={`empty-${rowIndex}`}>
-                {table.getAllLeafColumns().map((col, colIndex) => (
-                  <td key={`empty-${rowIndex}-${colIndex}`} className="p-2 text-sm text-[#6E7079] text-transparent">
-                    -
-                  </td>
+
+            {renderEmpty &&
+              <>
+                {Array.from({ length: Math.max(0, 10 - table.getRowModel().rows.length) }).map((_, rowIndex) => (
+                  <tr key={`empty-${rowIndex}`}>
+                    {table.getAllLeafColumns().map((col, colIndex) => (
+                      <td key={`empty-${rowIndex}-${colIndex}`} className="p-2 text-sm text-[#6E7079] text-transparent">
+                        -
+                      </td>
+                    ))}
+                  </tr>
                 ))}
-              </tr>
-            ))}
-            {/* 
-          {[...Array(10 - table.getRowModel().rows.length).fill('')].map((row, index) => (
-            <tr key={index} className=''>
-              <td key={index} className={cn('p-2 text-sm text-[#6E7079] bg-red-400')}>
-              </td>
-            </tr>
-          ))} */}
+              </>
+            }
           </tbody>
-          {/* <tfoot>
-          {table.getFooterGroups().map(footerGroup => (
-            <tr key={footerGroup.id}>
-              {footerGroup.headers.map(header => (
-                <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                      header.column.columnDef.footer,
-                      header.getContext()
-                    )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </tfoot> */}
         </table>
       </div>
       <div className='flex items-center justify-end mt-1'>

@@ -110,25 +110,48 @@ export const CreateQueue = z.object({
 //   productId: z.string().min(1, "Product is required"),
 //   //
 // });
+// High;
+
+export const CreateCaseNoneInquirySchema = z
+  .object({
+    caseTypeText: z.literal("None Inquiry"), // fix discriminator
+    customerId: z.string().optional(),
+    customerName: z.string().min(1, "Customer Name is required"),
+    caseTypeId: z.string().min(1, "Case Type is required"),
+    caseDescription: z.string().min(1, "Case Description is required"),
+    caseNote: z.array(z.string()).min(1, "At least one case note is required"),
+    channel: z.string().min(1, "Channel is required"),
+    priority: z.string().min(1, "Priority is required"),
+    reasonCode: z.string().optional(),
+    dueDate: z.string().min(1, "Due Date is required"),
+    allocateToQueueTeam: z
+      .string()
+      .min(1, "Allocate To Queue Team is required"),
+    // mockup key
+    emails: z.array(z.any()),
+    form: z.string().min(1, "Form is required"),
+    to: z.string().min(1, "To is required"),
+    cc: z.string().min(1, "CC is required"),
+    bcc: z.string().min(1, "Bcc is required"),
+    subject: z.string().min(1, "Subject is required"),
+    template: z.string().min(1, "Template is required"),
+    mailText: z.string(),
+    files: z.array(z.any()),
+  })
+  .superRefine((data, ctx) => {
+    if (data.priority === "High" && !data.reasonCode) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["reasonCode"],
+        message: "Reason Code is required when Priority is High",
+      });
+    }
+  });
 
 export const CreateCaseInquirySchema = z.object({
-  caseTypeText: z.literal("None Inquiry"), // fix discriminator
-  customerId: z.string().optional(),
-  caseTypeId: z.string().min(1, "Case Type is required"),
-  caseDescription: z.string(),
-  caseNote: z.array(z.string()).min(1, "At least one case note is required"),
-  customerName: z.string(),
-  channel: z.string().min(1, "Channel is required"),
-  priority: z.string().min(1, "Priority is required"),
-  reasonCode: z.string().min(1, "ReasonCode is required"),
-  dueDate: z.string().min(1, "due Date is required"),
-  allocateToQueueTeam: z.string().min(1, "allocateToQueueTeam is required"),
-});
-
-export const CreateCaseNoneInquirySchema = z.object({
   caseTypeText: z.literal("Inquiry"), // fix discriminator
-  customerId: z.string().optional(),
   customerName: z.string(),
+  customerId: z.string().optional(),
   caseTypeId: z.string().min(1, "Case Type is required"),
   caseDescription: z.string(),
   caseNote: z.array(z.string()).min(1, "At least one case note is required"),

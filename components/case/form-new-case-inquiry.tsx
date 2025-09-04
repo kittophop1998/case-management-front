@@ -11,9 +11,6 @@ import { useGetDropdownQuery } from "@/features/systemApiSlice";
 import { useCreateCaseInquiryMutation } from "@/features/caseApiSlice";
 import { getErrorText } from "@/services/api";
 import { useCustomerInfo } from "@/hooks/use-customer-info";
-import { SectionCard } from "./section-card";
-import { SelectField } from "../form/select-field";
-import { InputInquiry } from "./input-inquiry";
 import { useDebugLogForm } from "@/hooks/use-debug-log-form";
 import { CustomerInfo } from "./section-customer-info";
 import { SectionCaseInfo } from "./section-case-inquiry-info";
@@ -23,8 +20,6 @@ import { CaseType, CaseTypeText } from "@/types/case.type";
 import { SectionEmail, SectionSendEmail } from "./section-email";
 import { SectionDisposition } from "./section-disposition";
 
-
-
 interface FormNewCaseProps {
     isSmallMod: boolean;
     setStatus?: (status: boolean) => void;
@@ -32,7 +27,6 @@ interface FormNewCaseProps {
 }
 
 export interface FormNewCaseRef { onOpen: (caseTitle: string | null, customerId: string | null, cancelText: CaseTypeText) => void }
-
 
 const useCaseForm = ({ setStatus }: { setStatus?: (status: boolean) => void }) => {
     const form = useForm<CaseType>({
@@ -43,12 +37,13 @@ const useCaseForm = ({ setStatus }: { setStatus?: (status: boolean) => void }) =
     const caseTypeText = form.watch('caseTypeText')
     const [createCase, { isLoading: isLoadingCreateCase }] = useCreateCaseInquiryMutation();
     const loadEmptyForm = (type: CaseTypeText = 'Inquiry', defaultForm: { caseTypeId: string, customerId: string }) => {
+        const customerName = form.getValues('customerName')
         switch (type) {
             case 'None Inquiry':
-                form.reset({ ...emptyCaseNoneInquiry, ...defaultForm })
+                form.reset({ ...emptyCaseNoneInquiry, ...defaultForm, customerName })
                 break;
             case 'Inquiry':
-                form.reset({ ...emptyCaseInquiry, ...defaultForm })
+                form.reset({ ...emptyCaseInquiry, ...defaultForm, customerName })
                 break;
             default:
                 break;
@@ -101,6 +96,11 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
             const { data: ddData } = useGetDropdownQuery();
             const { customer } = useCustomer(customerId || null)
 
+            useEffect(() => {
+                if (customer.info) {
+                    form.setValue('customerName', customer.info.customerNameTh || customer.info.customerNameEng || '')
+                }
+            }, [customer.info])
             useImperativeHandle(
                 ref, () => (
                     {
@@ -113,12 +113,12 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                     }
                 )
             )
-
-            // const seeForm = form.watch()
+            // const seeForm = form.watch();
             return (
                 <FormProvider {...form} >
                     <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>
-                        <div className={cn("py-3", isSmallMod ? "max-h-[50vh] overflow-y-auto" : "w-[70vw] grid grid-cols-2 gap-3")}>
+                        {/* {seeForm} */}
+                        <div className={cn("py-3 overflow-y-auto", isSmallMod ? "max-h-[50vh]" : "max-h-[75vh] w-[clamp(300px,90vw,75rem)] grid grid-cols-2 gap-3")}>
                             <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
                                 {
                                     customer.info?.customerNameEng && customerId &&
@@ -132,6 +132,8 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                     isSmallMod={isSmallMod}
                                     form={form}
                                     caseTypeText={caseTypeText}
+                                    ddData={ddData}
+
                                 />
                                 <SectionCaseNoteInfo
                                     isSmallMod={isSmallMod}
