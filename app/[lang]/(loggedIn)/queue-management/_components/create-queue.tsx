@@ -10,7 +10,7 @@ const BtnCreate = ({ onClick }: { onClick: () => void }) => {
     return <Button variant='black' onClick={onClick}>Add Queue</Button>
 }
 const BtnEdit = ({ onClick }: { onClick: () => void }) => {
-    return <Button variant='black' size='icon' onClick={onClick}><Pencil /></Button>
+    return <Button variant='black' onClick={onClick}>Edit Queue</Button>
 }
 export const CreateQueueSection = ({ fetchTable, isCreate = false, queue }: { fetchTable: () => void, isCreate?: boolean, queue?: QueueType }) => {
     const [open, setOpen] = useState(false)

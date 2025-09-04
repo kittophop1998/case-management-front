@@ -78,7 +78,7 @@ export const QueueInfoForm = memo(({ form, onSubmit, onClose, className = '' }) 
     // const seeData = form.watch()
     return <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
-            <div className={cn('', className)}>
+            <div className={cn('space-y-3', className)}>
                 <div className="flex items-start gap-2">
                     <Typography variant="body2" className="mt-1 w-[6rem]">Queue Name: </Typography>
                     <div className="flex-1">

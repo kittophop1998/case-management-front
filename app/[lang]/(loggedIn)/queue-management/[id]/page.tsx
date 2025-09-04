@@ -13,6 +13,10 @@ import { CreateQueueSection } from "../_components/create-queue";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { checkPassword } from "@/components/common/dialog-check-password";
+import { TextFieldInput } from "@/components/form/text-field";
+import { TextAreaField, TextAreaFieldInput } from "@/components/form/textarea-field";
+import { Value } from "@radix-ui/react-select";
+import { Typography } from "@/components/common/typography";
 
 
 const BtnDelUsers = ({ disabled, clearDraft, users, queueID, isActive, setIsActive, afterSubmit }) => {
@@ -74,10 +78,28 @@ const QueueInfo = ({ id }) => {
         refetchQueue()
     }, [])
     return (
-        <div className="flex items-center  gap-3">
-            <div>
-                <div>Queue Name : {queueInfo?.queueName || '-'}</div>
-                <div>Description : {queueInfo?.queueDescription || '-'}</div>
+
+        <div className="flex items-start justify-between  gap-3 bg-white">
+            <div className="flex-1 space-y-3 max-w-[50rem] pointer-events-none">
+                <div className="flex gap-2 items-start">
+                    <Typography className="min-w-[7rem]">Queue Name :</Typography>
+                    <div className="flex-1">
+                        <TextFieldInput field={{
+                            value: queueInfo?.queueName || '-'
+                        }} />
+                    </div>
+                </div>
+                <div className="flex gap-2 items-start">
+                    <Typography className="min-w-[7rem]">Description :</Typography>
+                    <div className="flex-1">
+                        <TextAreaFieldInput
+                            field={{
+                                value: queueInfo?.queueDescription || '-'
+                            }}
+                        />
+                    </div>
+                    {/* {queueInfo?.queueDescription || '-'} */}
+                </div>
             </div>
             <CreateQueueSection fetchTable={refetchQueue} queue={queueInfo} />
         </div>
@@ -139,32 +161,36 @@ export default function QueueManagementIDPage() {
     }
 
     return (
-        <CardPageWrapper className="mt-4" >
-            <>
+        <>
+            <CardPageWrapper className="mt-4 h-fit" >
                 <QueueInfo id={id} />
-                <UsersTable
-                    ref={usersTableRef}
-                    defaultFilter={{ queueId: id }}
-                    useUsers={useUsersBackend}
-                    fetchUsers={fetchUsers}
-                    prependColumns={isActiveDelete ? prependColumns : []}
-                    MoreActions={
-                        <div className="flex gap-3">
-                            <AddUser
-                                afterSubmit={refetchUser}
-                            />
-                            <BtnDelUsers
-                                clearDraft={() => { setDelUsersDraft([]) }} users={delUsersDraft} queueID={id} isActive={isActiveDelete} setIsActive={setIsActiveDelete}
-                                afterSubmit={refetchUser}
-                            />
-                        </div>
-                    }
-                    dataList={dataList}
-                    data={data}
-                    isLoading={isLoading}
-                    isError={isError}
-                />
-            </>
-        </CardPageWrapper>
+            </CardPageWrapper>
+            <CardPageWrapper className="mt-4" >
+                <>
+                    <UsersTable
+                        ref={usersTableRef}
+                        defaultFilter={{ queueId: id }}
+                        useUsers={useUsersBackend}
+                        fetchUsers={fetchUsers}
+                        prependColumns={isActiveDelete ? prependColumns : []}
+                        MoreActions={
+                            <div className="flex gap-3">
+                                <AddUser
+                                    afterSubmit={refetchUser}
+                                />
+                                <BtnDelUsers
+                                    clearDraft={() => { setDelUsersDraft([]) }} users={delUsersDraft} queueID={id} isActive={isActiveDelete} setIsActive={setIsActiveDelete}
+                                    afterSubmit={refetchUser}
+                                />
+                            </div>
+                        }
+                        dataList={dataList}
+                        data={data}
+                        isLoading={isLoading}
+                        isError={isError}
+                    />
+                </>
+            </CardPageWrapper>
+        </>
     )
 }

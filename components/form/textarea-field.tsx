@@ -9,6 +9,7 @@ import {
 import { cva } from 'class-variance-authority'
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from '@/lib/utils'
+import { InputFieldWarper } from './input-warper'
 
 interface TextFieldProps {
   form: any // Replace 'any' with the correct form type, e.g., UseFormReturn<any> if using react-hook-form
@@ -20,6 +21,7 @@ interface TextFieldProps {
   prependInnerIcon?: React.ReactNode // Optional prop for an icon
   appendInnerIcon?: React.ReactNode // Optional prop for an icon
   className?: string // Optional prop for additional classes
+  required?: boolean // Optional prop for required fields
 }
 const textFieldVariants = cva('', {
   variants: {
@@ -38,37 +40,48 @@ const TextAreaField = ({
   placeholder,
   prependInnerIcon,
   appendInnerIcon,
-  className
+  className,
+  required = false
 }: TextFieldProps) => {
   return (
-    <FormField
-      disabled={loading}
-      control={form.control}
+    <InputFieldWarper
+      loading={loading}
+      form={form}
       name={name}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>
-            {/* {field.value} */}
-
-            {label}</FormLabel>
-          <FormControl>
-            <div className='relative'>
-              <div className='absolute flex items-center justify-center h-full w-[2rem] pointer-events-none'>
-                {prependInnerIcon}
-              </div>
-              <Textarea
-                className={cn(textFieldVariants({ readonly }), className)}
-                placeholder={placeholder}
-                {...field}
-                readOnly={readonly}
-              />
-            </div>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+      label={label}
+      required={required}
+    >
+      <TextAreaFieldInput
+        prependInnerIcon={prependInnerIcon}
+        placeholder={placeholder}
+        readonly={readonly}
+        loading={loading}
+        className={className}
+      />
+    </InputFieldWarper>
   )
 }
-
+export const TextAreaFieldInput = ({
+  prependInnerIcon,
+  placeholder,
+  readonly = false,
+  field,
+  loading = false,
+  className = '',
+  ...props
+}) => {
+  return (
+    <div className='relative'>
+      <div className='absolute flex items-center justify-center h-full w-[2rem] pointer-events-none'>
+        {prependInnerIcon}
+      </div>
+      <Textarea
+        className={cn(textFieldVariants({ readonly }), className)}
+        placeholder={placeholder}
+        {...field}
+        readOnly={readonly}
+      />
+    </div>
+  )
+}
 export { TextAreaField }

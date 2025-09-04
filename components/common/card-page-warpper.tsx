@@ -11,10 +11,6 @@ interface CardPageWrapperProps {
 }
 
 const CardPageWrapper = ({ children, className, classNameCard }: CardPageWrapperProps) => {
-    // 
-    // 
-    // 
-    // 
     return (
         <Container className={cn(`mx-auto h-[95%] `, className)}>
             <Card className={cn("p-5 h-full shadow-none", classNameCard)}>
