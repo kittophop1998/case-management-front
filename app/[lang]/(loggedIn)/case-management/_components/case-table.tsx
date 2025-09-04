@@ -4,6 +4,8 @@ import { useMemo } from "react";
 import { DataTable, Header } from "@/components/common/table";
 import { useTable } from "@/hooks/use-table";
 import { createColumnHelper } from "@tanstack/react-table";
+import BtnEdit from "@/components/button/btn-edit";
+import { useRouter } from "next/navigation";
 
 type CaseProps = {
   tab: string;
@@ -49,7 +51,17 @@ const mockCaseTableData = [
 
 const useCaseTable = () => {
   const columnHelper = createColumnHelper<CaseType & { action: any }>()
+  const router = useRouter();
   const columns = useMemo(() => [
+    columnHelper.accessor('action', {
+      id: 'action',
+      header: ({ column }) => <Header column={column} label='' />,
+      cell: info => <BtnEdit
+        onClick={() => {
+            router.push(`/case-management/000`)
+        }} />,
+      meta: { headerClass: 'w-[3rem]' },
+    }),
     columnHelper.accessor('customerId', {
       id: 'customerId',
       header: ({ column }) => <Header column={column} label='Case ID' sortAble />,
