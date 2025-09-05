@@ -28,7 +28,8 @@ const useCaseTable = ({ searchObj }) => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '8rem'
+        minWidth: '8rem',
+        label: 'Case ID'
       }
     }),
     columnHelper.accessor('customerId', {
@@ -37,7 +38,8 @@ const useCaseTable = ({ searchObj }) => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '8rem'
+        minWidth: '8rem',
+        label: 'Customer ID'
       }
     }),
     columnHelper.accessor('aeonId', {
@@ -46,7 +48,8 @@ const useCaseTable = ({ searchObj }) => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '8rem'
+        minWidth: '8rem',
+        label: 'Aeon ID'
       }
     }),
     columnHelper.accessor('customerName', {
@@ -55,7 +58,8 @@ const useCaseTable = ({ searchObj }) => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '10rem'
+        minWidth: '10rem',
+        label: 'Customer Name'
       }
     }),
     columnHelper.accessor('caseGroup', {
@@ -64,7 +68,8 @@ const useCaseTable = ({ searchObj }) => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '8rem'
+        minWidth: '8rem',
+        label: 'Case Group'
       }
     }),
     columnHelper.accessor('caseType', {
@@ -73,7 +78,8 @@ const useCaseTable = ({ searchObj }) => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '8rem'
+        minWidth: '8rem',
+        label: 'Case Type'
       }
     }),
     columnHelper.accessor('createdBy', {
@@ -82,7 +88,8 @@ const useCaseTable = ({ searchObj }) => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '10rem'
+        minWidth: '10rem',
+        label: 'Create By'
       }
     }),
     columnHelper.accessor('createdDate', {
@@ -91,7 +98,8 @@ const useCaseTable = ({ searchObj }) => {
       cell: info => format(info.getValue(), "dd MMM yyyy"),
       meta: {
         width: 'fit-content',
-        minWidth: '9rem'
+        minWidth: '9rem',
+        label: 'Created Date'
       }
 
     }),
@@ -104,6 +112,9 @@ const useCaseTable = ({ searchObj }) => {
           <Badge className={caseStatusConfig?.[statusValue]?.className || ''}>
             {caseStatusConfig?.[statusValue]?.text || '-'}
           </Badge>)
+      },
+      meta: {
+        label: 'Status'
       }
 
       // info.getValue(),
@@ -114,7 +125,8 @@ const useCaseTable = ({ searchObj }) => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '9rem'
+        minWidth: '9rem',
+        label: 'Current Queue'
       }
     }),
     columnHelper.accessor('currentUser', {
@@ -123,7 +135,8 @@ const useCaseTable = ({ searchObj }) => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '9rem'
+        minWidth: '9rem',
+        label: 'Current User'
       }
     }),
     columnHelper.accessor('casePriority', {
@@ -139,7 +152,8 @@ const useCaseTable = ({ searchObj }) => {
       },
       meta: {
         width: 'fit-content',
-        minWidth: '9rem'
+        minWidth: '9rem',
+        label: 'Case Priority'
       }
     }),
     columnHelper.accessor('slaDate', {
@@ -153,6 +167,7 @@ const useCaseTable = ({ searchObj }) => {
       meta: {
         width: 'fit-content',
         minWidth: '6rem',
+        label: 'SLA Date'
       }
     }),
     columnHelper.accessor('closedDate', {
@@ -163,6 +178,7 @@ const useCaseTable = ({ searchObj }) => {
       meta: {
         width: 'fit-content',
         minWidth: '8rem',
+        label: 'Closed Date'
       }
 
     }),
@@ -173,6 +189,7 @@ const useCaseTable = ({ searchObj }) => {
       meta: {
         width: 'fit-content',
         minWidth: '8rem',
+        label: 'Receive From'
       }
     }),
   ], [])

@@ -191,7 +191,9 @@ export function DataTable<T>({
                       type="checkbox"
                     />
                     <span className='px-3'>
-                      {column.id}
+                      {/* {column.text} */}
+                      {column.columnDef?.meta?.label ?? column.id}
+                      {/* {flexRender(column.columnDef.header, { column, table })} */}
                     </span>
                   </label>
                 </div>
