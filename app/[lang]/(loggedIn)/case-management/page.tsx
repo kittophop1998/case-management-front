@@ -5,6 +5,7 @@ import CardPageWrapper from "@/components/common/card-page-warpper";
 import { Typography } from "@/components/common/typography";
 // import { Suspense } from "react";
 import CaseTable from "./_components/case-table";
+import InputFilter from "@/components/common/input-filter";
 
 const tabs = [
   { label: "My Case", value: "myCase" },
@@ -16,14 +17,22 @@ const tabs = [
 
 const CaseManagementTable = ({ selectedTab }: { selectedTab: string }) => {
   return (
-    // <Suspense fallback={<div>Loading...</div>}>
-    <CaseTable tab={selectedTab} />
-    // </Suspense>
+    <>
+      <CaseTable tab={selectedTab} />
+    </>
   );
 };
 
 const CaseManagementPage = () => {
   const [selectedTab, setSelectedTab] = useState<string>("myCase");
+  const [searchObj, setSearchObj] = useState<{ [key: string]: any }>({
+    keyWord: '',
+    form: '',
+    to: '',
+    status: '',
+    priority: '',
+    receivedFrom: ''
+  });
 
   return (
     <div>
@@ -44,12 +53,16 @@ const CaseManagementPage = () => {
       </div>
 
       <CardPageWrapper className="mt-4">
-        <Typography variant="h6" className="mb-3">
-          Case List
-        </Typography>
+        <div className="flex mb-6">
+          <Typography variant="h6" className="mb-3">
+            Case List
+          </Typography>
+          <div className="flex-1"></div>
+          <InputFilter />
+
+        </div>
 
         {/* ตัวอย่าง filter (ยังไม่เปิดใช้งาน) */}
-        {/* <InputFilter ... /> */}
         {/* <BtnFilter onClick={() => {}} /> */}
 
         <CaseManagementTable selectedTab={selectedTab} />
