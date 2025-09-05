@@ -20,7 +20,6 @@ const useCaseTable = () => {
   const dataListMemo = useMemo(() => tableObj?.data || [], [tableObj]);
 
   const columnHelper = createColumnHelper<CaseDataType & { action: any }>()
-  const router = useRouter();
   const columns = useMemo(() => [
     columnHelper.accessor('code', {
       id: 'code',
@@ -200,17 +199,21 @@ const useCaseTable = () => {
 }
 
 const CaseTable = ({ tab }: CaseProps) => {
+  const router = useRouter();
   const { table, setPage, setLimit, dataTable } = useCaseTable();
-
   const filteredData = useMemo(() => {
     if (tab === "allCase") return dataTable;
     return dataTable.filter(item => item.status.toLowerCase() === tab);
   }, [tab]);
-
+  const gotoChild = (data: any) => {
+    // console.log(data)
+    // caseId
+    router.push(`/case-management/${data?.caseId || '-'}`);
+  }
   return (
     <div>
       <DataTable
-        onRowClick={(data) => console.log(data)}
+        onRowClick={gotoChild}
         loading={false}
         table={table}
         page={1}
