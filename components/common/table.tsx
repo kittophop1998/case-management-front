@@ -121,7 +121,11 @@ export function DataTable<T>({
           </thead>
           <tbody>
             {table.getRowModel().rows.map(row => (
-              <tr key={row.id}>
+              <tr key={row.id}
+                className={cn(
+                  { 'hover:bg-gray-200/15 hover:cursor-pointer': !!onRowClick }
+                )}
+              >
                 {row.getVisibleCells().map(cell => (
                   <td
                     onClick={() => onRowClick?.(row.original)}
@@ -170,6 +174,6 @@ export function DataTable<T>({
           </Button>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
