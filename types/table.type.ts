@@ -12,4 +12,5 @@ export type DefaultReqTableType = {
   limit?: number;
   sort?: string | null;
   order?: "asc" | "desc" | null;
+  category?: string | null;
 };

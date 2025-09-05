@@ -14,15 +14,20 @@ type CaseProps = {
 }
 
 type CaseType = {
+  caseId: string;
   customerId: string;
+  aeonId: string;
   customerName: string;
-  status: string;
+  caseGroup: string;
   caseType: string;
+  createdBy: string;
+  createdDate: string;
+  status: string;
   currentQueue: string;
-  currentAssignee: string;
+  currentUser: string;
+  casePriority:string;
   slaDate: string;
   closedDate: string;
-  // receiveFrom: string;
   receivedFrom: string
 }
 
@@ -68,21 +73,32 @@ const useCaseTable = () => {
         }} />,
       meta: { headerClass: 'w-[3rem]' },
     }),
-    columnHelper.accessor('customerId', {
-      id: 'customerId',
+    columnHelper.accessor('caseId', {
+      id: 'caseId',
       header: ({ column }) => <Header column={column} label='Case ID' sortAble />,
       cell: info => info.getValue(),
-      meta: { headerClass: 'min-w-[10rem]' },
-
+      // meta: { headerClass: 'min-w-[10rem]' },
+    }),
+    columnHelper.accessor('customerId', {
+      id: 'customerId',
+      header: ({ column }) => <Header column={column} label='Customer ID' sortAble />,
+      cell: info => info.getValue(),
+      // meta: { headerClass: 'min-w-[10rem]' },
+    }),
+    columnHelper.accessor('aeonId', {
+      id: 'aeonId',
+      header: ({ column }) => <Header column={column} label='Aeon ID' sortAble />,
+      cell: info => info.getValue(),
+      // meta: { headerClass: 'min-w-[10rem]' },
     }),
     columnHelper.accessor('customerName', {
       id: 'customerName',
       header: ({ column }) => <Header column={column} label='Customer Name' sortAble />,
       cell: info => info.getValue(),
     }),
-    columnHelper.accessor('status', {
-      id: 'status',
-      header: ({ column }) => <Header column={column} label='Status' sortAble />,
+    columnHelper.accessor('caseGroup', {
+      id: 'caseGroup',
+      header: ({ column }) => <Header column={column} label='Case Group' sortAble />,
       cell: info => info.getValue(),
     }),
     columnHelper.accessor('caseType', {
@@ -90,14 +106,34 @@ const useCaseTable = () => {
       header: ({ column }) => <Header column={column} label='Case Type' sortAble />,
       cell: info => info.getValue(),
     }),
+    columnHelper.accessor('createdBy', {
+      id: 'createdBy',
+      header: ({ column }) => <Header column={column} label='Create By' sortAble />,
+      cell: info => info.getValue(),
+    }),
+    columnHelper.accessor('createdDate', {
+      id: 'createdDate',
+      header: ({ column }) => <Header column={column} label='Created Date' sortAble />,
+      cell: info => info.getValue(),
+    }),
+    columnHelper.accessor('status', {
+      id: 'status',
+      header: ({ column }) => <Header column={column} label='Status' sortAble />,
+      cell: info => info.getValue(),
+    }),
     columnHelper.accessor('currentQueue', {
       id: 'currentQueue',
       header: ({ column }) => <Header column={column} label='Current Queue' sortAble />,
       cell: info => info.getValue(),
     }),
-    columnHelper.accessor('currentAssignee', {
-      id: 'currentAssignee',
-      header: ({ column }) => <Header column={column} label='Current Assignee' sortAble />,
+    columnHelper.accessor('currentUser', {
+      id: 'currentUser',
+      header: ({ column }) => <Header column={column} label='Current User' sortAble />,
+      cell: info => info.getValue(),
+    }),
+    columnHelper.accessor('casePriority', {
+      id: 'casePriority',
+      header: ({ column }) => <Header column={column} label='Case Priority' sortAble />,
       cell: info => info.getValue(),
     }),
     columnHelper.accessor('slaDate', {

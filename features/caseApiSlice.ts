@@ -4,60 +4,67 @@ import z from "zod";
 import { CreateCaseSchema } from "@/schemas";
 import { DefaultReqTableType, TableType } from "@/types/table.type";
 import { createSearchParams } from "@/lib/utils/create-search-params";
-import { ApiResponse } from "@/types/api.type";
 
+// ---------- Helper Function ----------
+const sanitizeCaseBody = (
+  body: Omit<z.infer<typeof CreateCaseSchema>, "caseTypeText"> & { caseTypeText?: string }
+) => {
+  const newBody = { ...body };
+  if (newBody.caseTypeText === "None Inquiry") {
+    const removableFields: (keyof typeof newBody | string)[] = [
+      "emails",
+      "form",
+      "to",
+      "cc",
+      "bcc",
+      "subject",
+      "template",
+      "mailText",
+      "files",
+    ];
+    removableFields.forEach((field) => {
+      delete newBody[field as keyof typeof newBody];
+    });
+  }
+  delete newBody.caseTypeText;
+  return newBody;
+};
+
+// ---------- API Slice ----------
 export const caseApiSlice = createApi({
   reducerPath: "caseApi",
   baseQuery,
   endpoints: (builder) => ({
     createCaseInquiry: builder.mutation<
       void,
-      {
-        body: z.infer<typeof CreateCaseSchema>;
-      }
+      { body: z.infer<typeof CreateCaseSchema> }
     >({
-      query: ({ body }) => {
-        if (body.caseTypeText === "None Inquiry") {
-          delete body.emails;
-          delete body.form;
-          delete body.to;
-          delete body.cc;
-          delete body.bcc;
-          delete body.subject;
-          delete body.template;
-          delete body.mailText;
-          delete body.files;
-        }
-        delete body.caseTypeText;
-        return {
-          // url: "/cases/inquiry",
-          url: "/cases",
-          method: "POST",
-          body,
-        };
-      },
+      query: ({ body }) => ({
+        url: "/cases",
+        method: "POST",
+        body: sanitizeCaseBody(body),
+      }),
     }),
+
     createCaseNoneInquiry: builder.mutation<
       void,
-      {
-        body: z.infer<typeof CreateCaseSchema>;
-      }
+      { body: z.infer<typeof CreateCaseSchema> }
     >({
-      query: ({ body }) => {
-        return {
-          url: `/cases`,
-          method: "POST",
-          body,
-        };
-      },
+      query: ({ body }) => ({
+        url: "/cases",
+        method: "POST",
+        body,
+      }),
     }),
+
     caseByPermission: builder.query<TableType<any>, DefaultReqTableType>({
-      query: ({ page, limit, sort = null, order = null }) => {
+      query: ({ page, limit, sort = null, order = null, category = null }) => {
         const searchParams = createSearchParams({
           page,
           limit,
           sort,
           order,
+          category,
         });
         return {
           url: `/cases?${searchParams}`,
@@ -73,5 +80,3 @@ export const {
   useCreateCaseNoneInquiryMutation,
   useLazyCaseByPermissionQuery,
 } = caseApiSlice;
-// const [createCase, { error, isLoading }] = useCreateCaseInquiryMutation();
-// const [getData, { data: tableNotes, isFetching: isFetchingTableNotes }] = useLazyCaseByPermissionQuery();
