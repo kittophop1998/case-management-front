@@ -5,9 +5,12 @@ import { Modal } from "@/components/common/Modal";
 import { Pencil } from "lucide-react";
 import { QueueInfoForm, useQueueInfoForm } from "@/components/queue/form-info";
 import { QueueType } from "@/types/queue.type";
+import QueueSvg from '@/public/icons/Queue.svg'
 
 const BtnCreate = ({ onClick }: { onClick: () => void }) => {
-    return <Button variant='black' onClick={onClick}>Add Queue</Button>
+    return <Button variant='black' onClick={onClick}>
+        <QueueSvg />
+        Add Queue</Button>
 }
 const BtnEdit = ({ onClick }: { onClick: () => void }) => {
     return <Button variant='black' onClick={onClick}>Edit Queue</Button>
