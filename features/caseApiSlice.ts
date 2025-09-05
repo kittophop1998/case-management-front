@@ -2,6 +2,8 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQuery } from "@/services/api";
 import z from "zod";
 import { CreateCaseSchema } from "@/schemas";
+import { ApiResponse } from "@/types/api.type";
+import { CaseDetailsType } from "@/types/case.type";
 import { DefaultReqTableType, TableType } from "@/types/table.type";
 import { createSearchParams } from "@/lib/utils/create-search-params";
 
@@ -72,11 +74,22 @@ export const caseApiSlice = createApi({
         };
       },
     }),
+    getCaseDetails: builder.query<CaseDetailsType | undefined, void>({
+      query: () => {
+        const fixedId = "f52b23ae-3d09-4ed6-a6f2-85ba36ca145c"; // fix ไว้ก่อน
+        return {
+          url: `/cases/${fixedId}`,
+          method: "GET",
+        };
+      },
+      transformResponse: (response: ApiResponse<CaseDetailsType>) => response?.data,
+    }),
   }),
 });
 
 export const {
   useCreateCaseInquiryMutation,
   useCreateCaseNoneInquiryMutation,
+  useGetCaseDetailsQuery,
   useLazyCaseByPermissionQuery,
 } = caseApiSlice;
