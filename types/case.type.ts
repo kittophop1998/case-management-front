@@ -4,3 +4,21 @@ import z from "zod";
 export type CaseType = z.infer<typeof CreateCaseSchema>;
 
 export type CaseTypeText = "Inquiry" | "None Inquiry";
+
+export type CaseDataType = {
+  aeonId: string;
+  caseGroup: string;
+  caseId: string;
+  casePriority: string;
+  caseType: string;
+  closedDate: string;
+  createdBy: string;
+  createdDate: string;
+  currentQueue: string;
+  currentUser: string;
+  customerId: string;
+  customerName: string;
+  receivedFrom: string;
+  slaDate: string;
+  status: string;
+};

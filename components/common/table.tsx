@@ -88,6 +88,7 @@ export function DataTable<T>({
   totalPages = 0,
   setPage,
   renderEmpty = true,
+  onRowClick,
 }: DataTableProps<T>) {
   return (
     <div>
@@ -102,9 +103,7 @@ export function DataTable<T>({
                     className={cn(
                       'px-2 py-3 text-sm font-normal',
                       // @ts-expect-error //TODO: fix type error
-                      // getClassWidth(header?.column?.columnDef?.meta || {}),
                       header.column.columnDef?.meta?.headerClass || '',
-                      // 'w-[300px] max-w-[300px] min-w-[300px]'
                     )}
                     style={{
                       width: header.column.columnDef?.meta?.width,
@@ -125,13 +124,12 @@ export function DataTable<T>({
               <tr key={row.id}>
                 {row.getVisibleCells().map(cell => (
                   <td
+                    onClick={() => onRowClick?.(row.original)}
                     key={cell.id}
                     className={cn(
                       'p-2 text-sm text-[#6E7079]',
-                      // getClassWidth(cell.column.columnDef?.meta || {}),
                       // @ts-expect-error //TODO: fix type error
                       cell?.column?.columnDef?.meta?.cellClass || '',
-                      // 'w-[300px] max-w-[300px] min-w-[300px]'
                     )}
                     style={{
                       width: cell.column.columnDef?.meta?.width,

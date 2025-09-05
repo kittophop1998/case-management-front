@@ -3,7 +3,7 @@
 import { useState } from "react";
 import CardPageWrapper from "@/components/common/card-page-warpper";
 import { Typography } from "@/components/common/typography";
-import { Suspense } from "react";
+// import { Suspense } from "react";
 import CaseTable from "./_components/case-table";
 
 const tabs = [
@@ -16,9 +16,9 @@ const tabs = [
 
 const CaseManagementTable = ({ selectedTab }: { selectedTab: string }) => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <CaseTable tab={selectedTab} />
-    </Suspense>
+    // <Suspense fallback={<div>Loading...</div>}>
+    <CaseTable tab={selectedTab} />
+    // </Suspense>
   );
 };
 
@@ -33,11 +33,10 @@ const CaseManagementPage = () => {
           <button
             key={tab.value}
             onClick={() => setSelectedTab(tab.value)}
-            className={`pb-2 px-4 border-b-2 text-sm font-medium ${
-              selectedTab === tab.value
-                ? "border-indigo-500"
-                : "border-transparent text-gray-500 hover:text-primary"
-            }`}
+            className={`pb-2 px-4 border-b-2 text-sm font-medium ${selectedTab === tab.value
+              ? "border-indigo-500"
+              : "border-transparent text-gray-500 hover:text-primary"
+              }`}
           >
             {tab.label}
           </button>
