@@ -215,6 +215,7 @@ const CaseManagementPage = () => {
     casePriority: [],
     caseStats: [],
   });
+  const [statusConfigColumn, setStatusConfigColumn] = useState(false);
   return (
     <div>
       <div className="flex space-x-4 border-b mb-4 pt-6 px-8 bg-white">
@@ -242,13 +243,13 @@ const CaseManagementPage = () => {
             setValue={(value) => { setSearchObj({ ...searchObj, keyword: value }) }} value={searchObj.keyword}
           />
           <InputFilterConfig searchObj={searchObj} setSearchObj={setSearchObj} />
-          <BtnConfigColumn onClick={() => { }} />
+          <BtnConfigColumn onClick={() => { setStatusConfigColumn(true) }} />
           <InputFilterDate searchObj={searchObj} setSearchObj={setSearchObj} />
         </div>
         {/* ตัวอย่าง filter (ยังไม่เปิดใช้งาน) */}
         {/* <BtnFilter onClick={() => {}} /> */}
         {/* {JSON.stringify(searchObj)} */}
-        <CaseTable searchObj={searchObj} />
+        <CaseTable searchObj={searchObj} statusConfigColumn={statusConfigColumn} setStatusConfigColumn={setStatusConfigColumn} />
       </CardPageWrapper>
     </div>
   );

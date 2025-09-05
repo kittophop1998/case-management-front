@@ -13,6 +13,7 @@ import { Typography } from '../common/typography'
 import { cn } from '@/lib/utils'
 import { useMemo } from 'react'
 import Sort from '@/public/icons/Sort.svg'
+import { Modal } from './Modal'
 
 export interface DataTableProps<T> {
   table: ReactTable<T>
@@ -89,6 +90,8 @@ export function DataTable<T>({
   setPage,
   renderEmpty = true,
   onRowClick,
+  statusConfigColumn = false,
+  setStatusConfigColumn = (isOpen: boolean) => { }
 }: DataTableProps<T>) {
   return (
     <div>
@@ -172,7 +175,31 @@ export function DataTable<T>({
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
+
         </div>
+        <Modal title='Show Column' isOpen={statusConfigColumn} onClose={() => setStatusConfigColumn(false)} className='w-[20rem]' >
+          <div>
+            <Typography variant='caption'>Select Show Column</Typography>
+            <div className='space-y-1 mt-4' >
+              {table.getAllColumns().map((column) => (
+                <div>
+                  <label key={column.id} className=''>
+                    <input
+                      checked={column.getIsVisible()}
+                      disabled={!column.getCanHide()}
+                      onChange={column.getToggleVisibilityHandler()}
+                      type="checkbox"
+                    />
+                    <span className='px-3'>
+                      {column.id}
+                    </span>
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Modal>
+
       </div>
     </div >
   )

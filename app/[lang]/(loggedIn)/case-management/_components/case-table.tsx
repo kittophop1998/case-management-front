@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import { CaseDataType } from "@/types/case.type";
 import { caseStatusConfig, priorityStatusConfig } from "@/const/case";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/common/Button";
 
 type CaseProps = {
   tab: string;
@@ -181,7 +182,6 @@ const useCaseTable = ({ searchObj }) => {
     ,
     setColumnVisibility,
     columnVisibility,
-
   } = useTable({
     data: dataListMemo,
     columns,
@@ -202,13 +202,17 @@ const useCaseTable = ({ searchObj }) => {
     limit,
     sort,
     searchObj
+    ,
+    setColumnVisibility,
+    columnVisibility,
   ])
   return { table, sort, page, limit, setPage, setLimit, dataTable: dataListMemo }
 }
 
-const CaseTable = ({ searchObj }: { searchObj: Record<string, any> }) => {
+const CaseTable = ({ searchObj, statusConfigColumn = false, setStatusConfigColumn }: { searchObj: Record<string, any> }) => {
   const router = useRouter();
-  const { table, setPage, setLimit, dataTable } = useCaseTable({ searchObj });
+  const { table, setPage, setLimit, dataTable
+  } = useCaseTable({ searchObj });
   const gotoChild = (data: any) => {
     router.push(`/case-management/${data?.caseId || '-'}`);
   }
@@ -218,8 +222,16 @@ const CaseTable = ({ searchObj }: { searchObj: Record<string, any> }) => {
   }
   return (
     <div>
-      {/* {JSON.stringify(searchObj)} */}
+      {/* <Button onClick={() => {
+        setColumnVisibility({
+          customerId: false,
+          aeonId: true
+        })
+      }}>Test</Button>
+      {JSON.stringify(columnVisibility)} */}
       <DataTable
+        statusConfigColumn={statusConfigColumn}
+        setStatusConfigColumn={setStatusConfigColumn}
         onRowClick={gotoChild}
         loading={false}
         table={table}
