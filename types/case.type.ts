@@ -8,7 +8,7 @@ export type CaseTypeText = "Inquiry" | "None Inquiry";
 export type CaseDataType = {
   aeonId: string;
   caseGroup: string;
-  caseId: string;
+  code: string;
   casePriority: string;
   caseType: string;
   closedDate: string;
