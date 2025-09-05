@@ -94,7 +94,7 @@ const QueueInfo = ({ id }) => {
                     <div className="flex-1">
                         <TextAreaFieldInput
                             field={{
-                                value: queueInfo?.queueDescription || '-'
+                                value: queueInfo?.queueDescription
                             }}
                         />
                     </div>
