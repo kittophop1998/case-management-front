@@ -13,6 +13,10 @@ import { CreateQueue } from "@/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { memo, useMemo } from "react";
+import { BtnClose } from "../button/btn-close";
+import { ButtonCancel } from "../button/btn-cancle";
+import { cn } from "@/lib/utils";
+import { Button } from "../common/Button";
 
 
 export const useQueueInfoForm = ({ afterSubmit }: { afterSubmit: () => void }) => {
@@ -69,13 +73,12 @@ export const useQueueInfoForm = ({ afterSubmit }: { afterSubmit: () => void }) =
         onSubmit
     }
 }
-
-export const QueueInfoForm = memo(({ form, onSubmit }) => {
+// 
+export const QueueInfoForm = memo(({ form, onSubmit, onClose, className = '' }) => {
     // const seeData = form.watch()
     return <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
-            {/* {JSON.stringify(seeData)} */}
-            <div className="w-[clamp(300px,100%,35rem)]">
+            <div className={cn('space-y-3', className)}>
                 <div className="flex items-start gap-2">
                     <Typography variant="body2" className="mt-1 w-[6rem]">Queue Name: </Typography>
                     <div className="flex-1">
@@ -83,7 +86,6 @@ export const QueueInfoForm = memo(({ form, onSubmit }) => {
                             loading={form.formState.isSubmitting}
                             form={form}
                             name='queueName'
-                            placeholder='Enter Queue Name'
                         />
                     </div>
                 </div>
@@ -94,12 +96,16 @@ export const QueueInfoForm = memo(({ form, onSubmit }) => {
                             loading={form.formState.isSubmitting}
                             form={form}
                             name='queueDescription'
-                            placeholder='Enter Queue Description'
                         />
                     </div>
                 </div>
             </div>
-            <BtnSave loading={form.formState.isSubmitting} disabled={!form.formState.isDirty} />
+            {/* onClose */}
+            <div className="flex justify-end gap-2">
+                {onClose && <ButtonCancel className="w-[7.5rem]" onClick={onClose} />}
+                <Button className="w-[7.5rem]" loading={form.formState.isSubmitting} disabled={!form.formState.isDirty}>Save</Button>
+                {/* <BtnSave loading={form.formState.isSubmitting} disabled={!form.formState.isDirty} /> */}
+            </div>
         </form>
     </Form>
 })

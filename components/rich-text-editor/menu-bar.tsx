@@ -1,20 +1,13 @@
-import {
-  AlignCenter,
-  AlignLeft,
-  AlignRight,
-  Bold,
-  Heading1,
-  Heading2,
-  Heading3,
-  Highlighter,
-  Italic,
-  List,
-  ListOrdered,
-  Strikethrough,
-} from "lucide-react";
-// import { Toggle } from "../ui/toggle";
 import { Editor } from "@tiptap/react";
 import { Toggle } from "../ui/toggle";
+import AlignCenter from '@/public/icons/editor/AlignJustify.svg'
+import AlignLeft from '@/public/icons/editor/AlignLeft.svg'
+import AlignRight from '@/public/icons/editor/AlignRight.svg'
+import Bold from '@/public/icons/editor/Bold.svg'
+import Clip from '@/public/icons/editor/Clip.svg'
+import Link from '@/public/icons/editor/Link.svg'
+import Underline from '@/public/icons/editor/Underline.svg'
+import Italic from '@/public/icons/editor/Italic.svg'
 
 export default function MenuBar({ editor }: { editor: Editor | null }) {
   if (!editor) {
@@ -27,6 +20,13 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
       icon: <Bold className="size-4" />,
       onClick: () => editor.chain().focus().toggleBold().run(),
       preesed: editor.isActive("bold"),
+    },
+    {
+      icon: <Underline className="size-4" />,
+      // onClick: () => editor.chain().focus().toggleUnderline().run(),
+      // onClick: () => editor.chain().focus().toggle
+      onClick: () => { },
+      pressed: editor.isActive("underline"),
     },
     {
       icon: <Italic className="size-4" />,
@@ -48,6 +48,23 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
       icon: <AlignRight className="size-4" />,
       onClick: () => editor.chain().focus().setTextAlign("right").run(),
       preesed: editor.isActive({ textAlign: "right" }),
+    },
+    {
+      icon: <Link className="size-4" />,
+      onClick: () => {
+        const url = window.prompt("Enter a URL:");
+        if (url) {
+          // editor.chain().focus().setLink({ href: url }).run();
+        }
+      },
+      // pressed: editor.isActive("link"),
+      pressed: false, // ยังไม่รองรับ
+    },
+    {
+      icon: <Clip className="size-3" />,
+      onClick: () => { },
+      pressed: false, // ยังไม่รองรับ
+
     },
 
   ];

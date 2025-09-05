@@ -48,7 +48,8 @@ export const FilterUsersModal = ({
   center,
   isPending = false,
   isOpen,
-  setIsOpen
+  setIsOpen,
+  hidden = {}
 }: FilterModalProps) => {
   const defaultValues: z.infer<typeof FilterUsersDialogSchemas> = {
     role,
@@ -97,7 +98,7 @@ export const FilterUsersModal = ({
       </div> */}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
-          <RadioField
+          {!hidden.status && <RadioField
             form={form}
             name='status'
             label='Status'
@@ -106,7 +107,7 @@ export const FilterUsersModal = ({
             labelName='name'
             loading={isPending}
             items={[seeAllObj, ...statuses]}
-          />
+          />}
           <ComboboxField
             form={form}
             name='role'

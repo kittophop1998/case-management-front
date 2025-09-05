@@ -44,14 +44,16 @@ const Item = memo(({ className = '', onClick, item, isActive = false }: { classN
         } className={cn('flex gap-3 p-1 items-center hover:bg-gray-200/30 cursor-pointer'
             , className)}>
         {/* TODO:[CHANGE-LOGIC] */}
-        <Checkbox
-            checked={true}
-            className={cn({ "hidden": !isActive })}
-        />
-        <Checkbox
-            checked={false}
-            className={cn({ "hidden": isActive })}
-        />
+        <span className="pointer-events-none">
+            <Checkbox
+                checked={true}
+                className={cn({ "hidden": !isActive })}
+            />
+            <Checkbox
+                checked={false}
+                className={cn({ "hidden": isActive })}
+            />
+        </span>
         {/* <Checkbox
             checked={isActive}
             onCheckedChange={() => onClick(item.id)}   // sync state

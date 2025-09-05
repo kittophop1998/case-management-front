@@ -9,7 +9,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { forwardRef, useEffect, useImperativeHandle, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
-
+// 
 
 const useQueueTable = (ref) => {
     const [getTable, { data: dataTable, isFetching, isError, error }] = useLazyGetTableQuery();
@@ -21,38 +21,57 @@ const useQueueTable = (ref) => {
             id: 'queueName',
             header: ({ column }) => <Header column={column} label='Queue Name' sortAble />,
             cell: info => info.getValue(),
-            meta: { headerClass: 'w-[20rem]' },
+            meta: {
+                width: 'fit-content',
+                minWidth: '10rem',
+                cellClass: 'text-ellipsis overflow-hidden',
+            },
         }),
         columnHelper.accessor('queueDescription', {
             id: 'queueDescription',
             header: ({ column }) => <Header column={column} label='Description' sortAble />,
             cell: info => info.getValue(),
+            meta: {
+                width: 'fit-content',
+                minWidth: '10rem',
+                cellClass: 'text-ellipsis overflow-hidden',
+            },
         }),
         columnHelper.accessor('createdAt', {
             id: 'createdAt',
-
             header: ({ column }) => <Header column={column} label='Update Date' sortAble />,
             cell: info => format(info.getValue(), "dd MMM yyyy HH:mm:ss"),
-            // cell: info => info.getValue(),
-            meta: { headerClass: 'w-[13rem]' },
+            meta: {
+                width: '11rem',
+                maxWidth: '11rem',
+                minWidth: '11rem',
+            },
+
         }),
         columnHelper.accessor('createdBy', {
             id: 'createdBy',
             header: ({ column }) => <Header column={column} label='Updated By' sortAble />,
             cell: info => info.getValue(),
-            meta: { headerClass: 'w-[13rem]' },
+            meta: {
+                width: '15rem',
+                maxWidth: '15rem',
+                minWidth: '15rem',
+            },
         }),
         columnHelper.accessor('action', {
             id: 'action',
             header: ({ column }) => <Header column={column} label='' />,
-            cell: info => <BtnEdit
-                // queueId
-                onClick={() => {
-                    router.push(`/queue-management/${info.row.original.queueId}`)
-
-
-                }} />,
-            meta: { headerClass: 'w-[3rem]' },
+            cell: info =>
+                <div className="flex justify-end">
+                    <BtnEdit
+                        // queueId
+                        onClick={() => {
+                            router.push(`/queue-management/${info.row.original.queueId}`)
+                        }} />
+                </div>,
+            meta: {
+                width: '100%',
+            },
         }),
 
     ], [])

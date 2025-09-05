@@ -3,10 +3,11 @@ import { Button } from "../ui/button";
 
 interface BtnFilterProps {
     onClick: () => void;
+    disabled?: boolean;
 }
-const BtnNew = ({ onClick }: BtnFilterProps) => {
+const BtnNew = ({ onClick, disabled = false }: BtnFilterProps) => {
     return (
-        <Button className="bg-[#5570f1] text-white hover:bg-[#5570f1]/90 hover:text-white" variant='outline' onClick={onClick} >
+        <Button disabled={disabled} className="bg-[#5570f1] text-white hover:bg-[#5570f1]/90 hover:text-white" variant='outline' onClick={onClick} >
             <ClipboardPlus />  New
         </Button >
     );

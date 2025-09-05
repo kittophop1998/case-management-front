@@ -58,7 +58,7 @@ export const CreateEditUserSchema = z.object({
     .min(1, "Operator ID is required")
     .regex(/^\d+$/, "Operator ID must contain only numbers"),
   // queueId: z.string().min(1, "Queue is required"),
-  departmentId: z.string().min(1, "Queue is required"),
+  departmentId: z.string().min(1, "Department is required"),
 });
 
 // "operatorId": z.string().min(1, 'Operator ID is required').regex(/^\d+$/, 'Operator ID must contain only numbers'),
@@ -86,7 +86,7 @@ export const NewNoteSchema = z.object({
 export const CreateQueue = z.object({
   id: z.string().nullable(),
   queueName: z.string().min(1, "Queue Name is required"),
-  queueDescription: z.string().min(1, "Queue Description is required"),
+  queueDescription: z.string(),
 });
 
 //

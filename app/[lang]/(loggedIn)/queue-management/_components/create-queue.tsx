@@ -5,12 +5,15 @@ import { Modal } from "@/components/common/Modal";
 import { Pencil } from "lucide-react";
 import { QueueInfoForm, useQueueInfoForm } from "@/components/queue/form-info";
 import { QueueType } from "@/types/queue.type";
+import QueueSvg from '@/public/icons/Queue.svg'
 
 const BtnCreate = ({ onClick }: { onClick: () => void }) => {
-    return <Button variant='black' onClick={onClick}>Add Queue</Button>
+    return <Button variant='black' onClick={onClick}>
+        <QueueSvg />
+        Add Queue</Button>
 }
 const BtnEdit = ({ onClick }: { onClick: () => void }) => {
-    return <Button variant='black' size='icon' onClick={onClick}><Pencil /></Button>
+    return <Button variant='black' onClick={onClick}>Edit Queue</Button>
 }
 export const CreateQueueSection = ({ fetchTable, isCreate = false, queue }: { fetchTable: () => void, isCreate?: boolean, queue?: QueueType }) => {
     const [open, setOpen] = useState(false)
@@ -47,9 +50,10 @@ export const CreateQueueSection = ({ fetchTable, isCreate = false, queue }: { fe
                 <BtnCreate onClick={() => setOpen(true)} /> :
                 <BtnEdit onClick={() => setOpen(true)} />
             }
-            <Modal onClose={onClose} title={isCreate ? "Create Queue" : "Edit Queue"} isOpen={open} className='w-[clamp(300px,100%,423px)]'>
-                <QueueInfoForm form={form} onSubmit={onSubmit} />
+            <Modal separator title={isCreate ? "Add Queue" : "Edit Queue"} isOpen={open} className='w-[clamp(300px,90vw,48.063rem)]' >
+                <QueueInfoForm form={form} onSubmit={onSubmit} onClose={onClose} />
             </Modal>
+            {/* onClose={onClose} */}
         </>
     )
 }

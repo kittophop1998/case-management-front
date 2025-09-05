@@ -256,7 +256,8 @@ const useUserManagement = ({
     data,
     defaultFilter = {},
     fetchUsers,
-    isError
+    isError,
+    hidden = {}
 }: UseUsersTableProps, ref) => {
     const { myPermission } = usePermission()
     const [isOpenFilter, setIsOpenFilter] = useState(false)
@@ -297,13 +298,14 @@ const useUserManagement = ({
             header: ({ column }) => <Header label='Center' sortAble column={column} />,
             cell: info => <div>{info.getValue()}</div>,
         }),
-        columnHelper.accessor('isActive', {
-            header: ({ column }) => <Header label='Status' sortAble column={column} />,
-            cell: info => <ChipIsActive isActive={info.getValue()} />,
-            meta: {
-                headerClass: 'w-[5rem]'
-            }
-        }),
+        ...(!hidden.status ? [
+            columnHelper.accessor('isActive', {
+                header: ({ column }) => <Header label='Status' sortAble column={column} />,
+                cell: info => <ChipIsActive isActive={info.getValue()} />,
+                meta: {
+                    headerClass: 'w-[5rem]'
+                }
+            })] : []),
         ...((editUser && myPermission?.["edit.user"]) ? [columnHelper.display({
             id: 'actions',
             enableHiding: false,
@@ -435,7 +437,8 @@ export const UsersTable =
         data,
         isLoading,
         isError,
-        error
+        error,
+        hidden = {}
     }, ref) => {
 
         // memo(({ addUser = false, editUser = false, MoreActions, prependColumns = [], appendColumns = [],
@@ -484,11 +487,12 @@ export const UsersTable =
                 isError,
                 error,
                 fetchUsers,
-                defaultFilter
+                defaultFilter,
+                hidden
             }, ref
         )
         return (
-            < >
+            <>
                 {(addUser && myPermission?.["add.user"]) &&
                     <Container className='mb-0 pb-0'>
                         <div className='flex justify-end mt-4'>
@@ -537,6 +541,7 @@ export const UsersTable =
                         role={role}
                         section={section}
                         center={center}
+                        hidden={hidden}
                     />
                 </CardPageWrapper>
             </>

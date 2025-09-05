@@ -4,6 +4,7 @@ import React from 'react'
 import { Typography } from './typography'
 import Card from './card'
 import { cn } from '@/lib/utils'
+import { Separator } from '../ui/separator'
 
 interface ModalProps {
   isOpen: boolean
@@ -12,6 +13,7 @@ interface ModalProps {
   children: React.ReactNode
   className?: string
   classNameHeader?: string
+  separator?: boolean
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -21,7 +23,7 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   className,
   classNameHeader,
-
+  separator = false
 }) => {
   if (!isOpen) return null
 
@@ -47,6 +49,7 @@ export const Modal: React.FC<ModalProps> = ({
               )
             }
           </div>
+          {separator && <Separator className="my-4" />}
           <div className='mt-2'>{children}</div>
         </Card>
       </div>

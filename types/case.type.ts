@@ -20,3 +20,20 @@ export type CaseDetailsType = {
   caseDescription: string;
   allocateToQueueTeam: string;
 };
+export type CaseDataType = {
+  aeonId: string;
+  caseGroup: string;
+  code: string;
+  casePriority: string;
+  caseType: string;
+  closedDate: string;
+  createdBy: string;
+  createdDate: string;
+  currentQueue: string;
+  currentUser: string;
+  customerId: string;
+  customerName: string;
+  receivedFrom: string;
+  slaDate: string;
+  status: string;
+};
