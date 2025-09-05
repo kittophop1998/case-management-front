@@ -22,8 +22,8 @@ const useCaseTable = () => {
   const columnHelper = createColumnHelper<CaseDataType & { action: any }>()
   const router = useRouter();
   const columns = useMemo(() => [
-    columnHelper.accessor('caseId', {
-      id: 'caseId',
+    columnHelper.accessor('code', {
+      id: 'code',
       header: ({ column }) => <Header column={column} label='Case ID' sortAble />,
       cell: info => info.getValue(),
       meta: {
