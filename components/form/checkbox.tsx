@@ -53,7 +53,7 @@ export function Checkbox({
                             checked={field.value || false}
                             onChange={(e) => field.onChange(e.target.checked)}
                             disabled={disabled}
-                            className="form-checkbox h-4 w-4"
+                            className="form-checkbox h-4 w-4 "
                         />
                         {label && <span>{label}</span>}
                         {errorMessage && typeof errorMessage === "object" && "message" in errorMessage && (

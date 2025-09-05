@@ -63,7 +63,18 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
                     name="caseStats"
                     label={item.label}
                     checked={searchObj.caseStats.includes(item.value)}
-                    onChange={(isCheck) => setSearchObj({ ...searchObj, caseStats: isCheck ? [...searchObj.caseStats, item.value] : searchObj.caseStats.filter(item => item !== item.value) })}
+                    onChange={
+                      (isCheck) => {
+                        setSearchObj(
+                          (current) => ({
+                            ...current,
+                            caseStats: isCheck
+                              ? [...current.caseStats, item.value]
+                              : [...current.caseStats].filter(v => v !== item.value)
+                          })
+                        )
+                      }
+                    }
                   />
                 </div>
               ))
