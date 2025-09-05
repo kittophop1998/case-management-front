@@ -7,6 +7,7 @@ import { Typography } from "@/components/common/typography";
 import CaseTable from "./_components/case-table";
 import InputFilter from "@/components/common/input-filter";
 import BtnFilter from "@/components/button/btn-filter";
+import { Modal } from "@/components/common/Modal";
 
 const tabs = [
   { label: "My Case", value: "myCase" },
@@ -16,40 +17,50 @@ const tabs = [
   { label: "All Case", value: "allCase" },
 ];
 
-const CaseManagementTable = ({ selectedTab }: { selectedTab: string }) => {
-  return (
-    <>
-      <CaseTable tab={selectedTab} />
-    </>
-  );
-};
+// const CaseManagementTable = ({ selectedTab }: { selectedTab: string }) => {
+//   return (
+//     <>
+//       <CaseTable tab={selectedTab} />
+//     </>
+//   );
+// };
 
 const InputFilterConfig = () => {
-  return <><BtnFilter /></>
+  const [open, setOpen] = useState(false);
+  return <>
+    <BtnFilter onClick={() => { setOpen(true) }} />
+    <Modal title="Filter" isOpen={open} className="w-[47.125rem]">
+      <></>
+    </Modal>
+  </>
 }
 const InputFilterDate = () => {
-  return <><BtnFilter /></>
+  const [open, setOpen] = useState(false);
+  return <>
+    <BtnFilter text='Created Date' onClick={() => { setOpen(true) }} />
+    <Modal title="Filter" isOpen={open} className="w-[21.375rem]">
+      <></>
+    </Modal>
+  </>
 }
 const CaseManagementPage = () => {
-  const [selectedTab, setSelectedTab] = useState<string>("myCase");
   const [searchObj, setSearchObj] = useState<{ [key: string]: any }>({
-    keyWord: '',
+    keyword: '',
     form: '',
     to: '',
     status: '',
     priority: '',
-    receivedFrom: ''
+    receivedFrom: '',
+    selectedTab: 'myCase'
   });
-
   return (
     <div>
-      {/* Tab Selector */}
       <div className="flex space-x-4 border-b mb-4 pt-6 px-8 bg-white">
         {tabs.map((tab) => (
           <button
             key={tab.value}
-            onClick={() => setSelectedTab(tab.value)}
-            className={`pb-2 px-4 border-b-2 text-sm font-medium ${selectedTab === tab.value
+            onClick={() => setSearchObj({ ...searchObj, selectedTab: tab.value })}
+            className={`pb-2 px-4 border-b-2 text-sm font-medium ${searchObj.selectedTab === tab.value
               ? "border-indigo-500"
               : "border-transparent text-gray-500 hover:text-primary"
               }`}
@@ -65,16 +76,17 @@ const CaseManagementPage = () => {
             CaseTable
           </Typography>
           <div className="flex-1"></div>
-          <InputFilter />
-          <InputFilterConfig />
-          <InputFilterDate />
+          <InputFilter
+            setValue={(value) => { setSearchObj({ ...searchObj, keyword: value }) }} value={searchObj.keyword}
+          />
+          <InputFilterConfig searchObj={searchObj} setSearchObj={setSearchObj} />
+          <InputFilterDate searchObj={searchObj} setSearchObj={setSearchObj} />
 
         </div>
 
         {/* ตัวอย่าง filter (ยังไม่เปิดใช้งาน) */}
         {/* <BtnFilter onClick={() => {}} /> */}
-
-        <CaseManagementTable selectedTab={selectedTab} />
+        <CaseTable searchObj={searchObj} />
       </CardPageWrapper>
     </div>
   );

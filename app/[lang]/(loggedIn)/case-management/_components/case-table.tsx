@@ -15,7 +15,7 @@ type CaseProps = {
   tab: string;
 }
 
-const useCaseTable = () => {
+const useCaseTable = ({ searchObj }) => {
   const [getData, { data: tableObj, isFetching: isFetchingTable }] = useLazyCaseByPermissionQuery();
   const dataListMemo = useMemo(() => tableObj?.data || [], [tableObj]);
 
@@ -185,6 +185,7 @@ const useCaseTable = () => {
       page,
       limit,
       sort,
+      ...searchObj,
       // order,
     });
   }
@@ -194,32 +195,32 @@ const useCaseTable = () => {
     page,
     limit,
     sort,
+    searchObj?.keyword
   ])
   return { table, sort, page, limit, setPage, setLimit, dataTable: dataListMemo }
 }
 
-const CaseTable = ({ tab }: CaseProps) => {
+const CaseTable = ({ searchObj }: { searchObj: Record<string, any> }) => {
   const router = useRouter();
-  const { table, setPage, setLimit, dataTable } = useCaseTable();
-  const filteredData = useMemo(() => {
-    if (tab === "allCase") return dataTable;
-    return dataTable.filter(item => item.status.toLowerCase() === tab);
-  }, [tab]);
+  const { table, setPage, setLimit, dataTable } = useCaseTable({ searchObj });
   const gotoChild = (data: any) => {
-    // console.log(data)
-    // caseId
     router.push(`/case-management/${data?.caseId || '-'}`);
+  }
+
+  if (!searchObj) {
+    return <></>
   }
   return (
     <div>
+      {/* {JSON.stringify(searchObj)} */}
       <DataTable
         onRowClick={gotoChild}
         loading={false}
         table={table}
         page={1}
         limit={10}
-        total={filteredData.length}
-        totalPages={Math.ceil(filteredData.length / 10)}
+        total={dataTable.length}
+        totalPages={Math.ceil(dataTable.length / 10)}
         setPage={setPage}
         setLimit={setLimit}
       />

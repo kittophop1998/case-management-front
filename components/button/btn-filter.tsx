@@ -4,13 +4,14 @@ import { Typography } from "../common/typography";
 
 interface BtnFilterProps {
     onClick: () => void;
+    text?: string;
+    icon?: React.ReactNode;
 }
-const BtnFilter = ({ onClick }: BtnFilterProps) => {
+const BtnFilter = ({ onClick, text = "filter", icon = <Funnel /> }: BtnFilterProps) => {
     return (
         <Button variant='outline-black' onClick={onClick} size="small" >
-            <Funnel />
-            {/* filter */}
-            <Typography variant="buttonSmall">filter</Typography>
+            {icon}
+            <Typography variant="buttonSmall">{text}</Typography>
         </Button >
     );
 };
