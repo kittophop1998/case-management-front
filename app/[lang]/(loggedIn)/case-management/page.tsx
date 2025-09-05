@@ -74,7 +74,7 @@ const CaseManagementPage = () => {
         {/* ตัวอย่าง filter (ยังไม่เปิดใช้งาน) */}
         {/* <BtnFilter onClick={() => {}} /> */}
 
-        <CaseManagCaseTableementTable selectedTab={selectedTab} />
+        <CaseManagementTable selectedTab={selectedTab} />
       </CardPageWrapper>
     </div>
   );
