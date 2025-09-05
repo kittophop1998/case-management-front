@@ -102,8 +102,15 @@ export function DataTable<T>({
                     className={cn(
                       'px-2 py-3 text-sm font-normal',
                       // @ts-expect-error //TODO: fix type error
-                      header.column.columnDef?.meta?.headerClass || ''
+                      // getClassWidth(header?.column?.columnDef?.meta || {}),
+                      header.column.columnDef?.meta?.headerClass || '',
+                      // 'w-[300px] max-w-[300px] min-w-[300px]'
                     )}
+                    style={{
+                      width: header.column.columnDef?.meta?.width,
+                      minWidth: header.column.columnDef?.meta?.minWidth,
+                      maxWidth: header.column.columnDef?.meta?.maxWidth,
+                    }}
                   >
                     {header.isPlaceholder
                       ? null
@@ -121,9 +128,16 @@ export function DataTable<T>({
                     key={cell.id}
                     className={cn(
                       'p-2 text-sm text-[#6E7079]',
+                      // getClassWidth(cell.column.columnDef?.meta || {}),
                       // @ts-expect-error //TODO: fix type error
-                      cell.column.columnDef?.meta?.cellClass || ''
+                      cell?.column?.columnDef?.meta?.cellClass || '',
+                      // 'w-[300px] max-w-[300px] min-w-[300px]'
                     )}
+                    style={{
+                      width: cell.column.columnDef?.meta?.width,
+                      minWidth: cell.column.columnDef?.meta?.minWidth,
+                      maxWidth: cell.column.columnDef?.meta?.maxWidth,
+                    }}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
