@@ -22,8 +22,8 @@ const useQueueTable = (ref) => {
             header: ({ column }) => <Header column={column} label='Queue Name' sortAble />,
             cell: info => info.getValue(),
             meta: {
-                maxWidth: '400px',
-                // minWidth: '200px',
+                width: 'fit-content',
+                minWidth: '10rem',
                 cellClass: 'text-ellipsis overflow-hidden',
             },
         }),
@@ -32,9 +32,8 @@ const useQueueTable = (ref) => {
             header: ({ column }) => <Header column={column} label='Description' sortAble />,
             cell: info => info.getValue(),
             meta: {
-                // width: '400px',
-                maxWidth: '400px',
-                // minWidth: '400px',
+                width: 'fit-content',
+                minWidth: '10rem',
                 cellClass: 'text-ellipsis overflow-hidden',
             },
         }),
@@ -70,6 +69,9 @@ const useQueueTable = (ref) => {
                             router.push(`/queue-management/${info.row.original.queueId}`)
                         }} />
                 </div>,
+            meta: {
+                width: '100%',
+            },
         }),
 
     ], [])
