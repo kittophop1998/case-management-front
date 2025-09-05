@@ -12,7 +12,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
-import { ComboboxField } from '@/components/form/combo-field'
 
 interface FilterModalProps {
   setStatus: (status: boolean | null) => void

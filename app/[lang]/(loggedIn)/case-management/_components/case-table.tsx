@@ -195,7 +195,7 @@ const useCaseTable = ({ searchObj }) => {
     page,
     limit,
     sort,
-    searchObj?.keyword
+    searchObj
   ])
   return { table, sort, page, limit, setPage, setLimit, dataTable: dataListMemo }
 }

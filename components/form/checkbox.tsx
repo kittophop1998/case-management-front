@@ -1,70 +1,103 @@
-'use client';
-import { Checkbox } from "@/components/ui/checkbox";
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Typography } from "@/components/common/typography";
+import React from "react";
+import { Controller, Control, FieldErrors, UseFormRegister } from "react-hook-form";
 
-interface CheckboxFieldProps {
-    isPending?: boolean;
-    readonly?: boolean;
-    form: any; // Adjust type as needed
+type CheckboxProps = {
     name: string;
-    label?: string;
-    placeholder?: string;
-    items: any[]; // Adjust type as needed
-    valueName?: string;
-    labelName?: string;
-}
-export const CheckboxField = ({ isPending, readonly = false, form, items, name, label, placeholder,
-    valueName = "value",
-    labelName = "label",
-}: CheckboxFieldProps) => {
-    const valueMap = new Map(
-        items.map((item: any) => [String(item[valueName]), item[valueName]])
-    )
-    return <FormField
-        control={form.control}
-        name="items"
-        render={() => (
-            <FormItem>
-                <FormLabel>{label}</FormLabel>
-                {items.map((item) => (
-                    <FormField
-                        key={item[valueName]}
-                        control={form.control}
-                        name={name}
-                        render={({ field }) => {
-                            return (
-                                <FormItem
-                                    key={item[valueName]}
-                                    className="flex flex-row items-center gap-2"
-                                >
-                                    <FormControl>
-                                        <Checkbox
-                                            checked={field.value?.includes(item[valueName])}
+    label?: React.ReactNode;
+    // Controlled mode
+    checked?: boolean;
+    onChange?: (checked: boolean) => void;
 
-                                            defaultValue={field.value}
-                                            onCheckedChange={(checked) => {
-                                                return checked
-                                                    ? field.onChange([...field.value, item[valueName]])
-                                                    : field.onChange(
-                                                        field.value?.filter(
-                                                            (value: any) => value !== item[valueName]
-                                                        )
-                                                    )
-                                            }}
+    // Uncontrolled simple mode
+    defaultChecked?: boolean;
+    disabled?: boolean;
 
-                                        />
-                                    </FormControl>
-                                    <FormLabel className="text-sm font-normal">
-                                        {item[labelName] || item[valueName]}
-                                    </FormLabel>
-                                </FormItem>
-                            )
-                        }}
-                    />
-                ))}
-                <FormMessage />
-            </FormItem>
-        )}
-    />
+    // React Hook Form integration (either register OR control)
+    register?: UseFormRegister<any>;
+    control?: Control<any>;
+    errors?: FieldErrors; // pass formState.errors if you want inline error lookup
+
+    // optional id/class
+    id?: string;
+    className?: string;
 };
+
+export function Checkbox({
+    name,
+    label,
+    checked,
+    onChange,
+    defaultChecked,
+    disabled = false,
+    register,
+    control,
+    errors,
+    id,
+    className = "",
+}: CheckboxProps) {
+    // helper to get error message if errors prop supplied
+    const errorMessage =
+        errors && name.split(".").reduce((acc: any, key) => (acc ? acc[key] : undefined), errors);
+
+    // If control is provided, use Controller to integrate with RHF
+    if (control) {
+        return (
+            <Controller
+                control={control}
+                name={name}
+                render={({ field }) => (
+                    <label className={`inline-flex items-center gap-2 cursor-pointer ${className}`}>
+                        <input
+                            id={id ?? name}
+                            type="checkbox"
+                            checked={field.value || false}
+                            onChange={(e) => field.onChange(e.target.checked)}
+                            disabled={disabled}
+                            className="form-checkbox h-4 w-4"
+                        />
+                        {label && <span>{label}</span>}
+                        {errorMessage && typeof errorMessage === "object" && "message" in errorMessage && (
+                            <span className="text-sm text-red-600 ml-2">{(errorMessage as any).message}</span>
+                        )}
+                    </label>
+                )}
+            />
+        );
+    }
+
+    // If register is provided (RHF uncontrolled), use it
+    if (register) {
+        return (
+            <label className={`inline-flex items-center gap-2 cursor-pointer ${className}`}>
+                <input
+                    id={id ?? name}
+                    type="checkbox"
+                    defaultChecked={defaultChecked}
+                    {...register(name)}
+                    disabled={disabled}
+                    className="form-checkbox h-4 w-4"
+                />
+                {label && <span>{label}</span>}
+                {errorMessage && typeof errorMessage === "object" && "message" in errorMessage && (
+                    <span className="text-sm text-red-600 ml-2">{(errorMessage as any).message}</span>
+                )}
+            </label>
+        );
+    }
+
+    // Controlled or simple uncontrolled fallback
+    return (
+        <label className={`inline-flex items-center gap-2 cursor-pointer ${className}`}>
+            <input
+                id={id ?? name}
+                type="checkbox"
+                checked={typeof checked === "boolean" ? checked : undefined}
+                defaultChecked={defaultChecked}
+                onChange={(e) => onChange?.(e.target.checked)}
+                disabled={disabled}
+                className="form-checkbox h-4 w-4"
+            />
+            {label && <span>{label}</span>}
+        </label>
+    );
+}

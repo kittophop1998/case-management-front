@@ -1,6 +1,5 @@
 import { useState } from "react"
-import { CheckboxField } from "../form/checkbox"
-import { SelectField, SelectItems } from "../form/select-field"
+import { SelectItems } from "../form/select-field"
 import { Typography } from "../common/typography"
 import { RadioField } from "../form/radio"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
