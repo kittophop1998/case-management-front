@@ -6,6 +6,7 @@ import { Typography } from "@/components/common/typography";
 // import { Suspense } from "react";
 import CaseTable from "./_components/case-table";
 import InputFilter from "@/components/common/input-filter";
+import BtnFilter from "@/components/button/btn-filter";
 
 const tabs = [
   { label: "My Case", value: "myCase" },
@@ -23,6 +24,12 @@ const CaseManagementTable = ({ selectedTab }: { selectedTab: string }) => {
   );
 };
 
+const InputFilterConfig = () => {
+  return <><BtnFilter /></>
+}
+const InputFilterDate = () => {
+  return <><BtnFilter /></>
+}
 const CaseManagementPage = () => {
   const [selectedTab, setSelectedTab] = useState<string>("myCase");
   const [searchObj, setSearchObj] = useState<{ [key: string]: any }>({
@@ -53,19 +60,21 @@ const CaseManagementPage = () => {
       </div>
 
       <CardPageWrapper className="mt-4">
-        <div className="flex mb-6">
+        <div className="flex items-center gap-3 mb-6">
           <Typography variant="h6" className="mb-3">
-            Case List
+            CaseTable
           </Typography>
           <div className="flex-1"></div>
           <InputFilter />
+          <InputFilterConfig />
+          <InputFilterDate />
 
         </div>
 
         {/* ตัวอย่าง filter (ยังไม่เปิดใช้งาน) */}
         {/* <BtnFilter onClick={() => {}} /> */}
 
-        <CaseManagementTable selectedTab={selectedTab} />
+        <CaseManagCaseTableementTable selectedTab={selectedTab} />
       </CardPageWrapper>
     </div>
   );
