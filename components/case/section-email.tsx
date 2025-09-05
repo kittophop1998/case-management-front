@@ -197,7 +197,7 @@ export const SectionSendEmail = ({ isSmallMod, form }: SectionEmailProps) => {
 }
 
 
-const File = () => {
+export const File = () => {
     return <Card className="p-2 gap-3 rounded-sm border shadow-none flex items-center">
         <div className="w-[2.5rem]">
             <FileSvg className={'w-full h-full'} />

@@ -6,19 +6,63 @@ import { TextAreaField } from "@/components/form/textarea-field"
 import { format } from "date-fns"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Card from "@/components/common/card";
-import { useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import TelIcon from '@/public/icons/tel_icon.svg'
 import WarningIcon from '@/public/icons/warning_icon.svg'
 import PaperDownloadIcon from '@/public/icons/paper_download_icon.svg'
 import PaperIcon from '@/public/icons/paper_icon.svg'
 import DeleteIcon from '@/public/icons/delete_icon.svg'
-import FileIcon from '@/public/icons/file_icon.svg'
-import SendIcon from '@/public/icons/send_icon.svg'
-
+import RichTextEditor from "@/components/rich-text-editor"
+import { File, SectionSendEmail, } from "@/components/case/section-email"
+import { useGetCaseDetailsQuery } from "@/features/caseApiSlice"
+import TelephoneCall from '@/public/icons/TelephoneCall.svg'
+import { Info } from "@/components/case/info"
+import Warning from '@/public/icons/Warning.svg'
+import { SelectField } from "@/components/form/select-field"
+import { useGetDropdownQuery } from "@/features/systemApiSlice"
 
 export default function CaseManagementDetailPage() {
   const form = useForm()
   const [isOpen, setIsOpen] = useState(true);
+  const [post, setPost] = useState("");
+  const { data: caseDetails, error, isLoading } = useGetCaseDetailsQuery();
+  const priority = form.watch('priority')
+  const { data: ddData } = useGetDropdownQuery();
+  // High, Normal
+  const prioritys = [
+    {
+      id: 'High',
+      name: 'High'
+    }, {
+      id: 'Normal',
+      name: 'Normal'
+    }
+  ];
+
+  const warningText = useMemo(() => {
+    const found = ddData?.data?.reasonCodes.find(
+      (item) => item.id === form.watch("reasonCode")
+    )
+    return found?.notice || ""
+  }, [form.watch("reasonCode"), ddData?.data?.reasonCodes]);
+
+
+  useEffect(() => {
+    if (caseDetails) {
+      form.reset({
+        priority: caseDetails?.priority || "",
+        reasonCode: caseDetails?.reasonCode || "",
+        dueDate: caseDetails?.dueDate || "",
+        allocateToQueueTeam: caseDetails?.allocateToQueueTeam || "",
+        caseDescription: caseDetails?.caseDescription || ""
+      })
+    }
+  }, [caseDetails, form])
+
+
+  const onChange = (content: string) => {
+    setPost(content);
+  };
   const mockTableData = [
     {
       queueId: 1,
@@ -62,42 +106,60 @@ export default function CaseManagementDetailPage() {
                   <AccordionContent className="mt-2 text-gray-600">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                       <div className="space-y-3">
-                        <Typography variant="caption">Case Type: Change Mobile no.</Typography>
-                        <Typography variant="caption">Case ID: Test Name</Typography>
-                        <Typography variant="caption">Create by: AC1232123321</Typography>
-                        <Typography variant="caption">Create Date: 12 Aug 2025 11:54:02 (2 days ago)</Typography>
+                        <Typography variant="caption">Case Type: {caseDetails?.caseType}</Typography>
+                        <Typography variant="caption">Case ID: AC1029384B</Typography>
+                        <Typography variant="caption">Create by: {caseDetails?.createdBy}</Typography>
+                        <Typography variant="caption">Create Date: {caseDetails?.createdDate}</Typography>
                         <Typography variant="caption">
-                          Verify Status: <span className="text-green-500">Passed</span>
+                          Verify Status: <span className="text-green-500">{caseDetails?.verifyStatus}</span>
                         </Typography>
-                        <Typography variant="caption">Channel:  <TelIcon className="inline-block mr-1" /> IVR</Typography>
+                        <Typography variant="caption">Channel:  <TelephoneCall /> {caseDetails?.channel}</Typography>
 
-                        <div className="mt-2 flex items-center gap-2">
-                          <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
-                            Priority<span className="text-red-600">*</span>:
-                          </label>
-                          <select className="border border-gray-300 rounded-md shadow-sm w-auto px-2 py-1 text-sm">
-                            <option value="high">High</option>
-                            <option value="medium">Medium</option>
-                            <option value="low">Low</option>
-                          </select>
-                        </div>
+                        <Info required title="Priority" value={
+                          <div className="flex-1 max-w-[300px]">
+                            <SelectField
+                              form={form}
+                              name="priority"
+                              valueName="id"
+                              labelName="name"
+                              loading={false}
+                              items={prioritys} 
+                            />
+                          </div>
+                        } />
 
-                        <div className="mt-2 flex items-center gap-2">
-                          <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
-                            Reason code<span className="text-red-600">*</span>:
-                          </label>
-                          <select className="border border-gray-300 rounded-md shadow-sm w-auto px-2 py-1 text-sm">
-                            <option value="txn01">TXN01: เงินหาย / ธุรกรรมผิดพลาด</option>
-                            <option value="txn02">TXN02: เงินหาย / ธุรกรรมผิดพลาด</option>
-                            <option value="txn03">TXN03: เงินหาย / ธุรกรรมผิดพลาด</option>
-                          </select>
-                        </div>
+                        {priority === "High" && (
+                          <>
+                            <Info required title="Reason code" value={
+                              <div className="flex-1 max-w-[300px]">
+                                <SelectField
+                                  form={form}
+                                  name="reasonCode"
+                                  valueName="id"
+                                  labelName="descriptionTh"
+                                  loading={false}
+                                  items={ddData?.data?.reasonCodes || []}
+                                />
+                              </div>
+                            } />
+                            {warningText && (
+                              <div className="flex items-center gap-3">
+                                <Warning />
+                                <Typography variant="caption" className="text-red-500">
+                                  {warningText}
+                                </Typography>
+                              </div>
+                            )}
+                          </>
+                        )}
 
+
+                        {/*<div>
                         <div className="p-3 rounded-md">
                           <Typography variant="caption" className="text-red-600">
                             <WarningIcon className="inline-block mr-1" /> Category: ปัญหาด้านธุรกรรมและการเงิน, SLA Response time: ภายใน 30 นาที, SLA Solution Time: ภายใน 4 ชั่วโมง, Note: ต้องมีการตรวจสอบธุรกรรมทันที
                           </Typography>
-                        </div>
+                        </div> */}
 
                         {/* Due Date */}
                         <div className="mt-2 flex items-center gap-2">
@@ -111,18 +173,29 @@ export default function CaseManagementDetailPage() {
                           />
                         </div>
 
-                        <Typography variant="caption">Status: Pending</Typography>
-                        <Typography variant="caption">Current Queue: JSJ Queue team</Typography>
+                        <Typography variant="caption">Status: {caseDetails?.status || "N/A"}</Typography>
+                        <Typography variant="caption">Current Queue: {caseDetails?.currentQueue || "N/A"}</Typography>
 
                         {/* Reallocate */}
-                        <div className="mt-2 flex items-center gap-2">
+                        {/* <div className="mt-2 flex items-center gap-2">
                           <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
                             Reallocate to Queue Team<span className="text-red-600">*</span>:
                           </label>
                           <select className="border border-gray-300 rounded-md shadow-sm w-auto px-2 py-1 text-sm">
                             <option value="edp">EDP Queue</option>
                           </select>
-                        </div>
+                        </div> */}
+
+                        {/* <Info title="Allocate to Queue Team" value={<div className="flex-1 max-w-[300px]">
+                          <SelectField
+                              form={form}
+                              name='allocateToQueueTeam'
+                              valueName='queueId'
+                              labelName='queueName'
+                              loading={false}
+                              items={caseDetails?.allocateToQueueTeam || []}
+                          /></div>} 
+                        /> */}
                       </div>
 
                       {/* Right side - Case Description */}
@@ -262,7 +335,7 @@ export default function CaseManagementDetailPage() {
                           <td className="px-4 py-2 text-sm">{format(row.uploadDate, "dd MMM yyyy HH:mm:ss")}</td>
                           <td className="px-4 py-2 text-sm">
                             <button title="Copy">
-                              <PaperIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75"/>
+                              <PaperIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75" />
                             </button>
                           </td>
                         </tr>
@@ -283,7 +356,7 @@ export default function CaseManagementDetailPage() {
                 <div className="flex w-full items-center justify-between">
                   <span>Send Email</span>
 
-                  <div className="flex items-center gap-2">
+                  {/* <div className="flex items-center gap-2">
                     <button
                       type="button"
                     >
@@ -294,7 +367,7 @@ export default function CaseManagementDetailPage() {
                     >
                       <DeleteIcon className="w-4 h-4" />
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </AccordionTrigger>
               <AccordionContent className="mt-2 text-gray-600">
@@ -368,53 +441,10 @@ export default function CaseManagementDetailPage() {
                 </div>
 
                 <div className="p-3 mb-4">
-                  <textarea
-                    className="border border-gray-300 rounded-md px-2 py-1 w-full h-50 resize-none"
-                  />
+                  <RichTextEditor content={post} onChange={onChange} />
                 </div>
 
-                {/* Attachments Section */}
-                <div className="flex flex-col gap-3">
-                  <div className="w-1/2 rounded-md border border-gray-300 p-3 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-md bg-green-100 flex items-center justify-center">
-                        <FileIcon className="w-5 h-5 text-green-600" />
-                      </div>
-
-                      <div>
-                        <p className="text-sm font-medium text-gray-800">Example ID card.pdf</p>
-                        <p className="text-xs text-gray-500">12 KB</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <button className="text-blue-600 hover:text-blue-800">
-                        <PaperDownloadIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75"/>
-                      </button>
-                      <button className="text-red-600 hover:text-red-800">
-                        <DeleteIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75"/>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="w-1/2 rounded-md border border-gray-300 p-3 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-md bg-green-100 flex items-center justify-center">
-                        <FileIcon className="w-5 h-5 text-green-600" />
-                      </div>
-
-                      <div>
-                        <p className="text-sm font-medium text-gray-800">Example ID card.pdf</p>
-                        <p className="text-xs text-gray-500">12 KB</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <button className="text-blue-600 hover:text-blue-800"><PaperDownloadIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75"/></button>
-                      <button className="text-red-600 hover:text-red-800"><DeleteIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75"/></button>
-                    </div>
-                  </div>
-                </div>
+                <File />
               </AccordionContent>
             </AccordionItem>
           </Accordion>
