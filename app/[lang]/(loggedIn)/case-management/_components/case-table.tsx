@@ -176,7 +176,13 @@ const useCaseTable = ({ searchObj }) => {
     }),
   ], [])
 
-  const { table, sort, page, limit, setPage, setLimit } = useTable({
+  const {
+    table, sort, page, limit, setPage, setLimit
+    ,
+    setColumnVisibility,
+    columnVisibility,
+
+  } = useTable({
     data: dataListMemo,
     columns,
   })

@@ -14,6 +14,7 @@ import BtnReset from "@/components/button/btn-reset";
 import { SelectFieldInput } from "@/components/form/select-field";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormLabel } from "@/components/ui/form";
+import BtnConfigColumn from "@/components/button/btn-config-column";
 // import { Checkbox } from "@/components/form/checkbox";
 
 const tabs = [
@@ -58,10 +59,10 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
   return <>
     <BtnFilter onClick={() => { setOpen(true) }} />
     <Modal title="Filter" isOpen={open} className="w-[47.125rem]" onClose={() => setOpen(false)}>
-      <div className="space-y-3">
+      <div className="space-y-3 max-w-[20rem]">
         <div>
           <Typography variant="caption">Case Status</Typography>
-          <div className="grid grid-cols-2 gap-2 w-full max-w-[30rem]">
+          <div className="grid grid-cols-2 gap-2 w-full ">
             {
               caseStatusOptions.map((item) => (
                 <div key={item.value} className="flex items-center gap-2" >
@@ -196,6 +197,8 @@ const InputFilterDate = ({ searchObj, setSearchObj }) => {
     </Modal>
   </>
 }
+
+
 const CaseManagementPage = () => {
   const [searchObj, setSearchObj] = useState<{ [key: string]: any }>({
     keyword: '',
@@ -229,20 +232,19 @@ const CaseManagementPage = () => {
         ))}
       </div>
 
-      <CardPageWrapper className="mt-4">
-        <div className="flex items-center gap-3 mb-6">
-          <Typography variant="h6" className="mb-3">
-            CaseTable
+      <CardPageWrapper >
+        <div className="flex items-center gap-3 mb-4">
+          <Typography variant="h6">
+            Case List
           </Typography>
           <div className="flex-1"></div>
           <InputFilter
             setValue={(value) => { setSearchObj({ ...searchObj, keyword: value }) }} value={searchObj.keyword}
           />
           <InputFilterConfig searchObj={searchObj} setSearchObj={setSearchObj} />
+          <BtnConfigColumn onClick={() => { }} />
           <InputFilterDate searchObj={searchObj} setSearchObj={setSearchObj} />
-
         </div>
-
         {/* ตัวอย่าง filter (ยังไม่เปิดใช้งาน) */}
         {/* <BtnFilter onClick={() => {}} /> */}
         {/* {JSON.stringify(searchObj)} */}
