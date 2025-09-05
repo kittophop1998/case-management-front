@@ -168,6 +168,7 @@ export default function QueueManagementIDPage() {
             <CardPageWrapper className="mt-4" >
                 <>
                     <UsersTable
+                        hidden={{ status: true }}
                         ref={usersTableRef}
                         defaultFilter={{ queueId: id }}
                         useUsers={useUsersBackend}

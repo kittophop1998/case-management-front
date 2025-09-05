@@ -114,6 +114,7 @@ export const AddUser = memo(({ afterSubmit }: AddUserProps) => {
                         isLoading={isLoading}
                         isError={isError}
                         prependColumns={prependColumns}
+                        hidden={{ status: true }}
                     />
                     <div className="flex justify-end gap-2">
                         <ButtonCancel onClick={close} />

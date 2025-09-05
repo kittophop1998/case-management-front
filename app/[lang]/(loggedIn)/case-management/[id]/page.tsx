@@ -262,7 +262,7 @@ export default function CaseManagementDetailPage() {
                           <td className="px-4 py-2 text-sm">{format(row.uploadDate, "dd MMM yyyy HH:mm:ss")}</td>
                           <td className="px-4 py-2 text-sm">
                             <button title="Copy">
-                              <PaperIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75"/>
+                              <PaperIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75" />
                             </button>
                           </td>
                         </tr>
@@ -389,10 +389,10 @@ export default function CaseManagementDetailPage() {
 
                     <div className="flex items-center gap-3">
                       <button className="text-blue-600 hover:text-blue-800">
-                        <PaperDownloadIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75"/>
+                        <PaperDownloadIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75" />
                       </button>
                       <button className="text-red-600 hover:text-red-800">
-                        <DeleteIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75"/>
+                        <DeleteIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75" />
                       </button>
                     </div>
                   </div>
@@ -410,8 +410,8 @@ export default function CaseManagementDetailPage() {
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <button className="text-blue-600 hover:text-blue-800"><PaperDownloadIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75"/></button>
-                      <button className="text-red-600 hover:text-red-800"><DeleteIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75"/></button>
+                      <button className="text-blue-600 hover:text-blue-800"><PaperDownloadIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75" /></button>
+                      <button className="text-red-600 hover:text-red-800"><DeleteIcon className="inline-block w-4 h-4 cursor-pointer hover:opacity-75" /></button>
                     </div>
                   </div>
                 </div>
