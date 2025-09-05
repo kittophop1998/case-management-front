@@ -1,5 +1,6 @@
 import React from "react";
 import { Controller, Control, FieldErrors, UseFormRegister } from "react-hook-form";
+import { Checkbox as CheckboxUI } from "@/components/ui/checkbox"
 
 type CheckboxProps = {
     name: string;
@@ -88,14 +89,26 @@ export function Checkbox({
     // Controlled or simple uncontrolled fallback
     return (
         <label className={`inline-flex items-center gap-2 cursor-pointer ${className}`}>
-            <input
+            <CheckboxUI
                 id={id ?? name}
-                type="checkbox"
+                // type="checkbox"
                 checked={typeof checked === "boolean" ? checked : undefined}
                 defaultChecked={defaultChecked}
-                onChange={(e) => onChange?.(e.target.checked)}
+                // onChange={(e) => onChange?.(e.target.checked)}
+                onChange={(checked) => onChange?.(checked)}
                 disabled={disabled}
-                className="form-checkbox h-4 w-4"
+                onClick={
+                    (e) => {
+                        e.stopPropagation()
+                        // if (isActive) {
+                        //     setDelUsersDraft(prev => prev.filter(id => id !== user.id))
+                        // } else {
+                        //     setDelUsersDraft(prev => ([...prev, user.id]))
+                        // }
+                    }
+                }
+            // className="form-checkbox h-4 w-4"
+            // className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
             {label && <span>{label}</span>}
         </label>

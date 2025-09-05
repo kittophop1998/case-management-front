@@ -12,7 +12,9 @@ import { DatePickerFieldInput } from "@/components/form/date-picker";
 import BtnApply from "@/components/button/btn-apply";
 import BtnReset from "@/components/button/btn-reset";
 import { SelectFieldInput } from "@/components/form/select-field";
-import { Checkbox } from "@/components/form/checkbox";
+import { Checkbox } from "@/components/ui/checkbox";
+import { FormLabel } from "@/components/ui/form";
+// import { Checkbox } from "@/components/form/checkbox";
 
 const tabs = [
   { label: "My Case", value: "myCase" },
@@ -47,6 +49,10 @@ const caseStatusOptions = [
   { label: 'Resolved', value: 'Resolved' },
   { label: 'Escalated', value: 'Escalated' },
 ]
+const priorityStatusOptions = [
+  { label: 'High', value: 'High' },
+  { label: 'Normal', value: 'Normal' },
+]
 const InputFilterConfig = ({ searchObj, setSearchObj }) => {
   const [open, setOpen] = useState(false);
   return <>
@@ -58,12 +64,10 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
           <div className="grid grid-cols-2 gap-2 w-full max-w-[30rem]">
             {
               caseStatusOptions.map((item) => (
-                <div key={item.value}>
+                <div key={item.value} className="flex items-center gap-2" >
                   <Checkbox
-                    name="caseStats"
-                    label={item.label}
                     checked={searchObj.caseStats.includes(item.value)}
-                    onChange={
+                    onCheckedChange={
                       (isCheck) => {
                         setSearchObj(
                           (current) => ({
@@ -76,6 +80,7 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
                       }
                     }
                   />
+                  <Typography >{item.label}</Typography>
                 </div>
               ))
             }
@@ -84,12 +89,36 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
         </div>
         <div>
           <Typography variant="caption">Case Priority</Typography>
-          <div className="flex gap-3">
+          {/* <div className="flex gap-3">
             <Checkbox name="casePriority"
               label="High" checked={searchObj.casePriority.includes("High")}
               onChange={(isCheck) => setSearchObj({ ...searchObj, casePriority: isCheck ? [...searchObj.casePriority, "High"] : searchObj.casePriority.filter(item => item !== "High") })}
             />
             <Checkbox name="casePriority" label="Normal" checked={searchObj.casePriority.includes("Normal")} onChange={(isCheck) => setSearchObj({ ...searchObj, casePriority: isCheck ? [...searchObj.casePriority, "Normal"] : searchObj.casePriority.filter(item => item !== "Normal") })} />
+          </div> */}
+          <div className="flex gap-3">
+            {
+              priorityStatusOptions.map((item) => (
+                <div key={item.value} className="flex items-center gap-2" >
+                  <Checkbox
+                    checked={searchObj.casePriority.includes(item.value)}
+                    onCheckedChange={
+                      (isCheck) => {
+                        setSearchObj(
+                          (current) => ({
+                            ...current,
+                            casePriority: isCheck
+                              ? [...current.casePriority, item.value]
+                              : [...current.casePriority].filter(v => v !== item.value)
+                          })
+                        )
+                      }
+                    }
+                  />
+                  <Typography >{item.label}</Typography>
+                </div>
+              ))
+            }
           </div>
 
         </div>
