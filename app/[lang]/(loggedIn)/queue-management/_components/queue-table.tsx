@@ -23,7 +23,7 @@ const useQueueTable = (ref) => {
             cell: info => info.getValue(),
             meta: {
                 width: 'fit-content',
-                minWidth: '10rem',
+                minWidth: '14rem',
                 cellClass: 'text-ellipsis overflow-hidden',
             },
         }),
@@ -33,7 +33,7 @@ const useQueueTable = (ref) => {
             cell: info => info.getValue(),
             meta: {
                 width: 'fit-content',
-                minWidth: '10rem',
+                minWidth: '20rem',
                 cellClass: 'text-ellipsis overflow-hidden',
             },
         }),
