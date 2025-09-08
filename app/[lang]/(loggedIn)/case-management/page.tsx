@@ -12,11 +12,12 @@ import { DatePickerFieldInputV2 } from "@/components/form/date-picker";
 import BtnApply from "@/components/button/btn-apply";
 import BtnReset from "@/components/button/btn-reset";
 import { SelectFieldInput } from "@/components/form/select-field";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import { FormLabel } from "@/components/ui/form";
 import BtnConfigColumn from "@/components/button/btn-config-column";
 import { useLazyGetTableQuery } from "@/features/queueApiSlice";
 import { priorityStatusOptions } from "@/const/case";
+import { Checkbox } from "@/components/form/checkbox-field";
 
 
 type FilterDialog = {
@@ -85,7 +86,7 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
                 <div key={item.value} className="flex items-center gap-2" >
                   <Checkbox
                     checked={searchObj.statuses.includes(item.value)}
-                    onCheckedChange={
+                    onChange={
                       (isCheck) => {
                         setSearchObj(
                           (current) => ({
@@ -97,8 +98,9 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
                         )
                       }
                     }
+                    label={item.label}
                   />
-                  <Typography >{item.label}</Typography>
+                  {/* <Typography >{item.label}</Typography> */}
                 </div>
               ))
             }
@@ -114,7 +116,7 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
                 <div key={item.value} className="flex items-center gap-2" >
                   <Checkbox
                     checked={searchObj.priorities.includes(item.value)}
-                    onCheckedChange={
+                    onChange={
                       (isCheck) => {
                         setSearchObj(
                           (current) => ({
@@ -126,8 +128,11 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
                         )
                       }
                     }
+                    label={
+                      item.label
+                    }
                   />
-                  <Typography >{item.label}</Typography>
+                  {/* <Typography >{item.label}</Typography> */}
                 </div>
               ))
             }
