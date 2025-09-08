@@ -18,6 +18,7 @@ import { TextAreaField, TextAreaFieldInput } from "@/components/form/textarea-fi
 import { Value } from "@radix-ui/react-select";
 import { Typography } from "@/components/common/typography";
 import BtnDel from "@/components/button/btn-del";
+import { myConfirm } from "@/components/common/dialog-confirm";
 
 
 // const BtnDelUsers = ({ disabled, clearDraft, users, queueID, isActive, setIsActive, afterSubmit }) => {
@@ -145,11 +146,15 @@ export default function QueueManagementIDPage() {
     // })]
     const handleDelete = async (uId: string) => {
         try {
-            await delUsers(
-                { users: [uId], id }
-            ).unwrap()
-            refetchUser()
-            dialogAlert(true)
+            if (
+                await myConfirm({ text: 'Are you sure you want to delete this user?', title: 'Confirm Deletion' })
+            ) {
+                await delUsers(
+                    { users: [uId], id }
+                ).unwrap()
+                refetchUser()
+                dialogAlert(true)
+            }
         } catch (error) {
             if (error instanceof Error) {
                 await dialogAlert(false,
