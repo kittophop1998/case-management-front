@@ -48,7 +48,6 @@ export function DatePickerField(
         required = false,
     }
 ) {
-    return <>readonly{readonly ? 'T' : 'F'}</>
     return (
         <InputFieldWarper
             loading={loading}
@@ -71,14 +70,8 @@ export const DatePickerFieldInputV2 = (
     // return <>readonly{readonly ? 'T' : 'F'}</>
     return (
         <Popover open={open}
-            // onOpenChange={(nextOpen) => {
-            //     if (!readonly) setOpen(nextOpen);
-            // }}
             onOpenChange={setOpen}
         >
-            {/* onOpenChange={(nextOpen) => {
-                setOpen(nextOpen);
-            }}> */}
             <PopoverTrigger asChild >
                 <FormControl>
                     <Button
@@ -91,7 +84,6 @@ export const DatePickerFieldInputV2 = (
                             'opacity-100!'
                         )}
                     >
-                        {/* {readonly ? 'T' : "F"} */}
                         {field.value ? (
                             format(field.value, "PPP")
                         ) : (
@@ -106,13 +98,7 @@ export const DatePickerFieldInputV2 = (
                     mode="single"
                     selected={field.value}
                     onSelect={(e) => { field.onChange(format(e, 'yyyy-MM-dd')); setOpen(false) }}
-                    //   onSelect={(date: Date | undefined) => {
-                    //     onChange(date ? format(date, 'yyyy-MM-dd') : null)
-                    //     setOpen(false)
-                    // }}
-                    // disabled={(date) =>
-                    //     date > new Date() || date < new Date("1900-01-01")
-                    // }
+
                     captionLayout="dropdown"
                 />
             </PopoverContent>
@@ -131,7 +117,6 @@ export const DatePickerFieldInput = ({
     onChange: (date: DateValueType) => void
     readonly?: boolean
 }) => {
-    // const [open, setOpen] = React.useState(false)
     return (
         <DatePickerFieldInputV2
             field={{
@@ -140,31 +125,45 @@ export const DatePickerFieldInput = ({
             }}
             readonly={readonly}
         />
-        // <Popover open={open} onOpenChange={setOpen}>
-        //     <PopoverTrigger asChild>
-        //         <Button
-        //             variant="outline"
-        //             id="date"
-        //             className="w-48 justify-between font-normal"
-        //         >
-        //             {value ? format(value, "PPP") : "Select date"}
-        //             {/* <ChevronDownIcon /> */}
-        //             {/* @ts-expect-error className is valid for lucide icon */}
-        //             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-
-        //         </Button>
-        //     </PopoverTrigger>
-        //     <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-        //         <Calendar
-        //             mode="single"
-        //             selected={value ? new Date(value) : undefined}
-        //             captionLayout="dropdown"
-        //             onSelect={(date: Date | undefined) => {
-        //                 onChange(date ? format(date, 'yyyy-MM-dd') : null)
-        //                 setOpen(false)
-        //             }}
-        //         />
-        //     </PopoverContent>
-        // </Popover>
     )
 }
+
+
+
+
+
+
+// <Popover open={open} onOpenChange={setOpen}>
+//     <PopoverTrigger asChild>
+//         <Button
+//             variant="outline"
+//             id="date"
+//             className="w-48 justify-between font-normal"
+//         >
+//             {value ? format(value, "PPP") : "Select date"}
+//             {/* <ChevronDownIcon /> */}
+//             {/* @ts-expect-error className is valid for lucide icon */}
+//             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+
+//         </Button>
+//     </PopoverTrigger>
+//     <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+//         <Calendar
+//             mode="single"
+//             selected={value ? new Date(value) : undefined}
+//             captionLayout="dropdown"
+//             onSelect={(date: Date | undefined) => {
+//                 onChange(date ? format(date, 'yyyy-MM-dd') : null)
+//                 setOpen(false)
+//             }}
+//         />
+//     </PopoverContent>
+// </Popover>
+
+//   onSelect={(date: Date | undefined) => {
+//     onChange(date ? format(date, 'yyyy-MM-dd') : null)
+//     setOpen(false)
+// }}
+// disabled={(date) =>
+//     date > new Date() || date < new Date("1900-01-01")
+// }
