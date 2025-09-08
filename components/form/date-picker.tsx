@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form"
 // import { toast } from "sonner"
 import { z } from "zod"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+// import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
     Form,
@@ -26,6 +26,8 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import { InputFieldWarper } from "./input-warper"
+import { Button } from "../common/Button"
+import { textFieldVariants } from "./text-field"
 const FormSchema = z.object({
     dob: z.date({
         required_error: "A date of birth is required.",
@@ -46,6 +48,7 @@ export function DatePickerField(
         required = false,
     }
 ) {
+    return <>readonly{readonly ? 'T' : 'F'}</>
     return (
         <InputFieldWarper
             loading={loading}
@@ -53,29 +56,42 @@ export function DatePickerField(
             name={name}
             label={label}
             required={required}
+
         >
-            <DatePickerFieldInputV2 />
+            <DatePickerFieldInputV2 readonly={readonly} />
         </InputFieldWarper>
 
     )
 }
 
 export const DatePickerFieldInputV2 = (
-    { field }: { field?: any }
+    { field, readonly = false }: { field?: any, readonly?: boolean }
 ) => {
     const [open, setOpen] = React.useState(false)
-
+    // return <>readonly{readonly ? 'T' : 'F'}</>
     return (
-        <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
+        <Popover open={open}
+            // onOpenChange={(nextOpen) => {
+            //     if (!readonly) setOpen(nextOpen);
+            // }}
+            onOpenChange={setOpen}
+        >
+            {/* onOpenChange={(nextOpen) => {
+                setOpen(nextOpen);
+            }}> */}
+            <PopoverTrigger asChild >
                 <FormControl>
                     <Button
+                        disabled={readonly}
                         variant={"outline"}
                         className={cn(
                             "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
+                            textFieldVariants({ readonly: readonly }),
+                            'opacity-100!'
                         )}
                     >
+                        {/* {readonly ? 'T' : "F"} */}
                         {field.value ? (
                             format(field.value, "PPP")
                         ) : (
@@ -104,41 +120,51 @@ export const DatePickerFieldInputV2 = (
     )
 }
 
+
+// TODO: DELETE THIS DLUP CPN CHANGE TO DatePickerFieldInputV2
 export const DatePickerFieldInput = ({
     value,
-    onChange
+    onChange,
+    readonly = false
 }: {
     value: DateValueType
     onChange: (date: DateValueType) => void
+    readonly?: boolean
 }) => {
-    const [open, setOpen] = React.useState(false)
-
+    // const [open, setOpen] = React.useState(false)
     return (
-        <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-                <Button
-                    variant="outline"
-                    id="date"
-                    className="w-48 justify-between font-normal"
-                >
-                    {value ? format(value, "PPP") : "Select date"}
-                    {/* <ChevronDownIcon /> */}
-                    {/* @ts-expect-error className is valid for lucide icon */}
-                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+        <DatePickerFieldInputV2
+            field={{
+                value,
+                onChange
+            }}
+            readonly={readonly}
+        />
+        // <Popover open={open} onOpenChange={setOpen}>
+        //     <PopoverTrigger asChild>
+        //         <Button
+        //             variant="outline"
+        //             id="date"
+        //             className="w-48 justify-between font-normal"
+        //         >
+        //             {value ? format(value, "PPP") : "Select date"}
+        //             {/* <ChevronDownIcon /> */}
+        //             {/* @ts-expect-error className is valid for lucide icon */}
+        //             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
 
-                </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-                <Calendar
-                    mode="single"
-                    selected={value ? new Date(value) : undefined}
-                    captionLayout="dropdown"
-                    onSelect={(date: Date | undefined) => {
-                        onChange(date ? format(date, 'yyyy-MM-dd') : null)
-                        setOpen(false)
-                    }}
-                />
-            </PopoverContent>
-        </Popover>
+        //         </Button>
+        //     </PopoverTrigger>
+        //     <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+        //         <Calendar
+        //             mode="single"
+        //             selected={value ? new Date(value) : undefined}
+        //             captionLayout="dropdown"
+        //             onSelect={(date: Date | undefined) => {
+        //                 onChange(date ? format(date, 'yyyy-MM-dd') : null)
+        //                 setOpen(false)
+        //             }}
+        //         />
+        //     </PopoverContent>
+        // </Popover>
     )
 }

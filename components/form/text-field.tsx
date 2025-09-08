@@ -22,10 +22,10 @@ interface TextFieldProps {
   appendInnerIcon?: React.ReactNode // Optional prop for an icon
   required?: boolean // Optional prop to indicate if the field is required
 }
-const textFieldVariants = cva('', {
+export const textFieldVariants = cva('', {
   variants: {
     readonly: {
-      true: 'bg-gray-100 cursor-not-allowed',
+      true: 'bg-gray-100 cursor-not-allowed!',
       false: 'bg-white cursor-text'
     }
   }

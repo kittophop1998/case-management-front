@@ -47,12 +47,14 @@ function Button({
   size,
   asChild = false,
   children,
-  loading,
+  loading = false,
+  disabled = false,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
     loading?: boolean
+    disabled?: boolean
   }) {
   const Comp = asChild ? Slot : "button"
 
@@ -61,7 +63,7 @@ function Button({
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-      disabled={loading || props.disabled}
+      disabled={loading || disabled}
     >
       <div className='flex items-center gap-2'>
         {/* @ts-expect-error className is valid for lucide icon */}
