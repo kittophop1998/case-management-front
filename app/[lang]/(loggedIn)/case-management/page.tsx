@@ -18,6 +18,9 @@ import BtnConfigColumn from "@/components/button/btn-config-column";
 import { useLazyGetTableQuery } from "@/features/queueApiSlice";
 import { priorityStatusOptions } from "@/const/case";
 import { Checkbox } from "@/components/form/checkbox-field";
+import { useGetDropdownQuery } from "@/features/systemApiSlice";
+import { current } from "@reduxjs/toolkit";
+import { JsonJoinDetails } from "@/types/user.type";
 
 
 type PriorityType = 'Normal' | 'High'
@@ -63,7 +66,11 @@ const caseStatusOptions = [
   { label: 'Escalated', value: 'Escalated' },
 ]
 
-const InputFilterConfig = ({ searchObj, setSearchObj }) => {
+const InputFilterConfig = ({ searchObj, setSearchObj, caseStatus }: {
+  searchObj: FilterAll,
+  setSearchObj: (value: FilterAll) => void,
+  caseStatus: JsonJoinDetails[]
+}) => {
   const [open, setOpen] = useState(false);
   const [getData, { currentData: queue, isFetching, isError, error }] = useLazyGetTableQuery();
   useEffect(() => {
@@ -78,28 +85,28 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
   return <>
     <BtnFilter onClick={() => { setOpen(true) }} />
     <Modal title="Filter" isOpen={open} className="w-[47.125rem]" onClose={() => setOpen(false)}>
-      <div className="space-y-3 max-w-[20rem]">
+      <div className="space-y-3 max-w-[20rem] pb-4">
         <div>
           <Typography variant="caption">Case Status</Typography>
-          <div className="grid grid-cols-2 gap-2 w-full ">
+          <div className="grid grid-cols-2 gap-3 w-full mt-2 px-2">
             {
-              caseStatusOptions.map((item) => (
+              caseStatus.map((item) => (
                 <div key={item.value} className="flex items-center gap-2" >
                   <Checkbox
-                    checked={searchObj.statuses.includes(item.value)}
+                    checked={searchObj.statuses.includes(item.id)}
                     onChange={
                       (isCheck) => {
                         setSearchObj(
                           (current) => ({
                             ...current,
                             statuses: isCheck
-                              ? [...current.statuses, item.value]
-                              : [...current.statuses].filter(v => v !== item.value)
+                              ? [...current.statuses, item.id]
+                              : [...current.statuses].filter(v => v !== item.id)
                           })
                         )
                       }
                     }
-                    label={item.label}
+                    label={item.name}
                   />
                   {/* <Typography >{item.label}</Typography> */}
                 </div>
@@ -111,7 +118,7 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
         <div>
           <Typography variant="caption">Case Priority</Typography>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 px-2 mt-2">
             {
               priorityStatusOptions.map((item) => (
                 <div key={item.value} className="flex items-center gap-2" >
@@ -166,7 +173,6 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
               }
             }} />
         </div>
-
       </div>
     </Modal>
   </>
@@ -230,6 +236,7 @@ const InputFilterDate = ({ searchObj, setSearchObj }) => {
 
 
 const CaseManagementPage = () => {
+  const { data: dataDropdown } = useGetDropdownQuery()
   const [searchObj, setSearchObj] = useState<FilterAll>({
     statuses: [],
     priorities: ['High', 'Normal'],
@@ -240,6 +247,14 @@ const CaseManagementPage = () => {
     keyword: '',
     category: 'myCase',
   });
+  useEffect(() => {
+    setSearchObj((current) => {
+      if (current.statuses.length === 0) {
+        const statuses = dataDropdown?.caseStatus?.map(v => v.id) || []
+        return { ...current, statuses }
+      }
+    })
+  }, [dataDropdown?.caseStatus])
   const [statusConfigColumn, setStatusConfigColumn] = useState(false);
   return (
     <div>
@@ -267,13 +282,10 @@ const CaseManagementPage = () => {
           <InputFilter
             setValue={(value) => { setSearchObj({ ...searchObj, keyword: value }) }} value={searchObj.keyword}
           />
-          <InputFilterConfig searchObj={searchObj} setSearchObj={setSearchObj} />
+          <InputFilterConfig searchObj={searchObj} setSearchObj={setSearchObj} caseStatus={dataDropdown?.caseStatus || []} />
           <BtnConfigColumn onClick={() => { setStatusConfigColumn(true) }} />
           <InputFilterDate searchObj={searchObj} setSearchObj={setSearchObj} />
         </div>
-        {/* ตัวอย่าง filter (ยังไม่เปิดใช้งาน) */}
-        {/* <BtnFilter onClick={() => {}} /> */}
-        {/* {JSON.stringify(searchObj)} */}
         <CaseTable searchObj={searchObj} statusConfigColumn={statusConfigColumn} setStatusConfigColumn={setStatusConfigColumn} />
       </CardPageWrapper>
     </div>
