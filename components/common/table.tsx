@@ -11,9 +11,11 @@ import { ChevronRight } from 'react-feather'
 import { Button } from '@/components/ui/button'
 import { Typography } from '../common/typography'
 import { cn } from '@/lib/utils'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Sort from '@/public/icons/Sort.svg'
 import { Modal } from './Modal'
+import BtnApply from '../button/btn-apply'
+import { Checkbox } from '../form/checkbox-field'
 
 export interface DataTableProps<T> {
   table: ReactTable<T>
@@ -26,7 +28,8 @@ export interface DataTableProps<T> {
   onRowClick?: (row: Row<T>) => void
   setPage?: React.Dispatch<React.SetStateAction<number>>
   setLimit?: React.Dispatch<React.SetStateAction<number>>
-  renderEmpty?: boolean
+  renderEmpty?: boolean,
+  defaultVisibleColumn?: Record<string, boolean>
 }
 
 interface HeaderProps {
@@ -91,8 +94,32 @@ export function DataTable<T>({
   renderEmpty = true,
   onRowClick,
   statusConfigColumn = false,
-  setStatusConfigColumn = (isOpen: boolean) => { }
+  setStatusConfigColumn = (isOpen: boolean) => { },
+  defaultVisibleColumn
 }: DataTableProps<T>) {
+
+
+
+  const [visibleColumnDraft, setVisibleColumnDraft] = useState<Record<string, boolean>>()
+
+  const confirmVisibleColumn = () => {
+    if (!visibleColumnDraft) return
+    table.setColumnVisibility(visibleColumnDraft)
+    setStatusConfigColumn(false)
+  }
+  useEffect(() => {
+    if (defaultVisibleColumn) {
+      table.setColumnVisibility(defaultVisibleColumn)
+    }
+  }, [])
+  useEffect(() => {
+    setVisibleColumnDraft(
+      Object.fromEntries(
+        table.getAllColumns().map((column) => [column.id, column.getIsVisible()])
+      )
+    )
+  }, [statusConfigColumn]);
+
   return (
     <div>
       <div className="block max-w-full overflow-x-scroll overflow-y-hidden">
@@ -180,29 +207,32 @@ export function DataTable<T>({
         <Modal title='Show Column' isOpen={statusConfigColumn} onClose={() => setStatusConfigColumn(false)} className='w-[20rem]' >
           <div>
             <Typography variant='caption'>Select Show Column</Typography>
-            <div className='space-y-1 mt-4' >
+            <div className='space-y-1 mt-4 px-3' >
+              {/* {JSON.stringify(visibleColumnDraft)} */}
               {table.getAllColumns().map((column) => (
                 <div>
-                  <label key={column.id} className=''>
-                    <input
-                      checked={column.getIsVisible()}
-                      disabled={!column.getCanHide()}
-                      onChange={column.getToggleVisibilityHandler()}
-                      type="checkbox"
-                    />
-                    <span className='px-3'>
-                      {/* {column.text} */}
-                      {column.columnDef?.meta?.label ?? column.id}
-                      {/* {flexRender(column.columnDef.header, { column, table })} */}
-                    </span>
-                  </label>
+                  <Checkbox
+                    checked={
+                      visibleColumnDraft?.[column.id] || false
+                    }
+                    onChange={
+                      (isCheck) => {
+                        setVisibleColumnDraft((prev) => ({
+                          ...prev,
+                          [column.id]: isCheck
+                        }))
+                      }
+                    }
+                    label={column.columnDef?.meta?.label ?? column.id}
+                  />
                 </div>
               ))}
+
             </div>
+            <BtnApply onClick={confirmVisibleColumn} className='w-full mt-3' />
           </div>
         </Modal>
-
-      </div>
+      </div >
     </div >
   )
 }

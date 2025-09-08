@@ -225,7 +225,24 @@ const useCaseTable = ({ searchObj }) => {
   ])
   return { table, sort, page, limit, setPage, setLimit, dataTable: dataListMemo }
 }
-
+const defaultVisibleColumn = {
+  customerId: true,
+  customerName: true,
+  caseType: true,
+  createdDate: true,
+  currentQueue: true,
+  currentUser: true,
+  slaDate: true,
+  // 
+  code: false,
+  caseGroup: false,
+  aeonId: false,
+  createdBy: false,
+  status: true,
+  casePriority: false,
+  closedDate: false,
+  receivedFrom: false,
+}
 const CaseTable = ({ searchObj, statusConfigColumn = false, setStatusConfigColumn }: { searchObj: Record<string, any> }) => {
   const router = useRouter();
   const { table, setPage, setLimit, dataTable
@@ -247,6 +264,7 @@ const CaseTable = ({ searchObj, statusConfigColumn = false, setStatusConfigColum
       }}>Test</Button>
       {JSON.stringify(columnVisibility)} */}
       <DataTable
+        defaultVisibleColumn={defaultVisibleColumn}
         statusConfigColumn={statusConfigColumn}
         setStatusConfigColumn={setStatusConfigColumn}
         onRowClick={gotoChild}
