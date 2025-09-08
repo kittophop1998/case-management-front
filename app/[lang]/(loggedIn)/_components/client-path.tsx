@@ -1,12 +1,13 @@
 'use client'
 
-import { usePathname, useSearchParams, useRouter } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import { Typography } from "@/components/common/typography"
 import { path2ClientPath } from "@/const/title-path"
 import { useGetMeQuery } from "@/features/authApiSlice"
 import { cn } from "@/lib/utils"
 import getInitPathByRole from "@/lib/utils/get-init-path-by-role"
 import HomeIcon from '@/public/icons/Home.svg'
+import useGetRawPath from "@/hooks/use-get-raw-path"
 
 // Utility for resolving breadcrumb path
 const resolveClientPath = (segments: string[]) => {
@@ -19,7 +20,7 @@ const resolveClientPath = (segments: string[]) => {
 }
 
 export function ClientPath() {
-    const pathname = usePathname()
+    const pathname = useGetRawPath()
     const router = useRouter()
     const searchParams = useSearchParams()
 
@@ -64,7 +65,7 @@ export function ClientPath() {
                                 variant="caption"
                                 as="span"
                             >
-                                {name}
+                                {name.startsWith(':') ? name.slice(1) : name}
                             </Typography>
                         </span>
                     </div>
