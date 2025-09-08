@@ -262,8 +262,8 @@ const CaseManagementPage = () => {
         {tabs.map((tab) => (
           <button
             key={tab.value}
-            onClick={() => setSearchObj({ ...searchObj, category: tab.value })}
-            className={`pb-2 px-4 border-b-2 text-sm font-medium ${searchObj.category === tab.value
+            onClick={() => setSearchObj((current) => ({ ...current, category: tab.value }))}
+            className={`pb-2 px-4 border-b-2 text-sm font-medium ${searchObj?.category === tab.value
               ? "border-indigo-500"
               : "border-transparent text-gray-500 hover:text-primary"
               }`}
