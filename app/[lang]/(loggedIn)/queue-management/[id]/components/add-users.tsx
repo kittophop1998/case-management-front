@@ -14,6 +14,7 @@ import { memo, useEffect, useMemo, useState } from "react"
 import { useParams } from 'next/navigation'
 import { getErrorText } from "@/services/api"
 import { dialogAlert } from "@/components/common/dialog-alert"
+import { UserPlus } from "lucide-react"
 interface AddUserProps {
     afterSubmit: () => void
     size?: 'small' | 'medium' | 'large'
@@ -99,7 +100,7 @@ export const AddUser = memo(({ afterSubmit, size }: AddUserProps) => {
     return (
         <>
             <Button variant='black' size={size} onClick={() => setIsOpenAddUser(true)} >
-                Add user
+                <UserPlus />    Add user
             </Button>
             <Modal title='' isOpen={isOpenAddUser} className='w-[clamp(985px,100vw,300px)]'>
                 <div>
