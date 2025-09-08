@@ -8,7 +8,7 @@ import CaseTable from "./_components/case-table";
 import InputFilter from "@/components/common/input-filter";
 import BtnFilter from "@/components/button/btn-filter";
 import { Modal } from "@/components/common/Modal";
-import { DatePickerFieldInput } from "@/components/form/date-picker";
+import { DatePickerFieldInputV2 } from "@/components/form/date-picker";
 import BtnApply from "@/components/button/btn-apply";
 import BtnReset from "@/components/button/btn-reset";
 import { SelectFieldInput } from "@/components/form/select-field";
@@ -186,18 +186,31 @@ const InputFilterDate = ({ searchObj, setSearchObj }) => {
   if (!searchObj) return <></>;
   return <>
     <BtnFilter text='Created Date' onClick={() => { setOpen(true) }} />
-    <Modal title="Filter by Create date" isOpen={open} className="w-[21.375rem]" onClose={() => setOpen(false)}>
+    <Modal title="Filter by Create date" isOpen={open} className="w-[22.375rem]" onClose={() => setOpen(false)}>
       <div className="space-y-4 mt-6">
         <div className="flex items-center gap-3">
-          <Typography className="w-[3rem]">From :</Typography>
+          <Typography className="w-[4.5rem]">From :</Typography>
           <div className='flex-1' >
-            <DatePickerFieldInput value={dateStart} onChange={setDateStart} />
+            <DatePickerFieldInputV2 field={
+              {
+                value: dateStart, onChange: setDateStart
+              }
+            }
+            //  value={dateStart} onChange={setDateStart} 
+            />
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <Typography className="w-[3rem]" >To :</Typography>
+          <Typography className="w-[4.5rem]" >To :</Typography>
           <div className='flex-1' >
-            <DatePickerFieldInput value={dateEnd} onChange={setDateEnd} />
+            {/* <DatePickerFieldInputV2 value={dateEnd} onChange={setDateEnd} /> */}
+            <DatePickerFieldInputV2 field={
+              {
+                value: dateEnd, onChange: setDateEnd
+              }
+            }
+            //  value={dateStart} onChange={setDateStart} 
+            />
           </div>
         </div>
       </div>
@@ -214,11 +227,6 @@ const CaseManagementPage = () => {
   const [searchObj, setSearchObj] = useState<FilterAll>({
     // form: '',
     // to: '',
-    // status: '',
-    // priority: '',
-    // caseType: '',
-    // receivedFrom: '',
-    // selectedTab: 'myCase',
     statuses: [],
     priorities: [],
     slaDate: null,
@@ -235,8 +243,8 @@ const CaseManagementPage = () => {
         {tabs.map((tab) => (
           <button
             key={tab.value}
-            onClick={() => setSearchObj({ ...searchObj, selectedTab: tab.value })}
-            className={`pb-2 px-4 border-b-2 text-sm font-medium ${searchObj.selectedTab === tab.value
+            onClick={() => setSearchObj({ ...searchObj, category: tab.value })}
+            className={`pb-2 px-4 border-b-2 text-sm font-medium ${searchObj.category === tab.value
               ? "border-indigo-500"
               : "border-transparent text-gray-500 hover:text-primary"
               }`}
