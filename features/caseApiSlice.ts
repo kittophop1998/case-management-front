@@ -74,14 +74,11 @@ export const caseApiSlice = createApi({
         };
       },
     }),
-    getCaseDetails: builder.query<CaseDetailsType | undefined, void>({
-      query: () => {
-        const fixedId = "f52b23ae-3d09-4ed6-a6f2-85ba36ca145c"; // fix ไว้ก่อน
-        return {
-          url: `/cases/${fixedId}`,
-          method: "GET",
-        };
-      },
+    getCaseDetails: builder.query<CaseDetailsType | undefined, { id: string }>({
+      query: ({ id }) => ({
+        url: `/cases/${id}`,
+        method: "GET",
+      }),
       transformResponse: (response: ApiResponse<CaseDetailsType>) => response?.data,
     }),
   }),
