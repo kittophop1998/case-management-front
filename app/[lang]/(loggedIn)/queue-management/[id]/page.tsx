@@ -237,6 +237,7 @@ export default function QueueManagementIDPage() {
                         MoreActions={
                             <div className="flex gap-3">
                                 <AddUser
+                                    size="small"
                                     afterSubmit={refetchUser}
                                 />
                                 {/* <BtnDelUsers

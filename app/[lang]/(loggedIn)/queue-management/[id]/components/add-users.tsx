@@ -16,11 +16,12 @@ import { getErrorText } from "@/services/api"
 import { dialogAlert } from "@/components/common/dialog-alert"
 interface AddUserProps {
     afterSubmit: () => void
+    size?: 'small' | 'medium' | 'large'
 }
 
 
 
-export const AddUser = memo(({ afterSubmit }: AddUserProps) => {
+export const AddUser = memo(({ afterSubmit, size }: AddUserProps) => {
 
     const params = useParams<{ id: string }>()
     const {
@@ -97,7 +98,7 @@ export const AddUser = memo(({ afterSubmit }: AddUserProps) => {
     }
     return (
         <>
-            <Button variant='black' onClick={() => setIsOpenAddUser(true)} >
+            <Button variant='black' size={size} onClick={() => setIsOpenAddUser(true)} >
                 Add user
             </Button>
             <Modal title='' isOpen={isOpenAddUser} className='w-[clamp(985px,100vw,300px)]'>
