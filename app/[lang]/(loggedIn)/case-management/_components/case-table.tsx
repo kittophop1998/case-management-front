@@ -6,16 +6,33 @@ import { useTable } from "@/hooks/use-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import { useLazyCaseByPermissionQuery } from "@/features/caseApiSlice";
-import { format } from "date-fns";
 import { CaseDataType } from "@/types/case.type";
 import { caseStatusConfig, priorityStatusConfig } from "@/const/case";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/common/Button";
+import { format, isAfter, isBefore, subDays } from "date-fns";
 
 type CaseProps = {
   tab: string;
 }
+const now = new Date();
+const textColor = (value) => {
+  if (isAfter(now, value)) {
+    return "bg-[#feebee] text-red-500"; // future
+  }
+  if (isAfter(subDays(now, 1), value)) {
+    return "bg-[#fffbe6] text-yellow-500"; // within last 1 day
+  }
+  return "bg-[#EEF3F5] text-black"; // everything else
+};
 
+const BadgeDateColor = ({ date }) => {
+  const value = new Date(date);
+  const className = textColor(value)
+  return <Badge className={className}>
+    {format(date, "dd MMM yyyy")}
+  </Badge>
+}
 const useCaseTable = ({ searchObj }) => {
   const [getData, { data: tableObj, isFetching: isFetchingTable }] = useLazyCaseByPermissionQuery();
   const dataListMemo = useMemo(() => tableObj?.data || [], [tableObj]);
@@ -159,11 +176,7 @@ const useCaseTable = ({ searchObj }) => {
     columnHelper.accessor('slaDate', {
       id: 'slaDate',
       header: ({ column }) => <Header column={column} label='SLA Date' sortAble />,
-      cell: info =>
-        <Badge className="bg-[#EEF3F5] text-black">
-          {format(info.getValue(), "dd MMM yyyy")}
-        </Badge>
-      ,
+      cell: info => <BadgeDateColor date={info.getValue()} />,
       meta: {
         width: 'fit-content',
         minWidth: '6rem',
