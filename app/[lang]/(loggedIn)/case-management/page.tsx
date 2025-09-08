@@ -20,9 +20,10 @@ import { priorityStatusOptions } from "@/const/case";
 import { Checkbox } from "@/components/form/checkbox-field";
 
 
+type PriorityType = 'Normal' | 'High'
 type FilterDialog = {
   statuses: string[];
-  priorities: string[];
+  priorities: PriorityType[];
   slaDate: string | null;
   queue: string | null;
 }
@@ -233,7 +234,7 @@ const CaseManagementPage = () => {
     // form: '',
     // to: '',
     statuses: [],
-    priorities: [],
+    priorities: ['High', 'Normal'],
     slaDate: null,
     queue: null,
     dateStart: null,
