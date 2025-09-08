@@ -231,8 +231,6 @@ const InputFilterDate = ({ searchObj, setSearchObj }) => {
 
 const CaseManagementPage = () => {
   const [searchObj, setSearchObj] = useState<FilterAll>({
-    // form: '',
-    // to: '',
     statuses: [],
     priorities: ['High', 'Normal'],
     slaDate: null,
