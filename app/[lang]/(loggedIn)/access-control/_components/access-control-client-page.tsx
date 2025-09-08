@@ -192,7 +192,6 @@ const useAccessControlTable = () => {
             fetchTable()
             setForm({})
             dialogAlert(true)
-
         } catch (error: unknown) {
             if (error instanceof Error) {
                 await dialogAlert(false,
