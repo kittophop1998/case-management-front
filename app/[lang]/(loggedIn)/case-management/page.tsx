@@ -15,6 +15,25 @@ import { SelectFieldInput } from "@/components/form/select-field";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormLabel } from "@/components/ui/form";
 import BtnConfigColumn from "@/components/button/btn-config-column";
+import { useLazyGetTableQuery } from "@/features/queueApiSlice";
+import { priorityStatusOptions } from "@/const/case";
+
+
+type FilterDialog = {
+  statuses: string[];
+  priorities: string[];
+  slaDate: string | null;
+  queue: string | null;
+}
+type FilterDateDialog = {
+  dateStart: string | null;
+  dateEnd: string | null;
+}
+
+type FilterAll = FilterDateDialog & FilterDialog & {
+  keyword: string;
+  category: string;
+}
 
 const tabs = [
   { label: "My Case", value: "myCase" },
@@ -23,14 +42,6 @@ const tabs = [
   { label: "Case History", value: "caseHistory" },
   { label: "All Case", value: "allCase" },
 ];
-
-// const CaseManagementTable = ({ selectedTab }: { selectedTab: string }) => {
-//   return (
-//     <>
-//       <CaseTable tab={selectedTab} />
-//     </>
-//   );
-// };
 const mockOptions = {
   days: [
     { label: '1 day', value: '1' },
@@ -49,12 +60,19 @@ const caseStatusOptions = [
   { label: 'Resolved', value: 'Resolved' },
   { label: 'Escalated', value: 'Escalated' },
 ]
-const priorityStatusOptions = [
-  { label: 'High', value: 'High' },
-  { label: 'Normal', value: 'Normal' },
-]
+
 const InputFilterConfig = ({ searchObj, setSearchObj }) => {
   const [open, setOpen] = useState(false);
+  const [getData, { currentData: queue, isFetching, isError, error }] = useLazyGetTableQuery();
+  useEffect(() => {
+    getData({
+      page: 1,
+      limit: 99999999,
+      sort: null,
+      order: null,
+    })
+  }, []);
+  // 
   return <>
     <BtnFilter onClick={() => { setOpen(true) }} />
     <Modal title="Filter" isOpen={open} className="w-[47.125rem]" onClose={() => setOpen(false)}>
@@ -66,15 +84,15 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
               caseStatusOptions.map((item) => (
                 <div key={item.value} className="flex items-center gap-2" >
                   <Checkbox
-                    checked={searchObj.caseStats.includes(item.value)}
+                    checked={searchObj.statuses.includes(item.value)}
                     onCheckedChange={
                       (isCheck) => {
                         setSearchObj(
                           (current) => ({
                             ...current,
-                            caseStats: isCheck
-                              ? [...current.caseStats, item.value]
-                              : [...current.caseStats].filter(v => v !== item.value)
+                            statuses: isCheck
+                              ? [...current.statuses, item.value]
+                              : [...current.statuses].filter(v => v !== item.value)
                           })
                         )
                       }
@@ -89,27 +107,21 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
         </div>
         <div>
           <Typography variant="caption">Case Priority</Typography>
-          {/* <div className="flex gap-3">
-            <Checkbox name="casePriority"
-              label="High" checked={searchObj.casePriority.includes("High")}
-              onChange={(isCheck) => setSearchObj({ ...searchObj, casePriority: isCheck ? [...searchObj.casePriority, "High"] : searchObj.casePriority.filter(item => item !== "High") })}
-            />
-            <Checkbox name="casePriority" label="Normal" checked={searchObj.casePriority.includes("Normal")} onChange={(isCheck) => setSearchObj({ ...searchObj, casePriority: isCheck ? [...searchObj.casePriority, "Normal"] : searchObj.casePriority.filter(item => item !== "Normal") })} />
-          </div> */}
+
           <div className="flex gap-3">
             {
               priorityStatusOptions.map((item) => (
                 <div key={item.value} className="flex items-center gap-2" >
                   <Checkbox
-                    checked={searchObj.casePriority.includes(item.value)}
+                    checked={searchObj.priorities.includes(item.value)}
                     onCheckedChange={
                       (isCheck) => {
                         setSearchObj(
                           (current) => ({
                             ...current,
-                            casePriority: isCheck
-                              ? [...current.casePriority, item.value]
-                              : [...current.casePriority].filter(v => v !== item.value)
+                            priorities: isCheck
+                              ? [...current.priorities, item.value]
+                              : [...current.priorities].filter(v => v !== item.value)
                           })
                         )
                       }
@@ -138,9 +150,9 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
         <div>
           <Typography variant="caption">Que Name</Typography>
           <SelectFieldInput
-            labelName="label"
-            valueName="value"
-            items={mockOptions.days}
+            valueName='queueId'
+            labelName='queueName'
+            items={queue?.data || []}
             field={{
               value: searchObj.queDate,
               onChange: (value) => {
@@ -199,20 +211,22 @@ const InputFilterDate = ({ searchObj, setSearchObj }) => {
 
 
 const CaseManagementPage = () => {
-  const [searchObj, setSearchObj] = useState<{ [key: string]: any }>({
-    keyword: '',
-    form: '',
-    to: '',
-    status: '',
-    priority: '',
-    receivedFrom: '',
-    selectedTab: 'myCase',
+  const [searchObj, setSearchObj] = useState<FilterAll>({
+    // form: '',
+    // to: '',
+    // status: '',
+    // priority: '',
+    // caseType: '',
+    // receivedFrom: '',
+    // selectedTab: 'myCase',
+    statuses: [],
+    priorities: [],
+    slaDate: null,
+    queue: null,
     dateStart: null,
     dateEnd: null,
-    slaDate: null,
-    queDate: null,
-    casePriority: [],
-    caseStats: [],
+    keyword: '',
+    category: 'myCase',
   });
   const [statusConfigColumn, setStatusConfigColumn] = useState(false);
   return (

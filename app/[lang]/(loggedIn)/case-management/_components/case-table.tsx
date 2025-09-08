@@ -215,6 +215,17 @@ const useCaseTable = ({ searchObj }) => {
   } = useTable({
     data: dataListMemo,
     columns,
+    mapSortingName: {
+      //   createdDate: 'created_date',
+      //   customerId: 'customer_id',
+      //   caseType: 'case_type',
+      //   currentQueue: 'current_queue',
+      //   currentUser: 'current_user',
+      //   slaDate: 'sla_date',
+      //   closedDate: 'closed_date',
+      //   receivedFrom: 'received_from',
+      //   casePriority: 'case_priority',
+    }
   })
   const triggerFetch = () => {
     getData({

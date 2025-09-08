@@ -100,3 +100,8 @@ export const priorityStatusConfig = {
     className: "bg-green-600/10 text-green-600",
   },
 };
+
+export const priorityStatusOptions = [
+  { label: "High", value: "High" },
+  { label: "Normal", value: "Normal" },
+];

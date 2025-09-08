@@ -116,20 +116,3 @@ export function Checkbox({
         </label>
     );
 }
-
-
-{/* <Checkbox
-    checked={searchObj.casePriority.includes(item.value)}
-    onCheckedChange={
-        (isCheck) => {
-            setSearchObj(
-                (current) => ({
-                    ...current,
-                    casePriority: isCheck
-                        ? [...current.casePriority, item.value]
-                        : [...current.casePriority].filter(v => v !== item.value)
-                })
-            )
-        }
-    }
-/> */}
