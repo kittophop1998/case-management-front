@@ -223,7 +223,7 @@ export const path2ClientPath: Record<string, { name: string; goto: string }[]> =
     "/queue-management/[id]": [
       {
         name: "Queue Management",
-        goto: "",
+        goto: "/queue-management",
       },
       {
         name: ":Queue Details",

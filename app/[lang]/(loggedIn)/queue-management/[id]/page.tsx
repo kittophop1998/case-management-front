@@ -19,6 +19,8 @@ import { Value } from "@radix-ui/react-select";
 import { Typography } from "@/components/common/typography";
 import BtnDel from "@/components/button/btn-del";
 import { myConfirm } from "@/components/common/dialog-confirm";
+import { setDinamicParams } from "@/features/sysConfigSlice";
+import { useDispatch } from "react-redux";
 
 
 // const BtnDelUsers = ({ disabled, clearDraft, users, queueID, isActive, setIsActive, afterSubmit }) => {
@@ -73,12 +75,24 @@ import { myConfirm } from "@/components/common/dialog-confirm";
 
 const QueueInfo = ({ id }) => {
     const [getData, { data: queueInfo, isFetching }] = useLazyGetQueueInfoQuery();
+    const dispatch = useDispatch();
+
     const refetchQueue = () => {
         getData({ id })
     }
     useEffect(() => {
         refetchQueue()
     }, [])
+
+    useEffect(() => {
+        // document.title = queueInfo?.queueName ? `Queue: ${queueInfo.queueName}` : 'Queue Info'
+        console.log('queueInfo?.queueName', queueInfo?.queueName)
+        if (queueInfo?.queueName) {
+            dispatch(
+                setDinamicParams({ 'Queue Details': queueInfo.queueName || '' }))
+        }
+
+    }, [queueInfo?.queueName])
     return (
         <div className="flex items-start justify-between  gap-3 bg-white">
             <div className="flex-1 space-y-3 max-w-[50rem] pointer-events-none">
