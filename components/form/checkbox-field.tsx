@@ -10,7 +10,7 @@ type CheckboxProps = {
     onChange?: (checked: boolean) => void;
 
     // Uncontrolled simple mode
-    defaultChecked?: boolean;
+    // defaultChecked?: boolean;
     disabled?: boolean;
 
     // React Hook Form integration (either register OR control)
@@ -28,13 +28,14 @@ export function Checkbox({
     label,
     checked,
     onChange,
-    defaultChecked,
+    // defaultChecked,
     disabled = false,
     register,
     control,
     errors,
     id,
     className = "",
+    // onCheckedChange,
 }: CheckboxProps) {
     // helper to get error message if errors prop supplied
     const errorMessage =
@@ -93,20 +94,21 @@ export function Checkbox({
                 id={id ?? name}
                 // type="checkbox"
                 checked={typeof checked === "boolean" ? checked : undefined}
-                defaultChecked={defaultChecked}
+                // defaultChecked={defaultChecked}
                 // onChange={(e) => onChange?.(e.target.checked)}
-                onChange={(checked) => onChange?.(checked)}
+                // onChange={(checked) => onChange?.(checked)}
                 disabled={disabled}
-                onClick={
-                    (e) => {
-                        e.stopPropagation()
-                        // if (isActive) {
-                        //     setDelUsersDraft(prev => prev.filter(id => id !== user.id))
-                        // } else {
-                        //     setDelUsersDraft(prev => ([...prev, user.id]))
-                        // }
-                    }
-                }
+                onCheckedChange={onChange}
+            // onClick={
+            // (e) => {
+            // e.stopPropagation()
+            // if (isActive) {
+            //     setDelUsersDraft(prev => prev.filter(id => id !== user.id))
+            // } else {
+            //     setDelUsersDraft(prev => ([...prev, user.id]))
+            // }
+            // }
+            // }
             // className="form-checkbox h-4 w-4"
             // className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
@@ -114,3 +116,20 @@ export function Checkbox({
         </label>
     );
 }
+
+
+{/* <Checkbox
+    checked={searchObj.casePriority.includes(item.value)}
+    onCheckedChange={
+        (isCheck) => {
+            setSearchObj(
+                (current) => ({
+                    ...current,
+                    casePriority: isCheck
+                        ? [...current.casePriority, item.value]
+                        : [...current.casePriority].filter(v => v !== item.value)
+                })
+            )
+        }
+    }
+/> */}

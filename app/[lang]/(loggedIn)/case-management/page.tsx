@@ -15,7 +15,6 @@ import { SelectFieldInput } from "@/components/form/select-field";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormLabel } from "@/components/ui/form";
 import BtnConfigColumn from "@/components/button/btn-config-column";
-// import { Checkbox } from "@/components/form/checkbox";
 
 const tabs = [
   { label: "My Case", value: "myCase" },
