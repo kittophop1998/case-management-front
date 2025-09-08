@@ -51,7 +51,7 @@ interface SelectFieldProps {
 const selectFieldVariants = cva('w-full', {
   variants: {
     readonly: {
-      true: 'bg-gray-100 cursor-not-allowed',
+      true: 'bg-gray-100 cursor-not-allowed opacity-100!',
       false: 'bg-white cursor-text'
     }
   }
@@ -130,8 +130,13 @@ export const SelectFieldInput = ({
           field?.onChange & field?.onChange(val)
         }
       }}
+
     >
-      <SelectTrigger className={cn('w-full overflow-hidden shadow-none base-input-casemm ', className)}>
+      <SelectTrigger
+        disabled={readonly}
+        className={cn('w-full overflow-hidden shadow-none base-input-casemm ', selectFieldVariants({
+          readonly
+        }), className)}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
