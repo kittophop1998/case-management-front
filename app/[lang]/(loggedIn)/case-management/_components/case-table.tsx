@@ -6,16 +6,34 @@ import { useTable } from "@/hooks/use-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import { useLazyCaseByPermissionQuery } from "@/features/caseApiSlice";
-import { format } from "date-fns";
 import { CaseDataType } from "@/types/case.type";
 import { caseStatusConfig, priorityStatusConfig } from "@/const/case";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/common/Button";
+import { format, isAfter, isBefore, subDays } from "date-fns";
 
 type CaseProps = {
   tab: string;
 }
+const now = new Date();
+const textColor = (value) => {
+  if (isAfter(now, value)) {
+    return "bg-[#feebee] text-red-500"; // future
+  }
+  if (isAfter(subDays(now, 1), value)) {
+    return "bg-[#fffbe6] text-yellow-500"; // within last 1 day
+  }
+  return "bg-[#EEF3F5] text-black"; // everything else
+};
 
-const useCaseTable = () => {
+const BadgeDateColor = ({ date }) => {
+  const value = new Date(date);
+  const className = textColor(value)
+  return <Badge className={className}>
+    {format(date, "dd MMM yyyy")}
+  </Badge>
+}
+const useCaseTable = ({ searchObj }) => {
   const [getData, { data: tableObj, isFetching: isFetchingTable }] = useLazyCaseByPermissionQuery();
   const dataListMemo = useMemo(() => tableObj?.data || [], [tableObj]);
 
@@ -27,7 +45,8 @@ const useCaseTable = () => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '8rem'
+        minWidth: '8rem',
+        label: 'Case ID'
       }
     }),
     columnHelper.accessor('customerId', {
@@ -36,7 +55,8 @@ const useCaseTable = () => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '8rem'
+        minWidth: '8rem',
+        label: 'Customer ID'
       }
     }),
     columnHelper.accessor('aeonId', {
@@ -45,7 +65,8 @@ const useCaseTable = () => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '8rem'
+        minWidth: '8rem',
+        label: 'Aeon ID'
       }
     }),
     columnHelper.accessor('customerName', {
@@ -54,7 +75,8 @@ const useCaseTable = () => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '10rem'
+        minWidth: '10rem',
+        label: 'Customer Name'
       }
     }),
     columnHelper.accessor('caseGroup', {
@@ -63,7 +85,8 @@ const useCaseTable = () => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '8rem'
+        minWidth: '8rem',
+        label: 'Case Group'
       }
     }),
     columnHelper.accessor('caseType', {
@@ -72,7 +95,8 @@ const useCaseTable = () => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '8rem'
+        minWidth: '8rem',
+        label: 'Case Type'
       }
     }),
     columnHelper.accessor('createdBy', {
@@ -81,7 +105,8 @@ const useCaseTable = () => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '10rem'
+        minWidth: '10rem',
+        label: 'Create By'
       }
     }),
     columnHelper.accessor('createdDate', {
@@ -90,7 +115,8 @@ const useCaseTable = () => {
       cell: info => format(info.getValue(), "dd MMM yyyy"),
       meta: {
         width: 'fit-content',
-        minWidth: '9rem'
+        minWidth: '9rem',
+        label: 'Created Date'
       }
 
     }),
@@ -103,6 +129,9 @@ const useCaseTable = () => {
           <Badge className={caseStatusConfig?.[statusValue]?.className || ''}>
             {caseStatusConfig?.[statusValue]?.text || '-'}
           </Badge>)
+      },
+      meta: {
+        label: 'Status'
       }
 
       // info.getValue(),
@@ -113,7 +142,8 @@ const useCaseTable = () => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '9rem'
+        minWidth: '9rem',
+        label: 'Current Queue'
       }
     }),
     columnHelper.accessor('currentUser', {
@@ -122,7 +152,8 @@ const useCaseTable = () => {
       cell: info => info.getValue(),
       meta: {
         width: 'fit-content',
-        minWidth: '9rem'
+        minWidth: '9rem',
+        label: 'Current User'
       }
     }),
     columnHelper.accessor('casePriority', {
@@ -138,20 +169,18 @@ const useCaseTable = () => {
       },
       meta: {
         width: 'fit-content',
-        minWidth: '9rem'
+        minWidth: '9rem',
+        label: 'Case Priority'
       }
     }),
     columnHelper.accessor('slaDate', {
       id: 'slaDate',
       header: ({ column }) => <Header column={column} label='SLA Date' sortAble />,
-      cell: info =>
-        <Badge className="bg-[#EEF3F5] text-black">
-          {format(info.getValue(), "dd MMM yyyy")}
-        </Badge>
-      ,
+      cell: info => <BadgeDateColor date={info.getValue()} />,
       meta: {
         width: 'fit-content',
         minWidth: '6rem',
+        label: 'SLA Date'
       }
     }),
     columnHelper.accessor('closedDate', {
@@ -162,6 +191,7 @@ const useCaseTable = () => {
       meta: {
         width: 'fit-content',
         minWidth: '8rem',
+        label: 'Closed Date'
       }
 
     }),
@@ -172,11 +202,17 @@ const useCaseTable = () => {
       meta: {
         width: 'fit-content',
         minWidth: '8rem',
+        label: 'Receive From'
       }
     }),
   ], [])
 
-  const { table, sort, page, limit, setPage, setLimit } = useTable({
+  const {
+    table, sort, page, limit, setPage, setLimit
+    ,
+    setColumnVisibility,
+    columnVisibility,
+  } = useTable({
     data: dataListMemo,
     columns,
   })
@@ -185,6 +221,7 @@ const useCaseTable = () => {
       page,
       limit,
       sort,
+      ...searchObj,
       // order,
     });
   }
@@ -194,32 +231,62 @@ const useCaseTable = () => {
     page,
     limit,
     sort,
+    searchObj
+    ,
+    setColumnVisibility,
+    columnVisibility,
   ])
   return { table, sort, page, limit, setPage, setLimit, dataTable: dataListMemo }
 }
-
-const CaseTable = ({ tab }: CaseProps) => {
+const defaultVisibleColumn = {
+  customerId: true,
+  customerName: true,
+  caseType: true,
+  createdDate: true,
+  currentQueue: true,
+  currentUser: true,
+  slaDate: true,
+  // 
+  code: false,
+  caseGroup: false,
+  aeonId: false,
+  createdBy: false,
+  status: true,
+  casePriority: false,
+  closedDate: false,
+  receivedFrom: false,
+}
+const CaseTable = ({ searchObj, statusConfigColumn = false, setStatusConfigColumn }: { searchObj: Record<string, any> }) => {
   const router = useRouter();
-  const { table, setPage, setLimit, dataTable } = useCaseTable();
-  const filteredData = useMemo(() => {
-    if (tab === "allCase") return dataTable;
-    return dataTable.filter(item => item.status.toLowerCase() === tab);
-  }, [tab]);
+  const { table, setPage, setLimit, dataTable
+  } = useCaseTable({ searchObj });
   const gotoChild = (data: any) => {
-    // console.log(data)
-    // caseId
     router.push(`/case-management/${data?.caseId || '-'}`);
+  }
+
+  if (!searchObj) {
+    return <></>
   }
   return (
     <div>
+      {/* <Button onClick={() => {
+        setColumnVisibility({
+          customerId: false,
+          aeonId: true
+        })
+      }}>Test</Button>
+      {JSON.stringify(columnVisibility)} */}
       <DataTable
+        defaultVisibleColumn={defaultVisibleColumn}
+        statusConfigColumn={statusConfigColumn}
+        setStatusConfigColumn={setStatusConfigColumn}
         onRowClick={gotoChild}
         loading={false}
         table={table}
         page={1}
         limit={10}
-        total={filteredData.length}
-        totalPages={Math.ceil(filteredData.length / 10)}
+        total={dataTable.length}
+        totalPages={Math.ceil(dataTable.length / 10)}
         setPage={setPage}
         setLimit={setLimit}
       />

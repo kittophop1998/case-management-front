@@ -9,7 +9,9 @@ import { createSearchParams } from "@/lib/utils/create-search-params";
 
 // ---------- Helper Function ----------
 const sanitizeCaseBody = (
-  body: Omit<z.infer<typeof CreateCaseSchema>, "caseTypeText"> & { caseTypeText?: string }
+  body: Omit<z.infer<typeof CreateCaseSchema>, "caseTypeText"> & {
+    caseTypeText?: string;
+  }
 ) => {
   const newBody = { ...body };
   if (newBody.caseTypeText === "None Inquiry") {
@@ -60,8 +62,16 @@ export const caseApiSlice = createApi({
     }),
 
     caseByPermission: builder.query<TableType<any>, DefaultReqTableType>({
-      query: ({ page, limit, sort = null, order = null, category = null }) => {
+      query: ({
+        page,
+        limit,
+        sort = null,
+        order = null,
+        category = null,
+        ...other
+      }) => {
         const searchParams = createSearchParams({
+          ...other,
           page,
           limit,
           sort,

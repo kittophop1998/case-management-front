@@ -1,13 +1,14 @@
-import { Funnel } from "lucide-react";
+import { Eye } from "lucide-react";
+
 import { Button } from "../common/Button";
 import { Typography } from "../common/typography";
 
-interface BtnFilterProps {
+interface BtnConfigColumnProps {
     onClick: () => void;
     text?: string;
     icon?: React.ReactNode;
 }
-const BtnFilter = ({ onClick, text = "filter", icon = <Funnel /> }: BtnFilterProps) => {
+const BtnConfigColumn = ({ onClick, text = "Show Column", icon = <Eye className="size-5" /> }: BtnConfigColumnProps) => {
     return (
         <Button variant='outline-black' onClick={onClick} size="small" >
             {icon}
@@ -16,5 +17,5 @@ const BtnFilter = ({ onClick, text = "filter", icon = <Funnel /> }: BtnFilterPro
     );
 };
 
-export default BtnFilter;
+export default BtnConfigColumn;
 // className = "h-[1.813rem] rounded-[4px]"

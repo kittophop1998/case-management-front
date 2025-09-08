@@ -59,8 +59,18 @@ export function useTable({
       columnVisibility,
       rowSelection,
     },
+    onColumnVisibilityChange: setColumnVisibility,
   });
-  return { table, sort, page, limit, setPage, setLimit };
+  return {
+    table,
+    sort,
+    page,
+    limit,
+    setPage,
+    setLimit,
+    setColumnVisibility,
+    columnVisibility,
+  };
 }
 export function useTableFrontendBase({
   data,
