@@ -78,10 +78,10 @@ export const DatePickerFieldInputV2 = (
                         disabled={readonly}
                         variant={"outline"}
                         className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
+                            "w-[240px] pl-3 text-left font-normal ",
                             !field.value && "text-muted-foreground",
                             textFieldVariants({ readonly: readonly }),
-                            'opacity-100!'
+                            readonly ? 'select-none! opacity-100! cursor-not-allowed' : 'select-none! cursor-pointer',
                         )}
                     >
                         {field.value ? (
@@ -102,7 +102,7 @@ export const DatePickerFieldInputV2 = (
                     captionLayout="dropdown"
                 />
             </PopoverContent>
-        </Popover>
+        </Popover >
     )
 }
 
