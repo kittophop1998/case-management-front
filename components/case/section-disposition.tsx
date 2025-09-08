@@ -2,6 +2,8 @@ import { JsonJoinDetails } from "@/types/user.type"
 import { SelectField } from "../form/select-field"
 import { InputInquiry } from "./input-inquiry"
 import { SectionCard } from "./section-card"
+import { FormMessage } from "../ui/form"
+import { InputFieldWarper } from "../form/input-warper"
 
 interface SectionEmailProps {
     isSmallMod: boolean
@@ -20,6 +22,7 @@ export const SectionDisposition = ({ isSmallMod, form, products = [] }: SectionE
                     mainListName='dispositionMains'
                     subListName='dispositionSubs'
                 />
+
                 <SelectField
                     form={form}
                     name='productId'
@@ -29,6 +32,7 @@ export const SectionDisposition = ({ isSmallMod, form, products = [] }: SectionE
                     labelName='name'
                     items={products || []}
                 />
+                <FormMessage />
             </div>
         </SectionCard>
     )
