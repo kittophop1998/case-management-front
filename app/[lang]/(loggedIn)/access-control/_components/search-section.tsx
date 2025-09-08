@@ -1,7 +1,7 @@
 import { FormError } from "@/components/form/form-error";
 import { SearchFieldInput } from "@/components/form/search-field";
 import { SelectFieldInput } from "@/components/form/select-field";
-import { GetDropdownResponse, useGetDropdownQuery } from "@/features/systemApiSlice";
+import { DropdownSystemType } from "@/features/systemApiSlice";
 import { getErrorText } from "@/services/api";
 import { current } from "@reduxjs/toolkit";
 import { promises } from "dns";
@@ -26,7 +26,7 @@ interface SearchSectionProps {
     confirmChangeGroup: () => Promise<Boolean>
     error: any,
     isError: boolean,
-    dataDropdown: GetDropdownResponse | undefined,
+    dataDropdown: DropdownSystemType | undefined,
     isFetching: boolean
 }
 export const SearchSection = ({
@@ -53,7 +53,7 @@ export const SearchSection = ({
                                 }
                             }
                         }}
-                        items={dataDropdown?.data?.departments ? dataDropdown?.data?.departments.filter(v => v.name !== "System") : []}
+                        items={dataDropdown?.departments ? dataDropdown?.departments.filter(v => v.name !== "System") : []}
                         valueName='id'
                         labelName='name'
                         placeholder="Select Department"
@@ -72,7 +72,7 @@ export const SearchSection = ({
                                 }
                             }
                         }}
-                        items={dataDropdown?.data?.sections ? dataDropdown?.data?.sections.filter(v => v.name !== "System") : []}
+                        items={dataDropdown?.sections ? dataDropdown?.sections.filter(v => v.name !== "System") : []}
                         valueName='id'
                         labelName='name'
                         placeholder="Select Section"

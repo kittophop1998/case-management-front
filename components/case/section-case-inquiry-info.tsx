@@ -8,7 +8,7 @@ import { SelectField } from "../form/select-field"
 import { DatePickerField, DatePickerFieldInput } from "../form/date-picker"
 import TelephoneCall from '@/public/icons/TelephoneCall.svg'
 import Warning from '@/public/icons/Warning.svg'
-import { GetDropdownResponse } from "@/features/systemApiSlice"
+import { DropdownSystemType, GetDropdownResponse } from "@/features/systemApiSlice"
 import { Info } from "./info"
 import { useLazyGetQueueInfoQuery, useLazyGetTableQuery } from "@/features/queueApiSlice"
 
@@ -16,7 +16,7 @@ interface SectionCaseInfoProps {
     isSmallMod: boolean
     form: any
     caseTypeText: CaseTypeText
-    ddData: GetDropdownResponse | undefined
+    ddData: DropdownSystemType | undefined
 
 }
 
@@ -42,13 +42,13 @@ export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', dd
     const allocateToQueueTeams = prioritys || []
 
     const warningText = useMemo(() => {
-        const found = ddData?.data?.reasonCodes.find(item => item.id === reasonCode)
+        const found = ddData?.reasonCodes.find(item => item.id === reasonCode)
         if (found) {
             // return `Warning: ${found.descriptionTh}`
             return found.notice
         }
         return ''
-    }, [reasonCode, ddData?.data?.reasonCodes])
+    }, [reasonCode, ddData?.reasonCodes])
     const [getData, { currentData: data, isFetching, isError, error }] = useLazyGetTableQuery();
     useEffect(() => {
         getData({
@@ -92,7 +92,7 @@ export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', dd
                                             valueName='id'//code
                                             labelName='descriptionTh'
                                             loading={false}
-                                            items={ddData?.data?.reasonCodes || []}
+                                            items={ddData?.reasonCodes || []}
                                         /></div>} />
                                     {warningText && <div className="flex items-center gap-3">
                                         <div><Warning /></div>

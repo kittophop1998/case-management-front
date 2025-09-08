@@ -116,7 +116,7 @@ export const FilterUsersModal = ({
             valueName='id'
             labelName='name'
             loading={isPending}
-            items={[seeAllObj, ...(dataDropdown?.data?.roles || [])]}
+            items={[seeAllObj, ...(dataDropdown?.roles || [])]}
           />
           <SelectField
             form={form}
@@ -126,7 +126,7 @@ export const FilterUsersModal = ({
             valueName='id'
             labelName='name'
             loading={isPending}
-            items={[seeAllObj, ...(dataDropdown?.data?.sections || [])]}
+            items={[seeAllObj, ...(dataDropdown?.sections || [])]}
           />
           <SelectField
             form={form}
@@ -136,7 +136,7 @@ export const FilterUsersModal = ({
             valueName='id'
             labelName='name'
             loading={isPending}
-            items={[seeAllObj, ...(dataDropdown?.data?.departments || [])]}
+            items={[seeAllObj, ...(dataDropdown?.departments || [])]}
           />
           <SelectField
             form={form}
@@ -146,7 +146,7 @@ export const FilterUsersModal = ({
             valueName='id'
             labelName='name'
             loading={isPending}
-            items={[seeAllObj, ...(dataDropdown?.data?.centers || [])]}
+            items={[seeAllObj, ...(dataDropdown?.centers || [])]}
           />
           <div className='flex gap-2 justify-end'>
             <Button type='button' onClick={clearFilter} className='bg-transparent border border-primary text-primary'>Clear</Button>

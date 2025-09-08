@@ -121,11 +121,11 @@ export default function CaseManagementDetailPage() {
   };
 
   const warningText = useMemo(() => {
-    const found = ddData?.data?.reasonCodes.find(
+    const found = ddData?.reasonCodes.find(
       (item) => item.id === form.watch("reasonCode")
     )
     return found?.notice || ""
-  }, [form.watch("reasonCode"), ddData?.data?.reasonCodes]);
+  }, [form.watch("reasonCode"), ddData?.reasonCodes]);
 
 
   useEffect(() => {
@@ -288,7 +288,7 @@ export default function CaseManagementDetailPage() {
                                     valueName="id"
                                     labelName="descriptionTh"
                                     loading={false}
-                                    items={ddData?.data?.reasonCodes || []}
+                                    items={ddData?.reasonCodes || []}
                                     readonly={!isEditMode}
                                   />
                                 </div>

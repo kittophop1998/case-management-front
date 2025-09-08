@@ -98,7 +98,7 @@ export const FormUserDetails = ({
             <SelectField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
-              items={dataDropdown?.data?.roles || []}
+              items={dataDropdown?.roles || []}
               name='roleId'
               label='Role'
               placeholder='Enter Role'
@@ -109,7 +109,7 @@ export const FormUserDetails = ({
             <SelectField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
-              items={dataDropdown?.data?.sections || []}
+              items={dataDropdown?.sections || []}
               name='sectionId'
               label='Section'
               placeholder='Enter Section'
@@ -120,7 +120,7 @@ export const FormUserDetails = ({
             <SelectField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
-              items={dataDropdown?.data?.departments || []}
+              items={dataDropdown?.departments || []}
               name='departmentId'
               label='Department'
               placeholder='Enter Department'
@@ -131,7 +131,7 @@ export const FormUserDetails = ({
             <SelectField
               loading={isPendingSubmit || isLoadingForm}
               form={form}
-              items={dataDropdown?.data?.centers || []}
+              items={dataDropdown?.centers || []}
               name='centerId'
               label='Center'
               placeholder='Enter Center'

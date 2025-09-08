@@ -57,7 +57,7 @@ const groupData = ({
 export default function useCaseType() {
   const { data } = useGetDropdownQuery();
   const caseTypes: ResDataCaseApi[] = useMemo(
-    () => data?.data?.caseTypes || [],
+    () => data?.caseTypes || [],
     [data]
   );
   const [caseTypesFiltered, setCaseTypesFiltered] = useState<ResDataCaseApi[]>(
