@@ -134,6 +134,7 @@ export default function CaseManagementDetailPage() {
       form.reset({
         priority: caseDetails?.priority || "",
         reasonCode: caseDetails?.reasonCode || "",
+        caseGroup: caseDetails?.caseGroup || "",
         dueDate: caseDetails?.dueDate || "",
         allocateToQueueTeam: caseDetails?.allocateToQueueTeam || "",
         caseDescription: caseDetails?.caseDescription || ""
@@ -321,21 +322,21 @@ export default function CaseManagementDetailPage() {
                           <Typography variant="caption">Current Queue: {caseDetails?.currentQueue || "N/A"}</Typography>
 
                           <Info
-                              title="Allocate to Queue Team"
-                              value={
-                                <div className="flex-1 max-w-[300px]">
-                                  <SelectField
-                                    form={form}
-                                    name='allocateToQueueTeam'
-                                    valueName='queueId'
-                                    labelName='queueName'
-                                    loading={isFetching}
-                                    items={queueListData?.data || []}
-                                    readonly={!isEditMode}
-                                  />
-                                </div>
-                              }
-                            />
+                            title="Allocate to Queue Team"
+                            value={
+                              <div className="flex-1 max-w-[300px]">
+                                <SelectField
+                                  form={form}
+                                  name='allocateToQueueTeam'
+                                  valueName='queueId'
+                                  labelName='queueName'
+                                  loading={isFetching}
+                                  items={queueListData?.data || []}
+                                  readonly={!isEditMode}
+                                />
+                              </div>
+                            }
+                          />
                         </div>
 
                         <div>
@@ -357,51 +358,56 @@ export default function CaseManagementDetailPage() {
           </FormProvider>
 
           {/* Change Mobile no */}
-          <FormProvider {...form}>
-            <form>
-              <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
-                <Accordion
-                  type="single"
-                  collapsible
-                  value={openSections.changeMobile ? "item-1" : ""}
-                  onValueChange={(value) =>
-                    setOpenSections((prev) => ({ ...prev, changeMobile: value === "item-1" }))
-                  }
-                >
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger className='p-0 m-0'>Change Mobile no.</AccordionTrigger>
-                    <AccordionContent className="mt-2 text-gray-600">
-                      <div className="space-y-3 pt-2">
-                        <div className="flex items-center gap-2">
-                          <Typography variant="caption" className="w-32 whitespace-nowrap">
-                            Current info:
-                          </Typography>
-                          <input
-                            placeholder="Enter current mobile no."
-                            type="text"
-                            className={`${textFieldVariants({ readonly: true })} border border-gray-300 rounded-md px-2 py-1 w-1/3`}
-                            readOnly={!isEditMode}
-                          />
-                        </div>
+          {caseDetails?.caseGroup === "Change Info" && (
+            <FormProvider {...form}>
+              <form>
+                <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
+                  <Accordion
+                    type="single"
+                    collapsible
+                    value={openSections.changeMobile ? "item-1" : ""}
+                    onValueChange={(value) =>
+                      setOpenSections((prev) => ({ ...prev, changeMobile: value === "item-1" }))
+                    }
+                  >
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger className="p-0 m-0">
+                        {caseDetails?.caseType}
+                      </AccordionTrigger>
+                      <AccordionContent className="mt-2 text-gray-600">
+                        <div className="space-y-3 pt-2">
+                          <div className="flex items-center gap-2">
+                            <Typography variant="caption" className="w-32 whitespace-nowrap">
+                              Current info:
+                            </Typography>
+                            <input
+                              placeholder="Enter Current info."
+                              type="text"
+                              className={`${textFieldVariants({ readonly: true })} border border-gray-300 rounded-md px-2 py-1 w-1/3`}
+                              readOnly={!isEditMode}
+                            />
+                          </div>
 
-                        <div className="flex items-center gap-2">
-                          <Typography variant="caption" className="w-32 whitespace-nowrap">
-                            New info<span className="text-red-600">*</span>:
-                          </Typography>
-                          <input
-                            placeholder="Enter new mobile no."
-                            type="text"
-                            className={`${textFieldVariants({ readonly: !isEditMode })} border border-gray-300 rounded-md px-2 py-1 w-1/3`}
-                            readOnly={!isEditMode}
-                          />
+                          <div className="flex items-center gap-2">
+                            <Typography variant="caption" className="w-32 whitespace-nowrap">
+                              New info<span className="text-red-600">*</span>:
+                            </Typography>
+                            <input
+                              placeholder="Enter New info."
+                              type="text"
+                              className={`${textFieldVariants({ readonly: !isEditMode })} border border-gray-300 rounded-md px-2 py-1 w-1/3`}
+                              readOnly={!isEditMode}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </Card>
-            </form>
-          </FormProvider>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </Card>
+              </form>
+            </FormProvider>
+          )}
+
 
           {/* Attach File */}
           <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
