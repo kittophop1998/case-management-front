@@ -6,6 +6,7 @@ export type CaseType = z.infer<typeof CreateCaseSchema>;
 export type CaseTypeText = "Inquiry" | "None Inquiry";
 
 export type CaseDetailsType = {
+  caseGroup: string;
   caseType: string;
   caseId: string;
   createdBy: string;
