@@ -35,7 +35,7 @@ type FilterDateDialog = {
   dateEnd: string | null;
 }
 
-type FilterAll = FilterDateDialog & FilterDialog & {
+export type FilterAll = FilterDateDialog & FilterDialog & {
   keyword: string;
   category: string;
 }
@@ -239,7 +239,7 @@ const CaseManagementPage = () => {
   const { data: dataDropdown } = useGetDropdownQuery()
   const [searchObj, setSearchObj] = useState<FilterAll>({
     statuses: [],
-    priorities: ['High', 'Normal'],
+    priorities: [],
     slaDate: null,
     queue: null,
     dateStart: null,
@@ -247,15 +247,15 @@ const CaseManagementPage = () => {
     keyword: '',
     category: 'myCase',
   });
-  useEffect(() => {
-    setSearchObj((current) => {
-      if (current.statuses.length === 0) {
-        const statuses = dataDropdown?.caseStatus?.map(v => v.id) || []
-        return { ...current, statuses }
-      }
-      return current;
-    })
-  }, [dataDropdown?.caseStatus])
+  // useEffect(() => {
+  //   setSearchObj((current) => {
+  //     if (current.statuses.length === 0) {
+  //       const statuses = dataDropdown?.caseStatus?.map(v => v.id) || []
+  //       return { ...current, statuses }
+  //     }
+  //     return current;
+  //   })
+  // }, [dataDropdown?.caseStatus])
   const [statusConfigColumn, setStatusConfigColumn] = useState(false);
   return (
     <div>
