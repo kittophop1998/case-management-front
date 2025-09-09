@@ -179,4 +179,5 @@ export const UpdateCaseSchema = z.object({
 export const CreateCaseSchema = z.discriminatedUnion("caseTypeText", [
   CreateCaseInquirySchema,
   CreateCaseNoneInquirySchema,
+  // UpdateCaseSchema
 ]);

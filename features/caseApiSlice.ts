@@ -102,11 +102,43 @@ export const caseApiSlice = createApi({
       transformResponse: (response: ApiResponse<CaseDetailsType>) =>
         response?.data,
     }),
-    updateCaseByID: builder.mutation<void, { id: string; body: z.infer<typeof UpdateCaseSchema> }>({
+    updateCaseByID: builder.mutation<
+      void,
+      { id: string; body: z.infer<typeof UpdateCaseSchema> }
+    >({
       query: ({ id, body }) => ({
         url: `/cases/${id}`,
         method: "PUT",
         body,
+      }),
+    }),
+    //
+    getCaseNotes: builder.query<CaseDetailsType | undefined, { id: string }>({
+      query: ({ id }) => {
+        const datamock = JSON.stringify({
+          data: [
+            {
+              noteId: "",
+              name: "Nong Gaitod", //users.full_name (mapped with user id)
+              center: "HY", //center.name (mapped with user id)
+              createdAt: "", //note.created_at
+              noteContent: "", //note.content
+            },
+          ],
+        });
+        return {
+          url: `/mock/cases/${id}/note?datamock=${datamock}&isError=false`,
+          method: "GET",
+        };
+      },
+      transformResponse: (response: ApiResponse<CaseDetailsType>) =>
+        response?.data,
+    }),
+    addCaseNote: builder.mutation<void, { id: string; message: string }>({
+      query: ({ id, message }) => ({
+        url: `/cases/${id}/note`,
+        method: "POST",
+        body: { message },
       }),
     }),
   }),
@@ -117,5 +149,9 @@ export const {
   useCreateCaseNoneInquiryMutation,
   useGetCaseDetailsQuery,
   useLazyCaseByPermissionQuery,
-  useUpdateCaseByIDMutation
+  useUpdateCaseByIDMutation,
+  // case note
+  useLazyGetCaseNotesQuery,
+  useAddCaseNoteMutation,
+  //
 } = caseApiSlice;

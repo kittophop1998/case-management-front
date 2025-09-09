@@ -61,6 +61,14 @@ const TextAreaField = ({
     </InputFieldWarper>
   )
 }
+
+interface TextAreaFieldInput extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  prependInnerIcon?: React.ReactNode // Optional prop for an icon
+  field?: { value: any, onChange: (v: any) => void }
+  readonly?: boolean
+  loading?: boolean
+  className?: string
+}
 export const TextAreaFieldInput = ({
   prependInnerIcon,
   placeholder,
@@ -69,7 +77,7 @@ export const TextAreaFieldInput = ({
   loading = false,
   className = '',
   ...props
-}) => {
+}: TextAreaFieldInput) => {
   return (
     <div className='relative'>
       <div className='absolute flex items-center justify-center h-full w-[2rem] pointer-events-none'>
