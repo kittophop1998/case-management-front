@@ -253,6 +253,7 @@ const CaseManagementPage = () => {
         const statuses = dataDropdown?.caseStatus?.map(v => v.id) || []
         return { ...current, statuses }
       }
+      return current;
     })
   }, [dataDropdown?.caseStatus])
   const [statusConfigColumn, setStatusConfigColumn] = useState(false);
@@ -263,7 +264,7 @@ const CaseManagementPage = () => {
           <button
             key={tab.value}
             onClick={() => setSearchObj((current) => ({ ...current, category: tab.value }))}
-            className={`pb-2 px-4 border-b-2 text-sm font-medium ${searchObj?.category === tab.value
+            className={`pb-2 px-4 border-b-2 text-sm font-medium ${searchObj.category === tab.value
               ? "border-indigo-500"
               : "border-transparent text-gray-500 hover:text-primary"
               }`}
@@ -280,7 +281,7 @@ const CaseManagementPage = () => {
           </Typography>
           <div className="flex-1"></div>
           <InputFilter
-            setValue={(value) => { setSearchObj({ ...searchObj, keyword: value }) }} value={searchObj.keyword}
+            setValue={(value) => { setSearchObj({ ...searchObj, keyword: value }) }} value={searchObj.keyword || ''}
           />
           <InputFilterConfig searchObj={searchObj} setSearchObj={setSearchObj} caseStatus={dataDropdown?.caseStatus || []} />
           <BtnConfigColumn onClick={() => { setStatusConfigColumn(true) }} />
