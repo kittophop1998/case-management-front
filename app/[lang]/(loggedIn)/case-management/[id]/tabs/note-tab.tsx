@@ -38,7 +38,8 @@ export default function CaseManagementNoteTab() {
   return (
 
     <CardPageWrapper className="mt-4">
-      <h1 className="text-xl font-semibold mb-4">Case Note</h1>
+      {/* <h1 className="text-xl font-semibold mb-4">Case Note</h1> */}
+      <Typography variant="h6">Case Note</Typography>
       <div className="mb-4" />
       <div className="flex gap-6">
         <div className="w-1/2 max-h-[500px] overflow-y-auto pr-2 border-r">
