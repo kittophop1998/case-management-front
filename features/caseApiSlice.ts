@@ -77,7 +77,7 @@ export const caseApiSlice = createApi({
         const searchParams = createSearchParams({
           dateEnd: other.dateEnd,
           dateStart: other.dateStart,
-          status: other.statuses,
+          statusId: other.statuses,
           priority: other.priorities,
           slaDate: other.slaDate,
           queue: other.queue,
