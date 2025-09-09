@@ -515,7 +515,7 @@ export default function CaseManagementDetailPage() {
           <FormProvider {...form}>
             <form>
               <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
-                {true && <Accordion
+                {false && <Accordion
                   type="single"
                   collapsible
                   value={openSections.sendEmail ? "item-1" : ""}
