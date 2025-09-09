@@ -147,7 +147,7 @@ export const caseApiSlice = createApi({
 export const {
   useCreateCaseInquiryMutation,
   useCreateCaseNoneInquiryMutation,
-  useGetCaseDetailsQuery,
+  useLazyGetCaseDetailsQuery,
   useLazyCaseByPermissionQuery,
   useUpdateCaseByIDMutation,
   // case note

@@ -4,7 +4,7 @@ import CardPageWrapper from "@/components/common/card-page-warpper"
 import Card from "@/components/common/card";
 import { useEffect, useState, useMemo } from "react"
 import { File, SectionEmail, SectionSendEmail } from "@/components/case/section-email"
-import { useGetCaseDetailsQuery, useUpdateCaseByIDMutation } from "@/features/caseApiSlice"
+import { useLazyGetCaseDetailsQuery, useUpdateCaseByIDMutation } from "@/features/caseApiSlice"
 
 import { useGetDropdownQuery } from "@/features/systemApiSlice"
 import { Button } from "@/components/ui/button";
@@ -22,13 +22,17 @@ export default function CaseManagementDetailTab() {
   const params = useParams<{ id: string }>()
   const { id } = params
 
-  const { data: caseDetails, isLoading: isCaseLoading, error: caseError } = useGetCaseDetailsQuery({ id });
+  // const {getData, data: caseDetails, isLoading: isCaseLoading, error: caseError } = useLazyGetCaseDetailsQuery({ id });
+  const [getData, { currentData: caseDetails, isFetching, error: errGet }] = useLazyGetCaseDetailsQuery();
+
   const [getQueueList, { currentData: queueListData, isFetching: isQueueLoading, error: queueError }] = useLazyGetTableQuery();
   const { data: ddData, isLoading: isDropdownLoading } = useGetDropdownQuery();
   const [updateCase, { isLoading: isUpdating }] = useUpdateCaseByIDMutation();
+  const [isEditMode, setIsEditMode] = useState(false);
 
-
-  const [isEditMode, setIsEditMode] = useState(false)
+  useEffect(() => {
+    getData({ id });
+  }, []);
 
   useEffect(() => {
     if (caseDetails && ddData?.reasonCodes && queueListData?.data) {
