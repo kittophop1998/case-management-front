@@ -3,7 +3,7 @@ import { SectionCard } from "./section-card"
 import { TextAreaField } from "../form/textarea-field"
 import useCaseType from "@/hooks/use-case-type"
 import { CaseTypeText } from "@/types/case.type"
-import { memo, ReactNode, use, useEffect, useMemo } from "react"
+import { memo, ReactNode, use, useEffect, useMemo, useRef } from "react"
 import { SelectField } from "../form/select-field"
 import { DatePickerField, DatePickerFieldInput } from "../form/date-picker"
 import TelephoneCall from '@/public/icons/TelephoneCall.svg'
@@ -52,13 +52,16 @@ export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', dd
         return ''
     }, [reasonCode, ddData?.reasonCodes])
     const [getData, { currentData: data, isFetching, isError, error }] = useLazyGetTableQuery();
+    let isMounted = useRef(false);
     useEffect(() => {
-        getData({
-            page: 1,
-            limit: 99999999,
-            sort: null,
-            order: null,
-        })
+        if (isMounted.current) return;
+        // getData({
+        //     page: 1,
+        //     limit: 99999999,
+        //     sort: null,
+        //     order: null,
+        // })
+        isMounted.current = true;
     }, []);
 
     return (

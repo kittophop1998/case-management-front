@@ -28,6 +28,7 @@ import ChangeInfoSection from "@/components/case/section-change-info"
 import AttachFileSection from "@/components/case/section-attach-file"
 import { CustomerInfo } from "@/components/case/section-customer-info"
 import { truncate } from "fs"
+import { SectionCaseInfo } from "@/components/case/section-case-inquiry-info"
 
 export default function CaseManagementDetailTab() {
   const form = useForm()
@@ -49,7 +50,7 @@ export default function CaseManagementDetailTab() {
   ]
 
   useEffect(() => {
-    if (caseDetails && ddData?.data?.reasonCodes) {
+    if (caseDetails && ddData?.reasonCodes) {
       form.reset({
         priority: caseDetails?.priority || "",
         reasonCode: caseDetails?.reasonCode || "",
@@ -59,7 +60,7 @@ export default function CaseManagementDetailTab() {
         caseDescription: caseDetails?.caseDescription || ""
       });
     }
-  }, [caseDetails, ddData?.data?.reasonCodes, form]);
+  }, [caseDetails, ddData?.reasonCodes, form]);
 
   useEffect(() => {
     if (caseDetails) {
@@ -74,9 +75,9 @@ export default function CaseManagementDetailTab() {
 
   const [warningText, setWarningText] = useState("")
   useEffect(() => {
-    const found = ddData?.data?.reasonCodes?.find(item => item.id === reasonCode)
+    const found = ddData?.reasonCodes?.find(item => item.id === reasonCode)
     setWarningText(found?.notice || "")
-  }, [reasonCode, ddData?.data?.reasonCodes]);
+  }, [reasonCode, ddData?.reasonCodes]);
 
   const textFieldVariants = cva('', {
     variants: {
@@ -245,7 +246,7 @@ export default function CaseManagementDetailTab() {
               </Card>
 
               <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
-                <Accordion
+                {false && <Accordion
                   type="single"
                   collapsible
                   value={openSections.caseDetail ? "item-1" : ""}
@@ -293,7 +294,7 @@ export default function CaseManagementDetailTab() {
                                     valueName="id"
                                     labelName="descriptionTh"
                                     loading={false}
-                                    items={ddData?.data?.reasonCodes || []}
+                                    items={ddData?.reasonCodes || []}
                                     readonly={!isEditMode}
                                   />
                                 </div>
@@ -357,7 +358,13 @@ export default function CaseManagementDetailTab() {
                       </div>
                     </AccordionContent>
                   </AccordionItem>
-                </Accordion>
+                </Accordion>}
+                <SectionCaseInfo
+                  isSmallMod={true}
+                  form={form}
+                  caseTypeText={'None Inquiry'}
+                  ddData={ddData}
+                />
               </Card>
 
               {caseDetails?.caseGroup === "Change Info" && (
@@ -419,7 +426,7 @@ export default function CaseManagementDetailTab() {
 
               {/* Send Email */}
               <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
-                <Accordion
+                {false && <Accordion
                   type="single"
                   collapsible
                   value={openSections.sendEmail ? "item-1" : ""}
@@ -520,7 +527,8 @@ export default function CaseManagementDetailTab() {
                       </div>
                     </AccordionContent>
                   </AccordionItem>
-                </Accordion>
+                </Accordion>}
+                <SectionSendEmail form={form} layout="2col" isSmallMod={true} mode={isEditMode ? 'edit' : 'view'} />
               </Card>
 
             </div>
