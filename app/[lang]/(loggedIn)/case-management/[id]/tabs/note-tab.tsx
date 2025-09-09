@@ -43,7 +43,7 @@ export default function CaseManagementNoteTab() {
       <div className="mb-4" />
       <div className="flex gap-6">
         <div className="w-1/2 max-h-[500px] overflow-y-auto pr-2 border-r">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 pr-3">
             {/* {JSON.stringify(data)} */}
             {(data || []).map(note => (
               <div key={note.id}>
