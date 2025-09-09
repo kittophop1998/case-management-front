@@ -150,6 +150,7 @@ export const CreateCaseNoneInquirySchema = z
 
 export const CreateCaseInquirySchema = z.object({
   caseTypeText: z.literal("Inquiry"), // fix discriminator
+  priority: z.literal("Normal"), // fix discriminator
   customerName: z.string(),
   customerId: z.string().optional(),
   caseTypeId: z.string().min(1, "Case Type is required"),
