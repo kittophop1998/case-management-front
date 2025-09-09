@@ -27,7 +27,7 @@ interface SectionCaseInfoProps {
 
 
 
-export const SectionCaseInfo = memo(({ isSmallMod, form, caseTypeText = 'Inquiry', ddData, layout = '1col', mode = 'view', queueAll, moreInfo }: SectionCaseInfoProps) => {
+export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', ddData, layout = '1col', mode = 'view', queueAll, moreInfo }: SectionCaseInfoProps) => {
   const caseTypeId = form.watch('caseTypeId')
   const {
     data: { childValue2text },
@@ -96,6 +96,7 @@ export const SectionCaseInfo = memo(({ isSmallMod, form, caseTypeText = 'Inquiry
                 </div>
               } />
               <Info required title="Priority" value={<div className="flex-1 max-w-[300px]">
+
                 <SelectField
                   form={form}
                   name='priority'
@@ -164,4 +165,4 @@ export const SectionCaseInfo = memo(({ isSmallMod, form, caseTypeText = 'Inquiry
       </div>
     </SectionCard>
   )
-})
+}
