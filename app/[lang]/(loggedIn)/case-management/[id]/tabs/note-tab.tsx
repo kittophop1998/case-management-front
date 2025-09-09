@@ -7,6 +7,7 @@ import { useAddCaseNoteMutation, useLazyGetCaseNotesQuery } from "@/features/cas
 import { useParams } from "next/navigation"
 import { Typography } from "@/components/common/typography"
 import { format } from "date-fns"
+import { Button } from "@/components/common/Button"
 
 type Note = {
   id: number
@@ -18,7 +19,7 @@ export default function CaseManagementNoteTab() {
   const params = useParams<{ id: string }>()
   const { id } = params
   const [getData, { currentData: data, isFetching, error: errGet }] = useLazyGetCaseNotesQuery();
-  const [create, { error: errPost, isLoading }] = useAddCaseNoteMutation()
+  const [create, { error: errPost, isLoading: isLoadingCreate }] = useAddCaseNoteMutation()
   useEffect(() => {
     getData({ id });
   }, []);
@@ -78,13 +79,18 @@ export default function CaseManagementNoteTab() {
             }}
 
           />
-          <button
+          <Button
+            className="mt-3"
             type="submit"
-            className="mt-4 px-4 py-2 border border-purple-500 text-purple-600 rounded-md font-medium hover:bg-purple-700"
+            variant='outline-primary'
+            size='small'
+            disabled={!message}
+            // className="mt-4 px-4 py-2 border border-purple-500 text-purple-600 rounded-md font-medium hover:bg-purple-700"
             onClick={onSubmit}
+            loading={isLoadingCreate}
           >
             Submit
-          </button>
+          </Button>
         </div>
       </div>
     </CardPageWrapper>
