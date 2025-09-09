@@ -91,7 +91,7 @@ export default function CaseManagementDetailTab() {
         allocateToQueueTeam: values.allocateToQueueTeam,
         data: {
           currentInfo: "test", // fix
-          newInfo: "demo",     // fix
+          newInfo: "demo", // fix
         },
       });
       console.log("Parsed data to submit:", parsed);
@@ -99,19 +99,13 @@ export default function CaseManagementDetailTab() {
       await updateCase({ id, body: parsed }).unwrap();
 
       setIsEditMode(false);
-      // Optionally: แสดง toast success หรือ refetch ข้อมูลใหม่
     } catch (error: any) {
       console.error("Validation or API error:", error);
-      // แสดง error, toast, etc.
     }
   };
 
-  useDebugLogForm({ form })
-
-  const seeVaue = form.watch()
   return (
     <div>
-      {/* {JSON.stringify(seeVaue)} */}
       <div className="mt-4 flex justify-end gap-2 pr-13">
         <Button
           className="bg-[#5570f1] text-white hover:bg-[#5570f1]/90 hover:text-white"
