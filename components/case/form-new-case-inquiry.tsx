@@ -133,7 +133,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                     form={form}
                                     caseTypeText={caseTypeText}
                                     ddData={ddData}
-
+                                    mode='create'
                                 />
                                 <SectionCaseNoteInfo
                                     isSmallMod={isSmallMod}
@@ -153,6 +153,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                         <SectionSendEmail
                                             isSmallMod={isSmallMod}
                                             form={form}
+                                            mode='create'
                                         /> :
                                         <SectionDisposition
                                             isSmallMod={isSmallMod}
