@@ -113,32 +113,32 @@ export const caseApiSlice = createApi({
       }),
     }),
     //
-    getCaseNotes: builder.query<CaseDetailsType | undefined, { id: string }>({
+    getCaseNotes: builder.query<any[], { id: string }>({
       query: ({ id }) => {
-        const datamock = JSON.stringify({
-          data: [
-            {
-              noteId: "",
-              name: "Nong Gaitod", //users.full_name (mapped with user id)
-              center: "HY", //center.name (mapped with user id)
-              createdAt: "", //note.created_at
-              noteContent: "", //note.content
-            },
-          ],
-        });
+        // const data = JSON.stringify([
+        //   {
+        //     noteId: "",
+        //     name: "Nong Gaitod", //users.full_name (mapped with user id)
+        //     center: "HY", //center.name (mapped with user id)
+        //     createdAt: "", //note.created_at
+        //     noteContent: "", //note.content
+        //   },
+        // ]);
+        // // const datamock = encodeURIComponent(JSON.stringify(data));
+        // const datamock = JSON.stringify(data);
+
         return {
-          url: `/mock/cases/${id}/note?datamock=${datamock}&isError=false`,
+          url: `/cases/${id}/note`,
           method: "GET",
         };
       },
-      transformResponse: (response: ApiResponse<CaseDetailsType>) =>
-        response?.data,
+      transformResponse: (response: ApiResponse<any[]>) => response?.data || [],
     }),
     addCaseNote: builder.mutation<void, { id: string; message: string }>({
       query: ({ id, message }) => ({
         url: `/cases/${id}/note`,
         method: "POST",
-        body: { message },
+        body: { content: message },
       }),
     }),
   }),

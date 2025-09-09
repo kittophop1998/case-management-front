@@ -86,6 +86,7 @@ export const TextAreaFieldInput = ({
       <Textarea
         className={cn(textFieldVariants({ readonly }), className)}
         placeholder={placeholder}
+        {...props}
         {...field}
         readOnly={readonly}
       />
