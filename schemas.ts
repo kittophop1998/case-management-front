@@ -163,7 +163,22 @@ export const CreateCaseInquirySchema = z.object({
   productId: z.string().min(1, "Product is required"),
 });
 
+// สำหรับ Update Case
+export const UpdateCaseSchema = z.object({
+  caseTypeId: z.string().min(1, "Case Type ID is required"),
+  priority: z.string().min(1, "Priority is required"),
+  reasonCodeId: z.string().nullable().optional(),
+  dueDate: z.string().min(1, "Due Date is required"),
+  allocateToQueueTeam: z.string().min(1, "Queue Team is required"),
+  data: z.object({
+    currentInfo: z.string(), // fix "test"
+    newInfo: z.string(),     // fix "demo"
+  }),
+});
+
+
 export const CreateCaseSchema = z.discriminatedUnion("caseTypeText", [
   CreateCaseInquirySchema,
   CreateCaseNoneInquirySchema,
+  UpdateCaseSchema
 ]);

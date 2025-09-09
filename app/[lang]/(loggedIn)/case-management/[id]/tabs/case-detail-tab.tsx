@@ -1,35 +1,21 @@
 'use client'
 import { useForm, FormProvider } from "react-hook-form"
 import CardPageWrapper from "@/components/common/card-page-warpper"
-import { Typography } from "@/components/common/typography"
-import { TextAreaField } from "@/components/form/textarea-field"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Card from "@/components/common/card";
 import { useEffect, useState, useMemo } from "react"
-import RichTextEditor from "@/components/rich-text-editor"
 import { File, SectionEmail, SectionSendEmail } from "@/components/case/section-email"
-import { useGetCaseDetailsQuery } from "@/features/caseApiSlice"
-import TelephoneCall from '@/public/icons/TelephoneCall.svg'
-import { Info } from "@/components/case/info"
-import Warning from '@/public/icons/Warning.svg'
-import { SelectField } from "@/components/form/select-field"
+import { useGetCaseDetailsQuery, useUpdateCaseByIDMutation } from "@/features/caseApiSlice"
 
 import { useGetDropdownQuery } from "@/features/systemApiSlice"
-import Tiptap from "@/components/common/Tiptap"
-import { createColumnHelper } from "@tanstack/react-table"
-import { DataTable, Header } from "@/components/common/table"
-import { useTable } from "@/hooks/use-table"
 import { Button } from "@/components/ui/button";
-import { DatePickerFieldInput } from "@/components/form/date-picker"
 import { useParams } from 'next/navigation'
-import { cva } from "class-variance-authority"
 import { useLazyGetTableQuery } from "@/features/queueApiSlice"
 import { CustomerInfo } from "@/components/case/section-customer-info"
-import { truncate } from "fs"
 import { AttachFileSection } from "@/components/case/section-attach-file"
 import { SectionCaseInfo } from "@/components/case/section-case-inquiry-info"
 import { useDebugLogForm } from "@/hooks/use-debug-log-form"
 import { ChangeInfoSection } from "@/components/case/section-change-info"
+import { UpdateCaseSchema } from "@/schemas";
 
 export default function CaseManagementDetailTab() {
   const form = useForm()
@@ -37,13 +23,15 @@ export default function CaseManagementDetailTab() {
   const { id } = params
 
   const { data: caseDetails, isLoading: isCaseLoading, error: caseError } = useGetCaseDetailsQuery({ id });
-  const { data: ddData, isLoading: isDropdownLoading } = useGetDropdownQuery()
+  const [getQueueList, { currentData: queueListData, isFetching: isQueueLoading, error: queueError }] = useLazyGetTableQuery();
+  const { data: ddData, isLoading: isDropdownLoading } = useGetDropdownQuery();
+  const [updateCase, { isLoading: isUpdating }] = useUpdateCaseByIDMutation();
+
 
   const [isEditMode, setIsEditMode] = useState(false)
 
-
   useEffect(() => {
-    if (caseDetails && ddData?.reasonCodes) {
+    if (caseDetails && ddData?.reasonCodes && queueListData?.data) {
       form.reset({
         priority: caseDetails?.priority || "",
         reasonCode: caseDetails?.reasonCode || "",
@@ -53,7 +41,19 @@ export default function CaseManagementDetailTab() {
         caseDescription: caseDetails?.caseDescription || ""
       });
     }
-  }, [caseDetails, ddData?.reasonCodes, form]);
+  }, [caseDetails, ddData?.reasonCodes, queueListData?.data, form]);
+
+  useEffect(() => {
+    if (caseDetails) {
+      getQueueList({
+        page: 1,
+        limit: 99999999,
+        sort: null,
+        order: null,
+      });
+    }
+  }, [caseDetails, getQueueList]);
+
 
   const mockTableData = [
     {
@@ -79,12 +79,39 @@ export default function CaseManagementDetailTab() {
     mailTo: "john.doe@example.com",
   };
 
+  const onSave = async () => {
+    const values = form.getValues();
+
+    try {
+      const parsed = UpdateCaseSchema.parse({
+        caseTypeId: caseDetails?.caseTypeId ?? "",
+        priority: values.priority,
+        reasonCodeId: values.reasonCode || null,
+        dueDate: values.dueDate,
+        allocateToQueueTeam: values.allocateToQueueTeam,
+        data: {
+          currentInfo: "test", // fix
+          newInfo: "demo",     // fix
+        },
+      });
+      console.log("Parsed data to submit:", parsed);
+
+      await updateCase({ id, body: parsed }).unwrap();
+
+      setIsEditMode(false);
+      // Optionally: แสดง toast success หรือ refetch ข้อมูลใหม่
+    } catch (error: any) {
+      console.error("Validation or API error:", error);
+      // แสดง error, toast, etc.
+    }
+  };
+
   useDebugLogForm({ form })
 
   const seeVaue = form.watch()
   return (
     <div>
-      {JSON.stringify(seeVaue)}
+      {/* {JSON.stringify(seeVaue)} */}
       <div className="mt-4 flex justify-end gap-2 pr-13">
         <Button
           className="bg-[#5570f1] text-white hover:bg-[#5570f1]/90 hover:text-white"
@@ -105,11 +132,13 @@ export default function CaseManagementDetailTab() {
           <Button
             className="bg-[#0c6d0c] text-white hover:bg-[#5570f1]/90 hover:text-white"
             variant="outline"
-            onClick={() => setIsEditMode(false)}
+            onClick={onSave}
+            disabled={isUpdating}
           >
-            Save
+            {isUpdating ? "Saving..." : "Save"}
           </Button>
         )}
+
         <Button className="bg-[#fd5e5e] text-white hover:bg-[#5570f1]/90 hover:text-white" variant="outline">
           Close
         </Button>
@@ -129,10 +158,10 @@ export default function CaseManagementDetailTab() {
               {/* Case Info */}
               <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
                 <SectionCaseInfo
+                  moreInfo={caseDetails || {}}
                   queueAll={queueListData?.data || []}
                   isSmallMod={true}
                   form={form}
-                  // form={{}}
                   caseTypeText='None Inquiry'
                   ddData={ddData}
                   mode={isEditMode ? 'edit' : 'view'}

@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQuery } from "@/services/api";
 import z from "zod";
-import { CreateCaseSchema } from "@/schemas";
+import { CreateCaseSchema, UpdateCaseSchema } from "@/schemas";
 import { ApiResponse } from "@/types/api.type";
 import { CaseDetailsType } from "@/types/case.type";
 import { DefaultReqTableType, TableType } from "@/types/table.type";
@@ -91,6 +91,13 @@ export const caseApiSlice = createApi({
       }),
       transformResponse: (response: ApiResponse<CaseDetailsType>) => response?.data,
     }),
+    updateCaseByID: builder.mutation<void, { id: string; body: z.infer<typeof UpdateCaseSchema> }>({
+      query: ({ id, body }) => ({
+        url: `/cases/${id}`,
+        method: "PUT",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -99,4 +106,5 @@ export const {
   useCreateCaseNoneInquiryMutation,
   useGetCaseDetailsQuery,
   useLazyCaseByPermissionQuery,
+  useUpdateCaseByIDMutation
 } = caseApiSlice;
