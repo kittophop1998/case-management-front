@@ -11,6 +11,8 @@ type Note = {
 }
 
 export default function CaseManagementNoteTab() {
+  // http://localhost:8000/api/v1/cases/:caseid/note POST
+  // http://localhost:8000/api/v1/cases/:caseid/note GET
   const form = useForm();
   const [notes, setNotes] = useState<Note[]>([
     {
@@ -60,8 +62,8 @@ export default function CaseManagementNoteTab() {
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <CardPageWrapper className="mt-4">
-            <h1 className="text-xl font-semibold mb-4">Case Note</h1>
-            <div className="mb-4" />
+          <h1 className="text-xl font-semibold mb-4">Case Note</h1>
+          <div className="mb-4" />
 
           <div className="flex gap-6">
             <div className="w-1/2 max-h-[500px] overflow-y-auto pr-2 border-r">

@@ -56,7 +56,7 @@ const Group = ({
         <div>
             <GroupName name={name}></GroupName>
             {items.map((item) => (
-                <Item handleSelect={handleSelect} {...item} />
+                <Item key={item.id} handleSelect={handleSelect} {...item} />
             ))}
             <Separator />
         </div>

@@ -16,6 +16,7 @@ import PaperDownloadSvg from '@/public/icons/PaperDownload.svg'
 import Tiptap from "../common/Tiptap"
 import RichTextEditor from "../rich-text-editor"
 import { cn } from "@/lib/utils"
+import { Send, Trash } from "lucide-react"
 
 interface SectionEmailProps {
     isSmallMod: boolean
@@ -108,7 +109,16 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
     };
 
     return (
-        <SectionCard title="Send Email" isAccordion={!!isSmallMod}>
+        <SectionCard title="Send Email" isAccordion={!!isSmallMod} actions={
+            <div className="gap-3 flex">
+                <button type="button" className="cursor-pointer">
+                    <Send color={'#7461CF'} size={16} />
+                </button>
+                <button type="button" className="cursor-pointer">
+                    <Trash color="red" size={16} />
+                </button>
+            </div>
+        }>
             <div className="space-y-3 pt-2">
                 <div className={cn("grid gap-3", {
                     'grid-cols-1': layout === '1col',
@@ -205,7 +215,7 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
                     <RichTextEditor content={post} onChange={onChange} />
                 </div>
                 <div className="space-y-3">
-                    {[1, 2].map(() => <File />)}
+                    {[1, 2].map((key) => <File key={key} />)}
                 </div>
             </div>
         </SectionCard >

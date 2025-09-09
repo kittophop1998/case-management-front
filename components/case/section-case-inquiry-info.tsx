@@ -161,6 +161,7 @@ export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', dd
             label="Case Description"
             placeholder="Enter Case Description"
             form={form}
+            required
           />
         </div>
       </div>
