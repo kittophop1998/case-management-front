@@ -3,16 +3,19 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Separator } from "@/components/ui/separator";
 import { ReactNode, useState } from "react";
 
-interface SectionCardProps { title: string, children: ReactNode, isAccordion: boolean }
+interface SectionCardProps { title: string, children: ReactNode, isAccordion: boolean, actions?: ReactNode }
 
-export const SectionCard = ({ title, children, isAccordion }: SectionCardProps) => {
+export const SectionCard = ({ title, children, isAccordion, actions }: SectionCardProps) => {
     const [isOpen, setIsOpen] = useState(true);
     if (isAccordion) {
         return (
             <Card className="rounded-none shadow-none p-3">
                 <Accordion type="single" collapsible className="" value={isOpen ? "item-1" : ""} onValueChange={(value) => setIsOpen(value === "item-1")}>
                     <AccordionItem value="item-1">
-                        <AccordionTrigger className='p-0 m-0'>{title}</AccordionTrigger>
+                        <AccordionTrigger className='p-0 m-0'>
+                            {title}
+                            {!!actions && <> <div className="flex-1"></div><div>{actions}</div></>}
+                        </AccordionTrigger>
                         <AccordionContent className="mt-2 text-gray-600">
                             {children}
                         </AccordionContent>
@@ -24,8 +27,11 @@ export const SectionCard = ({ title, children, isAccordion }: SectionCardProps) 
         return (
             <>
                 <div className="p-3">
-                    <div >
+                    <div className="flex">
                         {title}
+                        {!!actions && <> <div className="flex-1"></div><div>{actions}</div></>}
+
+
                     </div>
                     <div>
                         {children}

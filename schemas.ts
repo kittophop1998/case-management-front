@@ -172,13 +172,11 @@ export const UpdateCaseSchema = z.object({
   allocateToQueueTeam: z.string().min(1, "Queue Team is required"),
   data: z.object({
     currentInfo: z.string(), // fix "test"
-    newInfo: z.string(),     // fix "demo"
+    newInfo: z.string(), // fix "demo"
   }),
 });
-
 
 export const CreateCaseSchema = z.discriminatedUnion("caseTypeText", [
   CreateCaseInquirySchema,
   CreateCaseNoneInquirySchema,
-  UpdateCaseSchema
 ]);

@@ -117,7 +117,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
             return (
                 <FormProvider {...form} >
                     <form onSubmit={form.handleSubmit(onSubmit)} className={cn('px-3')}>
-                        {/* {seeForm} */}
+                        {/* {JSON.stringify(seeForm)} */}
                         <div className={cn("py-3 overflow-y-auto", isSmallMod ? "max-h-[50vh]" : "max-h-[75vh] w-[clamp(300px,90vw,75rem)] grid grid-cols-2 gap-3")}>
                             <div className={cn(isSmallMod ? '' : 'bg-white outline-1')}>
                                 {
