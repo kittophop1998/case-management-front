@@ -158,6 +158,7 @@ export default function CaseManagementDetailTab() {
               {/* Case Info */}
               <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
                 <SectionCaseInfo
+                  title="Case Detail"
                   moreInfo={caseDetails || {}}
                   queueAll={queueListData?.data || []}
                   isSmallMod={true}

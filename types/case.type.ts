@@ -7,6 +7,7 @@ export type CaseTypeText = "Inquiry" | "None Inquiry";
 
 export type CaseDetailsType = {
   caseGroup: string;
+  caseTypeId: string;
   caseType: string;
   caseId: string;
   createdBy: string;
