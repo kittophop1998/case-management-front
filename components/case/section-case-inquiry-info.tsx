@@ -22,12 +22,13 @@ interface SectionCaseInfoProps {
   layout?: '1col' | '2col',
   mode?: 'view' | 'edit' | 'create'
   queueAll?: QueueType[],
-  moreInfo?: Record<string, any>
+  moreInfo?: Record<string, any>,
+  title?: string,
 }
 
 
 
-export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', ddData, layout = '1col', mode = 'view', queueAll, moreInfo }: SectionCaseInfoProps) => {
+export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', ddData, layout = '1col', mode = 'view', queueAll, moreInfo, title }: SectionCaseInfoProps) => {
   const caseTypeId = form.watch('caseTypeId')
   const {
     data: { childValue2text },
@@ -67,7 +68,7 @@ export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', dd
   }, []);
 
   return (
-    <SectionCard title="Case Info" isAccordion={!!isSmallMod}>
+    <SectionCard title={title || 'Case Info'} isAccordion={!!isSmallMod}>
       <div className={cn("pt-2 grid gap-3", {
         'grid-cols-1': layout === '1col',
         'grid-cols-2': layout === '2col',
