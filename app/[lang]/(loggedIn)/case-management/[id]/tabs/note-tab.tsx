@@ -19,9 +19,6 @@ export default function CaseManagementNoteTab() {
   const [create, { error: errPost, isLoading }] = useAddCaseNoteMutation()
   useEffect(() => {
     getData({ id });
-    return () => {
-
-    };
   }, []);
   const [message, setMessage] = useState<string>('');
   // const form = useForm();
