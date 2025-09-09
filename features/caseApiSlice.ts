@@ -128,7 +128,7 @@ export const caseApiSlice = createApi({
         const datamock = JSON.stringify(data);
 
         return {
-          url: `/mock/cases/${id}/note?datamock=${datamock}&isError=false`,
+          url: `/cases/${id}/note?datamock=${datamock}&isError=false`,
           method: "GET",
         };
       },
