@@ -56,9 +56,8 @@ const sidebarMenuIconVariants = cva('', {
 // -----------------------------------------------------------------------------
 
 const title2icon: Record<string, React.ComponentType<any>> = {
-  'Customer Dashboard': CustomerDashboardIcon,
+  'Search Customer': CustomerDashboardIcon,
   'Case Management': CaseManagementIcon,
-  'Inquiry Log': InquiryLogIcon,
   'Report': ReportIcon,
   'Settings': SettingIcon,
   'User Management': SettingIcon,

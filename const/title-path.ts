@@ -134,7 +134,6 @@ export const path2name: Record<string, string> = {
   "/user-management": "User Management",
   "/access-control": "Access Control",
   "/report": "Report",
-  "/inquiry-log": "Inquiry Log",
   "/queue-management": "Queue Management",
   // 2nd level
   "/case/management": "Case Management",
@@ -241,12 +240,11 @@ export const path2sidebar: Record<string, string> = {
   "/user-management": "User Management",
   "/access-control": "Access Control",
   "/report": "Report",
-  "/inquiry-log": "Inquiry Log",
   "/queue-management": "Queue Management",
   // 2nd level
-  "/case/management": "Customer Dashboard",
-  "/customer/search": "Customer Dashboard",
-  "/customer/dashboard": "Customer Dashboard",
+  "/case/management": "Search Customer",
+  "/customer/search": "Search Customer",
+  "/customer/dashboard": "Search Customer",
 };
 
 export const navMain: {
@@ -255,7 +253,12 @@ export const navMain: {
   permission?: PermissionKeyType[];
 }[] = [
   {
-    title: "Customer Dashboard",
+    title: "User Management",
+    url: "/user-management",
+    permission: ["view.user"],
+  },
+  {
+    title: "Search Customer",
     url: "/customer/search",
     permission: ["search.customer"],
   },
@@ -263,11 +266,6 @@ export const navMain: {
     title: "Case Management",
     url: "/case-management",
     permission: ["view.case"],
-  },
-  {
-    title: "Inquiry Log",
-    url: "/inquiry-log",
-    permission: ["view.inquirylog"],
   },
   {
     title: "Report",
@@ -279,11 +277,7 @@ export const navMain: {
     url: "/settings",
     permission: ["view.setting"],
   },
-  {
-    title: "User Management",
-    url: "/user-management",
-    permission: ["view.user"],
-  },
+
   {
     title: "Access Control",
     url: "/access-control",
