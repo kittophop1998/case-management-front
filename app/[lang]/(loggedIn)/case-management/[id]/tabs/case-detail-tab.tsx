@@ -360,9 +360,11 @@ export default function CaseManagementDetailTab() {
                   </AccordionItem>
                 </Accordion>}
                 <SectionCaseInfo
+                  queueAll={queueListData?.data || []}
                   isSmallMod={true}
                   form={form}
-                  caseTypeText={'None Inquiry'}
+                  // form={{}}
+                  caseTypeText='None Inquiry'
                   ddData={ddData}
                 />
               </Card>

@@ -12,6 +12,7 @@ import { DropdownSystemType, GetDropdownResponse } from "@/features/systemApiSli
 import { Info } from "./info"
 import { useLazyGetQueueInfoQuery, useLazyGetTableQuery } from "@/features/queueApiSlice"
 import { cn } from "@/lib/utils"
+import { QueueType } from "@/types/queue.type"
 
 interface SectionCaseInfoProps {
     isSmallMod: boolean
@@ -20,11 +21,12 @@ interface SectionCaseInfoProps {
     ddData: DropdownSystemType | undefined
     layout?: '1col' | '2col',
     mode?: 'view' | 'edit' | 'create'
+    queueAll?: QueueType[]
 }
 
 
 
-export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', ddData, layout = '1col', mode = 'view' }: SectionCaseInfoProps) => {
+export const SectionCaseInfo = memo(({ isSmallMod, form, caseTypeText = 'Inquiry', ddData, layout = '1col', mode = 'view', queueAll }: SectionCaseInfoProps) => {
     const caseTypeId = form.watch('caseTypeId')
     const {
         data: { childValue2text },
@@ -51,17 +53,17 @@ export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', dd
         }
         return ''
     }, [reasonCode, ddData?.reasonCodes])
-    const [getData, { currentData: data, isFetching, isError, error }] = useLazyGetTableQuery();
-    let isMounted = useRef(false);
+    console.log(`rerender`)
+    const [getData, { currentData: data }] = useLazyGetTableQuery();
+    const dataQueue = useMemo(() => queueAll || data?.data || [], [data, queueAll])
     useEffect(() => {
-        if (isMounted.current) return;
-        // getData({
-        //     page: 1,
-        //     limit: 99999999,
-        //     sort: null,
-        //     order: null,
-        // })
-        isMounted.current = true;
+        if (!!queueAll) return;
+        getData({
+            page: 1,
+            limit: 99999999,
+            sort: null,
+            order: null,
+        })
     }, []);
 
     return (
@@ -128,7 +130,7 @@ export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', dd
                                     valueName='queueId'
                                     labelName='queueName'
                                     loading={false}
-                                    items={data?.data || []}
+                                    items={dataQueue}
                                 /></div>} />
                         </>
                     )}
@@ -144,4 +146,4 @@ export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', dd
             </div>
         </SectionCard>
     )
-}
+})
