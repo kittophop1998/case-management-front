@@ -115,20 +115,20 @@ export const caseApiSlice = createApi({
     //
     getCaseNotes: builder.query<any[], { id: string }>({
       query: ({ id }) => {
-        const data = JSON.stringify([
-          {
-            noteId: "",
-            name: "Nong Gaitod", //users.full_name (mapped with user id)
-            center: "HY", //center.name (mapped with user id)
-            createdAt: "", //note.created_at
-            noteContent: "", //note.content
-          },
-        ]);
-        // const datamock = encodeURIComponent(JSON.stringify(data));
-        const datamock = JSON.stringify(data);
+        // const data = JSON.stringify([
+        //   {
+        //     noteId: "",
+        //     name: "Nong Gaitod", //users.full_name (mapped with user id)
+        //     center: "HY", //center.name (mapped with user id)
+        //     createdAt: "", //note.created_at
+        //     noteContent: "", //note.content
+        //   },
+        // ]);
+        // // const datamock = encodeURIComponent(JSON.stringify(data));
+        // const datamock = JSON.stringify(data);
 
         return {
-          url: `/cases/${id}/note?datamock=${datamock}&isError=false`,
+          url: `/cases/${id}/note`,
           method: "GET",
         };
       },
