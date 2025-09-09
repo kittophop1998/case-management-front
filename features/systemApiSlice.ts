@@ -32,6 +32,7 @@ export type DropdownSystemType = {
     id: string;
     notice: string;
   }[];
+  caseStatus: JsonJoinDetails[];
 };
 export type GetDropdownResponse = ApiResponse<DropdownSystemType>;
 
@@ -49,11 +50,13 @@ export const systemApiSlice = createApi({
   reducerPath: "systemApi",
   baseQuery,
   endpoints: (builder) => ({
-    getDropdown: builder.query<GetDropdownResponse, void>({
+    getDropdown: builder.query<DropdownSystemType | undefined, void>({
       query: () => ({
         url: "/master-data/lookups",
         method: "GET",
       }),
+      transformResponse: (response: ApiResponse<DropdownSystemType>) =>
+        response?.data,
     }),
     getInquiry: builder.query<Disposition[], void>({
       query: () => ({

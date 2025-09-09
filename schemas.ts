@@ -153,7 +153,7 @@ export const CreateCaseInquirySchema = z.object({
   customerName: z.string(),
   customerId: z.string().optional(),
   caseTypeId: z.string().min(1, "Case Type is required"),
-  caseDescription: z.string(),
+  caseDescription: z.string().min(1, "Case Description is required"),
   caseNote: z.array(z.string()).min(1, "At least one case note is required"),
   dispositionMainId: z.string().min(1, "Main Disposition Stamp is required"),
   dispositionSubId: z.string().min(1, "Sub Disposition Stamp is required"),

@@ -152,27 +152,6 @@ const NoteListPage = () => {
                     <Typography variant="h6" className="mb-2">
                         Note List
                     </Typography>
-                    {/* <div className="flex items-center gap-2">
-                        <SearchFieldInput placeholder='Search by Cust. Reference'
-                            field={
-                                {
-                                    value: filterForm.text,
-                                    onChange: (e: {
-                                        target: { value: string }
-                                    }) => setFilterForm((pv) => ({ ...pv, text: e.target.value }))
-                                }
-                            }
-                        />
-                        <BtnFilter onClick={() => console.log('Filter clicked', filterForm)} />
-                        <DatePickerFieldInput
-                            value={filterForm.date}
-                            onChange={(date) => {
-                                console.log('Selected date:', date);
-                                setFilterForm(pv => ({ ...pv, date }));
-                            }}
-                        />
-                        <BtnExport onClick={() => console.log('Export clicked')} />
-                    </div> */}
                 </div>
                 <DataTable
                     loading={!!isFetching}

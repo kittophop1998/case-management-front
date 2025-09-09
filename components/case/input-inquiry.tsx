@@ -8,6 +8,7 @@ import { PopoverContent } from "../ui/popover";
 import { Typography } from "../common/typography";
 import { SearchFieldInput } from "../form/search-field";
 import { Checkbox } from "../ui/checkbox";
+import { FormMessage } from "../ui/form";
 interface InputInquiryProps {
     form: any;
     mainIdName: string;
@@ -164,6 +165,7 @@ export const InputInquiry = ({
     mainListName,
     subListName,
 }: InputInquiryProps) => {
+
     const { data: items = [] } = useGetInquiryQuery();
 
     const mainListValue = form.watch(mainListName) as string[]
@@ -265,12 +267,13 @@ export const InputInquiry = ({
     }, [])
     const onClickSubId = useCallback((id: string, item: Disposition) => {
         console.log(`onClickSubId :`, id, item)
-        form.setValue(mainIdName, item.dispositionMain.id);
-        form.setValue(subIdName, id);
+        form.setValue(mainIdName, item.dispositionMain.id, { shouldValidate: true });
+        form.setValue(subIdName, id, { shouldValidate: true });
     }, [])
     // const mainList = form.watch(mainListName)
     // const subList = form.watch(subListName)
 
+    const errors = form.formState.errors
 
     return (
         <>
@@ -305,8 +308,9 @@ export const InputInquiry = ({
                         />
                     </PopoverContent>
                 </Popover>
+
             </div>
-            <div>
+            {!!itemsBySelected.length && (<div>
                 <SelectMultipleChild
                     items={itemsBySelected}
                     onClickMain={onClickMainId}
@@ -314,6 +318,8 @@ export const InputInquiry = ({
                     main={mainId}
                     sub={subId}
                 />
-            </div>
+            </div>)}
+            {errors.dispositionMainId && <FormMessage>{errors.dispositionMainId.message}</FormMessage>}
+            {errors.dispositionSubId && <FormMessage>{errors.dispositionSubId.message}</FormMessage>}
         </>)
 }

@@ -157,7 +157,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                         <SectionDisposition
                                             isSmallMod={isSmallMod}
                                             form={form}
-                                            products={ddData?.data?.products || []}
+                                            products={ddData?.products || []}
                                         />
                                 }
                             </div>

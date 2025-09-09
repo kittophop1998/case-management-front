@@ -8,20 +8,25 @@ import CaseTable from "./_components/case-table";
 import InputFilter from "@/components/common/input-filter";
 import BtnFilter from "@/components/button/btn-filter";
 import { Modal } from "@/components/common/Modal";
-import { DatePickerFieldInput } from "@/components/form/date-picker";
+import { DatePickerFieldInputV2 } from "@/components/form/date-picker";
 import BtnApply from "@/components/button/btn-apply";
 import BtnReset from "@/components/button/btn-reset";
 import { SelectFieldInput } from "@/components/form/select-field";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import { FormLabel } from "@/components/ui/form";
 import BtnConfigColumn from "@/components/button/btn-config-column";
 import { useLazyGetTableQuery } from "@/features/queueApiSlice";
 import { priorityStatusOptions } from "@/const/case";
+import { Checkbox } from "@/components/form/checkbox-field";
+import { useGetDropdownQuery } from "@/features/systemApiSlice";
+import { current } from "@reduxjs/toolkit";
+import { JsonJoinDetails } from "@/types/user.type";
 
 
+type PriorityType = 'Normal' | 'High'
 type FilterDialog = {
   statuses: string[];
-  priorities: string[];
+  priorities: PriorityType[];
   slaDate: string | null;
   queue: string | null;
 }
@@ -61,7 +66,11 @@ const caseStatusOptions = [
   { label: 'Escalated', value: 'Escalated' },
 ]
 
-const InputFilterConfig = ({ searchObj, setSearchObj }) => {
+const InputFilterConfig = ({ searchObj, setSearchObj, caseStatus }: {
+  searchObj: FilterAll,
+  setSearchObj: (value: FilterAll) => void,
+  caseStatus: JsonJoinDetails[]
+}) => {
   const [open, setOpen] = useState(false);
   const [getData, { currentData: queue, isFetching, isError, error }] = useLazyGetTableQuery();
   useEffect(() => {
@@ -76,29 +85,30 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
   return <>
     <BtnFilter onClick={() => { setOpen(true) }} />
     <Modal title="Filter" isOpen={open} className="w-[47.125rem]" onClose={() => setOpen(false)}>
-      <div className="space-y-3 max-w-[20rem]">
+      <div className="space-y-3 max-w-[20rem] pb-4">
         <div>
           <Typography variant="caption">Case Status</Typography>
-          <div className="grid grid-cols-2 gap-2 w-full ">
+          <div className="grid grid-cols-2 gap-3 w-full mt-2 px-2">
             {
-              caseStatusOptions.map((item) => (
+              caseStatus.map((item) => (
                 <div key={item.value} className="flex items-center gap-2" >
                   <Checkbox
-                    checked={searchObj.statuses.includes(item.value)}
-                    onCheckedChange={
+                    checked={searchObj.statuses.includes(item.id)}
+                    onChange={
                       (isCheck) => {
                         setSearchObj(
                           (current) => ({
                             ...current,
                             statuses: isCheck
-                              ? [...current.statuses, item.value]
-                              : [...current.statuses].filter(v => v !== item.value)
+                              ? [...current.statuses, item.id]
+                              : [...current.statuses].filter(v => v !== item.id)
                           })
                         )
                       }
                     }
+                    label={item.name}
                   />
-                  <Typography >{item.label}</Typography>
+                  {/* <Typography >{item.label}</Typography> */}
                 </div>
               ))
             }
@@ -108,13 +118,13 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
         <div>
           <Typography variant="caption">Case Priority</Typography>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 px-2 mt-2">
             {
               priorityStatusOptions.map((item) => (
                 <div key={item.value} className="flex items-center gap-2" >
                   <Checkbox
                     checked={searchObj.priorities.includes(item.value)}
-                    onCheckedChange={
+                    onChange={
                       (isCheck) => {
                         setSearchObj(
                           (current) => ({
@@ -126,8 +136,11 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
                         )
                       }
                     }
+                    label={
+                      item.label
+                    }
                   />
-                  <Typography >{item.label}</Typography>
+                  {/* <Typography >{item.label}</Typography> */}
                 </div>
               ))
             }
@@ -160,7 +173,6 @@ const InputFilterConfig = ({ searchObj, setSearchObj }) => {
               }
             }} />
         </div>
-
       </div>
     </Modal>
   </>
@@ -186,18 +198,31 @@ const InputFilterDate = ({ searchObj, setSearchObj }) => {
   if (!searchObj) return <></>;
   return <>
     <BtnFilter text='Created Date' onClick={() => { setOpen(true) }} />
-    <Modal title="Filter by Create date" isOpen={open} className="w-[21.375rem]" onClose={() => setOpen(false)}>
+    <Modal title="Filter by Create date" isOpen={open} className="w-[22.375rem]" onClose={() => setOpen(false)}>
       <div className="space-y-4 mt-6">
         <div className="flex items-center gap-3">
-          <Typography className="w-[3rem]">From :</Typography>
+          <Typography className="w-[4.5rem]">From :</Typography>
           <div className='flex-1' >
-            <DatePickerFieldInput value={dateStart} onChange={setDateStart} />
+            <DatePickerFieldInputV2 field={
+              {
+                value: dateStart, onChange: setDateStart
+              }
+            }
+            //  value={dateStart} onChange={setDateStart} 
+            />
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <Typography className="w-[3rem]" >To :</Typography>
+          <Typography className="w-[4.5rem]" >To :</Typography>
           <div className='flex-1' >
-            <DatePickerFieldInput value={dateEnd} onChange={setDateEnd} />
+            {/* <DatePickerFieldInputV2 value={dateEnd} onChange={setDateEnd} /> */}
+            <DatePickerFieldInputV2 field={
+              {
+                value: dateEnd, onChange: setDateEnd
+              }
+            }
+            //  value={dateStart} onChange={setDateStart} 
+            />
           </div>
         </div>
       </div>
@@ -211,16 +236,10 @@ const InputFilterDate = ({ searchObj, setSearchObj }) => {
 
 
 const CaseManagementPage = () => {
+  const { data: dataDropdown } = useGetDropdownQuery()
   const [searchObj, setSearchObj] = useState<FilterAll>({
-    // form: '',
-    // to: '',
-    // status: '',
-    // priority: '',
-    // caseType: '',
-    // receivedFrom: '',
-    // selectedTab: 'myCase',
     statuses: [],
-    priorities: [],
+    priorities: ['High', 'Normal'],
     slaDate: null,
     queue: null,
     dateStart: null,
@@ -228,6 +247,15 @@ const CaseManagementPage = () => {
     keyword: '',
     category: 'myCase',
   });
+  useEffect(() => {
+    setSearchObj((current) => {
+      if (current.statuses.length === 0) {
+        const statuses = dataDropdown?.caseStatus?.map(v => v.id) || []
+        return { ...current, statuses }
+      }
+      return current;
+    })
+  }, [dataDropdown?.caseStatus])
   const [statusConfigColumn, setStatusConfigColumn] = useState(false);
   return (
     <div>
@@ -235,8 +263,8 @@ const CaseManagementPage = () => {
         {tabs.map((tab) => (
           <button
             key={tab.value}
-            onClick={() => setSearchObj({ ...searchObj, selectedTab: tab.value })}
-            className={`pb-2 px-4 border-b-2 text-sm font-medium ${searchObj.selectedTab === tab.value
+            onClick={() => setSearchObj((current) => ({ ...current, category: tab.value }))}
+            className={`pb-2 px-4 border-b-2 text-sm font-medium ${searchObj.category === tab.value
               ? "border-indigo-500"
               : "border-transparent text-gray-500 hover:text-primary"
               }`}
@@ -253,15 +281,12 @@ const CaseManagementPage = () => {
           </Typography>
           <div className="flex-1"></div>
           <InputFilter
-            setValue={(value) => { setSearchObj({ ...searchObj, keyword: value }) }} value={searchObj.keyword}
+            setValue={(value) => { setSearchObj({ ...searchObj, keyword: value }) }} value={searchObj.keyword || ''}
           />
-          <InputFilterConfig searchObj={searchObj} setSearchObj={setSearchObj} />
+          <InputFilterConfig searchObj={searchObj} setSearchObj={setSearchObj} caseStatus={dataDropdown?.caseStatus || []} />
           <BtnConfigColumn onClick={() => { setStatusConfigColumn(true) }} />
           <InputFilterDate searchObj={searchObj} setSearchObj={setSearchObj} />
         </div>
-        {/* ตัวอย่าง filter (ยังไม่เปิดใช้งาน) */}
-        {/* <BtnFilter onClick={() => {}} /> */}
-        {/* {JSON.stringify(searchObj)} */}
         <CaseTable searchObj={searchObj} statusConfigColumn={statusConfigColumn} setStatusConfigColumn={setStatusConfigColumn} />
       </CardPageWrapper>
     </div>

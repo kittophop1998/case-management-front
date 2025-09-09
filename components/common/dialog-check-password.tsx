@@ -107,7 +107,6 @@ export function checkPassword(): Promise<string | null> {
                                 /> */}
                                 <FormError message={error} />
                                 <div className="flex justify-end gap-4">
-                                    {/* <button onClick={cleanup}>Cancel</button> */}
                                     <ButtonCancel
                                         onClick={cleanup}
                                         className='w-[7.5rem]'

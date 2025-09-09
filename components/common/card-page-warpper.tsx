@@ -1,4 +1,3 @@
-// "use server"
 "use client"
 import { cn } from "@/lib/utils";
 import Card from "../common/card";
@@ -19,4 +18,24 @@ const CardPageWrapper = ({ children, className, classNameCard }: CardPageWrapper
         </Container>
     );
 };
+export const ContainerPage = ({ children, className }: {
+    children: React.ReactNode;
+    className?: string
+}) => {
+    return (
+        <Container className={cn(`mx-auto h-[95%] `, className)}>
+            {children}
+        </Container>
+    )
+}
+export const CardPage = ({ children, className }: {
+    children: React.ReactNode;
+    className?: string
+}) => {
+    return (
+        <Card className={cn("p-5 h-full shadow-none", className)}>
+            {children}
+        </Card>
+    )
+}
 export default CardPageWrapper;

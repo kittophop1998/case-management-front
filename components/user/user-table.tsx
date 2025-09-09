@@ -1,7 +1,7 @@
 'use client'
 import { Typography } from '@/components/common/typography'
 import BtnFilter from '@/components/button/btn-filter'
-import CardPageWrapper from '@/components/common/card-page-warpper'
+import CardPageWrapper, { CardPage } from '@/components/common/card-page-warpper'
 import InputFilter from '@/components/common/input-filter'
 import { UserType } from '@/types/user.type'
 import { forwardRef, memo, ReactNode, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
@@ -494,56 +494,58 @@ export const UsersTable =
         return (
             <>
                 {(addUser && myPermission?.["add.user"]) &&
-                    <Container className='mb-0 pb-0'>
-                        <div className='flex justify-end mt-4'>
-                            <BtnAddUser
-                                onOpenDialogCreateUser={() => openDialogCreateUser()}
-                                onOpenDialogImportUser={() => setModalImportUser(true)}
-                            />
-                        </div>
-                    </Container>
-                }
-                <CardPageWrapper className='mt-6'>
-                    <div className='flex items-center gap-3 mb-4'>
-                        <Typography variant='h6' >
-                            User Lists
-                        </Typography>
-                        <div className='flex-1' />
-                        <InputFilter setValue={setSearchText} value={searchText} placeholder='Search by Username, Name' className='w-[243px] h-[1.81rem] rounded-[4px]' />
-                        <BtnFilter onClick={() => setIsOpenFilter(true)} />
-                        {MoreActions && MoreActions}
+                    // <Container className='mb-0 pb-0'>
+                    <div className='flex justify-end mt-4'>
+                        <BtnAddUser
+                            onOpenDialogCreateUser={() => openDialogCreateUser()}
+                            onOpenDialogImportUser={() => setModalImportUser(true)}
+                        />
                     </div>
-                    <DataTable
-                        loading={isLoading}
-                        table={table}
-                        page={usersTable?.page ?? 1}
-                        limit={usersTable?.limit ?? 10}
-                        total={usersTable?.total ?? 0}
-                        totalPages={usersTable?.totalPages ?? 0}
-                        setPage={setPage}
-                        setLimit={setLimit}
-                    />
-                    <DialogDetails
-                        ref={dialogDetailsRef}
-                        getUsers={triggerFetch}
-                    />
-                    <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
-                    <FilterUsersModal
-                        department={department}
-                        setDepartment={setDepartment}
-                        isOpen={isOpenFilter}
-                        setIsOpen={setIsOpenFilter}
-                        setRole={setRole}
-                        setStatus={setStatus}
-                        setSection={setSection}
-                        setCenter={setCenter}
-                        status={status}
-                        role={role}
-                        section={section}
-                        center={center}
-                        hidden={hidden}
-                    />
-                </CardPageWrapper>
+                    // </Container>
+                }
+                <CardPage className='mt-6'>
+                    <>
+                        <div className='flex items-center gap-3 mb-4'>
+                            <Typography variant='h6' >
+                                User Lists
+                            </Typography>
+                            <div className='flex-1' />
+                            <InputFilter setValue={setSearchText} value={searchText} placeholder='Search by Username, Name' className='w-[243px] h-[1.81rem] rounded-[4px]' />
+                            <BtnFilter onClick={() => setIsOpenFilter(true)} />
+                            {MoreActions && MoreActions}
+                        </div>
+                        <DataTable
+                            loading={isLoading}
+                            table={table}
+                            page={usersTable?.page ?? 1}
+                            limit={usersTable?.limit ?? 10}
+                            total={usersTable?.total ?? 0}
+                            totalPages={usersTable?.totalPages ?? 0}
+                            setPage={setPage}
+                            setLimit={setLimit}
+                        />
+                        <DialogDetails
+                            ref={dialogDetailsRef}
+                            getUsers={triggerFetch}
+                        />
+                        <ExcelUploadDialog open={modalImportUser} setOpen={setModalImportUser} />
+                        <FilterUsersModal
+                            department={department}
+                            setDepartment={setDepartment}
+                            isOpen={isOpenFilter}
+                            setIsOpen={setIsOpenFilter}
+                            setRole={setRole}
+                            setStatus={setStatus}
+                            setSection={setSection}
+                            setCenter={setCenter}
+                            status={status}
+                            role={role}
+                            section={section}
+                            center={center}
+                            hidden={hidden}
+                        />
+                    </>
+                </CardPage >
             </>
         )
     }))

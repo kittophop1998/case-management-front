@@ -1,12 +1,14 @@
 'use client'
 
-import { usePathname, useSearchParams, useRouter } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import { Typography } from "@/components/common/typography"
 import { path2ClientPath } from "@/const/title-path"
 import { useGetMeQuery } from "@/features/authApiSlice"
 import { cn } from "@/lib/utils"
 import getInitPathByRole from "@/lib/utils/get-init-path-by-role"
 import HomeIcon from '@/public/icons/Home.svg'
+import useGetRawPath from "@/hooks/use-get-raw-path"
+import { useSelector } from "react-redux"
 
 // Utility for resolving breadcrumb path
 const resolveClientPath = (segments: string[]) => {
@@ -19,7 +21,7 @@ const resolveClientPath = (segments: string[]) => {
 }
 
 export function ClientPath() {
-    const pathname = usePathname()
+    const pathname = useGetRawPath()
     const router = useRouter()
     const searchParams = useSearchParams()
 
@@ -41,6 +43,7 @@ export function ClientPath() {
         const query = searchParams.toString()
         router.push(`${goto}${query ? `?${query}` : ''}`)
     }
+    const { dinamicParams } = useSelector((state: RootState) => state.sysConfig);
 
     return (
         <div className="flex items-center gap-2">
@@ -64,7 +67,8 @@ export function ClientPath() {
                                 variant="caption"
                                 as="span"
                             >
-                                {name}
+                                {name.startsWith(':') ? (dinamicParams?.[name?.slice(1)] || name?.slice(1) || '') : name}
+                                {/* {JSON.stringify(dinamicParams)} */}
                             </Typography>
                         </span>
                     </div>

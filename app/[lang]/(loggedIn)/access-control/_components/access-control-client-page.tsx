@@ -50,7 +50,7 @@ const useAccessControlTable = () => {
         text: ''
     });
     const columnHelper = createColumnHelper<any>()
-    const roles = (ddData?.data?.roles || []);
+    const roles = (ddData?.roles || []);
     const columns = useMemo<ColumnDef<any, any>[]>(() => {
         return [
             columnHelper.accessor('name', {
@@ -95,8 +95,8 @@ const useAccessControlTable = () => {
     })
     useEffect(() => {
         setDisplaySearch({
-            department: getTextByValueDropdown(search.department, ddData?.data?.departments || []),
-            section: getTextByValueDropdown(search.section, ddData?.data?.sections || []),
+            department: getTextByValueDropdown(search.department, ddData?.departments || []),
+            section: getTextByValueDropdown(search.section, ddData?.sections || []),
         })
     }, [search.department, search.section])
 
@@ -192,7 +192,6 @@ const useAccessControlTable = () => {
             fetchTable()
             setForm({})
             dialogAlert(true)
-
         } catch (error: unknown) {
             if (error instanceof Error) {
                 await dialogAlert(false,
