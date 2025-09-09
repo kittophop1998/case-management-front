@@ -62,11 +62,20 @@ export default function CaseManagementNoteTab() {
         </div>
 
         <div className="w-1/2">
+          <Typography variant="caption">Add Note</Typography>
           <TextAreaFieldInput
             field={{
               value: message,
               onChange: (e) => setMessage(e.target.value)
             }}
+            onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+              console.log('asdasdasasdasdasdsa')
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault(); // stop newline
+                onSubmit?.();        // call the function
+              }
+            }}
+
           />
           <button
             type="submit"
