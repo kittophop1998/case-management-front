@@ -19,7 +19,7 @@ import { Value } from "@radix-ui/react-select";
 import { Typography } from "@/components/common/typography";
 import BtnDel from "@/components/button/btn-del";
 import { myConfirm } from "@/components/common/dialog-confirm";
-import { setDinamicParams } from "@/features/sysConfigSlice";
+import { setDynamicParams } from "@/features/sysConfigSlice";
 import { useDispatch } from "react-redux";
 
 
@@ -89,7 +89,7 @@ const QueueInfo = ({ id }) => {
         console.log('queueInfo?.queueName', queueInfo?.queueName)
         if (queueInfo?.queueName) {
             dispatch(
-                setDinamicParams({ 'Queue Details': queueInfo.queueName || '' }))
+                setDynamicParams({ 'Queue Details': queueInfo.queueName || '' }))
         }
 
     }, [queueInfo?.queueName])

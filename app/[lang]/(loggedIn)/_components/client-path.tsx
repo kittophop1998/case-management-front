@@ -43,7 +43,7 @@ export function ClientPath() {
         const query = searchParams.toString()
         router.push(`${goto}${query ? `?${query}` : ''}`)
     }
-    const { dinamicParams } = useSelector((state: RootState) => state.sysConfig);
+    const { dynamicParams } = useSelector((state) => state.sysConfig);
 
     return (
         <div className="flex items-center gap-2">
@@ -67,8 +67,8 @@ export function ClientPath() {
                                 variant="caption"
                                 as="span"
                             >
-                                {name.startsWith(':') ? (dinamicParams?.[name?.slice(1)] || name?.slice(1) || '') : name}
-                                {/* {JSON.stringify(dinamicParams)} */}
+                                {name.startsWith(':') ? (dynamicParams?.[name?.slice(1)] || name?.slice(1) || '') : name}
+                                {/* {JSON.stringify(dynamicParams)} */}
                             </Typography>
                         </span>
                     </div>

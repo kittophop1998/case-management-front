@@ -35,6 +35,7 @@ export const emptyCaseNoneInquiry: CaseType = {
 };
 export const emptyCaseInquiry: CaseType = {
   caseTypeText: "Inquiry", // fix discriminator
+  priority: "Normal", // fix discriminator
   customerName: "",
   customerId: "",
   dispositionMains: [],

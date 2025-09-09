@@ -169,34 +169,36 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
                         } />
                     </div>
                 </div>
-                <div className="space-y-3">
-                    <Info titleClass="min-w-[3.5rem]" title='Subject' required value={
-                        <div className="flex-1 ">
-                            <TextField
-                                form={form}
-                                name='subject'
-                                loading={false}
-                            />
-                        </div>
-                    } />
-                    <Typography variant="caption">Email Body</Typography>
-                    <Info titleClass="min-w-[3.5rem]" title='Template' required value={
-                        <div className="flex-1 ">
-                            <SelectField
-                                form={form}
-                                name='template'
-                                valueName='id'
-                                labelName='name'
-                                loading={false}
-                                items={[
-                                    {
-                                        name: 'ขอเปลี่ยนแปลงเบอร์โทรศัพท์',
-                                        id: '1'
-                                    }
-                                ]}
-                            />
-                        </div>
-                    } />
+                <div className={cn("", { 'grid grid-cols-2 gap-3': layout === '2col' })}>
+                    <div className="space-y-3">
+                        <Info titleClass="min-w-[3.5rem]" title='Subject' required value={
+                            <div className="flex-1 ">
+                                <TextField
+                                    form={form}
+                                    name='subject'
+                                    loading={false}
+                                />
+                            </div>
+                        } />
+                        <Typography variant="caption">Email Body</Typography>
+                        <Info titleClass="min-w-[3.5rem]" title='Template' required value={
+                            <div className="flex-1 ">
+                                <SelectField
+                                    form={form}
+                                    name='template'
+                                    valueName='id'
+                                    labelName='name'
+                                    loading={false}
+                                    items={[
+                                        {
+                                            name: 'ขอเปลี่ยนแปลงเบอร์โทรศัพท์',
+                                            id: '1'
+                                        }
+                                    ]}
+                                />
+                            </div>
+                        } />
+                    </div>
                 </div>
                 <div>
                     {/* EDIT-SECTION */}
@@ -212,7 +214,7 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
 
 
 export const File = () => {
-    return <Card className="p-2 gap-3 rounded-sm border shadow-none flex items-center">
+    return <Card className="p-2 gap-3 rounded-sm border shadow-none flex items-center max-w-[33.813rem]">
         <div className="w-[2.5rem]">
             <FileSvg className={'w-full h-full'} />
         </div>

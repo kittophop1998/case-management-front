@@ -129,9 +129,11 @@ export default function CaseManagementDetailTab() {
               {/* Case Info */}
               <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
                 <SectionCaseInfo
+                  queueAll={queueListData?.data || []}
                   isSmallMod={true}
                   form={form}
-                  caseTypeText={'None Inquiry'}
+                  // form={{}}
+                  caseTypeText='None Inquiry'
                   ddData={ddData}
                   mode={isEditMode ? 'edit' : 'view'}
                   layout="2col"
