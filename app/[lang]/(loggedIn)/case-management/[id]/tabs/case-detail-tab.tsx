@@ -25,9 +25,9 @@ import { useParams } from 'next/navigation'
 import { cva } from "class-variance-authority"
 import { useLazyGetTableQuery } from "@/features/queueApiSlice"
 import ChangeInfoSection from "@/components/case/section-change-info"
-import AttachFileSection from "@/components/case/section-attach-file"
 import { CustomerInfo } from "@/components/case/section-customer-info"
 import { truncate } from "fs"
+import { AttachFileSection } from "@/components/case/section-attach-file"
 
 export default function CaseManagementDetailTab() {
   const form = useForm()
@@ -371,17 +371,16 @@ export default function CaseManagementDetailTab() {
                 />
               )}
 
-
-              <AttachFileSection
-                open={openSections.attachFile}
-                onToggle={(value) =>
-                  setOpenSections((prev) => ({ ...prev, attachFile: value }))
-                }
-                files={mockTableData}
-                onUpload={() => console.log("Upload clicked")}
-                onDownload={(file) => console.log("Download:", file)}
-                onDelete={(file) => console.log("Delete:", file)}
-              />
+              <Card className="rounded-md border border-gray-300 mb-4 shadow-none">
+                <AttachFileSection
+                  isSmallMod={true}
+                  form={form}
+                  files={mockTableData}
+                  onUpload={() => console.log("Upload clicked")}
+                  onDownload={(file: any) => console.log("Download:", file)}
+                  onDelete={(file: any) => console.log("Delete:", file)}
+                />
+              </Card>
 
               {/* Email list */}
               <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
