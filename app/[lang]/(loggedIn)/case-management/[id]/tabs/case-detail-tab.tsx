@@ -13,7 +13,6 @@ import { useLazyGetTableQuery } from "@/features/queueApiSlice"
 import { CustomerInfo } from "@/components/case/section-customer-info"
 import { AttachFileSection } from "@/components/case/section-attach-file"
 import { SectionCaseInfo } from "@/components/case/section-case-inquiry-info"
-import { useDebugLogForm } from "@/hooks/use-debug-log-form"
 import { ChangeInfoSection } from "@/components/case/section-change-info"
 import { UpdateCaseSchema } from "@/schemas";
 
@@ -22,7 +21,6 @@ export default function CaseManagementDetailTab() {
   const params = useParams<{ id: string }>()
   const { id } = params
 
-  // const {getData, data: caseDetails, isLoading: isCaseLoading, error: caseError } = useLazyGetCaseDetailsQuery({ id });
   const [getData, { currentData: caseDetails, isFetching, error: errGet }] = useLazyGetCaseDetailsQuery();
 
   const [getQueueList, { currentData: queueListData, isFetching: isQueueLoading, error: queueError }] = useLazyGetTableQuery();
@@ -98,7 +96,6 @@ export default function CaseManagementDetailTab() {
           newInfo: "demo", // fix
         },
       });
-      console.log("Parsed data to submit:", parsed);
 
       await updateCase({ id, body: parsed }).unwrap();
 
