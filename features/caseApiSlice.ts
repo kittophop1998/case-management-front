@@ -6,6 +6,7 @@ import { ApiResponse } from "@/types/api.type";
 import { CaseDetailsType } from "@/types/case.type";
 import { DefaultReqTableType, TableType } from "@/types/table.type";
 import { createSearchParams } from "@/lib/utils/create-search-params";
+import { FilterAll } from "@/app/[lang]/(loggedIn)/case-management/page";
 
 // ---------- Helper Function ----------
 const sanitizeCaseBody = (
@@ -61,7 +62,10 @@ export const caseApiSlice = createApi({
       }),
     }),
 
-    caseByPermission: builder.query<TableType<any>, DefaultReqTableType>({
+    caseByPermission: builder.query<
+      TableType<any>,
+      DefaultReqTableType & FilterAll
+    >({
       query: ({
         page,
         limit,
@@ -71,7 +75,13 @@ export const caseApiSlice = createApi({
         ...other
       }) => {
         const searchParams = createSearchParams({
-          ...other,
+          dateEnd: other.dateEnd,
+          dateStart: other.dateStart,
+          statusId: other.statuses,
+          priority: other.priorities,
+          slaDate: other.slaDate,
+          queue: other.queue,
+          keyword: other.keyword,
           page,
           limit,
           sort,
@@ -89,7 +99,8 @@ export const caseApiSlice = createApi({
         url: `/cases/${id}`,
         method: "GET",
       }),
-      transformResponse: (response: ApiResponse<CaseDetailsType>) => response?.data,
+      transformResponse: (response: ApiResponse<CaseDetailsType>) =>
+        response?.data,
     }),
     updateCaseByID: builder.mutation<void, { id: string; body: z.infer<typeof UpdateCaseSchema> }>({
       query: ({ id, body }) => ({
