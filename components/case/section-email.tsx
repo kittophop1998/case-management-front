@@ -214,7 +214,7 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
 
 
 export const File = () => {
-    return <Card className="p-2 gap-3 rounded-sm border shadow-none flex items-center">
+    return <Card className="p-2 gap-3 rounded-sm border shadow-none flex items-center max-w-[33.813rem]">
         <div className="w-[2.5rem]">
             <FileSvg className={'w-full h-full'} />
         </div>
