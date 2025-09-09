@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { useAddCaseNoteMutation, useLazyGetCaseNotesQuery } from "@/features/caseApiSlice"
 import { useParams } from "next/navigation"
 import { Typography } from "@/components/common/typography"
+import { format } from "date-fns"
 
 type Note = {
   id: number
@@ -44,11 +45,11 @@ export default function CaseManagementNoteTab() {
             {/* {JSON.stringify(data)} */}
             {(data || []).map(note => (
               <div key={note.id}>
-                <Typography variant="caption">{note.label}</Typography>
+                <Typography variant="caption">{note.createdBy} {format(note.createdAt, 'dd MMM yyyy HH:mm')}</Typography>
                 <TextAreaFieldInput
                   name={`caseNote_${note.id}`}
                   // label={note.label}
-                  placeholder={note.value}
+                  placeholder={note.content}
                   // form={form}
                   field={{
                     value: note.value,
