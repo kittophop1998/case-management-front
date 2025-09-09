@@ -15,10 +15,13 @@ import DeleteSvg from '@/public/icons/Delete.svg'
 import PaperDownloadSvg from '@/public/icons/PaperDownload.svg'
 import Tiptap from "../common/Tiptap"
 import RichTextEditor from "../rich-text-editor"
+import { cn } from "@/lib/utils"
 
 interface SectionEmailProps {
     isSmallMod: boolean
-    form: any
+    form: any,
+    layout?: '1col' | '2col',
+    mode?: 'view' | 'edit' | 'create'
 }
 
 const EmailList = () => {
@@ -75,7 +78,7 @@ const EmailList = () => {
     />
 }
 
-export const SectionEmail = ({ isSmallMod, form }: SectionEmailProps) => {
+export const SectionEmail = ({ isSmallMod, form, layout = '1col', mode = 'view' }: SectionEmailProps) => {
 
     return (
         <SectionCard title="Email" isAccordion={!!isSmallMod}>
@@ -96,7 +99,7 @@ export const SectionEmail = ({ isSmallMod, form }: SectionEmailProps) => {
     )
 }
 
-export const SectionSendEmail = ({ isSmallMod, form }: SectionEmailProps) => {
+export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionEmailProps) => {
     const [post, setPost] = useState("");
 
     const onChange = (content: string) => {
@@ -107,83 +110,94 @@ export const SectionSendEmail = ({ isSmallMod, form }: SectionEmailProps) => {
     return (
         <SectionCard title="Send Email" isAccordion={!!isSmallMod}>
             <div className="space-y-3 pt-2">
-                <Info titleClass="min-w-[3.5rem]" title='Form' required value={
-                    <div className="flex-1 ">
-                        <SelectField
-                            form={form}
-                            name='form'
-                            valueName='form'
-                            labelName='form'
-                            loading={false}
-                            items={[
-                                {
-                                    form: "CMS@aeon.co.th",
-                                    emailSubject: "(REF1234567890) Change Passport",
-                                    date: "12 Aug 2025",
-                                },
-                                {
-                                    form: "unns@gamail.com",
-                                    emailSubject: "RE:(REF1234567890) Change Passport",
-                                    date: "12 Aug 2025",
-                                },
-                            ]}
-                        />
+                <div className={cn("grid gap-3", {
+                    'grid-cols-1': layout === '1col',
+                    'grid-cols-2': layout === '2col',
+                })} >
+                    <div className="space-y-3">
+                        <Info titleClass="min-w-[3.5rem]" title='Form' required value={
+                            <div className="flex-1 ">
+                                <SelectField
+                                    form={form}
+                                    name='form'
+                                    valueName='form'
+                                    labelName='form'
+                                    loading={false}
+                                    items={[
+                                        {
+                                            form: "CMS@aeon.co.th",
+                                            emailSubject: "(REF1234567890) Change Passport",
+                                            date: "12 Aug 2025",
+                                        },
+                                        {
+                                            form: "unns@gamail.com",
+                                            emailSubject: "RE:(REF1234567890) Change Passport",
+                                            date: "12 Aug 2025",
+                                        },
+                                    ]}
+                                />
+                            </div>
+                        } />
+                        <Info titleClass="min-w-[3.5rem]" title='To' required value={
+                            <div className="flex-1 ">
+                                <TextField
+                                    form={form}
+                                    name='to'
+                                    loading={false}
+                                />
+                            </div>
+                        } />
                     </div>
-                } />
-                <Info titleClass="min-w-[3.5rem]" title='To' required value={
-                    <div className="flex-1 ">
-                        <TextField
-                            form={form}
-                            name='to'
-                            loading={false}
-                        />
+                    <div className="space-y-3">
+                        <Info titleClass="min-w-[3.5rem]" title='CC' required value={
+                            <div className="flex-1 ">
+                                <TextField
+                                    form={form}
+                                    name='cc'
+                                    loading={false}
+                                />
+                            </div>
+                        } />
+                        <Info titleClass="min-w-[3.5rem]" title='Bcc' required value={
+                            <div className="flex-1 ">
+                                <TextField
+                                    form={form}
+                                    name='bcc'
+                                    loading={false}
+                                />
+                            </div>
+                        } />
                     </div>
-                } />
-                <Info titleClass="min-w-[3.5rem]" title='CC' required value={
-                    <div className="flex-1 ">
-                        <TextField
-                            form={form}
-                            name='cc'
-                            loading={false}
-                        />
-                    </div>
-                } />
-                <Info titleClass="min-w-[3.5rem]" title='Bcc' required value={
-                    <div className="flex-1 ">
-                        <TextField
-                            form={form}
-                            name='bcc'
-                            loading={false}
-                        />
-                    </div>
-                } />
-                <Info titleClass="min-w-[3.5rem]" title='Subject' required value={
-                    <div className="flex-1 ">
-                        <TextField
-                            form={form}
-                            name='subject'
-                            loading={false}
-                        />
-                    </div>
-                } />
-                <Typography variant="caption">Email Body</Typography>
-                <Info titleClass="min-w-[3.5rem]" title='Template' required value={
-                    <div className="flex-1 ">
-                        <SelectField
-                            form={form}
-                            name='template'
-                            valueName='id'
-                            labelName='name'
-                            loading={false}
-                            items={[
-                                {
-                                    name: 'ขอเปลี่ยนแปลงเบอร์โทรศัพท์',
-                                    id: '1'
-                                }
-                            ]}
-                        />
-                    </div>
-                } />
+                </div>
+                <div className="space-y-3">
+                    <Info titleClass="min-w-[3.5rem]" title='Subject' required value={
+                        <div className="flex-1 ">
+                            <TextField
+                                form={form}
+                                name='subject'
+                                loading={false}
+                            />
+                        </div>
+                    } />
+                    <Typography variant="caption">Email Body</Typography>
+                    <Info titleClass="min-w-[3.5rem]" title='Template' required value={
+                        <div className="flex-1 ">
+                            <SelectField
+                                form={form}
+                                name='template'
+                                valueName='id'
+                                labelName='name'
+                                loading={false}
+                                items={[
+                                    {
+                                        name: 'ขอเปลี่ยนแปลงเบอร์โทรศัพท์',
+                                        id: '1'
+                                    }
+                                ]}
+                            />
+                        </div>
+                    } />
+                </div>
                 <div>
                     {/* EDIT-SECTION */}
                     <RichTextEditor content={post} onChange={onChange} />

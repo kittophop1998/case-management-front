@@ -27,6 +27,7 @@ import { DatePickerFieldInput } from "@/components/form/date-picker"
 import { useParams } from 'next/navigation'
 import { cva } from "class-variance-authority"
 import { useLazyGetTableQuery } from "@/features/queueApiSlice"
+import { SectionCaseInfo } from "@/components/case/section-case-inquiry-info"
 
 
 export default function CaseManagementDetailPage() {
@@ -238,8 +239,8 @@ export default function CaseManagementDetailPage() {
 
           <FormProvider {...form}>
             <form>
-              <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
-                <Accordion
+              <Card className="rounded-md border border-gray-300 mb-4 shadow-none">
+                {false && <Accordion
                   type="single"
                   collapsible
                   value={openSections.caseDetail ? "item-1" : ""}
@@ -351,7 +352,15 @@ export default function CaseManagementDetailPage() {
                       </div>
                     </AccordionContent>
                   </AccordionItem>
-                </Accordion>
+                </Accordion>}
+                <SectionCaseInfo
+                  isSmallMod={true}
+                  form={form}
+                  caseTypeText={"None Inquiry"}
+                  ddData={ddData}
+                  layout="2col"
+                  mode={isEditMode ? 'edit' : 'view'}
+                />
               </Card>
 
             </form>
@@ -506,7 +515,7 @@ export default function CaseManagementDetailPage() {
           <FormProvider {...form}>
             <form>
               <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
-                <Accordion
+                {true && <Accordion
                   type="single"
                   collapsible
                   value={openSections.sendEmail ? "item-1" : ""}
@@ -607,7 +616,13 @@ export default function CaseManagementDetailPage() {
                       </div>
                     </AccordionContent>
                   </AccordionItem>
-                </Accordion>
+                </Accordion>}
+                <SectionSendEmail
+                  isSmallMod={true}
+                  form={form}
+                  layout="2col"
+                  mode={isEditMode ? 'edit' : 'view'}
+                />
               </Card>
             </form>
           </FormProvider>
