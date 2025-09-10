@@ -145,7 +145,7 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
                                             date: "12 Aug 2025",
                                         },
                                     ]}
-                                    placeholder="Enter Email"
+                                    placeholder="Select Email"
                                 />
                             </div>
                         } />
@@ -192,6 +192,7 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
                                     form={form}
                                     name='subject'
                                     loading={false}
+                                    placeholder="Enter Subject"
                                 />
                             </div>
                         } />
@@ -210,6 +211,7 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
                                             id: '1'
                                         }
                                     ]}
+                                    placeholder="Select Template"
                                 />
                             </div>
                         } />
