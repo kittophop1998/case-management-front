@@ -120,7 +120,7 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
                 <button type="button" className="cursor-pointer" onClick={(e) => {
                     e.stopPropagation(); // 👈 prevent bubbling
 
-                    console.log('click Send')
+                    console.log('click Del')
                 }}>
                     <Trash color="red" size={16} />
                 </button>
@@ -204,7 +204,7 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
                             </div>
                         } />
                         <Typography variant="caption">Email Body</Typography>
-                        <Info titleClass="min-w-[3.5rem]" title='Template' required value={
+                        <Info titleClass="min-w-[3.5rem]" title='Template' value={
                             <div className="flex-1 ">
                                 <SelectField
                                     form={form}

@@ -134,7 +134,7 @@ export const CreateCaseNoneInquirySchema = z
     cc: z.string(),
     bcc: z.string(),
     subject: z.string(),
-    template: z.string().min(1, "Template is required"),
+    template: z.string(),
     mailText: z.string(),
     files: z.array(z.any()),
   })
