@@ -5,6 +5,10 @@ export type CaseType = z.infer<typeof CreateCaseSchema>;
 
 export type CaseTypeText = "Inquiry" | "None Inquiry";
 
+export type CaseDisposition = {
+  main: string;
+  subs: string[];
+};
 export type CaseDetailsType = {
   caseGroup: string;
   caseTypeId: string;
@@ -21,6 +25,7 @@ export type CaseDetailsType = {
   currentQueue: string;
   caseDescription: string;
   allocateToQueueTeam: string;
+  dispositions: CaseDisposition[];
 };
 export type CaseDataType = {
   aeonId: string;
