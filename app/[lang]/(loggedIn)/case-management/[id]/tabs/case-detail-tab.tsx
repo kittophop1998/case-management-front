@@ -15,6 +15,9 @@ import { AttachFileSection } from "@/components/case/section-attach-file"
 import { SectionCaseInfo } from "@/components/case/section-case-inquiry-info"
 import { ChangeInfoSection } from "@/components/case/section-change-info"
 import { UpdateCaseSchema } from "@/schemas";
+import { SectionDisposition } from "@/components/case/section-disposition";
+import { SectionCard } from "@/components/case/section-card";
+import { Typography } from "@/components/common/typography";
 
 export default function CaseManagementDetailTab() {
   const form = useForm()
@@ -81,6 +84,33 @@ export default function CaseManagementDetailTab() {
     mailTo: "john.doe@example.com",
   };
 
+  const mockDisposition = [{
+    mainCategory: "Account1",
+    subCategories: [
+      "Change Info",
+      "Update Address",
+      "Reset Password",
+      "Card Replacement"
+    ]
+  },
+  {
+    mainCategory: "Account2",
+    subCategories: [
+      "Change Info",
+      "Reset Password",
+      "Card Replacement"
+    ]
+  },
+  {
+    mainCategory: "Account3",
+    subCategories: [
+      "Change Info",
+      "Update Address",
+      "Reset Password"
+    ]
+  },
+  ];
+
   const onSave = async () => {
     const values = form.getValues();
 
@@ -107,37 +137,41 @@ export default function CaseManagementDetailTab() {
 
   return (
     <div>
-      <div className="mt-4 flex justify-end gap-2 pr-13">
-        <Button
-          className="bg-[#5570f1] text-white hover:bg-[#5570f1]/90 hover:text-white"
-          variant="outline"
-        >
-          Take
-        </Button>
-        {!isEditMode && (
-          <Button
-            className="bg-[#5570f1] text-white hover:bg-[#5570f1]/90 hover:text-white"
-            variant="outline"
-            onClick={() => setIsEditMode(true)}
-          >
-            Edit
-          </Button>
-        )}
-        {isEditMode && (
-          <Button
-            className="bg-[#0c6d0c] text-white hover:bg-[#5570f1]/90 hover:text-white"
-            variant="outline"
-            onClick={onSave}
-            disabled={isUpdating}
-          >
-            {isUpdating ? "Saving..." : "Save"}
-          </Button>
-        )}
+      {caseDetails?.caseGroup !== 'Inquiry' && (
+        <>
+          <div className="mt-4 flex justify-end gap-2 pr-13">
+            <Button
+              className="bg-[#5570f1] text-white hover:bg-[#5570f1]/90 hover:text-white"
+              variant="outline"
+            >
+              Take
+            </Button>
+            {!isEditMode && (
+              <Button
+                className="bg-[#5570f1] text-white hover:bg-[#5570f1]/90 hover:text-white"
+                variant="outline"
+                onClick={() => setIsEditMode(true)}
+              >
+                Edit
+              </Button>
+            )}
+            {isEditMode && (
+              <Button
+                className="bg-[#0c6d0c] text-white hover:bg-[#5570f1]/90 hover:text-white"
+                variant="outline"
+                onClick={onSave}
+                disabled={isUpdating}
+              >
+                {isUpdating ? "Saving..." : "Save"}
+              </Button>
+            )}
 
-        <Button className="bg-[#fd5e5e] text-white hover:bg-[#5570f1]/90 hover:text-white" variant="outline">
-          Close
-        </Button>
-      </div>
+            <Button className="bg-[#fd5e5e] text-white hover:bg-[#5570f1]/90 hover:text-white" variant="outline">
+              Close
+            </Button>
+          </div>
+        </>
+      )}
       <FormProvider {...form}>
         <form>
           <CardPageWrapper className="mt-4">
@@ -158,12 +192,42 @@ export default function CaseManagementDetailTab() {
                   queueAll={queueListData?.data || []}
                   isSmallMod={true}
                   form={form}
-                  caseTypeText='None Inquiry'
+                  caseTypeText={caseDetails?.caseGroup === 'Inquiry' ? 'Inquiry' : 'None Inquiry'}
                   ddData={ddData}
                   mode={isEditMode ? 'edit' : 'view'}
                   layout="2col"
                 />
               </Card>
+
+              {caseDetails?.caseGroup === 'Inquiry' && (
+                <>
+                  <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
+                    <SectionCard title="Disposition" isAccordion={true}>
+                      <div className="space-y-3">
+                        {mockDisposition.map((item, idx) => (
+                          <div key={idx}>
+                            <Typography variant="caption" className="font-semibold">
+                              Main Category: {item.mainCategory}
+                            </Typography>
+                            <Typography variant="caption" className="block mt-1">
+                              Sub Category:
+                            </Typography>
+                            <ul className="list-disc list-inside ml-5">
+                              {item.subCategories.map((sub, subIdx) => (
+                                <li key={subIdx}>
+                                  <Typography variant="caption" className="inline">
+                                    {sub}
+                                  </Typography>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </SectionCard>
+                  </Card>
+                </>
+              )}
 
               {caseDetails?.caseGroup === "Change Info" && (
                 <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
