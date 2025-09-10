@@ -110,11 +110,18 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
 
     return (
         <SectionCard title="Send Email" isAccordion={!!isSmallMod} actions={
-            <div className="gap-3 flex">
-                <button type="button" className="cursor-pointer">
+            <div className="gap-3 flex" >
+                <button type="button" className="cursor-pointer even" onClick={(e) => {
+                    e.stopPropagation(); // 👈 prevent bubbling
+                    console.log('click Send')
+                }}>
                     <Send color={'#7461CF'} size={16} />
                 </button>
-                <button type="button" className="cursor-pointer">
+                <button type="button" className="cursor-pointer" onClick={(e) => {
+                    e.stopPropagation(); // 👈 prevent bubbling
+
+                    console.log('click Send')
+                }}>
                     <Trash color="red" size={16} />
                 </button>
             </div>
