@@ -24,10 +24,11 @@ export default function CaseManagementNoteTab() {
     getData({ id });
   }, []);
   const [message, setMessage] = useState<string>('');
-  const onSubmit = async (data: any) => {
+
+  const onSubmit = async () => {
     try {
-      if (!message) return;
-      await create({ id, message });
+      if (!message.trim()) return;
+      await create({ id, message: message.trim() });
       setMessage('');
       getData({ id });
     } catch (error) {
@@ -38,7 +39,6 @@ export default function CaseManagementNoteTab() {
   return (
 
     <CardPageWrapper className="mt-4">
-      {/* <h1 className="text-xl font-semibold mb-4">Case Note</h1> */}
       <Typography variant="h6">Case Note</Typography>
       <div className="mb-4" />
       <div className="flex gap-6">
@@ -58,6 +58,7 @@ export default function CaseManagementNoteTab() {
                     onChange: () => { },
                   }}
                   readonly={true}
+                  className="placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-200"
                 />
               </div>
             ))}
@@ -67,25 +68,25 @@ export default function CaseManagementNoteTab() {
         <div className="w-1/2">
           <Typography variant="caption">Add Note</Typography>
           <TextAreaFieldInput
+            placeholder="Enter case note"
             field={{
               value: message,
               onChange: (e) => setMessage(e.target.value)
             }}
             onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-              console.log('asdasdasasdasdasdsa')
               if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault(); // stop newline
-                onSubmit?.();        // call the function
+                e.preventDefault(); 
+                onSubmit?.();   
               }
             }}
-
+            className="resize-none h-42 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-200"
           />
           <Button
             className="mt-3"
             type="submit"
             variant='outline-primary'
             size='small'
-            disabled={!message}
+            disabled={!message.trim()}
             // className="mt-4 px-4 py-2 border border-purple-500 text-purple-600 rounded-md font-medium hover:bg-purple-700"
             onClick={onSubmit}
             loading={isLoadingCreate}
@@ -98,3 +99,4 @@ export default function CaseManagementNoteTab() {
 
   )
 }
+
