@@ -238,6 +238,7 @@ export function AppSidebarMenuList() {
                   className={cn(
                     'h-[3rem] gap-3',
                     sidebarMenuButtonVariants({ active: isActive }),
+                    'overflow-hidden truncate px-6'
                   )}
                   tooltip={item.title}
                 >
