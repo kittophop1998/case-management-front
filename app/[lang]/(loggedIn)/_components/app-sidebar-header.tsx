@@ -19,7 +19,7 @@ export function AppSidebarHeader() {
       <SidebarMenuItem>
         <SidebarMenuButton
           size='lg'
-          className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground pointer-events-none'
+          className=' data-[state=open]:text-sidebar-accent-foreground pointer-events-none'
         >
           {/* <SidebarTrigger asChild> */}
           {/* <div className='relative'> */}
@@ -28,7 +28,9 @@ export function AppSidebarHeader() {
             alt='Case Management Icon'
             width={55}
             height={55}
-            className='size-10 object-cover rounded-sm cursor-pointer pointer-events-auto hover:opacity-80 hover:grayscale-40 grey'
+            // className='size-10 object-cover rounded-sm cursor-pointer pointer-events-auto hover:opacity-80 hover:grayscale-40 grey group-data-[collapsible=icon]:w-full group-data-[collapsible=icon]:h-full duration-0'
+            className='data-[state=open]:bg-sidebar-accent object-cover rounded-sm cursor-pointer pointer-events-auto hover:opacity-80 hover:grayscale-40 grey w-[2.718rem] h-[2.718rem] duration-0 mx-[0.35rem]'
+            // 2.718
             onClick={() => {
               // if (isMobile) {
               toggleSidebar()
