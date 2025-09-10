@@ -216,6 +216,10 @@ const useCaseTable = ({ searchObj }) => {
     data: dataListMemo,
     columns,
     mapSortingName: {
+      'code': 'code',
+      'customerId': 'customer_id',
+      'aeonId': 'aeon_id',
+      'customerName': 'customer_name',
       //   createdDate: 'created_date',
       //   customerId: 'customer_id',
       //   caseType: 'case_type',
