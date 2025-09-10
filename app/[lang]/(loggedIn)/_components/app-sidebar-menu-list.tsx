@@ -25,8 +25,12 @@ import { useGetMeQuery } from '@/features/authApiSlice'
 
 import CaseManagementIcon from '@/public/icons/Case Management.svg'
 import InquiryLogIcon from '@/public/icons/Inquiry Log.svg'
+import SearchCustomerIcon from '@/public/icons/SearchCustomer.svg'
 import ReportIcon from '@/public/icons/Report.svg'
 import SettingIcon from '@/public/icons/Setting.svg'
+import UserManagementIcon from '@/public/icons/UserManagement2.svg'
+import AccessControlIcon from '@/public/icons/AccessControl.svg'
+import QueueIcon from '@/public/icons/Queue2.svg'
 import CustomerDashboardIcon from '@/public/icons/Customer Dashboard.svg'
 
 // -----------------------------------------------------------------------------
@@ -56,13 +60,14 @@ const sidebarMenuIconVariants = cva('', {
 // -----------------------------------------------------------------------------
 
 const title2icon: Record<string, React.ComponentType<any>> = {
-  'Search Customer': CustomerDashboardIcon,
+  // 'Search Customer': CustomerDashboardIcon,
+  'Search Customer': SearchCustomerIcon,
   'Case Management': CaseManagementIcon,
   'Report': ReportIcon,
   'Settings': SettingIcon,
-  'User Management': SettingIcon,
-  'Access Control': SettingIcon,
-  'Queue Management': SettingIcon,
+  'User Management': UserManagementIcon,
+  'Access Control': AccessControlIcon,
+  'Queue Management': QueueIcon,
 }
 
 const getTitleFromPath = (pathSegments: string[]): string => {
