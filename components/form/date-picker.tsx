@@ -68,7 +68,6 @@ export const DatePickerFieldInputV2 = (
 ) => {
     const [open, setOpen] = React.useState(false)
     // return <>readonly{readonly ? 'T' : 'F'}</>
-    // readonly = true
     return (
         <Popover open={open}
             onOpenChange={setOpen}
