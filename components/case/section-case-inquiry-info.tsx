@@ -89,7 +89,9 @@ export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', dd
 
           {caseTypeText === 'None Inquiry' && (
             <>
-              <Info title="Verify Status" value="Nalan Kacherninin-BKK" />
+              <Info title="Verify Status" value={<>
+                <Typography variant="caption" className="text-[#52C41A]">Passed</Typography>
+              </>} />
               <Info title="Channel" value={
                 <div className="flex items-center gap-2">
                   <TelephoneCall />
