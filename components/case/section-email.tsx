@@ -110,11 +110,18 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
 
     return (
         <SectionCard title="Send Email" isAccordion={!!isSmallMod} actions={
-            <div className="gap-3 flex">
-                <button type="button" className="cursor-pointer">
+            <div className="gap-3 flex" >
+                <button type="button" className="cursor-pointer even" onClick={(e) => {
+                    e.stopPropagation(); // 👈 prevent bubbling
+                    console.log('click Send')
+                }}>
                     <Send color={'#7461CF'} size={16} />
                 </button>
-                <button type="button" className="cursor-pointer">
+                <button type="button" className="cursor-pointer" onClick={(e) => {
+                    e.stopPropagation(); // 👈 prevent bubbling
+
+                    console.log('click Del')
+                }}>
                     <Trash color="red" size={16} />
                 </button>
             </div>
@@ -145,6 +152,7 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
                                             date: "12 Aug 2025",
                                         },
                                     ]}
+                                    placeholder="Select Email"
                                 />
                             </div>
                         } />
@@ -154,26 +162,30 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
                                     form={form}
                                     name='to'
                                     loading={false}
+                                    placeholder="Enter Email"
                                 />
                             </div>
                         } />
                     </div>
                     <div className="space-y-3">
-                        <Info titleClass="min-w-[3.5rem]" title='CC' required value={
+                        <Info titleClass="min-w-[3.5rem]" title='CC' value={
                             <div className="flex-1 ">
                                 <TextField
                                     form={form}
                                     name='cc'
                                     loading={false}
+                                    placeholder="Enter Email"
+
                                 />
                             </div>
                         } />
-                        <Info titleClass="min-w-[3.5rem]" title='Bcc' required value={
+                        <Info titleClass="min-w-[3.5rem]" title='Bcc' value={
                             <div className="flex-1 ">
                                 <TextField
                                     form={form}
                                     name='bcc'
                                     loading={false}
+                                    placeholder="Enter Email"
                                 />
                             </div>
                         } />
@@ -181,17 +193,18 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
                 </div>
                 <div className={cn("", { 'grid grid-cols-2 gap-3': layout === '2col' })}>
                     <div className="space-y-3">
-                        <Info titleClass="min-w-[3.5rem]" title='Subject' required value={
+                        <Info titleClass="min-w-[3.5rem]" title='Subject' value={
                             <div className="flex-1 ">
                                 <TextField
                                     form={form}
                                     name='subject'
                                     loading={false}
+                                    placeholder="Enter Subject"
                                 />
                             </div>
                         } />
                         <Typography variant="caption">Email Body</Typography>
-                        <Info titleClass="min-w-[3.5rem]" title='Template' required value={
+                        <Info titleClass="min-w-[3.5rem]" title='Template' value={
                             <div className="flex-1 ">
                                 <SelectField
                                     form={form}
@@ -205,6 +218,7 @@ export const SectionSendEmail = ({ isSmallMod, form, layout = '1col' }: SectionE
                                             id: '1'
                                         }
                                     ]}
+                                    placeholder="Select Template"
                                 />
                             </div>
                         } />

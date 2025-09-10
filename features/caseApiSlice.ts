@@ -126,9 +126,8 @@ export const caseApiSlice = createApi({
         // ]);
         // // const datamock = encodeURIComponent(JSON.stringify(data));
         // const datamock = JSON.stringify(data);
-
         return {
-          url: `/cases/${id}/note`,
+          url: `/cases/${id}/notes`,
           method: "GET",
         };
       },
