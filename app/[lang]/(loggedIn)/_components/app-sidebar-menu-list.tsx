@@ -244,15 +244,15 @@ export function AppSidebarMenuList() {
                 >
                   <Link href={`/th${item.url}`} prefetch={false}>
                     {Icon && (
-                      <div>
-                        <Icon
-                          className={cn(
-                            // 'w-[20px] h-[20px]',
-                            sidebarMenuIconVariants({ active: isActive })
-                          )}
-                          isActive={isActive}
-                        />
-                      </div>
+                      // <div>
+                      <Icon
+                        className={cn(
+                          // 'w-[20px] h-[20px]',
+                          sidebarMenuIconVariants({ active: isActive })
+                        )}
+                        isActive={isActive}
+                      />
+                      // </div>
                     )}
                     {/* <UserManagementIcon className='w-20 h-20 size-[60px]' size={60} opacity='1' /> */}
                     <Typography>{item.title}</Typography>
