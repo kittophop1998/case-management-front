@@ -40,7 +40,7 @@ import SettingIcon from '@/public/icons/Setting.svg'
 const sidebarMenuButtonVariants = cva('', {
   variants: {
     active: {
-      false: 'hover:bg-primary/20 active:bg-primary/30',
+      false: 'hover:bg-primary/15 active:bg-primary/25',
       true: 'bg-[#7461cf] text-white hover:bg-[#7461cf]/90 hover:text-white',
     },
   },
