@@ -482,7 +482,7 @@ const sidebarMenuButtonVariants = cva(
     'group-data-[collapsible=icon]:text-transparent!',
     ' group-data-[collapsible=icon]:w-[3.5rem]!  group-data-[collapsible=icon]:h-[3.5rem]!',
     ' group-data-[collapsible=icon]:mx-[0.5rem]',
-    ' group-data-[collapsible=icon]:pl-4',
+    ' group-data-[collapsible=icon]:pl-[1.1rem]',
     // '[&>svg]:size-4',
   ),
   {
