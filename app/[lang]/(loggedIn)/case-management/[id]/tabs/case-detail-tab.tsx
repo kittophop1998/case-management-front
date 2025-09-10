@@ -199,34 +199,36 @@ export default function CaseManagementDetailTab() {
                 />
               </Card>
 
-              {caseDetails?.caseGroup === 'Inquiry' && (
-                <>
-                  <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
-                    <SectionCard title="Disposition" isAccordion={true}>
-                      <div className="space-y-3">
-                        {mockDisposition.map((item, idx) => (
-                          <div key={idx}>
-                            <Typography variant="caption" className="font-semibold">
-                              Main Category: {item.mainCategory}
-                            </Typography>
-                            <Typography variant="caption" className="block mt-1">
-                              Sub Category:
-                            </Typography>
-                            <ul className="list-disc list-inside ml-5">
-                              {item.subCategories.map((sub, subIdx) => (
-                                <li key={subIdx}>
-                                  <Typography variant="caption" className="inline">
-                                    {sub}
-                                  </Typography>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
-                      </div>
-                    </SectionCard>
-                  </Card>
-                </>
+              {caseDetails?.caseGroup === 'Inquiry' && caseDetails?.dispositions?.length > 0 && (
+                <Card className="rounded-md border border-gray-300 p-3 mb-4 shadow-none">
+                  <SectionCard title="Disposition" isAccordion={true}>
+                    <div className="space-y-3">
+                      {caseDetails?.dispositions?.map((item, idx) => (
+                        <div key={idx}>
+                          <Typography variant="caption" className="font-semibold">
+                            Main Category: {item.main}
+                          </Typography>
+                          {item.subs && item.subs.length > 0 && (
+                            <>
+                              <Typography variant="caption" className="block mt-1">
+                                Sub Category:
+                              </Typography>
+                              <ul className="list-disc list-inside ml-5">
+                                {item.subs.map((sub, subIdx) => (
+                                  <li key={subIdx}>
+                                    <Typography variant="caption" className="inline">
+                                      {sub}
+                                    </Typography>
+                                  </li>
+                                ))}
+                              </ul>
+                            </>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </SectionCard>
+                </Card>
               )}
 
               {caseDetails?.caseGroup === "Change Info" && (
