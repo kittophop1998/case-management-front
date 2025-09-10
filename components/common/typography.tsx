@@ -28,6 +28,7 @@ type TypographyProps = {
   children: ReactNode;
   className?: string;
   as?: keyof JSX.IntrinsicElements;
+  textStyle?: 'poppins' | 'default'
 };
 
 const typographyVariants = cva(
@@ -50,21 +51,26 @@ const typographyVariants = cva(
         buttonSmall: "text-xs",
         body2grey: "text-sm text-muted-foreground",
         subH3Medium: cn(poppins.className, "font-medium text-[1.25rem]"),//use font Poppins
-
+      },
+      textStyle: {
+        poppins: poppins.className,
+        default: '',
       },
     },
+
   }
 )
 export const Typography = ({
   variant = "body1",
   children,
   className,
+  textStyle = 'default',
   as,
 }: TypographyProps) => {
   const Component = as || "p";
 
   return (
-    <Component className={cn(typographyVariants({ variant }), className)}>
+    <Component className={cn(typographyVariants({ variant, textStyle }), className)}>
       {children}
     </Component>
   );

@@ -43,9 +43,10 @@ export function AppSidebarHeader() {
           {/* </SidebarTrigger> */}
 
           <div className='grid flex-1 text-left text-sm leading-tight'>
-            <span className='truncate font-semibold'>{/*  */}</span>
+            {/* <span className=''></span> */}
             <span className='truncate'>
-              <Typography>Case Management</Typography>
+              <Typography className='font-bold text-[#45464E]' textStyle='poppins'>Case Management</Typography>
+              {/* <Typography >Case Management</Typography> */}
             </span>
           </div>
         </SidebarMenuButton>
