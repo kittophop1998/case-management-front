@@ -15,6 +15,28 @@ export const path2name: Record<string, string> = {
   "/customer/dashboard": "Customer Dashboard",
 };
 
+const getClientPath = (name: string, link = false) => {
+  switch (name) {
+    case "Queue Management":
+      return {
+        name: "Queue Management",
+        goto: link ? "/queue-management" : "",
+      };
+    case "Case Management":
+      return {
+        name: "Case Management",
+        goto: link ? "/case-management" : "",
+      };
+    case "Search Customer":
+      return {
+        name: "Search Customer",
+        goto: link ? "/customer/search" : "",
+      };
+    default:
+      break;
+  }
+  return { name: "", goto: "" };
+};
 export const path2ClientPath: Record<string, { name: string; goto: string }[]> =
   {
     // default
@@ -57,27 +79,16 @@ export const path2ClientPath: Record<string, { name: string; goto: string }[]> =
         goto: "",
       },
     ],
-    "/customer/search": [
-      {
-        name: "Search Customer",
-        goto: "",
-      },
-    ],
+    "/customer/search": [getClientPath("Search Customer", false)],
     "/customer/dashboard": [
-      {
-        name: "Search Customer",
-        goto: "/customer/search",
-      },
+      getClientPath("Search Customer", true),
       {
         name: "Customer Dashboard",
         goto: "",
       },
     ],
     "/customer/dashboard/note": [
-      {
-        name: "Search Customer",
-        goto: "/customer/search",
-      },
+      getClientPath("Search Customer", true),
       {
         name: "Customer Dashboard",
         goto: "/customer/dashboard",
@@ -87,22 +98,15 @@ export const path2ClientPath: Record<string, { name: string; goto: string }[]> =
         goto: "",
       },
     ],
-    "/queue-management": [
-      {
-        name: "Queue Management",
-        goto: "",
-      },
-    ],
+    "/queue-management": [getClientPath("Queue Management", false)],
     "/queue-management/[id]": [
-      {
-        name: "Queue Management",
-        goto: "/queue-management",
-      },
+      getClientPath("Queue Management", true),
       {
         name: ":Queue Details",
         goto: "",
       },
     ],
+    "/case-management": [getClientPath("Case Management", false)],
   };
 
 export const path2sidebar: Record<string, string> = {

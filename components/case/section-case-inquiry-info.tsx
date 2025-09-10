@@ -86,18 +86,18 @@ export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', dd
               <Typography variant="caption">Create Date: {moreInfo.createdDate || '-'}</Typography>
             </>
           )}
-
+          <Info title="Verify Status" value={<>
+            <Typography variant="caption" className="text-[#52C41A]">Passed</Typography>
+          </>} />
+          <Info title="Channel" value={
+            <div className="flex items-center gap-2">
+              <TelephoneCall />
+              <Typography variant="caption">IVR</Typography>
+            </div>
+          } />
           {caseTypeText === 'None Inquiry' && (
             <>
-              <Info title="Verify Status" value={<>
-                <Typography variant="caption" className="text-[#52C41A]">Passed</Typography>
-              </>} />
-              <Info title="Channel" value={
-                <div className="flex items-center gap-2">
-                  <TelephoneCall />
-                  <Typography variant="caption">IVR</Typography>
-                </div>
-              } />
+
               <Info required title="Priority" value={<div className="flex-1 max-w-[300px]">
 
                 <SelectField
