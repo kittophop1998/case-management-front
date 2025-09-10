@@ -62,6 +62,30 @@ export const Header = ({ label, column, className, sortAble = false }: HeaderPro
   )
 }
 
+// function EmptyRows<T>({ table }: { table: ReactTable<T> }) {
+//   // getVisibleCells
+//   const emptyRows = useMemo(
+//     () => Array.from({ length: Math.max(0, 10 - table.getRowModel().rows.length) }),
+//     [table.getRowModel().rows.length]
+//   )
+
+//   return (
+//     <>
+//       {emptyRows.map((_, rowIndex) => (
+//         <tr key={`empty-${rowIndex}`}>
+//           {table.getAllLeafColumns().map((col, colIndex) => (
+//             <td
+//               key={`empty-${rowIndex}-${colIndex}`}
+//               className="p-2 text-sm text-[#6E7079] text-transparent"
+//             >
+//               -
+//             </td>
+//           ))}
+//         </tr>
+//       ))}
+//     </>
+//   )
+// }
 function EmptyRows<T>({ table }: { table: ReactTable<T> }) {
   const emptyRows = useMemo(
     () => Array.from({ length: Math.max(0, 10 - table.getRowModel().rows.length) }),
@@ -72,7 +96,7 @@ function EmptyRows<T>({ table }: { table: ReactTable<T> }) {
     <>
       {emptyRows.map((_, rowIndex) => (
         <tr key={`empty-${rowIndex}`}>
-          {table.getAllLeafColumns().map((col, colIndex) => (
+          {table.getVisibleLeafColumns().map((col, colIndex) => (
             <td
               key={`empty-${rowIndex}-${colIndex}`}
               className="p-2 text-sm text-[#6E7079] text-transparent"
@@ -86,6 +110,7 @@ function EmptyRows<T>({ table }: { table: ReactTable<T> }) {
   )
 }
 
+
 export function DataTable<T>({
   table,
   page = 1,
@@ -97,9 +122,6 @@ export function DataTable<T>({
   setStatusConfigColumn = (isOpen: boolean) => { },
   defaultVisibleColumn
 }: DataTableProps<T>) {
-
-
-
   const [visibleColumnDraft, setVisibleColumnDraft] = useState<Record<string, boolean>>()
 
   const confirmVisibleColumn = () => {
@@ -123,7 +145,9 @@ export function DataTable<T>({
   return (
     <div>
       <div className="block max-w-full overflow-x-scroll overflow-y-hidden">
-        <table className="w-full border-b border-[#e1e2e9]">
+        <table className="w-full border-b border-[#e1e2e9]"
+        // style={{ tableLayout: 'fixed' }}
+        >
           <thead className="border-b border-t border-[#e1e2e9]">
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
@@ -149,7 +173,7 @@ export function DataTable<T>({
               </tr>
             ))}
           </thead>
-          <tbody>
+          <tbody >
             {table.getRowModel().rows.map(row => (
               <tr key={row.id}
                 className={cn(
