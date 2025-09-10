@@ -40,7 +40,7 @@ import SettingIcon from '@/public/icons/Setting.svg'
 const sidebarMenuButtonVariants = cva('', {
   variants: {
     active: {
-      false: '',
+      false: 'hover:bg-primary/20 active:bg-primary/30',
       true: 'bg-[#7461cf] text-white hover:bg-[#7461cf]/90 hover:text-white',
     },
   },
@@ -233,12 +233,12 @@ export function AppSidebarMenuList() {
 
           return (
             <Collapsible key={item.title} asChild className="group/collapsible">
-              <SidebarMenuItem>
+              <SidebarMenuItem >
                 <SidebarMenuButton
                   asChild
                   className={cn(
                     'h-[3rem] gap-3',
-                    sidebarMenuButtonVariants({ active: isActive })
+                    sidebarMenuButtonVariants({ active: isActive }),
                   )}
                   tooltip={item.title}
                 >
