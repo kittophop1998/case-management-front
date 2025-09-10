@@ -21,6 +21,7 @@ import { Checkbox } from "@/components/form/checkbox-field";
 import { useGetDropdownQuery } from "@/features/systemApiSlice";
 import { current } from "@reduxjs/toolkit";
 import { JsonJoinDetails } from "@/types/user.type";
+import { DialogFilterWarper, useFilter } from "@/components/common/dialog-filter-warper";
 
 
 type PriorityType = 'Normal' | 'High'
@@ -53,25 +54,16 @@ const mockOptions = {
     { label: '7 days', value: '7' },
   ]
 }
-const caseStatusOptions = [
-  { label: 'Draft', value: 'Draft' },
-  { label: 'Open', value: 'Open' },
-  { label: 'Closed', value: 'Closed' },
-  { label: 'Waiting Info', value: 'Waiting Info' },
-  { label: 'Pending', value: 'Pending' },
-  { label: 'Approved', value: 'Approved' },
-  { label: 'Rejected', value: 'Rejected' },
-  { label: 'Canceled', value: 'Canceled' },
-  { label: 'Resolved', value: 'Resolved' },
-  { label: 'Escalated', value: 'Escalated' },
-]
+
+
+
 
 const InputFilterConfig = ({ searchObj, setSearchObj, caseStatus }: {
   searchObj: FilterAll,
   setSearchObj: (value: FilterAll) => void,
   caseStatus: JsonJoinDetails[]
 }) => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [getData, { currentData: queue, isFetching, isError, error }] = useLazyGetTableQuery();
   useEffect(() => {
     getData({
@@ -81,11 +73,40 @@ const InputFilterConfig = ({ searchObj, setSearchObj, caseStatus }: {
       order: null,
     })
   }, []);
-  // 
+  const save = (v: Partial<FilterAll>) => {
+    setSearchObj((current) => ({
+      ...current,
+      statuses: v.statuses,
+      priorities: v.priorities,
+      slaDate: v.slaDate,
+      queDate: v.queDate,
+    }))
+  }
+  const {
+    draftFilter,
+    setDraftFilter,
+    onClear,
+    onConfirm,
+    open,
+    setOpen
+  } = useFilter(
+    {
+      value: searchObj,
+      setValue: save,
+      clearValue: { statuses: [], priorities: [], slaDate: null, queDate: null }
+    }
+  )
   return <>
     <BtnFilter onClick={() => { setOpen(true) }} />
-    <Modal title="Filter" isOpen={open} className="w-[47.125rem]" onClose={() => setOpen(false)}>
-      <div className="space-y-3 max-w-[20rem] pb-4">
+    <DialogFilterWarper
+      title="Filter"
+      open={open}
+      setOpen={setOpen}
+      onClear={onClear}
+      onConfirm={onConfirm}
+      className="w-[23rem]"
+    >
+      <div className="space-y-3 pb-4">
         <div>
           <Typography variant="caption">Case Status</Typography>
           <div className="grid grid-cols-2 gap-3 w-full mt-2 px-2">
@@ -93,10 +114,10 @@ const InputFilterConfig = ({ searchObj, setSearchObj, caseStatus }: {
               caseStatus.map((item) => (
                 <div key={item.value} className="flex items-center gap-2" >
                   <Checkbox
-                    checked={searchObj.statuses.includes(item.id)}
+                    checked={draftFilter.statuses.includes(item.id)}
                     onChange={
                       (isCheck) => {
-                        setSearchObj(
+                        setDraftFilter(
                           (current) => ({
                             ...current,
                             statuses: isCheck
@@ -113,20 +134,18 @@ const InputFilterConfig = ({ searchObj, setSearchObj, caseStatus }: {
               ))
             }
           </div>
-
         </div>
         <div>
           <Typography variant="caption">Case Priority</Typography>
-
           <div className="flex gap-3 px-2 mt-2">
             {
               priorityStatusOptions.map((item) => (
                 <div key={item.value} className="flex items-center gap-2" >
                   <Checkbox
-                    checked={searchObj.priorities.includes(item.value)}
+                    checked={draftFilter.priorities.includes(item.value)}
                     onChange={
                       (isCheck) => {
-                        setSearchObj(
+                        setDraftFilter(
                           (current) => ({
                             ...current,
                             priorities: isCheck
@@ -154,9 +173,9 @@ const InputFilterConfig = ({ searchObj, setSearchObj, caseStatus }: {
             valueName="value"
             items={mockOptions.days}
             field={{
-              value: searchObj.slaDate,
+              value: draftFilter.slaDate,
               onChange: (value) => {
-                setSearchObj({ ...searchObj, slaDate: value })
+                setDraftFilter({ ...draftFilter, slaDate: value })
               }
             }} />
         </div>
@@ -167,14 +186,14 @@ const InputFilterConfig = ({ searchObj, setSearchObj, caseStatus }: {
             labelName='queueName'
             items={queue?.data || []}
             field={{
-              value: searchObj.queDate,
+              value: draftFilter.queDate,
               onChange: (value) => {
-                setSearchObj({ ...searchObj, queDate: value })
+                setDraftFilter({ ...draftFilter, queDate: value })
               }
             }} />
         </div>
       </div>
-    </Modal>
+    </DialogFilterWarper>
   </>
 }
 const InputFilterDate = ({ searchObj, setSearchObj }) => {
@@ -198,8 +217,15 @@ const InputFilterDate = ({ searchObj, setSearchObj }) => {
   if (!searchObj) return <></>;
   return <>
     <BtnFilter text='Created Date' onClick={() => { setOpen(true) }} />
-    <Modal title="Filter by Create date" isOpen={open} className="w-[22.375rem]" onClose={() => setOpen(false)}>
-      <div className="space-y-4 mt-6">
+    <DialogFilterWarper
+      title="Filter by Create date"
+      open={open}
+      setOpen={setOpen}
+      onClear={onClear}
+      onConfirm={onConfirm}
+      className="w-[22.375rem]"
+    >
+      <>
         <div className="flex items-center gap-3">
           <Typography className="w-[4.5rem]">From :</Typography>
           <div className='flex-1' >
@@ -225,16 +251,10 @@ const InputFilterDate = ({ searchObj, setSearchObj }) => {
             />
           </div>
         </div>
-      </div>
-      <div className="flex gap-3 mt-6">
-        <BtnReset onClick={onClear} className="flex-1" text="Reset" />
-        <BtnApply onClick={onConfirm} className="flex-1" />
-      </div>
-    </Modal>
+      </>
+    </DialogFilterWarper >
   </>
 }
-
-
 const CaseManagementPage = () => {
   const { data: dataDropdown } = useGetDropdownQuery()
   const [searchObj, setSearchObj] = useState<FilterAll>({
