@@ -244,7 +244,7 @@ export function DataTable<T>({
             <Modal title='Show Column' isOpen={statusConfigColumn} onClose={() => setStatusConfigColumn(false)} className='w-[20rem]' >
               <div>
                 <Typography variant='caption'>Select Show Column</Typography>
-                <div className='space-y-1 mt-4 px-3' >
+                <div className='space-y-2 mt-4 px-3' >
                   {/* {JSON.stringify(visibleColumnDraft)} */}
                   {table.getAllColumns().map((column) => (
                     <div>
