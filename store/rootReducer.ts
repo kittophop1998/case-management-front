@@ -9,6 +9,7 @@ import { caseApiSlice } from "@/features/caseApiSlice";
 import { noteApiSlice } from "@/features/noteApiSlice";
 import { queueApiSlice } from "@/features/queueApiSlice";
 import { sysConfigReducer } from "@/features/sysConfigSlice";
+import { apilogApiSlice } from "@/features/apilogApiSlice";
 
 export const rootReducer = combineReducers({
   [authApiSlice.reducerPath]: authApiSlice.reducer,
@@ -19,6 +20,8 @@ export const rootReducer = combineReducers({
   [caseApiSlice.reducerPath]: caseApiSlice.reducer,
   [noteApiSlice.reducerPath]: noteApiSlice.reducer,
   [queueApiSlice.reducerPath]: queueApiSlice.reducer,
+  [apilogApiSlice.reducerPath]: apilogApiSlice.reducer,
+
   //  Normal slice
   sysConfig: sysConfigReducer,
 });
