@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useTransition } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 import {
   SidebarGroup,
@@ -22,6 +22,7 @@ import {
 } from '@/const/title-path'
 
 import { useGetMeQuery } from '@/features/authApiSlice'
+import { lang } from '@/services/api'
 
 // import CaseManagementIcon from '@/public/icons/Case Management.svg'
 // import SearchCustomerIcon from '@/public/icons/SearchCustomer.svg'
@@ -211,7 +212,8 @@ export function AppSidebarMenuList() {
   const pathname = usePathname()
   const pathSegments = pathname.split('/')
   const currentTitle = getTitleFromPath(pathSegments)
-
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   return (
     <SidebarGroup>
       <SidebarMenu>
@@ -231,13 +233,20 @@ export function AppSidebarMenuList() {
                 <SidebarMenuButton
                   asChild
                   className={cn(
-                    'h-[3rem] gap-3',
+                    'h-[3rem] gap-3 select-none',
                     sidebarMenuButtonVariants({ active: isActive }),
                     'overflow-hidden truncate px-6'
                   )}
                   tooltip={item.title}
+                  onClick={() => {
+                    if (isActive) return;
+                    startTransition(() => {
+                      router.push(`/${lang}${item.url}`);
+                    });
+                  }}
                 >
-                  <Link href={`/th${item.url}`} prefetch={false}>
+                  <div>
+                    {/* <Link href={`/th${item.url}`} prefetch={false}> */}
                     {Icon && (
                       <Icon
                         className={cn(
@@ -246,8 +255,10 @@ export function AppSidebarMenuList() {
                         isActive={isActive}
                       />
                     )}
+                    {/* <Typography>{isPending ? "Loading..." : item.title}</Typography> */}
                     <Typography>{item.title}</Typography>
-                  </Link>
+                    {/* </Link> */}
+                  </div>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </Collapsible>

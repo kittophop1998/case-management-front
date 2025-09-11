@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import CardPageWrapper, { ContainerPage } from "@/components/common/card-page-warpper";
 import { Typography } from "@/components/common/typography";
 // import { Suspense } from "react";
@@ -16,6 +16,7 @@ import { Checkbox } from "@/components/form/checkbox-field";
 import { useGetDropdownQuery } from "@/features/systemApiSlice";
 import { JsonJoinDetails } from "@/types/user.type";
 import { DialogFilterWarper, useFilter } from "@/components/common/dialog-filter-warper";
+import { Separator } from "@/components/ui/separator";
 
 
 type PriorityType = 'Normal' | 'High'
@@ -264,7 +265,8 @@ const CaseManagementPage = () => {
   const [statusConfigColumn, setStatusConfigColumn] = useState(false);
   return (
     <div>
-      <div className="flex space-x-4 border-b mb-4 pt-6  bg-white">
+      <Separator />
+      <div className="flex space-x-4 border-b mb-4 pt-3  bg-white">
         <ContainerPage>
           {tabs.map((tab) => (
             <button
