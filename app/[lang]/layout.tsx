@@ -22,7 +22,7 @@ export default async function RootLayout({
 }>) {
   const { lang } = await params
   return (
-    <html lang={lang}>
+    <html lang={lang} id="root">
       <body
         className={cn(
           'antialiased overflow-y-auto',
