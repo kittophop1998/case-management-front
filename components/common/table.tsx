@@ -101,7 +101,6 @@ function EmptyRows<T>({ table }: { table: ReactTable<T> }) {
               key={`empty-${rowIndex}-${colIndex}`}
               className="p-2 text-sm text-[#6E7079] text-transparent"
             >
-              -
             </td>
           ))}
         </tr>
