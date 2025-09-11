@@ -200,7 +200,7 @@ export function DataTable<T>({
               </tr>
             ))}
 
-            {renderEmpty && <EmptyRows table={table} />}
+            {/* {renderEmpty && <EmptyRows table={table} />} */}
           </tbody>
         </table>
       </div>
