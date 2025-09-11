@@ -52,7 +52,7 @@ export const caseStatusConfig = {
   created: {
     text: "Created",
     // className: "bg-[#D1FAE5] text-black",
-    className: "bg-[#FEEBEE], text-[#E31B0C]",
+    className: "bg-[#FEEBEE] text-[#E31B0C]",
   },
   progress: {
     text: "In Progress",
