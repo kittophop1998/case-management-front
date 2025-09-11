@@ -9,6 +9,7 @@ import { customersApiSlice } from "@/features/customersApiSlice";
 import { caseApiSlice } from "@/features/caseApiSlice";
 import { noteApiSlice } from "@/features/noteApiSlice";
 import { queueApiSlice } from "@/features/queueApiSlice";
+import { apilogApiSlice } from "@/features/apilogApiSlice";
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -21,7 +22,8 @@ export const store = configureStore({
       .concat(customersApiSlice.middleware)
       .concat(caseApiSlice.middleware)
       .concat(queueApiSlice.middleware)
-      .concat(noteApiSlice.middleware),
+      .concat(noteApiSlice.middleware)
+      .concat(apilogApiSlice.middleware),
 });
 
 export type AppStore = typeof store;

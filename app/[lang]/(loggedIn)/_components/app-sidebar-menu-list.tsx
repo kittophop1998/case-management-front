@@ -182,6 +182,7 @@ const title2icon: Record<string, React.ComponentType<any>> = {
   'User Management': UserManagementIcon,
   'Access Control': AccessControlIcon,
   'Queue Management': QueueIcon,
+  'API Log': QueueIcon
 }
 
 const getTitleFromPath = (pathSegments: string[]): string => {

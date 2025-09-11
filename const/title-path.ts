@@ -9,6 +9,7 @@ export const path2name: Record<string, string> = {
   "/access-control": "Access Control",
   "/report": "Report",
   "/queue-management": "Queue Management",
+  "/api-log": "API Log",
   // 2nd level
   "/case/management": "Case Management",
   "/customer/search": "Search Customer",
@@ -57,6 +58,12 @@ export const path2ClientPath: Record<string, { name: string; goto: string }[]> =
     "/access-control": [
       {
         name: "Access Control",
+        goto: "",
+      },
+    ],
+    "/api-log": [
+      {
+        name: "API Log",
         goto: "",
       },
     ],
@@ -164,6 +171,11 @@ export const navMain: {
   {
     title: "Queue Management",
     url: "/queue-management",
+    permission: ["view.queue"],
+  },
+  {
+    title: "API Log",
+    url: "/api-log",
     permission: ["view.queue"],
   },
 ];

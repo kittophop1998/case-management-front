@@ -89,7 +89,7 @@ export const TextFieldInput = ({
   ...props
 }: TextFieldInputProps) => {
   return (
-    <div className='relative'>
+    <div className='relative w-full'>
       <div className='absolute flex items-center justify-center h-full w-[2.5rem]  pointer-events-none'>
         {prependInnerIcon}
       </div>
