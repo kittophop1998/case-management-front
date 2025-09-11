@@ -10,6 +10,7 @@ import { Input } from '@/components/common/text-input'
 import { cva } from 'class-variance-authority'
 import { Eye, EyeOff } from 'react-feather'
 import { useState } from 'react'
+import { cn } from '@/lib/utils'
 
 interface PasswordFieldProps {
   form: any // Replace 'any' with the correct form type, e.g., UseFormReturn<any> if using react-hook-form
@@ -20,6 +21,7 @@ interface PasswordFieldProps {
   readonly?: boolean // Optional prop to make the input read-only
   prependInnerIcon?: React.ReactNode // Optional prop for an icon
   appendInnerIcon?: React.ReactNode // Optional prop for an icon
+  className?: string
 }
 const textFieldVariants = cva('', {
   variants: {
@@ -37,7 +39,8 @@ const PasswordField = ({
   label,
   placeholder,
   prependInnerIcon,
-  appendInnerIcon
+  appendInnerIcon,
+  className
 }: PasswordFieldProps) => {
   const [showPassword, setShowPassword] = useState(false)
   return (
@@ -50,31 +53,28 @@ const PasswordField = ({
           <FormLabel className='text-xs'>{label}</FormLabel>
           <FormControl>
             <div className='relative flex'>
-              <div className='absolute flex items-center justify-center h-full w-[2rem] pointer-events-none'>
+              <div className='absolute flex items-center justify-center h-full w-[2.5rem] pointer-events-none'>
                 {prependInnerIcon}
               </div>
               <Input
                 type={showPassword ? 'text' : 'password'}
                 prependInnerIcon={!!prependInnerIcon}
                 appendInnerIcon
-                className={textFieldVariants({ readonly })}
+                className={cn(textFieldVariants({ readonly }), className)}
                 placeholder={placeholder}
                 {...field}
                 readOnly={readonly}
               />
-              <div className='right-0  absolute flex items-center justify-center h-full w-[2rem]'>
+              <div className='right-0  absolute flex items-center justify-center h-full w-[2.5rem]'>
                 {showPassword ? (
-
                   <Eye
-                    size={15}
-                    // @ts-expect-error className is valid for lucide icon
+                    size={16}
                     className='cursor-pointer'
                     onClick={() => setShowPassword(false)}
                   />
                 ) : (
                   <EyeOff
-                    size={15}
-                    // @ts-expect-error className is valid for lucide icon
+                    size={16}
                     className='cursor-pointer'
                     onClick={() => setShowPassword(true)}
                   />

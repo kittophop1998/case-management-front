@@ -6,28 +6,27 @@ import Image from 'next/image'
 export const LoginTemplate = async () => {
   return (
     <div>
-      <Card className="max-w-md w-full py-8 px-8 min-h-[400px] flex flex-col">
+      <Card className="px-8 pb-10 pt-12 w-[27.688rem]">
         <Image
           src="/eaon-icon.png"
           alt="eaon-icon.png"
-          className="object-cover mx-auto"
+          className="object-cover mx-auto w-[80px] h-[80px]"
           width={100}
           height={100}
         />
-        <Typography variant="h3" as="h3" className="text-center">
-          Case Management
-        </Typography>
-        <Typography variant="caption" className="text-base text-center mb-4">
-          Login to your account
-        </Typography>
+        <div className='space-y-2 pt-3 pb-7'>
+          <Typography textStyle='poppins' className="text-center text-xl font-medium">
+            Case Management
+          </Typography>
+          <Typography variant='caption2' className='text-center' >
+            Login to your account
+          </Typography>
+        </div>
         <LoginForm />
       </Card>
-
-      <div>
-        <Typography variant="caption" className="text-base text-white text-center mt-4">
-          บริษัท อิออน ธนสินทรัพย์ (ไทยแลนด์) จำกัด (มหาชน)<br />
-          AEON Thana Sinsap (Thailand) Public Company Limited
-        </Typography>
+      <div className='text-white text-center mt-5'>
+        <Typography variant='body2' textStyle='roboto'>บริษัท อิออน ธนสินทรัพย์ (ไทยแลนด์) จำกัด (มหาชน)</Typography>
+        <Typography variant='body2' textStyle='roboto' className='font-medium'>ÆON Thana Sinsap (Thailand) Pubilc Company Limited</Typography>
       </div>
     </div>
   )
