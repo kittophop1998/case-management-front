@@ -11,7 +11,7 @@ export default async function CustomerSearchPage({
 ) {
     const { lang } = await params
     return (
-        <CardPageWrapper className="my-6">
+        <CardPageWrapper className="my-6 h-full">
             <Typography variant="h6" className="text-center mt-12">
                 Search Customer ID/AEON ID
             </Typography>
