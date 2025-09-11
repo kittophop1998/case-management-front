@@ -49,38 +49,65 @@ export const emptyCaseInquiry: CaseType = {
 };
 
 export const caseStatusConfig = {
-  pending: {
-    text: "Pending",
-    className: "bg-[#FFFBE6] text-black",
-  },
-  draft: {
-    text: "Draft",
-    className: "bg-[#E0F2FE] text-black",
-  },
   created: {
     text: "Created",
-    className: "bg-[#D1FAE5] text-black",
+    // className: "bg-[#D1FAE5] text-black",
+    className: "bg-[#FEEBEE], text-[#E31B0C]",
   },
-  escalated: {
-    text: "Escalated",
-    className: "bg-[#F3F4F6] text-black",
+  progress: {
+    text: "In Progress",
+    className: "text-[#5570F1]",
+  },
+  waiting: {
+    text: "Waiting",
+    className: "bg-[#FFFBE6] text-[black]",
+    // className: "bg-[#FEEBEE], text-[#E31B0C]",
   },
   approved: {
-    text: "Approved",
-    className: "bg-[#F3F4F6] text-black",
+    text: "Created",
+    className: "bg-[#32936F] text-[#519C66]",
+    // className: "bg-[#FEEBEE], text-[#E31B0C]",
   },
-  rejected: {
-    text: "Rejected",
-    className: "bg-[#F3F4F6] text-black",
+  closed: {
+    text: "Closed",
+    className: "bg-[#FEEBEE] text-[#E31B0C]",
+    // className: "bg-[#FEEBEE], text-[#E31B0C]",
   },
-  canceled: {
-    text: "Canceled",
-    className: "bg-[#F3F4F6] text-black",
+  resolved: {
+    text: "Resolved",
+    className: "bg-[#FEEBEE] text-[#E31B0C]",
+    // className: "bg-[#FEEBEE], text-[#E31B0C]",
   },
-  cancel: {
-    text: "Canceled",
-    className: "bg-[#F3F4F6] text-black",
-  },
+
+  // pending: {
+  //   text: "Pending",
+  //   className: "bg-[#FFFBE6] text-black",
+  // },
+  // draft: {
+  //   text: "Draft",
+  //   className: "bg-[#E0F2FE] text-black",
+  // },
+
+  // escalated: {
+  //   text: "Escalated",
+  //   className: "bg-[#F3F4F6] text-black",
+  // },
+  // approved: {
+  //   text: "Approved",
+  //   className: "bg-[#F3F4F6] text-black",
+  // },
+  // rejected: {
+  //   text: "Rejected",
+  //   className: "bg-[#F3F4F6] text-black",
+  // },
+  // canceled: {
+  //   text: "Canceled",
+  //   className: "bg-[#F3F4F6] text-black",
+  // },
+  // cancel: {
+  //   text: "Canceled",
+  //   className: "bg-[#F3F4F6] text-black",
+  // },
 };
 
 export const priorityStatusConfig = {
