@@ -13,6 +13,7 @@ import { BtnClose } from '@/components/button/btn-close'
 import Image from 'next/image'
 import usePermission from '@/hooks/use-permission'
 import { Skeleton } from '@/components/ui/skeleton'
+import { lang } from '@/services/api'
 
 const PopupUserUI = ({ user, onClose }: { user: UserProfileType | null, onClose: () => void }) => {
   const dispatch = useDispatch()
@@ -27,7 +28,7 @@ const PopupUserUI = ({ user, onClose }: { user: UserProfileType | null, onClose:
     try {
       await logoutMutation().unwrap()
       await dispatch(authApiSlice.util.resetApiState())
-      router.push('/login')
+      router.push(`${lang}/login`)
     } catch (error) {
       console.error('Logout failed', error)
     }

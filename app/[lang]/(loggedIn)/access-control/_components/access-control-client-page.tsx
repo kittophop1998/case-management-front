@@ -208,7 +208,6 @@ const useAccessControlTable = () => {
 
         }
     }
-    console.count(`rerender`)
     const confirmChangeGroup = async () => {
         if (!isFormDirty) {
             return true

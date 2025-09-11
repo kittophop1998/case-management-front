@@ -11,6 +11,7 @@ import { caseStatusConfig, priorityStatusConfig } from "@/const/case";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/common/Button";
 import { format, isAfter, isBefore, subDays } from "date-fns";
+import { lang } from "@/services/api";
 
 type CaseProps = {
   tab: string;
@@ -288,7 +289,7 @@ const CaseTable = ({ searchObj, statusConfigColumn = false, setStatusConfigColum
   const { table, setPage, setLimit, dataTable
   } = useCaseTable({ searchObj });
   const gotoChild = (data: any) => {
-    router.push(`/case-management/${data?.caseId || '-'}`);
+    router.push(`${lang}/case-management/${data?.caseId || '-'}`);
   }
 
   if (!searchObj) {

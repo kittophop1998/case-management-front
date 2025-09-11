@@ -35,6 +35,7 @@ import { Promotion } from "@/types/promotion.type";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useLazyGetCustomerNotesQuery } from "@/features/noteApiSlice";
 import { CaseTypeText } from "@/types/case.type";
+import { lang } from "@/services/api";
 
 type SuggestionCardProps = {
     loading: boolean
@@ -248,7 +249,7 @@ const CustomerDashboard = ({ customerId }: CustomerDashboardProps) => {
                                                         {
                                                             myPermission?.["view.custnote"] &&
                                                             <NoteButtonNoti
-                                                                onClick={() => router.push(`/customer/dashboard/note/list?customerId=${customerId}`)}
+                                                                onClick={() => router.push(`${lang}/customer/dashboard/note/list?customerId=${customerId}`)}
                                                                 // count={0}
                                                                 n={tableNotes?.total || 0}
                                                                 size='sm'

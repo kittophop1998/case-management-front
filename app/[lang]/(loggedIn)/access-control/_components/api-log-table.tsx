@@ -293,7 +293,6 @@ const ApiLogTable = ({ searchObj, statusConfigColumn = false, setStatusConfigCol
   const { table, setPage, setLimit, dataTable } = useApiLogTable({ searchObj });
 
   const gotoChild = (data: any) => {
-    // router.push(`/case-management/${data?.caseId || '-'}`);
     console.log(data);
   }
 
