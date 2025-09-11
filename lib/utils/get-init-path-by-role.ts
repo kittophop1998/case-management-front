@@ -14,7 +14,7 @@ function getInitPathByRole(
     if (!path) {
       throw new Error(`No redirect path defined for role '${currentRole}'`);
     }
-    return `${lang}/${path}`;
+    return `/${lang}/${path}`;
   } else {
     if (!userRoles.includes(currentRole)) {
       throw new Error("Invalid role");

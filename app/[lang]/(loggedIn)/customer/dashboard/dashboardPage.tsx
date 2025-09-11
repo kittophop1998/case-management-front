@@ -249,7 +249,7 @@ const CustomerDashboard = ({ customerId }: CustomerDashboardProps) => {
                                                         {
                                                             myPermission?.["view.custnote"] &&
                                                             <NoteButtonNoti
-                                                                onClick={() => router.push(`${lang}/customer/dashboard/note/list?customerId=${customerId}`)}
+                                                                onClick={() => router.push(`/${lang}/customer/dashboard/note/list?customerId=${customerId}`)}
                                                                 // count={0}
                                                                 n={tableNotes?.total || 0}
                                                                 size='sm'

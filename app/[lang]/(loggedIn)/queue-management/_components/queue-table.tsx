@@ -23,7 +23,6 @@ const useQueueTable = (ref) => {
             header: ({ column }) => <Header column={column} label='Queue Name' sortAble />,
             cell: info => info.getValue(),
             meta: {
-                // width: 'fit-content',
                 minWidth: '14rem',
                 cellClass: 'text-ellipsis overflow-hidden',
             },
@@ -33,7 +32,6 @@ const useQueueTable = (ref) => {
             header: ({ column }) => <Header column={column} label='Description' sortAble />,
             cell: info => info.getValue(),
             meta: {
-                // width: 'fit-content',
                 minWidth: '20rem',
                 cellClass: 'text-ellipsis overflow-hidden',
             },
@@ -43,9 +41,9 @@ const useQueueTable = (ref) => {
             header: ({ column }) => <Header column={column} label='Update Date' sortAble />,
             cell: info => format(info.getValue(), "dd MMM yyyy HH:mm:ss"),
             meta: {
-                width: '11rem',
-                maxWidth: '11rem',
-                minWidth: '11rem',
+                // width: '11rem',
+                // maxWidth: '11rem',
+                // minWidth: '11rem',
             },
 
         }),
@@ -54,9 +52,9 @@ const useQueueTable = (ref) => {
             header: ({ column }) => <Header column={column} label='Updated By' sortAble />,
             cell: info => info.getValue(),
             meta: {
-                width: '15rem',
-                maxWidth: '15rem',
-                minWidth: '15rem',
+                // width: '15rem',
+                // maxWidth: '15rem',
+                // minWidth: '15rem',
             },
         }),
         columnHelper.accessor('action', {
@@ -71,9 +69,9 @@ const useQueueTable = (ref) => {
                         }} />
                 </div>,
             meta: {
-                width: '4rem',
-                maxWidth: '4rem',
-                minWidth: '4rem',
+                // width: '4rem',
+                // maxWidth: '4rem',
+                // minWidth: '4rem',
             },
         }),
 

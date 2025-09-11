@@ -28,7 +28,7 @@ const PopupUserUI = ({ user, onClose }: { user: UserProfileType | null, onClose:
     try {
       await logoutMutation().unwrap()
       await dispatch(authApiSlice.util.resetApiState())
-      router.push(`${lang}/login`)
+      router.push(`/${lang}/login`)
     } catch (error) {
       console.error('Logout failed', error)
     }
