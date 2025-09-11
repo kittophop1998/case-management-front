@@ -89,7 +89,7 @@ export const AppBarUserUI = () => {
                 width={32}
                 height={32}
               />
-              <div className='w-[7rem]'>
+              <div >
                 <Typography variant='body2' className='truncate'>
                   {/* Jarawee Reongrit */}
                   {name}
