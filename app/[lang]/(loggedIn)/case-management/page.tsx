@@ -1,25 +1,19 @@
 'use client'
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CardPageWrapper, { ContainerPage } from "@/components/common/card-page-warpper";
 import { Typography } from "@/components/common/typography";
 // import { Suspense } from "react";
 import CaseTable from "./_components/case-table";
 import InputFilter from "@/components/common/input-filter";
 import BtnFilter from "@/components/button/btn-filter";
-import { Modal } from "@/components/common/Modal";
 import { DatePickerFieldInputV2 } from "@/components/form/date-picker";
-import BtnApply from "@/components/button/btn-apply";
-import BtnReset from "@/components/button/btn-reset";
 import { SelectFieldInput } from "@/components/form/select-field";
-// import { Checkbox } from "@/components/ui/checkbox";
-import { FormLabel } from "@/components/ui/form";
 import BtnConfigColumn from "@/components/button/btn-config-column";
 import { useLazyGetTableQuery } from "@/features/queueApiSlice";
 import { priorityStatusOptions } from "@/const/case";
 import { Checkbox } from "@/components/form/checkbox-field";
 import { useGetDropdownQuery } from "@/features/systemApiSlice";
-import { current } from "@reduxjs/toolkit";
 import { JsonJoinDetails } from "@/types/user.type";
 import { DialogFilterWarper, useFilter } from "@/components/common/dialog-filter-warper";
 
@@ -267,15 +261,6 @@ const CaseManagementPage = () => {
     keyword: '',
     category: 'myCase',
   });
-  // useEffect(() => {
-  //   setSearchObj((current) => {
-  //     if (current.statuses.length === 0) {
-  //       const statuses = dataDropdown?.caseStatus?.map(v => v.id) || []
-  //       return { ...current, statuses }
-  //     }
-  //     return current;
-  //   })
-  // }, [dataDropdown?.caseStatus])
   const [statusConfigColumn, setStatusConfigColumn] = useState(false);
   return (
     <div>
