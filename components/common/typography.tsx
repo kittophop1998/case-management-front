@@ -57,7 +57,7 @@ const typographyVariants = cva(
         // Costom
         buttonSmall: "text-xs",
         body2grey: "text-sm text-muted-foreground",
-        subH3Medium: cn(poppins.className, "font-medium text-[1.25rem]"),//use font Poppins
+        subH3Medium: "font-medium text-[1.25rem]",
       },
       textStyle: {
         poppins: poppins.className,
