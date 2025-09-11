@@ -32,7 +32,7 @@ export default async function UserLayout({
       <InitializersData accessToken={accessToken} refreshToken={refreshToken} />
       <SidebarProvider>
         <AppSidebar />
-        <SidebarInset className='bg-[#f4f5fa]'>
+        <SidebarInset className='bg-[#f4f5fa] overflow-x-hidden'>
           <AppBar />
           <Suspense fallback={<LoadingPage />}>
             {children}
