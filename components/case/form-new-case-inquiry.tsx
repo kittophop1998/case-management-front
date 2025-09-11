@@ -163,7 +163,7 @@ export const FormNewCase = forwardRef<FormNewCaseRef, FormNewCaseProps>
                                 }
                             </div>
                         </div>
-                        <div className="flex justify-end gap-3 pb-3">
+                        <div className="flex justify-end gap-3 pb-3 px-3">
                             <ButtonCancel onClick={onClose} />
                             <Button loading={isLoadingCreateCase}>Save</Button>
                         </div>
