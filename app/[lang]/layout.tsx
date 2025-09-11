@@ -8,11 +8,9 @@ const inter = Inter({
   weight: '400',
   subsets: ['latin']
 })
-
-export async function generateStaticParams() {
-  return [{ lang: 'en' }, { lang: 'th' }]
-}
-
+// export async function generateStaticParams() {
+//   return [{ lang: 'en' }, { lang: 'th' }]
+// }
 export default async function RootLayout({
   children,
   params
@@ -36,3 +34,10 @@ export default async function RootLayout({
     </html>
   )
 }
+
+
+
+
+// export async function generateStaticParams() {
+//   return [{ lang: 'en' }, { lang: 'th' }]
+// }
