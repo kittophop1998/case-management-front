@@ -71,7 +71,7 @@ export async function api<T>(
 ): Promise<T | null> {
   let res;
   try {
-    console.log(`apiSSR.call()${BASE_URL}${url}`);
+    console.log(`api.call()${BASE_URL}${url}`);
     res = await fetch(`${BASE_URL}${url}`, {
       ...options,
       headers: {
@@ -79,12 +79,12 @@ export async function api<T>(
         ...(options?.headers ?? {}),
       },
     });
-    console.log(`apiSSR.res()${BASE_URL}${url}`, res);
+    console.log(`api.res()${BASE_URL}${url}`, res);
   } catch (error) {
     throw new Error("Network error or invalid URL");
   }
   const text: string = await res.text();
-  console.log(`apiSSR.text()${BASE_URL}${url}`, text);
+  console.log(`api.text()${BASE_URL}${url}`, text);
   const data: ApiResponse<T> = text ? JSON.parse(text) : {};
   if (!res.ok) {
     throw new Error(getErrorText(data as ApiResponse<undefined>));
