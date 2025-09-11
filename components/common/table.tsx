@@ -144,7 +144,7 @@ export function DataTable<T>({
 
   return (
     <div>
-      <div className="block max-w-full overflow-x-scroll overflow-y-hidden">
+      <div className="block max-w-full overflow-x-auto">
         <table className="w-full border-b border-[#e1e2e9]"
         // style={{ tableLayout: 'fixed' }}
         >
