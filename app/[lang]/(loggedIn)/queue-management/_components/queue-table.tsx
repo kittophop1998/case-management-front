@@ -23,7 +23,7 @@ const useQueueTable = (ref) => {
             header: ({ column }) => <Header column={column} label='Queue Name' sortAble />,
             cell: info => info.getValue(),
             meta: {
-                width: 'fit-content',
+                // width: 'fit-content',
                 minWidth: '14rem',
                 cellClass: 'text-ellipsis overflow-hidden',
             },
@@ -33,7 +33,7 @@ const useQueueTable = (ref) => {
             header: ({ column }) => <Header column={column} label='Description' sortAble />,
             cell: info => info.getValue(),
             meta: {
-                width: 'fit-content',
+                // width: 'fit-content',
                 minWidth: '20rem',
                 cellClass: 'text-ellipsis overflow-hidden',
             },
@@ -71,7 +71,9 @@ const useQueueTable = (ref) => {
                         }} />
                 </div>,
             meta: {
-                width: '100%',
+                width: '4rem',
+                maxWidth: '4rem',
+                minWidth: '4rem',
             },
         }),
 
