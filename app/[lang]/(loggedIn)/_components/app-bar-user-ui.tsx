@@ -36,7 +36,7 @@ const PopupUserUI = ({ user, onClose }: { user: UserProfileType | null, onClose:
   return (
     <div className='w-[clamp(300px,100%,423px)]'>
       <div className='flex justify-between'>
-        <Typography variant='subH3Medium'>Profile</Typography>
+        <Typography variant='subH3Medium' textStyle='poppins'>Profile</Typography>
         <BtnClose onClick={onClose} />
       </div>
       <div className='flex gap-3 py-3'>

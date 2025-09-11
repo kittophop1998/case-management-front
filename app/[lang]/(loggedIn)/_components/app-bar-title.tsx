@@ -10,7 +10,7 @@ export function AppBarTitle() {
     const pathname = useGetRawPath()
     const pathArr = pathname.split('/')
     const title = getTitle(pathArr)
-    return <Typography variant='subH3Medium' as='p'>
+    return <Typography variant='subH3Medium' as='p' textStyle='poppins'>
         {title}
     </Typography>
 }
