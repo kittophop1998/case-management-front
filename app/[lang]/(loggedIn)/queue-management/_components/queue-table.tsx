@@ -43,7 +43,7 @@ const useQueueTable = (ref) => {
             meta: {
                 // width: '11rem',
                 // maxWidth: '11rem',
-                // minWidth: '11rem',
+                minWidth: '11rem',
             },
 
         }),
@@ -54,7 +54,7 @@ const useQueueTable = (ref) => {
             meta: {
                 // width: '15rem',
                 // maxWidth: '15rem',
-                // minWidth: '15rem',
+                minWidth: '15rem',
             },
         }),
         columnHelper.accessor('action', {
