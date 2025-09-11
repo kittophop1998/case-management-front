@@ -1,7 +1,7 @@
 'use client'
 
 import { use, useEffect, useState } from "react";
-import CardPageWrapper from "@/components/common/card-page-warpper";
+import CardPageWrapper, { ContainerPage } from "@/components/common/card-page-warpper";
 import { Typography } from "@/components/common/typography";
 // import { Suspense } from "react";
 import CaseTable from "./_components/case-table";
@@ -279,19 +279,21 @@ const CaseManagementPage = () => {
   const [statusConfigColumn, setStatusConfigColumn] = useState(false);
   return (
     <div>
-      <div className="flex space-x-4 border-b mb-4 pt-6 px-8 bg-white">
-        {tabs.map((tab) => (
-          <button
-            key={tab.value}
-            onClick={() => setSearchObj((current) => ({ ...current, category: tab.value }))}
-            className={`pb-2 px-4 border-b-2 text-sm font-medium ${searchObj.category === tab.value
-              ? "border-indigo-500"
-              : "border-transparent text-gray-500 hover:text-primary"
-              }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+      <div className="flex space-x-4 border-b mb-4 pt-6  bg-white">
+        <ContainerPage>
+          {tabs.map((tab) => (
+            <button
+              key={tab.value}
+              onClick={() => setSearchObj((current) => ({ ...current, category: tab.value }))}
+              className={`pb-2 px-4 border-b-2 text-sm font-medium ${searchObj.category === tab.value
+                ? "border-indigo-500"
+                : "border-transparent text-gray-500 hover:text-primary"
+                }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </ContainerPage>
       </div>
 
       <CardPageWrapper >
