@@ -5,16 +5,18 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/common/Button";
 import { useRouter } from 'next/navigation'
 import { useLazyCustomerCustinfoQuery } from "@/features/customersApiSlice";
-import { getErrorText } from "@/services/api";
+import { getErrorText, lang } from "@/services/api";
 import { FloatingWidget } from "@/components/common/floating-widget";
 import { FormNewCase, FormNewCaseRef } from "@/components/case/form-new-case-inquiry";
 import useCaseType from "@/hooks/use-case-type";
 
-export const SearchSection = ({
-    lang = 'en'
-}: {
-    lang?: 'en' | 'th';
-}) => {
+export const SearchSection = (
+    // {
+    //     lang = 'en'
+    // }: {
+    //     lang?: 'en' | 'th';
+    // }
+) => {
     const formNewCaseRef = useRef<FormNewCaseRef>(null)
     const [status, setStatus] = useState<boolean>(false);
     const router = useRouter()
