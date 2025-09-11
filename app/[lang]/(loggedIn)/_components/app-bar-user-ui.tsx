@@ -13,6 +13,7 @@ import { BtnClose } from '@/components/button/btn-close'
 import Image from 'next/image'
 import usePermission from '@/hooks/use-permission'
 import { Skeleton } from '@/components/ui/skeleton'
+import { lang } from '@/services/api'
 
 const PopupUserUI = ({ user, onClose }: { user: UserProfileType | null, onClose: () => void }) => {
   const dispatch = useDispatch()
@@ -27,7 +28,7 @@ const PopupUserUI = ({ user, onClose }: { user: UserProfileType | null, onClose:
     try {
       await logoutMutation().unwrap()
       await dispatch(authApiSlice.util.resetApiState())
-      router.push('/login')
+      router.push(`${lang}/login`)
     } catch (error) {
       console.error('Logout failed', error)
     }
@@ -35,7 +36,7 @@ const PopupUserUI = ({ user, onClose }: { user: UserProfileType | null, onClose:
   return (
     <div className='w-[clamp(300px,100%,423px)]'>
       <div className='flex justify-between'>
-        <Typography variant='subH3Medium'>Profile</Typography>
+        <Typography variant='subH3Medium' textStyle='poppins'>Profile</Typography>
         <BtnClose onClick={onClose} />
       </div>
       <div className='flex gap-3 py-3'>
@@ -89,7 +90,7 @@ export const AppBarUserUI = () => {
                 width={32}
                 height={32}
               />
-              <div className='w-[7rem]'>
+              <div >
                 <Typography variant='body2' className='truncate'>
                   {/* Jarawee Reongrit */}
                   {name}

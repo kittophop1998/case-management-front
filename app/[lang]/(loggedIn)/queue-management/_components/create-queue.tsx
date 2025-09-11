@@ -6,12 +6,9 @@ import { Pencil } from "lucide-react";
 import { QueueInfoForm, useQueueInfoForm } from "@/components/queue/form-info";
 import { QueueType } from "@/types/queue.type";
 import QueueSvg from '@/public/icons/Queue.svg'
+import BtnCreate from "@/components/button/btn-create";
 
-const BtnCreate = ({ onClick }: { onClick: () => void }) => {
-    return <Button variant='black' onClick={onClick}>
-        <QueueSvg />
-        Add Queue</Button>
-}
+
 const BtnEdit = ({ onClick }: { onClick: () => void }) => {
     return <Button variant='black' onClick={onClick}>Edit Queue</Button>
 }
@@ -47,7 +44,8 @@ export const CreateQueueSection = ({ fetchTable, isCreate = false, queue }: { fe
     return (
         <>
             {isCreate ?
-                <BtnCreate onClick={() => setOpen(true)} /> :
+                <BtnCreate onClick={() => setOpen(true)} text='Add Queue' />
+                :
                 <BtnEdit onClick={() => setOpen(true)} />
             }
             <Modal separator title={isCreate ? "Add Queue" : "Edit Queue"} isOpen={open} className='w-[clamp(300px,90vw,48.063rem)]' >

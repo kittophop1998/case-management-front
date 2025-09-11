@@ -51,7 +51,7 @@ export function checkPassword(): Promise<string | null> {
 
                 // if (!res.ok) return    setError(data.message || 'Wrong password')
                 isLoading = true
-                if (value.password === 'admin') {
+                if (value.password === 'aeon') {
                     // 
                     resolve(value.password)
                     setTimeout(() => {

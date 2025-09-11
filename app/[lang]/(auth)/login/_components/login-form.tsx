@@ -27,23 +27,25 @@ export const LoginForm = () => {
             form={form}
             name='username'
             label=''
-            prependInnerIcon={<Email />}
+            prependInnerIcon={<Email className='size-[1.25rem]' />}
             placeholder='Username'
+            className='bg-[#f6f7fb] border-0 h-[3.25rem]'
           />
           <PasswordField
-            prependInnerIcon={<Lock />}
+            prependInnerIcon={<Lock className='size-[1.25rem]' />}
             loading={isLoadingLogin}
             form={form}
             name='password'
             label=''
             placeholder='Password'
+            className='bg-[#f6f7fb]  border-0 h-[3.25rem]'
           />
         </div>
-        <div className='h-[3rem]'>
+        <div className='h-[5rem] flex items-center justify-center'>
           {loginError ? (
             <FormError message={loginError} />
           ) : (
-            <Typography variant='caption' className='text-center p-3 text-base text-gray-400'>
+            <Typography variant='caption2' className='text-center' >
               Enter your username and password to log in
             </Typography>
           )}
@@ -52,7 +54,7 @@ export const LoginForm = () => {
           <Button
             loading={isLoadingLogin}
             type="submit"
-            className="text-xl py-8 w-[50%] rounded-xl bg-[#5570F1]"
+            className="h-[3.625rem] w-[11.25rem] text-xl  rounded-xl bg-[#5570F1]"
           >
             Login
           </Button>

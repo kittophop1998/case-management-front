@@ -54,7 +54,6 @@ export const SectionCaseInfo = ({ isSmallMod, form, caseTypeText = 'Inquiry', dd
     }
     return ''
   }, [reasonCode, ddData?.reasonCodes])
-  console.log(`rerender`)
   const [getData, { currentData: data }] = useLazyGetTableQuery();
   const dataQueue = useMemo(() => queueAll || data?.data || [], [data, queueAll])
   useEffect(() => {

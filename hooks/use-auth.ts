@@ -6,7 +6,7 @@ import { LoginSchemas } from "@/schemas";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { api, setAccessToken, setRefreshToken } from "@/services/api";
+import { api, lang, setAccessToken, setRefreshToken } from "@/services/api";
 import { loginUser, setToken, SignInAPIResponse } from "@/actions/login";
 
 export default function useAuth() {
@@ -65,11 +65,8 @@ export default function useAuth() {
       refetchMe();
       // let data = await refetchMe().unwrap();
       console.timeEnd("refetchMe");
-      // console.log(`data :`, data);
-      const initPath = "/th/dashboard";
+      const initPath = `/${lang}/dashboard`;
       router.push(initPath); // ineed force push not waite load page ssr success
-      // window.location.href = "/th/dashboard";
-      // setIsLoadingLogin(false);
       setLoginError(null);
     } catch (error) {
       setIsLoadingLogin(false);

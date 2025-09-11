@@ -2,8 +2,13 @@ import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import { JSX, ReactNode } from "react";
 import { Poppins } from 'next/font/google'
+import { Roboto } from 'next/font/google'
 
 const poppins = Poppins({
+  weight: ['400', '500', '600', '700'], // pick the weights you need
+  subsets: ['latin']
+});
+const roboto = Roboto({
   weight: ['400', '500', '600', '700'], // pick the weights you need
   subsets: ['latin']
 });
@@ -19,6 +24,7 @@ type TypographyProps = {
   | "body1"   // ใช้บ่อยที่สุด (เนื้อหาหลัก paragraph) ~30% *****
   | "body2"   // ใช้บ่อย (เนื้อหาขนาดเล็กกว่า, secondary text) ~15%
   | "caption" // ใช้บ่อยปานกลาง (hint/คำอธิบายใต้ input หรือภาพ) ~10% ***
+  | 'caption2'
   | "overline"// ใช้น้อยมาก (label ด้านบน, section indicator) ~2%
   | "button"  // ใช้ปานกลาง (label ปุ่มทั้งหมด) ~15%
   // * DELETE UNDER THIS
@@ -28,7 +34,7 @@ type TypographyProps = {
   children: ReactNode;
   className?: string;
   as?: keyof JSX.IntrinsicElements;
-  textStyle?: 'poppins' | 'default'
+  textStyle?: 'poppins' | 'default' | 'roboto'
 };
 
 const typographyVariants = cva(
@@ -45,15 +51,17 @@ const typographyVariants = cva(
         body1: "text-base",
         body2: "text-sm",
         caption: "text-xs text-muted-foreground",
+        caption2: "text-[14px] text-muted-foreground",
         overline: "text-xs uppercase tracking-widest text-muted-foreground",
         button: "text-sm font-medium uppercase tracking-wide",
         // Costom
         buttonSmall: "text-xs",
         body2grey: "text-sm text-muted-foreground",
-        subH3Medium: cn(poppins.className, "font-medium text-[1.25rem]"),//use font Poppins
+        subH3Medium: "font-medium text-[1.25rem]",
       },
       textStyle: {
         poppins: poppins.className,
+        roboto: roboto.className,
         default: '',
       },
     },

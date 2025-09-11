@@ -9,6 +9,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { forwardRef, useEffect, useImperativeHandle, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
+import { lang } from "@/services/api";
 // 
 
 const useQueueTable = (ref) => {
@@ -66,7 +67,7 @@ const useQueueTable = (ref) => {
                     <BtnEdit
                         // queueId
                         onClick={() => {
-                            router.push(`/queue-management/${info.row.original.queueId}`)
+                            router.push(`/${lang}/queue-management/${info.row.original.queueId}`)
                         }} />
                 </div>,
             meta: {

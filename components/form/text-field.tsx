@@ -21,6 +21,7 @@ interface TextFieldProps {
   prependInnerIcon?: React.ReactNode // Optional prop for an icon
   appendInnerIcon?: React.ReactNode // Optional prop for an icon
   required?: boolean // Optional prop to indicate if the field is required
+  className?: string
 }
 export const textFieldVariants = cva('', {
   variants: {
@@ -40,7 +41,8 @@ export const TextField = ({
   placeholder,
   prependInnerIcon,
   appendInnerIcon,
-  required = false
+  required = false,
+  className = ''
 }: TextFieldProps) => {
   return (
     <InputFieldWarper
@@ -56,7 +58,8 @@ export const TextField = ({
         appendInnerIcon={appendInnerIcon}
         placeholder={placeholder}
         readonly={readonly}
-        className='mt-0 pt-0'
+        // className='mt-0 pt-0'
+        className={className}
       />
     </InputFieldWarper>
   )
@@ -87,7 +90,7 @@ export const TextFieldInput = ({
 }: TextFieldInputProps) => {
   return (
     <div className='relative w-full'>
-      <div className='absolute flex items-center justify-center h-full w-[2rem]  pointer-events-none'>
+      <div className='absolute flex items-center justify-center h-full w-[2.5rem]  pointer-events-none'>
         {prependInnerIcon}
       </div>
       <Input

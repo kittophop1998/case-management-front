@@ -1,27 +1,22 @@
 'use client'
 
-import { use, useEffect, useState } from "react";
-import CardPageWrapper from "@/components/common/card-page-warpper";
+import { Suspense, useEffect, useState } from "react";
+import CardPageWrapper, { ContainerPage } from "@/components/common/card-page-warpper";
 import { Typography } from "@/components/common/typography";
 // import { Suspense } from "react";
 import CaseTable from "./_components/case-table";
 import InputFilter from "@/components/common/input-filter";
 import BtnFilter from "@/components/button/btn-filter";
-import { Modal } from "@/components/common/Modal";
 import { DatePickerFieldInputV2 } from "@/components/form/date-picker";
-import BtnApply from "@/components/button/btn-apply";
-import BtnReset from "@/components/button/btn-reset";
 import { SelectFieldInput } from "@/components/form/select-field";
-// import { Checkbox } from "@/components/ui/checkbox";
-import { FormLabel } from "@/components/ui/form";
 import BtnConfigColumn from "@/components/button/btn-config-column";
 import { useLazyGetTableQuery } from "@/features/queueApiSlice";
 import { priorityStatusOptions } from "@/const/case";
 import { Checkbox } from "@/components/form/checkbox-field";
 import { useGetDropdownQuery } from "@/features/systemApiSlice";
-import { current } from "@reduxjs/toolkit";
 import { JsonJoinDetails } from "@/types/user.type";
 import { DialogFilterWarper, useFilter } from "@/components/common/dialog-filter-warper";
+import { Separator } from "@/components/ui/separator";
 
 
 type PriorityType = 'Normal' | 'High'
@@ -267,31 +262,25 @@ const CaseManagementPage = () => {
     keyword: '',
     category: 'myCase',
   });
-  // useEffect(() => {
-  //   setSearchObj((current) => {
-  //     if (current.statuses.length === 0) {
-  //       const statuses = dataDropdown?.caseStatus?.map(v => v.id) || []
-  //       return { ...current, statuses }
-  //     }
-  //     return current;
-  //   })
-  // }, [dataDropdown?.caseStatus])
   const [statusConfigColumn, setStatusConfigColumn] = useState(false);
   return (
     <div>
-      <div className="flex space-x-4 border-b mb-4 pt-6 px-8 bg-white">
-        {tabs.map((tab) => (
-          <button
-            key={tab.value}
-            onClick={() => setSearchObj((current) => ({ ...current, category: tab.value }))}
-            className={`pb-2 px-4 border-b-2 text-sm font-medium ${searchObj.category === tab.value
-              ? "border-indigo-500"
-              : "border-transparent text-gray-500 hover:text-primary"
-              }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+      <Separator />
+      <div className="flex space-x-4 border-b mb-4 pt-3  bg-white">
+        <ContainerPage>
+          {tabs.map((tab) => (
+            <button
+              key={tab.value}
+              onClick={() => setSearchObj((current) => ({ ...current, category: tab.value }))}
+              className={`pb-2 px-4 border-b-2 text-sm font-medium ${searchObj.category === tab.value
+                ? "border-indigo-500"
+                : "border-transparent text-gray-500 hover:text-primary"
+                }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </ContainerPage>
       </div>
 
       <CardPageWrapper >

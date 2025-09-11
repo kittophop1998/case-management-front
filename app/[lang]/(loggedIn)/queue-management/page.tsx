@@ -24,7 +24,7 @@ export default function QueueManagementPage({
             </Container>
             <CardPageWrapper className="mt-4" >
                 <>
-                    <Typography variant="h6" className="mb-3">Queue List</Typography>
+                    <Typography variant="h6" className="mb-3">Queue Lists</Typography>
                     <QueueTable ref={queueTableRef} />
                 </>
             </CardPageWrapper>

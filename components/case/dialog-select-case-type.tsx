@@ -47,10 +47,12 @@ const Group = ({
     handleSelect,
     items,
     name,
+    separator = true
 }: {
     items: any[];
     handleSelect: (value: string, caseTypeText: CaseTypeText) => void;
     name: string;
+    separator?: boolean;
 }) => {
     return (
         <div>
@@ -58,7 +60,7 @@ const Group = ({
             {items.map((item) => (
                 <Item key={item.id} handleSelect={handleSelect} {...item} />
             ))}
-            <Separator />
+            {separator && <Separator />}
         </div>
     );
 };
@@ -89,10 +91,10 @@ export const DialogSelectCaseType = ({
             isOpen={open}
             title={"Surapong Lertprayapat"}
             onClose={() => setOpen(false)}
-            className="w-[600px] px-0 min-h-[60vh]"
+            className="w-[25rem] px-0"
             classNameHeader="px-6"
         >
-            <div className="bg-white">
+            <div >
                 <div className="flex gap-3 px-6">
                     <StatusComplaintLv lv={'1'} />
                     <StatusCustomerFeeling status="Sweetheart" />
@@ -136,27 +138,37 @@ export const DialogSelectCaseType = ({
                             ))}
                         </TabsList>
                         <Separator />
+                        {/* ALL */}
                         <TabsContent value="null">
-                            {groupFiltered.map((g) => (
+                            {groupFiltered.map((g, index) => (
                                 <Group
                                     key={g}
                                     handleSelect={handleSelect}
                                     items={childByGroupFiltered?.[g] || []}
                                     name={g}
+                                    separator={index + 1 !== (groupFiltered).length}
+
                                 />
                             ))}
                         </TabsContent>
-                        {groupFiltered.map((g) => (
+                        {/* SELECT */}
+                        {groupFiltered.map((g, index) => (
                             <TabsContent key={g} value={g}>
                                 <Group
                                     handleSelect={handleSelect}
                                     items={childByGroupFiltered?.[g] || []}
                                     name={g}
                                     key={g}
+                                    // separator={index + 1 !== (childByGroupFiltered?.[g] || []).length}
+                                    separator={false}
                                 />
+                                {/* <div>
+                                    {(childByGroupFiltered?.[g] || []).length}
+                                </div> */}
                             </TabsContent>
                         ))}
                     </Tabs>
+                    {/* {JSON.stringify(childByGroupFiltered)} */}
                 </div>
             </div>
         </Modal>

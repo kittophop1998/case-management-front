@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useTransition } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 import {
   SidebarGroup,
@@ -22,6 +22,7 @@ import {
 } from '@/const/title-path'
 
 import { useGetMeQuery } from '@/features/authApiSlice'
+import { lang } from '@/services/api'
 
 // import CaseManagementIcon from '@/public/icons/Case Management.svg'
 // import SearchCustomerIcon from '@/public/icons/SearchCustomer.svg'
@@ -41,7 +42,7 @@ const sidebarMenuButtonVariants = cva('', {
   variants: {
     active: {
       false: 'hover:bg-primary/15 active:bg-primary/25',
-      true: 'bg-[#7461cf] text-white hover:bg-[#7461cf]/90 hover:text-white',
+      true: 'bg-[#7461cf] active:bg-[#7461cf]/95 active:text-white text-white hover:bg-[#7461cf]/90 hover:text-white',
     },
   },
 })
@@ -71,12 +72,7 @@ const UserManagementIcon = ({ isActive = false }) => {
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M8.17676 11.9375C10.0628 11.9375 11.9207 12.417 13.3115 13.3457H13.3125C14.5892 14.1968 15.2393 15.3165 15.2393 16.4805C15.2391 17.6466 14.5964 18.7744 13.3125 19.6338C11.9109 20.5682 10.0525 21.0498 8.16992 21.0498C6.28628 21.0498 4.41877 20.5679 3.02832 19.6348L3.02539 19.6328C1.74174 18.7831 1.09961 17.6654 1.09961 16.5C1.09961 15.3338 1.74261 14.2061 3.02637 13.3467C4.42784 12.4171 6.29097 11.9376 8.17676 11.9375ZM8.16992 12.4453C6.42446 12.4453 4.64891 12.877 3.30273 13.7744C2.25469 14.4731 1.5997 15.4295 1.59961 16.5098C1.59961 17.5822 2.26656 18.5379 3.30078 19.2246V19.2256C4.64713 20.1286 6.42386 20.5625 8.16992 20.5625C9.91581 20.5624 11.6918 20.1284 13.0381 19.2256L13.0371 19.2246C14.0847 18.526 14.7392 17.5702 14.7393 16.4902C14.7393 15.4169 14.0718 14.4603 13.0361 13.7734H13.0352C11.6892 12.8767 9.91469 12.4454 8.16992 12.4453ZM17.4414 12.7471V12.748C18.2387 12.9242 18.9199 13.2364 19.4648 13.6562L19.4688 13.6592C20.2907 14.2778 20.7295 15.1279 20.7295 15.9902C20.7294 16.8493 20.2834 17.7014 19.4561 18.333L19.4531 18.335C18.8994 18.7636 18.1922 19.0831 17.4023 19.2393L17.3711 19.2461L17.3594 19.25H17.3398C17.2505 19.25 17.1734 19.2059 17.1309 19.1348L17.1006 19.0547L17.0957 19.002C17.0957 18.8807 17.178 18.7744 17.2988 18.7471C17.9868 18.604 18.6377 18.3281 19.1562 17.9248L19.1553 17.9238C19.8112 17.427 20.2294 16.7552 20.2295 15.9902C20.2295 15.2245 19.8109 14.5483 19.1592 14.0596H19.1582C18.6495 13.6684 18.0313 13.4045 17.332 13.2432L17.3291 13.2422C17.197 13.2123 17.1084 13.0785 17.1377 12.9395C17.1677 12.807 17.3021 12.7172 17.4414 12.7471ZM15.4092 2.75C17.473 2.75 19.1592 4.43614 19.1592 6.5C19.1592 8.52771 17.5769 10.1657 15.5576 10.249L15.5068 10.2324L15.4014 10.2422C15.3263 10.2495 15.2397 10.2257 15.1719 10.1758C15.1061 10.1272 15.0812 10.0729 15.0771 10.0312C15.0683 9.94025 15.0933 9.86833 15.126 9.82324C15.1546 9.78386 15.1942 9.75603 15.252 9.74707C15.345 9.73994 15.45 9.74023 15.5596 9.74023H15.5732L15.5869 9.73926C17.3119 9.64474 18.6591 8.2257 18.6592 6.49023C18.6592 4.69409 17.2053 3.24023 15.4092 3.24023H15.3975C15.2755 3.24321 15.1592 3.13635 15.1592 3C15.1592 2.86629 15.2755 2.75025 15.4092 2.75ZM8 0.75C10.5029 0.750206 12.5576 2.72669 12.6836 5.19922L12.6895 5.44043C12.6793 7.98327 10.6908 10.0387 8.17383 10.1201H8.1123C8.04293 10.1118 7.97199 10.1138 7.90527 10.1191C5.27727 10.0326 3.30979 7.9739 3.30957 5.44043C3.30957 2.85657 5.41614 0.75 8 0.75ZM8 1.25C5.69386 1.25 3.80957 3.13429 3.80957 5.44043C3.80979 7.70971 5.58316 9.54055 7.8418 9.62012L7.89258 9.62109L7.94141 9.61328C7.93151 9.61491 7.93107 9.61401 7.94434 9.61328C7.95576 9.61265 7.97216 9.61231 7.99316 9.6123C8.0357 9.6123 8.08842 9.61407 8.1416 9.61816L8.17188 9.62109L8.20215 9.61914C10.4307 9.51681 12.1781 7.68606 12.1895 5.44238V5.44043C12.1895 3.13442 10.306 1.25021 8 1.25Z" fill="#292D32" stroke="#555E67" />
     </svg>
-
-
-
-
   </>
-
 }
 const SearchCustomerIcon = ({ isActive = false }) => {
   if (isActive) {
@@ -91,8 +87,8 @@ const SearchCustomerIcon = ({ isActive = false }) => {
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#555E67" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M20.9999 21.0004L16.6499 16.6504" stroke="#555E67" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#555E67" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M20.9999 21.0004L16.6499 16.6504" stroke="#555E67" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 
   )
@@ -108,10 +104,10 @@ const AccessControlIcon = ({ isActive = false }) => {
     )
   }
   return (<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.334 0.75H5.665C2.644 0.75 0.75 2.889 0.75 5.916V14.084C0.75 17.111 2.635 19.25 5.665 19.25H14.333C17.364 19.25 19.25 17.111 19.25 14.084V5.916C19.25 2.889 17.364 0.75 14.334 0.75Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.68886 9.99995C8.68886 11.0229 7.85986 11.8519 6.83686 11.8519C5.81386 11.8519 4.98486 11.0229 4.98486 9.99995C4.98486 8.97695 5.81386 8.14795 6.83686 8.14795H6.83986C7.86086 8.14895 8.68886 8.97795 8.68886 9.99995Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M8.69189 10H15.0099V11.852" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M12.1816 11.852V10" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path fillRule="evenodd" clipRule="evenodd" d="M14.334 0.75H5.665C2.644 0.75 0.75 2.889 0.75 5.916V14.084C0.75 17.111 2.635 19.25 5.665 19.25H14.333C17.364 19.25 19.25 17.111 19.25 14.084V5.916C19.25 2.889 17.364 0.75 14.334 0.75Z" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path fillRule="evenodd" clipRule="evenodd" d="M8.68886 9.99995C8.68886 11.0229 7.85986 11.8519 6.83686 11.8519C5.81386 11.8519 4.98486 11.0229 4.98486 9.99995C4.98486 8.97695 5.81386 8.14795 6.83686 8.14795H6.83986C7.86086 8.14895 8.68886 8.97795 8.68886 9.99995Z" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M8.69189 10H15.0099V11.852" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M12.1816 11.852V10" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
   )
 }
@@ -127,10 +123,10 @@ const CaseManagementIcon = ({ isActive = false }) => {
   }
   return (
     <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M14.5139 20.5003H6.16604C3.09968 20.5003 0.747274 19.3927 1.41547 14.9351L2.1935 8.89387C2.6054 6.66962 4.02416 5.81836 5.26901 5.81836H15.4475C16.7107 5.81836 18.047 6.73369 18.523 8.89387L19.3011 14.9351C19.8686 18.8893 17.5802 20.5003 14.5139 20.5003Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M14.6512 5.59873C14.6512 3.21265 12.7169 1.27836 10.3309 1.27836V1.27836C9.18186 1.27349 8.07825 1.72652 7.26406 2.53727C6.44987 3.34803 5.99218 4.44971 5.99219 5.59873H5.99219" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M13.2965 10.1022H13.2507" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M7.4659 10.1022H7.42013" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M14.5139 20.5003H6.16604C3.09968 20.5003 0.747274 19.3927 1.41547 14.9351L2.1935 8.89387C2.6054 6.66962 4.02416 5.81836 5.26901 5.81836H15.4475C16.7107 5.81836 18.047 6.73369 18.523 8.89387L19.3011 14.9351C19.8686 18.8893 17.5802 20.5003 14.5139 20.5003Z" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M14.6512 5.59873C14.6512 3.21265 12.7169 1.27836 10.3309 1.27836V1.27836C9.18186 1.27349 8.07825 1.72652 7.26406 2.53727C6.44987 3.34803 5.99218 4.44971 5.99219 5.59873H5.99219" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M13.2965 10.1022H13.2507" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M7.4659 10.1022H7.42013" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 
   )
@@ -148,8 +144,8 @@ const QueueIcon = ({ isActive = false }) => {
   }
   return (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M20.419 14.732C20.419 18.31 18.31 20.419 14.732 20.419H6.95C3.363 20.419 1.25 18.31 1.25 14.732V6.932C1.25 3.359 2.564 1.25 6.143 1.25H8.143C8.861 1.251 9.537 1.588 9.967 2.163L10.88 3.377C11.312 3.951 11.988 4.289 12.706 4.29H15.536C19.123 4.29 20.447 6.116 20.447 9.767L20.419 14.732Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M6.48096 13.4629H15.216" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M20.419 14.732C20.419 18.31 18.31 20.419 14.732 20.419H6.95C3.363 20.419 1.25 18.31 1.25 14.732V6.932C1.25 3.359 2.564 1.25 6.143 1.25H8.143C8.861 1.251 9.537 1.588 9.967 2.163L10.88 3.377C11.312 3.951 11.988 4.289 12.706 4.29H15.536C19.123 4.29 20.447 6.116 20.447 9.767L20.419 14.732Z" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M6.48096 13.4629H15.216" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 
   )
@@ -168,10 +164,10 @@ const ReportIcon = ({ isActive = false }) => {
   }
   return (
     <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7379 0.761748H5.08493C3.00493 0.753748 1.29993 2.41175 1.25093 4.49075V15.2037C1.20493 17.3167 2.87993 19.0677 4.99293 19.1147C5.02393 19.1147 5.05393 19.1157 5.08493 19.1147H13.0739C15.1679 19.0297 16.8179 17.2997 16.8029 15.2037V6.03775L11.7379 0.761748Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M11.4751 0.75V3.659C11.4751 5.079 12.6231 6.23 14.0431 6.234H16.7981" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M11.2882 13.3584H5.88818" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M9.24321 9.60645H5.88721" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M11.7379 0.761748H5.08493C3.00493 0.753748 1.29993 2.41175 1.25093 4.49075V15.2037C1.20493 17.3167 2.87993 19.0677 4.99293 19.1147C5.02393 19.1147 5.05393 19.1157 5.08493 19.1147H13.0739C15.1679 19.0297 16.8179 17.2997 16.8029 15.2037V6.03775L11.7379 0.761748Z" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M11.4751 0.75V3.659C11.4751 5.079 12.6231 6.23 14.0431 6.234H16.7981" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M11.2882 13.3584H5.88818" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9.24321 9.60645H5.88721" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 
 
@@ -217,7 +213,8 @@ export function AppSidebarMenuList() {
   const pathname = usePathname()
   const pathSegments = pathname.split('/')
   const currentTitle = getTitleFromPath(pathSegments)
-
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   return (
     <SidebarGroup>
       <SidebarMenu>
@@ -237,27 +234,32 @@ export function AppSidebarMenuList() {
                 <SidebarMenuButton
                   asChild
                   className={cn(
-                    'h-[3rem] gap-3',
+                    'h-[3rem] gap-3 select-none',
                     sidebarMenuButtonVariants({ active: isActive }),
                     'overflow-hidden truncate px-6'
                   )}
                   tooltip={item.title}
+                  onClick={() => {
+                    if (isActive) return;
+                    startTransition(() => {
+                      router.push(`/${lang}${item.url}`);
+                    });
+                  }}
                 >
-                  <Link href={`/th${item.url}`} prefetch={false}>
+                  <div>
+                    {/* <Link href={`/th${item.url}`} prefetch={false}> */}
                     {Icon && (
-                      // <div>
                       <Icon
                         className={cn(
-                          // 'w-[20px] h-[20px]',
                           sidebarMenuIconVariants({ active: isActive })
                         )}
                         isActive={isActive}
                       />
-                      // </div>
                     )}
-                    {/* <UserManagementIcon className='w-20 h-20 size-[60px]' size={60} opacity='1' /> */}
+                    {/* <Typography>{isPending ? "Loading..." : item.title}</Typography> */}
                     <Typography>{item.title}</Typography>
-                  </Link>
+                    {/* </Link> */}
+                  </div>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </Collapsible>

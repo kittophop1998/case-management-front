@@ -11,19 +11,32 @@ import { caseStatusConfig, priorityStatusConfig } from "@/const/case";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/common/Button";
 import { format, isAfter, isBefore, subDays } from "date-fns";
+import { lang } from "@/services/api";
 
 type CaseProps = {
   tab: string;
 }
 const now = new Date();
 const textColor = (value) => {
-  if (isAfter(now, value)) {
-    return "bg-[#feebee] text-red-500"; // future
+  // if (isAfter(now, value)) {
+  //   return "bg-[#feebee] text-red-500"; // future
+  // }
+  console.log(
+    "subDays(value, 5) :", subDays(value, 5),
+    ", now:", now, '= isAfter(subDays(value, 5), now) :', isAfter(subDays(value, 5), now),
+  )
+
+  if (!value) {
+    return 'bg-gray-200/10 text-gray-200'; // no date
   }
-  if (isAfter(subDays(now, 1), value)) {
-    return "bg-[#fffbe6] text-yellow-500"; // within last 1 day
+  if (isAfter(now, subDays(value, 5))) {
+    return "bg-red-500/10 text-red-500"; // within last 1 day
   }
-  return "bg-[#EEF3F5] text-black"; // everything else
+
+  if (isAfter(now, subDays(value, 10))) {
+    return "bg-yellow-500/10 text-yellow-500"; // within last 1 day
+  }
+  return "bg-blue-500/10 text-blue-500"; // within last 1 day
 };
 
 const BadgeDateColor = ({ date }) => {
@@ -276,7 +289,7 @@ const CaseTable = ({ searchObj, statusConfigColumn = false, setStatusConfigColum
   const { table, setPage, setLimit, dataTable
   } = useCaseTable({ searchObj });
   const gotoChild = (data: any) => {
-    router.push(`/case-management/${data?.caseId || '-'}`);
+    router.push(`${lang}/case-management/${data?.caseId || '-'}`);
   }
 
   if (!searchObj) {
