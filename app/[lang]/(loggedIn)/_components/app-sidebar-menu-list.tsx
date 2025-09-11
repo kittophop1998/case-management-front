@@ -91,8 +91,8 @@ const SearchCustomerIcon = ({ isActive = false }) => {
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#555E67" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M20.9999 21.0004L16.6499 16.6504" stroke="#555E67" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#555E67" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M20.9999 21.0004L16.6499 16.6504" stroke="#555E67" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 
   )
@@ -108,10 +108,10 @@ const AccessControlIcon = ({ isActive = false }) => {
     )
   }
   return (<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.334 0.75H5.665C2.644 0.75 0.75 2.889 0.75 5.916V14.084C0.75 17.111 2.635 19.25 5.665 19.25H14.333C17.364 19.25 19.25 17.111 19.25 14.084V5.916C19.25 2.889 17.364 0.75 14.334 0.75Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.68886 9.99995C8.68886 11.0229 7.85986 11.8519 6.83686 11.8519C5.81386 11.8519 4.98486 11.0229 4.98486 9.99995C4.98486 8.97695 5.81386 8.14795 6.83686 8.14795H6.83986C7.86086 8.14895 8.68886 8.97795 8.68886 9.99995Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M8.69189 10H15.0099V11.852" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M12.1816 11.852V10" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path fillRule="evenodd" clipRule="evenodd" d="M14.334 0.75H5.665C2.644 0.75 0.75 2.889 0.75 5.916V14.084C0.75 17.111 2.635 19.25 5.665 19.25H14.333C17.364 19.25 19.25 17.111 19.25 14.084V5.916C19.25 2.889 17.364 0.75 14.334 0.75Z" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path fillRule="evenodd" clipRule="evenodd" d="M8.68886 9.99995C8.68886 11.0229 7.85986 11.8519 6.83686 11.8519C5.81386 11.8519 4.98486 11.0229 4.98486 9.99995C4.98486 8.97695 5.81386 8.14795 6.83686 8.14795H6.83986C7.86086 8.14895 8.68886 8.97795 8.68886 9.99995Z" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M8.69189 10H15.0099V11.852" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M12.1816 11.852V10" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
   )
 }
@@ -127,10 +127,10 @@ const CaseManagementIcon = ({ isActive = false }) => {
   }
   return (
     <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M14.5139 20.5003H6.16604C3.09968 20.5003 0.747274 19.3927 1.41547 14.9351L2.1935 8.89387C2.6054 6.66962 4.02416 5.81836 5.26901 5.81836H15.4475C16.7107 5.81836 18.047 6.73369 18.523 8.89387L19.3011 14.9351C19.8686 18.8893 17.5802 20.5003 14.5139 20.5003Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M14.6512 5.59873C14.6512 3.21265 12.7169 1.27836 10.3309 1.27836V1.27836C9.18186 1.27349 8.07825 1.72652 7.26406 2.53727C6.44987 3.34803 5.99218 4.44971 5.99219 5.59873H5.99219" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M13.2965 10.1022H13.2507" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M7.4659 10.1022H7.42013" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M14.5139 20.5003H6.16604C3.09968 20.5003 0.747274 19.3927 1.41547 14.9351L2.1935 8.89387C2.6054 6.66962 4.02416 5.81836 5.26901 5.81836H15.4475C16.7107 5.81836 18.047 6.73369 18.523 8.89387L19.3011 14.9351C19.8686 18.8893 17.5802 20.5003 14.5139 20.5003Z" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M14.6512 5.59873C14.6512 3.21265 12.7169 1.27836 10.3309 1.27836V1.27836C9.18186 1.27349 8.07825 1.72652 7.26406 2.53727C6.44987 3.34803 5.99218 4.44971 5.99219 5.59873H5.99219" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M13.2965 10.1022H13.2507" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M7.4659 10.1022H7.42013" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 
   )
@@ -148,8 +148,8 @@ const QueueIcon = ({ isActive = false }) => {
   }
   return (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M20.419 14.732C20.419 18.31 18.31 20.419 14.732 20.419H6.95C3.363 20.419 1.25 18.31 1.25 14.732V6.932C1.25 3.359 2.564 1.25 6.143 1.25H8.143C8.861 1.251 9.537 1.588 9.967 2.163L10.88 3.377C11.312 3.951 11.988 4.289 12.706 4.29H15.536C19.123 4.29 20.447 6.116 20.447 9.767L20.419 14.732Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M6.48096 13.4629H15.216" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M20.419 14.732C20.419 18.31 18.31 20.419 14.732 20.419H6.95C3.363 20.419 1.25 18.31 1.25 14.732V6.932C1.25 3.359 2.564 1.25 6.143 1.25H8.143C8.861 1.251 9.537 1.588 9.967 2.163L10.88 3.377C11.312 3.951 11.988 4.289 12.706 4.29H15.536C19.123 4.29 20.447 6.116 20.447 9.767L20.419 14.732Z" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M6.48096 13.4629H15.216" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 
   )
@@ -168,10 +168,10 @@ const ReportIcon = ({ isActive = false }) => {
   }
   return (
     <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7379 0.761748H5.08493C3.00493 0.753748 1.29993 2.41175 1.25093 4.49075V15.2037C1.20493 17.3167 2.87993 19.0677 4.99293 19.1147C5.02393 19.1147 5.05393 19.1157 5.08493 19.1147H13.0739C15.1679 19.0297 16.8179 17.2997 16.8029 15.2037V6.03775L11.7379 0.761748Z" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M11.4751 0.75V3.659C11.4751 5.079 12.6231 6.23 14.0431 6.234H16.7981" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M11.2882 13.3584H5.88818" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M9.24321 9.60645H5.88721" stroke="#53545C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M11.7379 0.761748H5.08493C3.00493 0.753748 1.29993 2.41175 1.25093 4.49075V15.2037C1.20493 17.3167 2.87993 19.0677 4.99293 19.1147C5.02393 19.1147 5.05393 19.1157 5.08493 19.1147H13.0739C15.1679 19.0297 16.8179 17.2997 16.8029 15.2037V6.03775L11.7379 0.761748Z" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M11.4751 0.75V3.659C11.4751 5.079 12.6231 6.23 14.0431 6.234H16.7981" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M11.2882 13.3584H5.88818" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9.24321 9.60645H5.88721" stroke="#53545C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 
 
