@@ -41,7 +41,7 @@ const sidebarMenuButtonVariants = cva('', {
   variants: {
     active: {
       false: 'hover:bg-primary/15 active:bg-primary/25',
-      true: 'bg-[#7461cf] text-white hover:bg-[#7461cf]/90 hover:text-white',
+      true: 'bg-[#7461cf] active:bg-[#7461cf]/95 active:text-white text-white hover:bg-[#7461cf]/90 hover:text-white',
     },
   },
 })
@@ -244,17 +244,13 @@ export function AppSidebarMenuList() {
                 >
                   <Link href={`/th${item.url}`} prefetch={false}>
                     {Icon && (
-                      // <div>
                       <Icon
                         className={cn(
-                          // 'w-[20px] h-[20px]',
                           sidebarMenuIconVariants({ active: isActive })
                         )}
                         isActive={isActive}
                       />
-                      // </div>
                     )}
-                    {/* <UserManagementIcon className='w-20 h-20 size-[60px]' size={60} opacity='1' /> */}
                     <Typography>{item.title}</Typography>
                   </Link>
                 </SidebarMenuButton>
