@@ -289,7 +289,7 @@ const CaseTable = ({ searchObj, statusConfigColumn = false, setStatusConfigColum
   const { table, setPage, setLimit, dataTable
   } = useCaseTable({ searchObj });
   const gotoChild = (data: any) => {
-    router.push(`${lang}/case-management/${data?.caseId || '-'}`);
+    router.push(`/${lang}/case-management/${data?.caseId || '-'}`);
   }
 
   if (!searchObj) {
